@@ -4,7 +4,7 @@
  */
 
 import { browser } from '$app/environment';
-import { initializeAuth, isProtectedRoute, isGuestRoute } from '$lib/auth/auth-guard.svelte.js';
+import { isProtectedRoute, isGuestRoute } from '$lib/auth/auth-guard.svelte.js';
 
 /**
  * Handle client-side navigation and authentication state
@@ -31,25 +31,10 @@ export async function handleError({ error, event }) {
 }
 
 /**
- * Initialize authentication on app start
- */
-let authInitialized = false;
-
-/**
  * Handle client-side navigation with authentication checks
  * Requirements: 3.4, 4.3, 5.1
  */
 export async function beforeNavigate({ from, to, cancel }) {
-	// Initialize auth state on first navigation if not done yet
-	if (!authInitialized && browser) {
-		authInitialized = true;
-		try {
-			await initializeAuth();
-		} catch (err) {
-			console.debug('Failed to initialize auth on client:', err);
-		}
-	}
-
 	// Skip navigation checks for external URLs or same page
 	if (!to || !to.url || to.url.origin !== location.origin) {
 		return;

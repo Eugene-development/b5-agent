@@ -311,37 +311,13 @@ export async function logout(options = {}) {
 }
 
 /**
- * Get current authenticated user data
+ * Get current authenticated user data from auth state
+ * User data is now loaded from server in +layout.server.js
  * Requirements: 2.1, 4.1, 4.2
  * @returns {Promise<Object|null>} User data or null if not authenticated
- * @throws {Error} API error
  */
 export async function getUser() {
-	setLoading(true);
-	clearErrors();
-
-	try {
-		const data = await authHttpClient.get('/api/user');
-
-		if (data.success && data.user) {
-			setUser(data.user);
-			setLoading(false);
-			return data.user;
-		} else {
-			clearAuthState();
-			return null;
-		}
-	} catch (error) {
-		if (error.status === 401) {
-			// User not authenticated, clear auth state and reset loading
-			clearAuthState();
-			return null;
-		}
-
-		// For network errors or other API errors during initialization,
-		// don't throw - just clear state and return null
-		console.debug('API error during getUser:', error);
-		clearAuthState();
-		return null;
-	}
+	// Return current user from auth state
+	// No longer makes fetch requests - data comes from server
+	return authState.user;
 }

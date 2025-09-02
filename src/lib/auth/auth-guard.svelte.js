@@ -9,26 +9,15 @@ import { authState, getUser, clearAuthState } from './auth.svelte.js';
 
 /**
  * Initialize authentication state on app startup
- * Attempts to restore user session from backend
+ * Now returns existing auth state instead of fetching from server
+ * Server-side initialization is handled in +layout.server.js
  * Requirements: 4.1, 4.2, 4.3
  * @returns {Promise<Object|null>} User data if authenticated, null otherwise
  */
 export async function initializeAuth() {
-	// Only run in browser environment
-	if (!browser) {
-		return null;
-	}
-
-	try {
-		// Attempt to get current user from backend
-		const user = await getUser();
-		return user;
-	} catch (error) {
-		// If authentication fails, clear any stale state
-		console.debug('Failed to initialize auth:', error);
-		clearAuthState();
-		return null;
-	}
+	// Auth state is now initialized from server data
+	// Return current auth state without making fetch requests
+	return authState.user;
 }
 
 /**
@@ -79,17 +68,11 @@ export function requireGuest(redirectTo = '/dashboard') {
  * @returns {Function} SvelteKit load function
  */
 export function createAuthLoad(options = {}) {
-	const { redirectTo = '/login', requireAuth = true, initializeOnLoad = true } = options;
+	const { redirectTo = '/login', requireAuth = true } = options;
 
 	return async ({ url, route }) => {
-		// Initialize auth state if requested and in browser
-		if (initializeOnLoad && browser && !authState.isAuthenticated) {
-			try {
-				await initializeAuth();
-			} catch (error) {
-				console.debug('Auth initialization failed in load function:', error);
-			}
-		}
+		// Auth state is now initialized from server load function
+		// No need for client-side initialization
 
 		// Check authentication requirement
 		if (requireAuth && !authState.isAuthenticated) {
@@ -119,14 +102,8 @@ export function createGuestLoad(options = {}) {
 	const { redirectTo = '/dashboard' } = options;
 
 	return async ({ url }) => {
-		// Initialize auth state if in browser and not already done
-		if (browser && !authState.isAuthenticated) {
-			try {
-				await initializeAuth();
-			} catch (error) {
-				console.debug('Auth initialization failed in guest load:', error);
-			}
-		}
+		// Auth state is now initialized from server load function
+		// No need for client-side initialization
 
 		// Redirect authenticated users
 		if (authState.isAuthenticated) {
@@ -183,14 +160,8 @@ export async function authMiddleware({ event, resolve }) {
 export async function navigationGuard(pathname, options = {}) {
 	const { requireAuth = false, requireGuest = false } = options;
 
-	// Initialize auth if not done yet
-	if (browser && !authState.isAuthenticated) {
-		try {
-			await initializeAuth();
-		} catch (error) {
-			console.debug('Auth check failed during navigation:', error);
-		}
-	}
+	// Auth state is now initialized from server load function
+	// No need for client-side initialization
 
 	// Check authentication requirements
 	if (requireAuth && !authState.isAuthenticated) {
