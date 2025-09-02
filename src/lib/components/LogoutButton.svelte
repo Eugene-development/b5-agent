@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 
 	// Props
-	let { 
+	let {
 		showConfirmation = false,
 		redirectTo = '/login',
 		variant = 'button', // 'button' | 'link'
@@ -20,15 +20,13 @@
 	 */
 	async function handleLogout() {
 		try {
-			await logout();
-			
-			// Redirect to login page after successful logout (Requirement 3.2)
-			goto(redirectTo);
+			// Pass redirectTo option to logout function to handle redirect internally
+			await logout({ redirectTo });
 		} catch (error) {
 			// Error handling is done in the auth module
 			console.error('Logout failed:', error);
-			
-			// Still redirect even if logout request fails since state is cleared
+
+			// If logout completely fails, still try to redirect manually
 			goto(redirectTo);
 		}
 	}
@@ -112,35 +110,24 @@
 
 	<!-- Confirmation Dialog -->
 	{#if showConfirmDialog}
-		<div 
-			class="dialog-overlay" 
-			onclick={handleOverlayClick} 
-			onkeydown={handleDialogKeydown} 
-			role="dialog" 
-			aria-modal="true" 
+		<div
+			class="dialog-overlay"
+			onclick={handleOverlayClick}
+			onkeydown={handleDialogKeydown}
+			role="dialog"
+			aria-modal="true"
 			aria-labelledby="logout-dialog-title"
 			tabindex="-1"
 		>
-			<div 
-				class="dialog-content" 
-				role="document"
-			>
+			<div class="dialog-content" role="document">
 				<h3 id="logout-dialog-title">Confirm Sign Out</h3>
 				<p>Are you sure you want to sign out of your account?</p>
-				
+
 				<div class="dialog-actions">
-					<button
-						type="button"
-						onclick={cancelLogout}
-						class="dialog-button secondary"
-					>
+					<button type="button" onclick={cancelLogout} class="dialog-button secondary">
 						Cancel
 					</button>
-					<button
-						type="button"
-						onclick={confirmLogout}
-						class="dialog-button primary"
-					>
+					<button type="button" onclick={confirmLogout} class="dialog-button primary">
 						Sign Out
 					</button>
 				</div>
@@ -338,7 +325,7 @@
 		.logout-button {
 			border: 2px solid currentColor;
 		}
-		
+
 		.logout-link {
 			text-decoration: underline;
 		}
@@ -349,7 +336,7 @@
 		.loading-spinner {
 			animation: none;
 		}
-		
+
 		.logout-button,
 		.logout-link,
 		.dialog-button {

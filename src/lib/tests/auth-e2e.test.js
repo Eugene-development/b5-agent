@@ -7,7 +7,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 // Mock all dependencies
-vi.mock('./http-client.js', () => ({
+vi.mock('../utils/http-client.js', () => ({
 	api: {
 		initCsrf: vi.fn()
 	},
@@ -17,7 +17,7 @@ vi.mock('./http-client.js', () => ({
 	}))
 }));
 
-vi.mock('./errorHandler.svelte.js', () => ({
+vi.mock('../utils/errorHandler.svelte.js', () => ({
 	handleApiError: vi.fn(),
 	clearErrorFields: vi.fn(),
 	hasErrors: vi.fn(),
@@ -33,7 +33,7 @@ import {
 	logout,
 	getUser,
 	initCsrf
-} from './auth.svelte.js';
+} from '../auth/auth.svelte.js';
 
 import { 
 	initializeAuth,
@@ -42,10 +42,10 @@ import {
 	requireGuest,
 	createAuthLoad,
 	createGuestLoad
-} from './auth-guard.svelte.js';
+} from '../auth/auth-guard.svelte.js';
 
-import { api, createHttpClient } from './http-client.js';
-import { handleApiError } from './errorHandler.svelte.js';
+import { api, createHttpClient } from '../utils/http-client.js';
+import { handleApiError } from '../utils/errorHandler.svelte.js';
 
 describe('End-to-End Authentication Tests', () => {
 	let mockHttpClient;

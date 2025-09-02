@@ -3,7 +3,7 @@
  * Requirements: 5.1
  */
 
-import { authMiddleware } from '$lib/auth-guard.svelte.js';
+import { authMiddleware } from '$lib/auth/auth-guard.svelte.js';
 
 /**
  * Handle server-side requests with authentication middleware

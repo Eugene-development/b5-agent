@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import * as errorHandler from './errorHandler.svelte.js';
+import * as errorHandler from '../utils/errorHandler.svelte.js';
 
 // Mock goto function
 const mockGoto = vi.fn();

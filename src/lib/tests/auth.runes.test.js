@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import * as auth from './auth.svelte.js';
+import * as auth from '../auth/auth.svelte.js';
 
 describe('Authentication Runes State Behavior', () => {
 	beforeEach(() => {

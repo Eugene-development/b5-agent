@@ -112,7 +112,7 @@ export function getFirstAuthError() {
 	return getFirstErrorMessage(errors);
 }
 
-import { api, createHttpClient } from './http-client.js';
+import { api, createHttpClient } from '../utils/http-client.js';
 import { goto } from '$app/navigation';
 
 /**
@@ -154,7 +154,7 @@ import {
 	clearErrorFields as clearFields,
 	hasErrors,
 	getFirstErrorMessage
-} from './errorHandler.svelte.js';
+} from '../utils/errorHandler.svelte.js';
 
 /**
  * Handle API errors and update state accordingly

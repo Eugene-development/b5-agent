@@ -7,7 +7,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Mock dependencies
-vi.mock('./http-client.js', () => ({
+vi.mock('../utils/http-client.js', () => ({
 	api: {
 		initCsrf: vi.fn()
 	},
@@ -17,7 +17,7 @@ vi.mock('./http-client.js', () => ({
 	}))
 }));
 
-vi.mock('./errorHandler.svelte.js', () => ({
+vi.mock('../utils/errorHandler.svelte.js', () => ({
 	handleApiError: vi.fn(),
 	clearErrorFields: vi.fn((errors, fields) => {
 		const newErrors = { ...errors };
@@ -38,9 +38,9 @@ vi.mock('./errorHandler.svelte.js', () => ({
 }));
 
 // Import after mocking
-import * as auth from './auth.svelte.js';
-import * as httpClient from './http-client.js';
-import * as errorHandler from './errorHandler.svelte.js';
+import * as auth from '../auth/auth.svelte.js';
+import * as httpClient from '../utils/http-client.js';
+import * as errorHandler from '../utils/errorHandler.svelte.js';
 
 // Mock goto function
 const mockGoto = vi.fn();

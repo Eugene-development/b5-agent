@@ -4,7 +4,7 @@
  */
 
 import { browser } from '$app/environment';
-import { initializeAuth, isProtectedRoute, isGuestRoute } from '$lib/auth-guard.svelte.js';
+import { initializeAuth, isProtectedRoute, isGuestRoute } from '$lib/auth/auth-guard.svelte.js';
 
 /**
  * Handle client-side navigation and authentication state
@@ -15,7 +15,7 @@ export async function handleError({ error, event }) {
 	// Handle authentication errors
 	if (error.status === 401) {
 		// Clear auth state and redirect to login
-		const { clearAuthState } = await import('$lib/auth.svelte.js');
+		const { clearAuthState } = await import('$lib/auth/auth.svelte.js');
 		clearAuthState();
 		
 		// Only redirect if not already on login page

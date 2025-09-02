@@ -4,7 +4,7 @@
   Requirements: 6.1, 6.2, 6.3, 6.4
 -->
 <script>
-	import { 
+	import {
 		handleApiError,
 		ERROR_TYPES,
 		HTTP_STATUS,
@@ -13,7 +13,7 @@
 		hasErrors,
 		clearErrorFields,
 		mergeErrors
-	} from './errorHandler.svelte.js';
+	} from '../utils/errorHandler.svelte.js';
 	import ErrorDisplay from './ErrorDisplay.svelte';
 
 	// Example error states
@@ -115,43 +115,27 @@
 
 <div class="error-example">
 	<h2>Error Handler Example</h2>
-	
+
 	<div class="controls">
 		<h3>Simulate Different Error Types:</h3>
 		<div class="button-group">
-			<button onclick={() => simulateError('validation')}>
-				Validation Error (422)
-			</button>
-			<button onclick={() => simulateError('authentication')}>
-				Authentication Error (401)
-			</button>
-			<button onclick={() => simulateError('authorization')}>
-				Authorization Error (403)
-			</button>
-			<button onclick={() => simulateError('network')}>
-				Network Error
-			</button>
-			<button onclick={() => simulateError('server')}>
-				Server Error (500)
-			</button>
-			<button onclick={() => simulateError('unknown')}>
-				Unknown Error
-			</button>
+			<button onclick={() => simulateError('validation')}> Validation Error (422) </button>
+			<button onclick={() => simulateError('authentication')}> Authentication Error (401) </button>
+			<button onclick={() => simulateError('authorization')}> Authorization Error (403) </button>
+			<button onclick={() => simulateError('network')}> Network Error </button>
+			<button onclick={() => simulateError('server')}> Server Error (500) </button>
+			<button onclick={() => simulateError('unknown')}> Unknown Error </button>
 		</div>
 
 		<div class="button-group">
-			<button onclick={clearAllErrors} class="clear-button">
-				Clear All Errors
-			</button>
-			<button onclick={addMoreErrors} class="add-button">
-				Add More Errors
-			</button>
+			<button onclick={clearAllErrors} class="clear-button"> Clear All Errors </button>
+			<button onclick={addMoreErrors} class="add-button"> Add More Errors </button>
 		</div>
 	</div>
 
 	<div class="error-display-section">
 		<h3>Current Error State:</h3>
-		
+
 		{#if hasAnyErrors}
 			<div class="error-info">
 				<p><strong>Error Type:</strong> {errorType}</p>

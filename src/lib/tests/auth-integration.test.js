@@ -8,7 +8,7 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { render, fireEvent, waitFor, screen } from '@testing-library/svelte';
 
 // Mock dependencies before importing components
-vi.mock('./http-client.js', () => ({
+vi.mock('../utils/http-client.js', () => ({
 	api: {
 		initCsrf: vi.fn()
 	},
@@ -18,7 +18,7 @@ vi.mock('./http-client.js', () => ({
 	}))
 }));
 
-vi.mock('./errorHandler.svelte.js', () => ({
+vi.mock('../utils/errorHandler.svelte.js', () => ({
 	handleApiError: vi.fn(),
 	clearErrorFields: vi.fn(),
 	hasErrors: vi.fn(),
@@ -33,13 +33,13 @@ import {
 	register,
 	logout,
 	getUser
-} from './auth.svelte.js';
+} from '../auth/auth.svelte.js';
 
-import { api, createHttpClient } from './http-client.js';
-import { handleApiError } from './errorHandler.svelte.js';
-import LoginForm from './LoginForm.svelte';
-import RegisterForm from './RegisterForm.svelte';
-import LogoutButton from './LogoutButton.svelte';
+import { api, createHttpClient } from '../utils/http-client.js';
+import { handleApiError } from '../utils/errorHandler.svelte.js';
+import LoginForm from '../components/LoginForm.svelte';
+import RegisterForm from '../components/RegisterForm.svelte';
+import LogoutButton from '../components/LogoutButton.svelte';
 
 describe('Authentication Integration Tests', () => {
 	let mockHttpClient;
