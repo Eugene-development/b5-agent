@@ -141,6 +141,17 @@ const authHttpClient = createHttpClient({
 });
 
 /**
+ * Initialize authentication state from server data
+ * @param {Object} serverData - Data from server load function
+ */
+export function initAuthFromServer(serverData) {
+	if (serverData?.user && serverData?.isAuthenticated) {
+		user = serverData.user;
+		clearErrors();
+	}
+}
+
+/**
  * Initialize CSRF protection by fetching CSRF cookie
  * Requirements: 5.1, 5.2, 5.4
  * @returns {Promise<void>}

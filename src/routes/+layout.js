@@ -1,22 +1,13 @@
 /**
- * Root layout load function for authentication initialization
- * Requirements: 4.1, 4.2, 4.3
+ * Universal layout load function
+ * Passes server data to the client and initializes client-side auth state
  */
 
-import { browser } from '$app/environment';
-
-/**
- * Load function for root layout
- * Provides initial authentication state to all routes
- */
-export async function load({ url, route }) {
-	// Return basic layout data
-	// Authentication initialization happens client-side in the layout component
+/** @type {import('./$types').LayoutLoad} */
+export async function load({ data }) {
 	return {
-		url: url.pathname,
-		route: route.id
+		// Pass server data to client
+		user: data?.user || null,
+		isAuthenticated: data?.isAuthenticated || false
 	};
 }
-
-// Disable server-side rendering for authentication-dependent content
-export const ssr = false;
