@@ -1,5 +1,5 @@
 <script>
-	import LoginForm from '$lib/LoginForm.svelte';
+	import LoginForm from '$lib/components/LoginForm.svelte';
 	import { page } from '$app/stores';
 
 	// Get return URL from query parameters for redirect after login

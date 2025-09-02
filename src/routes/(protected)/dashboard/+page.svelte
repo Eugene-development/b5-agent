@@ -1,5 +1,5 @@
 <script>
-	import { authState } from '$lib/auth.svelte.js';
+	import { authState } from '$lib/auth/auth.svelte.js';
 	import { LogoutButton } from '$lib';
 </script>
 

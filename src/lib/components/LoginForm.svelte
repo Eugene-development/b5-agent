@@ -1,5 +1,11 @@
 <script>
-	import { login, authState, clearErrors, setErrors, clearErrorFields } from './auth.svelte.js';
+	import {
+		login,
+		authState,
+		clearErrors,
+		setErrors,
+		clearErrorFields
+	} from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 	import ErrorDisplay from './ErrorDisplay.svelte';
 
@@ -48,7 +54,7 @@
 	 */
 	function validateForm() {
 		const errors = {};
-		
+
 		const emailError = validateEmail(email);
 		if (emailError) {
 			errors.email = [emailError];
@@ -80,7 +86,7 @@
 
 		try {
 			await login(email, password);
-			
+
 			// Redirect on successful login (Requirement 2.5)
 			goto(redirectTo);
 		} catch (error) {
@@ -115,12 +121,12 @@
 		if (clientErrors[field] && clientErrors[field].length > 0) {
 			return clientErrors[field][0];
 		}
-		
+
 		// Then server-side errors
 		if (authState.errors[field] && authState.errors[field].length > 0) {
 			return authState.errors[field][0];
 		}
-		
+
 		return null;
 	}
 
@@ -141,13 +147,9 @@
 
 <form onsubmit={handleSubmit} class="login-form">
 	<h2>Sign In</h2>
-	
+
 	<!-- General error messages using ErrorDisplay component -->
-	<ErrorDisplay 
-		errors={authState.errors} 
-		showFirst={true}
-		className="general-error-display"
-	/>
+	<ErrorDisplay errors={authState.errors} showFirst={true} className="general-error-display" />
 
 	<!-- Email field -->
 	<div class="form-group">
@@ -164,8 +166,8 @@
 			required
 		/>
 		<!-- Field-specific errors using ErrorDisplay component -->
-		<ErrorDisplay 
-			errors={{...clientErrors, ...authState.errors}} 
+		<ErrorDisplay
+			errors={{ ...clientErrors, ...authState.errors }}
 			field="email"
 			className="field-error"
 		/>
@@ -186,19 +188,15 @@
 			required
 		/>
 		<!-- Field-specific errors using ErrorDisplay component -->
-		<ErrorDisplay 
-			errors={{...clientErrors, ...authState.errors}} 
+		<ErrorDisplay
+			errors={{ ...clientErrors, ...authState.errors }}
 			field="password"
 			className="field-error"
 		/>
 	</div>
 
 	<!-- Submit button with loading indicator -->
-	<button
-		type="submit"
-		class="submit-button"
-		disabled={authState.isLoading}
-	>
+	<button type="submit" class="submit-button" disabled={authState.isLoading}>
 		{#if authState.isLoading}
 			<span class="loading-spinner" aria-hidden="true"></span>
 			Signing in...

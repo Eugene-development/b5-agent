@@ -6,9 +6,7 @@
 
 import { goto } from '$app/navigation';
 import { browser } from '$app/environment';
-
-// API Configuration
-const API_BASE_URL = 'http://localhost:8000'; // b5-auth-2 backend URL
+import { API_BASE_URL, AUTH_API_URL } from '$lib/config/api.js';
 
 /**
  * Get CSRF token from cookie
@@ -16,7 +14,7 @@ const API_BASE_URL = 'http://localhost:8000'; // b5-auth-2 backend URL
  */
 function getCsrfToken() {
 	if (!browser) return null;
-	
+
 	const cookies = document.cookie.split(';');
 	for (let cookie of cookies) {
 		const [name, value] = cookie.trim().split('=');
@@ -34,9 +32,9 @@ function getCsrfToken() {
  */
 export async function initCsrf() {
 	if (!browser) return;
-	
+
 	try {
-		await fetch(`${API_BASE_URL}/sanctum/csrf-cookie`, {
+		await fetch(`${AUTH_API_URL}/sanctum/csrf-cookie`, {
 			method: 'GET',
 			credentials: 'include',
 			headers: {
@@ -56,7 +54,7 @@ export async function initCsrf() {
  */
 export class HttpClient {
 	constructor(options = {}) {
-		this.baseURL = options.baseURL || API_BASE_URL;
+		this.baseURL = options.baseURL || AUTH_API_URL;
 		this.defaultHeaders = {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -76,7 +74,7 @@ export class HttpClient {
 			if (typeof window !== 'undefined' && window.localStorage) {
 				window.localStorage.removeItem('auth_user');
 			}
-			
+
 			// Redirect to login page
 			await goto('/login');
 		}
@@ -124,11 +122,11 @@ export class HttpClient {
 
 		try {
 			const response = await fetch(requestUrl, config);
-			
+
 			// Handle 401 unauthorized responses automatically
 			if (response.status === 401) {
 				await this.onUnauthorized();
-				
+
 				// Create error for the calling code
 				const error = new Error('Unauthorized');
 				error.status = 401;
@@ -158,7 +156,7 @@ export class HttpClient {
 	 */
 	async requestJson(url, options = {}) {
 		const response = await this.request(url, options);
-		
+
 		let data;
 		try {
 			data = await response.json();
@@ -247,13 +245,43 @@ export class HttpClient {
 			...options
 		});
 	}
+
+	/**
+	 * Make GraphQL request to the data API
+	 * @param {string} query - GraphQL query
+	 * @param {Object} variables - GraphQL variables
+	 * @param {Object} options - Additional options
+	 * @returns {Promise<Object>} GraphQL response
+	 */
+	async graphql(query, variables = {}, options = {}) {
+		const graphqlEndpoint = `${API_BASE_URL}/graphql`;
+
+		return this.requestJson(graphqlEndpoint, {
+			method: 'POST',
+			body: JSON.stringify({
+				query,
+				variables
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+				...options.headers
+			},
+			...options
+		});
+	}
 }
 
 /**
- * Default HTTP client instance
- * Can be used directly or create custom instances as needed
+ * Default HTTP client instance for authentication requests
+ * Uses AUTH_API_URL for login, register, logout, etc.
  */
 export const httpClient = new HttpClient();
+
+/**
+ * GraphQL client instance for data requests
+ * Uses API_BASE_URL for GraphQL queries
+ */
+export const graphqlClient = new HttpClient({ baseURL: API_BASE_URL });
 
 /**
  * Convenience function to create a new HTTP client with custom configuration
@@ -315,5 +343,14 @@ export const api = {
 	 * @param {Object} options - Additional options
 	 * @returns {Promise<Object>} JSON response
 	 */
-	delete: (url, options) => httpClient.delete(url, options)
+	delete: (url, options) => httpClient.delete(url, options),
+
+	/**
+	 * Make GraphQL request
+	 * @param {string} query - GraphQL query
+	 * @param {Object} variables - GraphQL variables
+	 * @param {Object} options - Additional options
+	 * @returns {Promise<Object>} GraphQL response
+	 */
+	graphql: (query, variables, options) => graphqlClient.graphql(query, variables, options)
 };

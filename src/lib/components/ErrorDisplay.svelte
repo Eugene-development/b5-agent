@@ -4,7 +4,11 @@
   Requirements: 6.1, 6.2, 6.3, 6.4
 -->
 <script>
-	import { createDisplayMessages, hasErrors, getFirstErrorMessage } from './errorHandler.svelte.js';
+	import {
+		createDisplayMessages,
+		hasErrors,
+		getFirstErrorMessage
+	} from '$lib/utils/errorHandler.svelte.js';
 
 	/**
 	 * @type {Object} errors - Errors object with field-specific messages
@@ -37,7 +41,7 @@
 	$: firstError = showFirst ? getFirstErrorMessage(errors) : null;
 
 	// Get errors for specific field or all errors
-	$: fieldErrors = field ? (errors[field] || []) : errors;
+	$: fieldErrors = field ? errors[field] || [] : errors;
 	$: fieldDisplayMessage = field ? displayMessages[field] : null;
 </script>
 
@@ -134,7 +138,7 @@
 		.error-message {
 			font-size: 0.8125rem;
 		}
-		
+
 		.error-message--general,
 		.error-message--auth,
 		.error-message--network,

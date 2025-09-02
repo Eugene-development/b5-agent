@@ -1,5 +1,5 @@
 <script>
-	import { register, authState, clearErrors, setErrors } from './auth.svelte.js';
+	import { register, authState, clearErrors, setErrors } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 
 	// Form state
@@ -82,7 +82,7 @@
 	 */
 	function validateForm() {
 		const errors = {};
-		
+
 		const nameError = validateName(name);
 		if (nameError) {
 			errors.name = [nameError];
@@ -125,7 +125,7 @@
 		try {
 			// Register user (automatically logs in on success - Requirement 1.3)
 			await register(name, email, password, passwordConfirmation);
-			
+
 			// Redirect on successful registration (Requirement 1.6)
 			goto(redirectTo);
 		} catch (error) {
@@ -181,12 +181,12 @@
 		if (clientErrors[field] && clientErrors[field].length > 0) {
 			return clientErrors[field][0];
 		}
-		
+
 		// Then server-side errors
 		if (authState.errors[field] && authState.errors[field].length > 0) {
 			return authState.errors[field][0];
 		}
-		
+
 		return null;
 	}
 
@@ -208,7 +208,7 @@
 
 <form onsubmit={handleSubmit} class="register-form">
 	<h2>Create Account</h2>
-	
+
 	<!-- General error message -->
 	{#if getGeneralError()}
 		<div class="error-message general-error" role="alert">
@@ -301,11 +301,7 @@
 	</div>
 
 	<!-- Submit button with loading indicator -->
-	<button
-		type="submit"
-		class="submit-button"
-		disabled={authState.isLoading}
-	>
+	<button type="submit" class="submit-button" disabled={authState.isLoading}>
 		{#if authState.isLoading}
 			<span class="loading-spinner" aria-hidden="true"></span>
 			Creating account...

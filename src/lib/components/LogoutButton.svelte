@@ -1,5 +1,5 @@
 <script>
-	import { logout, authState } from './auth.svelte.js';
+	import { logout, authState } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 
 	// Props

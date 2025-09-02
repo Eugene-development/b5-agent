@@ -2,8 +2,8 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { onMount } from 'svelte';
-	import { initializeAuth } from '$lib/auth-guard.svelte.js';
-	import { authState } from '$lib/auth.svelte.js';
+	import { initializeAuth } from '$lib/auth/auth-guard.svelte.js';
+	import { authState } from '$lib/auth/auth.svelte.js';
 
 	let { children } = $props();
 	let authInitialized = $state(false);
