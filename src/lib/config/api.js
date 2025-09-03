@@ -8,7 +8,7 @@ import { browser } from '$app/environment';
 // Default configuration for development
 const DEFAULT_CONFIG = {
 	API_BASE_URL: 'http://localhost:8000', // b5-api2 GraphQL server
-	AUTH_API_URL: 'http://localhost:8001', // b5-auth-2 authentication server
+	AUTH_API_URL: 'https://auth.bonus5.ru', // b5-auth-2 authentication server
 	FRONTEND_URL: 'http://localhost:5040' // b5-agent frontend
 };
 
@@ -18,11 +18,21 @@ const DEFAULT_CONFIG = {
  * In development, uses default values
  */
 function getApiConfig() {
-	if (browser && window.__APP_CONFIG__) {
+	// Check if we're in browser and have config
+	if (browser && typeof window !== 'undefined' && window.__APP_CONFIG__) {
 		return {
 			API_BASE_URL: window.__APP_CONFIG__.API_BASE_URL || DEFAULT_CONFIG.API_BASE_URL,
 			AUTH_API_URL: window.__APP_CONFIG__.AUTH_API_URL || DEFAULT_CONFIG.AUTH_API_URL,
 			FRONTEND_URL: window.__APP_CONFIG__.FRONTEND_URL || DEFAULT_CONFIG.FRONTEND_URL
+		};
+	}
+
+	// For server-side rendering, use production URLs if in production environment
+	if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
+		return {
+			API_BASE_URL: 'https://api.bonus5.ru',
+			AUTH_API_URL: 'https://auth.bonus5.ru',
+			FRONTEND_URL: 'https://bonus5.ru'
 		};
 	}
 
