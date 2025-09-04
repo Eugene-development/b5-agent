@@ -1,9 +1,13 @@
 <!--
   Agents page component with server-side data loading
   Uses Svelte 5 runes for state management and Tailwind CSS 4 for styling
-  Requirements: 2.2, 4.1, 6.1, 7.1, 7.3
+  Enhanced with comprehensive error handling and loading states
+  Requirements: 2.2, 4.1, 6.1, 7.1, 7.3, 7.2
 -->
 <script>
+  import DataState from '$lib/components/DataState.svelte';
+  import { goto } from '$app/navigation';
+
   // Get server-loaded data
   let { data } = $props();
 
@@ -13,27 +17,41 @@
   let sortBy = $state('name');
   let sortOrder = $state('asc');
 
-  // Computed filtered and sorted agents list
+  // Optimized search term for case-insensitive comparison
+  let normalizedSearchTerm = $derived(searchTerm.toLowerCase().trim());
+
+  // Computed filtered agents list (separated from sorting for better performance)
   let filteredAgents = $derived(() => {
     if (!data.agents) return [];
 
-    let filtered = data.agents.filter(agent => {
-      // Search filter
-      const matchesSearch = searchTerm === '' || 
-        agent.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.city?.toLowerCase().includes(searchTerm.toLowerCase());
+    return data.agents.filter(agent => {
+      // Search filter - optimized with early return and normalized search term
+      if (normalizedSearchTerm) {
+        const matchesSearch = 
+          agent.name?.toLowerCase().includes(normalizedSearchTerm) ||
+          agent.email?.toLowerCase().includes(normalizedSearchTerm) ||
+          agent.city?.toLowerCase().includes(normalizedSearchTerm);
+        if (!matchesSearch) return false;
+      }
 
-      // Status filter
-      const matchesStatus = statusFilter === 'all' || 
-        (statusFilter === 'active' && agent.status === 'ACTIVE') ||
-        (statusFilter === 'inactive' && agent.status !== 'ACTIVE');
+      // Status filter - optimized with early return
+      if (statusFilter !== 'all') {
+        const isActive = agent.status === 'ACTIVE';
+        if (statusFilter === 'active' && !isActive) return false;
+        if (statusFilter === 'inactive' && isActive) return false;
+      }
 
-      return matchesSearch && matchesStatus;
+      return true;
     });
+  });
 
-    // Sort the filtered results
-    return filtered.sort((a, b) => {
+  // Computed sorted agents list (separate from filtering for better performance)
+  let sortedAgents = $derived(() => {
+    const filtered = filteredAgents();
+    if (filtered.length === 0) return filtered;
+
+    // Create a copy to avoid mutating the original array
+    return [...filtered].sort((a, b) => {
       let aVal = a[sortBy] || '';
       let bVal = b[sortBy] || '';
       
@@ -53,13 +71,25 @@
     });
   });
 
-  // Computed statistics for filtered results
+  // Optimized statistics computation using single pass
   let filteredStats = $derived(() => {
     const filtered = filteredAgents();
+    let active = 0;
+    let inactive = 0;
+    
+    // Single pass through the array for better performance
+    for (const agent of filtered) {
+      if (agent.status === 'ACTIVE') {
+        active++;
+      } else {
+        inactive++;
+      }
+    }
+    
     return {
       total: filtered.length,
-      active: filtered.filter(agent => agent.status === 'ACTIVE').length,
-      inactive: filtered.filter(agent => agent.status !== 'ACTIVE').length
+      active,
+      inactive
     };
   });
 
@@ -110,6 +140,12 @@
         return 'Неизвестно';
     }
   }
+
+  // Handle retry functionality
+  async function handleRetry() {
+    // Reload the page to retry data loading
+    goto('/agents', { replaceState: true });
+  }
 </script>
 
 <div class="agents-page min-h-screen bg-gray-50 py-8">
@@ -120,25 +156,25 @@
       <p class="text-gray-600">Управление агентами и просмотр их статистики</p>
     </div>
 
-    <!-- Error State -->
-    {#if data.error}
-      <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-red-800">Ошибка загрузки данных</h3>
-            <p class="text-sm text-red-700 mt-1">{data.error}</p>
-          </div>
-        </div>
-      </div>
-    {/if}
+    <!-- Data State Management -->
+    <DataState
+      isLoading={data.isLoading || false}
+      error={data.error}
+      errorType={data.errorType || 'unknown'}
+      canRetry={data.canRetry || false}
+      onRetry={handleRetry}
+      data={data.agents}
+      emptyMessage="В системе пока нет зарегистрированных агентов"
+      emptyIcon="👥"
+      loadingType="table"
+      loadingMessage="Загрузка данных агентов..."
+      skeletonRows={5}
+      minHeight="400px"
+    >
+      <!-- Content when data is successfully loaded -->
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center">
           <div class="flex-shrink-0">
@@ -190,10 +226,10 @@
 
     <!-- Filters and Search -->
     <div class="bg-white rounded-lg shadow mb-6">
-      <div class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="p-4 sm:p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Search Input -->
-          <div class="md:col-span-2">
+          <div class="sm:col-span-2 lg:col-span-2">
             <label for="search" class="block text-sm font-medium text-gray-700 mb-2">
               Поиск агентов
             </label>
@@ -244,8 +280,10 @@
 
     <!-- Agents Table -->
     <div class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+      <!-- Mobile-friendly table wrapper with improved scrolling -->
+      <div class="overflow-x-auto -mx-4 sm:mx-0">
+        <div class="inline-block min-w-full align-middle">
+          <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th
@@ -290,11 +328,11 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Статус
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email подтвержден
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                 onclick={() => handleSort('created_at')}
               >
                 <div class="flex items-center space-x-1">
@@ -306,13 +344,13 @@
                   {/if}
                 </div>
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Проекты
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            {#each filteredAgents() as agent (agent.id)}
+            {#each sortedAgents() as agent (agent.id)}
               <tr class="hover:bg-gray-50">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
@@ -341,7 +379,7 @@
                     {getStatusText(agent.status)}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     {#if agent.email_verified_at}
                       <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -356,10 +394,10 @@
                     {/if}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {formatDate(agent.created_at)}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 border border-blue-200">
                     {agent.projects_count || 0}
                   </span>
@@ -385,18 +423,21 @@
               </tr>
             {/each}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Results Summary -->
-    {#if filteredAgents().length > 0}
+    {#if sortedAgents().length > 0}
       <div class="mt-6 text-sm text-gray-700 text-center">
-        Показано {filteredAgents().length} из {data.stats.total} агентов
+        Показано {sortedAgents().length} из {data.stats.total} агентов
         {#if searchTerm || statusFilter !== 'all'}
           (отфильтровано)
         {/if}
       </div>
     {/if}
+
+    </DataState>
   </div>
 </div>

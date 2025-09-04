@@ -4,17 +4,15 @@
 	import { page } from '$app/state';
 	import MobileMenu from '../MobileMenu/index.svelte';
 
-	// Function to check if a link is active
-	function isActive(href) {
-		return page.url.pathname === href;
-	}
-
-	// Function to get link classes with active state
+	// Optimized function to check if a link is active using derived state
+	let currentPath = $derived(page.url.pathname);
+	
+	// Memoized function to get link classes with active state
 	function getLinkClasses(href, baseClasses = 'text-sm/6 font-normal text-white') {
-		const activeClasses = 'text-blue-400 font-semibold';
+		const isActive = currentPath === href;
 		const hoverClasses = 'hover:text-gray-300 transition-colors';
 
-		if (isActive(href)) {
+		if (isActive) {
 			return `${baseClasses.replace('text-white', 'text-blue-400').replace('font-normal', 'font-semibold')}`;
 		}
 		return `${baseClasses} ${hoverClasses}`;

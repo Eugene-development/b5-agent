@@ -2,9 +2,13 @@
   Projects page component with server-side data loading
   Migrated from b5-front and adapted for Svelte 5 runes and server-side authentication
   Uses Tailwind CSS 4 for styling and maintains sorting, filtering functionality
-  Requirements: 2.2, 3.2, 5.2, 6.1
+  Enhanced with comprehensive error handling and loading states
+  Requirements: 2.2, 3.2, 5.2, 6.1, 7.2, 7.3
 -->
 <script>
+  import DataState from '$lib/components/DataState.svelte';
+  import { goto } from '$app/navigation';
+
   // Get server-loaded data
   let { data } = $props();
 
@@ -14,28 +18,41 @@
   let sortBy = $state('created_at');
   let sortOrder = $state('desc');
 
-  // Computed filtered and sorted projects list
+  // Optimized search term for case-insensitive comparison
+  let normalizedSearchTerm = $derived(searchTerm.toLowerCase().trim());
+
+  // Computed filtered projects list (separated from sorting for better performance)
   let filteredProjects = $derived(() => {
     if (!data.projects) return [];
 
-    let filtered = data.projects.filter(project => {
-      // Search filter
-      const matchesSearch = searchTerm === '' || 
-        project.value?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.agent?.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    return data.projects.filter(project => {
+      // Search filter - optimized with early return and normalized search term
+      if (normalizedSearchTerm) {
+        const matchesSearch = 
+          project.value?.toLowerCase().includes(normalizedSearchTerm) ||
+          project.city?.toLowerCase().includes(normalizedSearchTerm) ||
+          project.description?.toLowerCase().includes(normalizedSearchTerm) ||
+          project.agent?.name?.toLowerCase().includes(normalizedSearchTerm);
+        if (!matchesSearch) return false;
+      }
 
-      // Status filter
-      const matchesStatus = statusFilter === 'all' || 
-        (statusFilter === 'active' && project.is_active) ||
-        (statusFilter === 'inactive' && !project.is_active);
+      // Status filter - optimized with early return
+      if (statusFilter !== 'all') {
+        if (statusFilter === 'active' && !project.is_active) return false;
+        if (statusFilter === 'inactive' && project.is_active) return false;
+      }
 
-      return matchesSearch && matchesStatus;
+      return true;
     });
+  });
 
-    // Sort the filtered results
-    return filtered.sort((a, b) => {
+  // Computed sorted projects list (separate from filtering for better performance)
+  let sortedProjects = $derived(() => {
+    const filtered = filteredProjects();
+    if (filtered.length === 0) return filtered;
+
+    // Create a copy to avoid mutating the original array
+    return [...filtered].sort((a, b) => {
       let aVal = a[sortBy];
       let bVal = b[sortBy];
       
@@ -61,14 +78,27 @@
     });
   });
 
-  // Computed statistics for filtered results
+  // Optimized statistics computation using single pass
   let filteredStats = $derived(() => {
     const filtered = filteredProjects();
-    const totalAmount = filtered.reduce((sum, project) => sum + (project.contract_amount || 0), 0);
+    let active = 0;
+    let inactive = 0;
+    let totalAmount = 0;
+    
+    // Single pass through the array for better performance
+    for (const project of filtered) {
+      if (project.is_active) {
+        active++;
+      } else {
+        inactive++;
+      }
+      totalAmount += project.contract_amount || 0;
+    }
+    
     return {
       total: filtered.length,
-      active: filtered.filter(project => project.is_active).length,
-      inactive: filtered.filter(project => !project.is_active).length,
+      active,
+      inactive,
       totalContractAmount: totalAmount,
       averageContractAmount: filtered.length > 0 ? totalAmount / filtered.length : 0
     };
@@ -119,6 +149,12 @@
   function getStatusText(isActive) {
     return isActive ? 'Активный' : 'Неактивный';
   }
+
+  // Handle retry functionality
+  async function handleRetry() {
+    // Reload the page to retry data loading
+    goto('/projects', { replaceState: true });
+  }
 </script>
 
 <div class="projects-page min-h-screen bg-gray-50 py-8">
@@ -129,25 +165,25 @@
       <p class="text-gray-600">Управление проектами и просмотр их статистики</p>
     </div>
 
-    <!-- Error State -->
-    {#if data.error}
-      <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-red-800">Ошибка загрузки данных</h3>
-            <p class="text-sm text-red-700 mt-1">{data.error}</p>
-          </div>
-        </div>
-      </div>
-    {/if}
+    <!-- Data State Management -->
+    <DataState
+      isLoading={data.isLoading || false}
+      error={data.error}
+      errorType={data.errorType || 'unknown'}
+      canRetry={data.canRetry || false}
+      onRetry={handleRetry}
+      data={data.projects}
+      emptyMessage="В системе пока нет проектов"
+      emptyIcon="📋"
+      loadingType="table"
+      loadingMessage="Загрузка данных проектов..."
+      skeletonRows={5}
+      minHeight="400px"
+    >
+      <!-- Content when data is successfully loaded -->
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center">
           <div class="flex-shrink-0">
@@ -217,10 +253,10 @@
 
     <!-- Filters and Search -->
     <div class="bg-white rounded-lg shadow mb-6">
-      <div class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="p-4 sm:p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Search Input -->
-          <div class="md:col-span-2">
+          <div class="sm:col-span-2 lg:col-span-2">
             <label for="search" class="block text-sm font-medium text-gray-700 mb-2">
               Поиск проектов
             </label>
@@ -271,8 +307,10 @@
 
     <!-- Projects Table -->
     <div class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
+      <!-- Mobile-friendly table wrapper with improved scrolling -->
+      <div class="overflow-x-auto -mx-4 sm:mx-0">
+        <div class="inline-block min-w-full align-middle">
+          <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th
@@ -314,11 +352,11 @@
                   {/if}
                 </div>
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Агент
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                 onclick={() => handleSort('contract_amount')}
               >
                 <div class="flex items-center space-x-1">
@@ -331,7 +369,7 @@
                 </div>
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                 onclick={() => handleSort('planned_completion_date')}
               >
                 <div class="flex items-center space-x-1">
@@ -347,7 +385,7 @@
                 Статус
               </th>
               <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                class="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                 onclick={() => handleSort('created_at')}
               >
                 <div class="flex items-center space-x-1">
@@ -362,7 +400,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            {#each filteredProjects() as project (project.id)}
+            {#each sortedProjects() as project (project.id)}
               <tr class="hover:bg-gray-50">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {project.id}
@@ -380,7 +418,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {project.city || 'Не указано'}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
                   {#if project.agent}
                     <div class="text-sm font-medium text-gray-900">{project.agent.name}</div>
                     <div class="text-sm text-gray-500">{project.agent.email}</div>
@@ -388,10 +426,10 @@
                     <span class="text-sm text-gray-500">Не назначен</span>
                   {/if}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {formatCurrency(project.contract_amount)}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {formatDate(project.planned_completion_date)}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -399,7 +437,7 @@
                     {getStatusText(project.is_active)}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {formatDate(project.created_at)}
                 </td>
               </tr>
@@ -423,14 +461,15 @@
               </tr>
             {/each}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Results Summary -->
-    {#if filteredProjects().length > 0}
+    {#if sortedProjects().length > 0}
       <div class="mt-6 text-sm text-gray-700 text-center">
-        Показано {filteredProjects().length} из {data.stats.total} проектов
+        Показано {sortedProjects().length} из {data.stats.total} проектов
         {#if searchTerm || statusFilter !== 'all'}
           (отфильтровано)
         {/if}
@@ -438,7 +477,7 @@
     {/if}
 
     <!-- Navigation Cards -->
-    <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-3">
+    <div class="mt-8 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <div class="bg-white rounded-lg shadow p-6">
         <div class="mb-4 flex items-center">
           <svg
@@ -511,5 +550,7 @@
         </a>
       </div>
     </div>
+
+    </DataState>
   </div>
 </div>

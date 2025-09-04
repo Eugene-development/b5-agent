@@ -23,28 +23,28 @@
 		event.stopPropagation();
 	}
 
-	// Function to check if a link is active
-	function isActive(href) {
-		return page.url.pathname === href;
-	}
+	// Optimized current path using derived state
+	let currentPath = $derived(page.url.pathname);
 
-	// Function to get mobile link classes with active state
+	// Optimized function to get mobile link classes with active state
 	function getMobileLinkClasses(
 		href,
 		baseClasses = '-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800'
 	) {
-		if (isActive(href)) {
+		const isActive = currentPath === href;
+		if (isActive) {
 			return baseClasses.replace('text-white', 'text-blue-400 bg-gray-800');
 		}
 		return baseClasses;
 	}
 
-	// Function to get mobile protected link classes with active state
+	// Optimized function to get mobile protected link classes with active state
 	function getMobileProtectedLinkClasses(
 		href,
 		baseClasses = '-mx-3 mb-3 flex items-center rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-800'
 	) {
-		if (isActive(href)) {
+		const isActive = currentPath === href;
+		if (isActive) {
 			return baseClasses.replace('text-white', 'text-blue-400 bg-gray-800');
 		}
 		return baseClasses;
@@ -64,7 +64,7 @@
 			aria-label="Close mobile menu"
 		></div>
 		<div
-			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-4 py-4 sm:px-6 sm:py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
 			onclick={handleMenuClick}
 			onkeydown={handleBackdropKeydown}
 			role="dialog"
