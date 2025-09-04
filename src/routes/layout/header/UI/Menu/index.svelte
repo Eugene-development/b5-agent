@@ -6,7 +6,7 @@
 
 	// Optimized function to check if a link is active using derived state
 	let currentPath = $derived(page.url.pathname);
-	
+
 	// Memoized function to get link classes with active state
 	function getLinkClasses(href, baseClasses = 'text-sm/6 font-normal text-white') {
 		const isActive = currentPath === href;
@@ -63,20 +63,6 @@
 				href="/dashboard"
 				class={getLinkClasses('/dashboard', 'mr-4 text-sm/6 font-normal text-white')}
 				>Личный кабинет</a
-			>
-			<a href="/profile" class={getLinkClasses('/profile', 'mr-4 text-sm/6 font-normal text-white')}
-				>Профиль</a
-			>
-			<a href="/agents" class={getLinkClasses('/agents', 'mr-4 text-sm/6 font-normal text-white')}
-				>Агенты</a
-			>
-			<a
-				href="/projects"
-				class={getLinkClasses('/projects', 'mr-4 text-sm/6 font-normal text-white')}>Проекты</a
-			>
-			<a
-				href="/finances"
-				class={getLinkClasses('/finances', 'mr-4 text-sm/6 font-normal text-white')}>Финансы</a
 			>
 			<button
 				onclick={async () => {
