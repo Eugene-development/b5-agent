@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 
 	// Get return URL from query parameters for redirect after login
-	const returnUrl = $derived(page.url.searchParams.get('returnUrl') || '/');
+	const returnUrl = $derived(page.url.searchParams.get('returnTo') || '/');
 </script>
 
 <svelte:head>

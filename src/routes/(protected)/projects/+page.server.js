@@ -15,7 +15,7 @@ export async function load({ fetch, locals, parent }) {
 
 		// Check authentication - redirect if not authenticated
 		if (!isAuthenticated || !user) {
-			throw redirect(302, '/login?redirectTo=/projects');
+			throw redirect(302, '/login?returnTo=/projects');
 		}
 
 		// Create projects API client with server-side fetch

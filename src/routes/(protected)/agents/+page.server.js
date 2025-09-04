@@ -15,7 +15,7 @@ export async function load({ fetch, locals, parent }) {
 
 		// Check authentication - redirect if not authenticated
 		if (!isAuthenticated || !user) {
-			throw redirect(302, '/login?redirectTo=/agents');
+			throw redirect(302, '/login?returnTo=/agents');
 		}
 
 		// Create agents API client with server-side fetch

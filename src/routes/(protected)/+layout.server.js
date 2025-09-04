@@ -16,7 +16,7 @@ export async function load({ parent, url }) {
 		if (!isAuthenticated || !user) {
 			// Store the intended destination for post-login redirect
 			const returnTo = url.pathname + url.search;
-			const loginUrl = `/login?redirectTo=${encodeURIComponent(returnTo)}`;
+			const loginUrl = `/login?returnTo=${encodeURIComponent(returnTo)}`;
 			throw redirect(302, loginUrl);
 		}
 
