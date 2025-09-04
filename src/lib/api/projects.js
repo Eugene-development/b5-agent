@@ -14,7 +14,7 @@ const PROJECTS_QUERIES = {
 	 * Get all projects with pagination
 	 */
 	GET_ALL_PROJECTS: `
-		query GetAllProjects($first: Int, $page: Int) {
+		query GetAllProjects($first: Int!, $page: Int) {
 			projects(first: $first, page: $page) {
 				data {
 					id
@@ -107,7 +107,7 @@ const PROJECTS_QUERIES = {
 	 * Get projects by status
 	 */
 	GET_PROJECTS_BY_STATUS: `
-		query GetProjectsByStatus($status: ProjectStatus!, $first: Int, $page: Int) {
+		query GetProjectsByStatus($status: ProjectStatus!, $first: Int!, $page: Int) {
 			projectsByStatus(status: $status, first: $first, page: $page) {
 				data {
 					id
