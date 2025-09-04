@@ -7,9 +7,8 @@
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
 
-	// Extract data from server load function
-	const user = $derived(data.user);
-	const stats = $derived(data.stats);
+	// Extract data directly from server load function
+	const { stats } = data;
 
 	// Email verification success message
 	let showSuccessMessage = $state(false);
@@ -145,8 +144,6 @@
 					</svg>
 					<h3 class="text-xl font-semibold text-white">Профиль</h3>
 				</div>
-				<p class="mb-4 text-gray-300">Пользователь: {user?.name || user?.email}</p>
-				<p class="mb-4 text-gray-300">ID: {user?.id}</p>
 				<a href="/profile" class="font-medium text-indigo-400 hover:text-indigo-300">
 					Просмотреть →
 				</a>
