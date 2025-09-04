@@ -64,7 +64,7 @@
 			aria-label="Close mobile menu"
 		></div>
 		<div
-			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-4 py-4 sm:px-6 sm:py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-4 py-4 sm:max-w-sm sm:px-6 sm:py-6 sm:ring-1 sm:ring-white/10"
 			onclick={handleMenuClick}
 			onkeydown={handleBackdropKeydown}
 			role="dialog"
@@ -174,28 +174,6 @@
 								Профиль
 							</a>
 
-							<!-- Agents Section -->
-							<a
-								href="/agents"
-								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses('/agents')}
-							>
-								<svg
-									class="mr-3 h-6 w-6 text-orange-400"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-									/>
-								</svg>
-								Агенты
-							</a>
-
 							<!-- Projects Section -->
 							<a
 								href="/projects"
@@ -285,10 +263,10 @@
 								Вход
 							</a>
 							<a
-								href="/register"
+								href="/registration"
 								onclick={closeMobileMenu}
 								class={getMobileProtectedLinkClasses(
-									'/register',
+									'/registration',
 									'-mx-3 flex items-center rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-800'
 								)}
 							>

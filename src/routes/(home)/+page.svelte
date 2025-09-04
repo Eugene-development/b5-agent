@@ -11,7 +11,7 @@
 </svelte:head>
 
 <Main />
-<div class="flex justify-center py-8">
+<!-- <div class="flex justify-center py-8">
 	<a 
 		href="https://t.me/mytestbot_2025_v1_bot" 
 		target="_blank" 
@@ -19,7 +19,7 @@
 	> 
 		Начать в Telegram 
 	</a>
-</div>
+</div> -->
 <Progress />
 <Users />
 <Questions />

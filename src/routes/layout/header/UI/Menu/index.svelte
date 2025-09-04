@@ -76,8 +76,9 @@
 			<a href="/login" class={getLinkClasses('/login', 'mr-4 text-sm/6 font-normal text-white')}
 				>Вход</a
 			>
-			<a href="/register" class={getLinkClasses('/register', 'text-sm/6 font-normal text-white')}
-				>Регистрация</a
+			<a
+				href="/registration"
+				class={getLinkClasses('/registration', 'text-sm/6 font-normal text-white')}>Регистрация</a
 			>
 		{/if}
 	</div>
