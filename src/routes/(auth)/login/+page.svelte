@@ -1,9 +1,9 @@
 <script>
 	import LoginForm from '$lib/components/LoginForm.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	// Get return URL from query parameters for redirect after login
-	$: returnUrl = $page.url.searchParams.get('returnUrl') || '/';
+	const returnUrl = $derived(page.url.searchParams.get('returnUrl') || '/');
 </script>
 
 <svelte:head>

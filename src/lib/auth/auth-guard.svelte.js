@@ -128,22 +128,33 @@ export function createGuestLoad(options = {}) {
 export async function authMiddleware({ event, resolve }) {
 	const { url, route } = event;
 
-	// Define protected route patterns
-	const protectedRoutes = ['/dashboard', '/profile', '/settings'];
+	// Define protected route patterns - includes the (protected) route group
+	const protectedRoutes = [
+		'/dashboard', 
+		'/profile', 
+		'/settings', 
+		'/finances',
+		'/agents',    // New protected route
+		'/projects'   // New protected route
+	];
 
 	// Define guest-only routes (redirect authenticated users)
 	const guestRoutes = ['/login', '/register'];
 
 	const isProtectedRoute = protectedRoutes.some((route) => url.pathname.startsWith(route));
-
 	const isGuestRoute = guestRoutes.some((route) => url.pathname.startsWith(route));
 
-	// For protected routes, we'll let the client-side handle authentication
+	// Check if this is a route in the (protected) group
+	const isProtectedGroupRoute = route?.id?.includes('/(protected)');
+
+	// For protected routes or routes in the (protected) group, we'll let the 
+	// client-side and server-side load functions handle authentication
 	// since we're using SPA authentication with cookies
-	if (isProtectedRoute || isGuestRoute) {
-		// Add authentication headers for API requests
-		event.locals.requiresAuth = isProtectedRoute;
+	if (isProtectedRoute || isProtectedGroupRoute || isGuestRoute) {
+		// Add authentication metadata for API requests and route handling
+		event.locals.requiresAuth = isProtectedRoute || isProtectedGroupRoute;
 		event.locals.requiresGuest = isGuestRoute;
+		event.locals.isProtectedGroup = isProtectedGroupRoute;
 	}
 
 	return await resolve(event);
@@ -181,7 +192,15 @@ export async function navigationGuard(pathname, options = {}) {
  * @returns {boolean} True if route requires authentication
  */
 export function isProtectedRoute(pathname) {
-	const protectedPatterns = ['/dashboard', '/profile', '/settings', '/admin'];
+	const protectedPatterns = [
+		'/dashboard', 
+		'/profile', 
+		'/settings', 
+		'/finances',
+		'/agents',    // New protected route
+		'/projects',  // New protected route
+		'/admin'
+	];
 
 	return protectedPatterns.some((pattern) => pathname.startsWith(pattern));
 }
