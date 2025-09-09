@@ -6,6 +6,7 @@
 	import Footer from './layout/footer/index.svelte';
 
 	let { children, data } = $props();
+	console.log('data%', data);
 
 	// Initialize authentication from server data
 	// This avoids the fetch warning by using server-side data

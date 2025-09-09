@@ -12,7 +12,7 @@ const DEFAULT_CONFIG = {
 	FRONTEND_URL: 'http://localhost:5040' // b5-agent frontend
 };
 
-// Production fallback configuration 
+// Production fallback configuration
 const PRODUCTION_FALLBACK = {
 	API_BASE_URL: 'https://api.bonus5.ru',
 	AUTH_API_URL: 'https://auth.bonus5.ru',
@@ -40,7 +40,7 @@ function getApiConfig() {
 	// Server-side rendering: use environment variables or fallback
 	if (!browser && typeof process !== 'undefined') {
 		const isProduction = process.env.NODE_ENV === 'production';
-		
+
 		if (isProduction) {
 			// In production, use environment variables set by entrypoint.sh, then fallback
 			return {
