@@ -105,7 +105,6 @@ export function hasAuthErrors() {
 
 /**
  * Get the first error message from current errors
- * Requirements: 6.1, 6.2, 6.3, 6.4
  * @returns {string|null} First error message or null
  */
 export function getFirstAuthError() {
@@ -117,7 +116,6 @@ import { goto } from '$app/navigation';
 
 /**
  * Create HTTP client with custom unauthorized handler for auth module
- * Requirements: 4.4, 5.1, 5.2, 5.3, 5.4
  */
 const authHttpClient = createHttpClient({
 	onUnauthorized: async () => {
@@ -170,7 +168,6 @@ import {
 /**
  * Handle API errors and update state accordingly
  * Uses centralized error handler for consistent error processing
- * Requirements: 6.1, 6.2, 6.3, 6.4
  * @param {Error} error - API error
  * @returns {Object} Error object with formatted messages
  */
@@ -188,7 +185,6 @@ function handleApiError(error) {
 
 /**
  * Login user with email and password
- * Requirements: 2.1, 2.2, 2.3
  * @param {string} email - User email
  * @param {string} password - User password
  * @param {Object} options - Login options
@@ -227,7 +223,6 @@ export async function login(email, password, options = {}) {
 
 /**
  * Register new user
- * Requirements: 1.1, 1.2, 1.3
  * @param {string} name - User name
  * @param {string} email - User email
  * @param {string} password - User password
@@ -273,7 +268,6 @@ export async function register(name, email, password, passwordConfirmation, opti
 
 /**
  * Logout current user
- * Requirements: 3.1, 3.2, 3.3
  * @param {Object} options - Logout options
  * @param {string} options.redirectTo - Path to redirect after logout
  * @returns {Promise<void>}
@@ -313,7 +307,6 @@ export async function logout(options = {}) {
 /**
  * Get current authenticated user data from auth state
  * User data is now loaded from server in +layout.server.js
- * Requirements: 2.1, 4.1, 4.2
  * @returns {Promise<Object|null>} User data or null if not authenticated
  */
 export async function getUser() {
