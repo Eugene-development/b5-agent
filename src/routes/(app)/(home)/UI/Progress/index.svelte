@@ -25,7 +25,7 @@
 		</div>
 		<div class="mt-8">
 			<h3 class="text-base font-semibold text-gray-900">
-				<a href="#" class="focus:outline-hidden">
+				<a href="/" class="focus:outline-hidden">
 					<!-- Extend touch target to entire panel -->
 					<span aria-hidden="true" class="absolute inset-0"></span>
 					Request time off
@@ -71,7 +71,7 @@
 		</div>
 		<div class="mt-8">
 			<h3 class="text-base font-semibold text-gray-900">
-				<a href="#" class="focus:outline-hidden">
+				<a href="/" class="focus:outline-hidden">
 					<!-- Extend touch target to entire panel -->
 					<span aria-hidden="true" class="absolute inset-0"></span>
 					Benefits
@@ -117,7 +117,7 @@
 		</div>
 		<div class="mt-8">
 			<h3 class="text-base font-semibold text-gray-900">
-				<a href="#" class="focus:outline-hidden">
+				<a href="/" class="focus:outline-hidden">
 					<!-- Extend touch target to entire panel -->
 					<span aria-hidden="true" class="absolute inset-0"></span>
 					Schedule a one-on-one
@@ -163,7 +163,7 @@
 		</div>
 		<div class="mt-8">
 			<h3 class="text-base font-semibold text-gray-900">
-				<a href="#" class="focus:outline-hidden">
+				<a href="/" class="focus:outline-hidden">
 					<!-- Extend touch target to entire panel -->
 					<span aria-hidden="true" class="absolute inset-0"></span>
 					Payroll
@@ -209,7 +209,7 @@
 		</div>
 		<div class="mt-8">
 			<h3 class="text-base font-semibold text-gray-900">
-				<a href="#" class="focus:outline-hidden">
+				<a href="/" class="focus:outline-hidden">
 					<!-- Extend touch target to entire panel -->
 					<span aria-hidden="true" class="absolute inset-0"></span>
 					Submit an expense
@@ -255,7 +255,7 @@
 		</div>
 		<div class="mt-8">
 			<h3 class="text-base font-semibold text-gray-900">
-				<a href="#" class="focus:outline-hidden">
+				<a href="/" class="focus:outline-hidden">
 					<!-- Extend touch target to entire panel -->
 					<span aria-hidden="true" class="absolute inset-0"></span>
 					Training
