@@ -144,19 +144,10 @@ const authHttpClient = createHttpClient({
  * Initialize authentication state from server data
  * @param {Object} serverData - Data from server load function
  */
-export async function initAuthFromServer(serverData) {
+export function initAuthFromServer(serverData) {
 	if (serverData?.user && serverData?.isAuthenticated) {
 		user = serverData.user;
 		clearErrors();
-	}
-
-	// Initialize CSRF on client if in browser
-	if (typeof window !== 'undefined') {
-		try {
-			await initCsrf();
-		} catch (error) {
-			console.warn('Failed to initialize CSRF on client:', error);
-		}
 	}
 }
 
