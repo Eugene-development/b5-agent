@@ -325,7 +325,7 @@
 									type="text"
 									bind:value={searchTerm}
 									placeholder="Поиск по названию, городу, описанию или агенту..."
-									class="block w-full rounded-md border border-gray-600 bg-gray-700 py-2 pl-10 pr-3 leading-5 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+									class="block w-full rounded-md border border-gray-600 bg-gray-700 py-4 pl-10 pr-3 leading-5 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
 								/>
 							</div>
 						</div>
@@ -338,11 +338,12 @@
 							<select
 								id="status-filter"
 								bind:value={statusFilter}
-								class="block w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+								class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
 							>
-								<option value="all">Все статусы</option>
-								<option value="active">Активные</option>
-								<option value="inactive">Неактивные</option>
+								<option value="">Все статусы</option>
+								<option value="active">Активный</option>
+								<option value="paused">Приостановлен</option>
+								<option value="completed">Завершен</option>
 							</select>
 						</div>
 
@@ -350,7 +351,7 @@
 						<div class="flex items-end">
 							<button
 								onclick={clearFilters}
-								class="w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+								class="h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 							>
 								Очистить фильтры
 							</button>
@@ -368,27 +369,9 @@
 							<thead class="bg-gray-700">
 								<tr>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
-										onclick={() => handleSort('id')}
+										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
-										<div class="flex items-center space-x-1">
-											<span>ID</span>
-											{#if sortBy === 'id'}
-												<svg
-													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M19 9l-7 7-7-7"
-													/>
-												</svg>
-											{/if}
-										</div>
+										№
 									</th>
 									<th
 										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
@@ -435,11 +418,6 @@
 												</svg>
 											{/if}
 										</div>
-									</th>
-									<th
-										class="hidden px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 lg:table-cell"
-									>
-										Агент
 									</th>
 									<th
 										class="hidden cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 md:table-cell"
@@ -518,10 +496,10 @@
 								</tr>
 							</thead>
 							<tbody class="divide-y divide-gray-700 bg-gray-800">
-								{#each sortedProjects() as project (project.id)}
+								{#each sortedProjects() as project, index (project.id)}
 									<tr class="hover:bg-gray-700">
 										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
-											{project.id}
+											{index + 1}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4">
 											<div class="text-sm font-medium text-white">
@@ -538,14 +516,6 @@
 										</td>
 										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
 											{project.city || 'Не указано'}
-										</td>
-										<td class="hidden whitespace-nowrap px-6 py-4 lg:table-cell">
-											{#if project.agent}
-												<div class="text-sm font-medium text-white">{project.agent.name}</div>
-												<div class="text-sm text-gray-400">{project.agent.email}</div>
-											{:else}
-												<span class="text-sm text-gray-400">Не назначен</span>
-											{/if}
 										</td>
 										<td class="hidden whitespace-nowrap px-6 py-4 text-sm text-white md:table-cell">
 											{formatCurrency(project.contract_amount)}
@@ -568,7 +538,7 @@
 									</tr>
 								{:else}
 									<tr>
-										<td colspan="8" class="px-6 py-12 text-center">
+										<td colspan="7" class="px-6 py-12 text-center">
 											<div class="flex flex-col items-center">
 												<svg
 													class="w-12 h-12 text-gray-400 mb-4"
@@ -653,12 +623,12 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+								d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
 							/>
 						</svg>
-						<h3 class="text-xl font-semibold text-white">Агенты</h3>
+						<h3 class="text-xl font-semibold text-white">Профиль</h3>
 					</div>
-					<a href="/agents" class="font-medium text-indigo-400 hover:text-indigo-300">
+					<a href="/profile" class="font-medium text-indigo-400 hover:text-indigo-300">
 						Просмотреть →
 					</a>
 				</div>

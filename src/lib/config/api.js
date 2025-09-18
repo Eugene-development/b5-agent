@@ -14,7 +14,7 @@ const DEFAULT_CONFIG = {
 
 // Production fallback configuration
 const PRODUCTION_FALLBACK = {
-	API_BASE_URL: 'https://api.bonus5.ru',
+	API_BASE_URL: 'https://api.bonus.band',
 	AUTH_API_URL: 'https://auth.bonus5.ru',
 	FRONTEND_URL: 'https://bonus5.ru'
 };
