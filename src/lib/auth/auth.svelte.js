@@ -314,3 +314,60 @@ export async function getUser() {
 	// No longer makes fetch requests - data comes from server
 	return authState.user;
 }
+
+/**
+ * Get current user data from API
+ * @returns {Promise<Object>} API response with user data
+ */
+export async function getCurrentUser() {
+	try {
+		const data = await authHttpClient.get('/api/user');
+		return {
+			success: true,
+			user: data.user || data, // Handle different response formats
+			status: 200
+		};
+	} catch (error) {
+		console.error('getCurrentUser error:', error);
+		return {
+			success: false,
+			user: null,
+			status: error.status || 0,
+			message: error.message || 'Failed to get user data'
+		};
+	}
+}
+
+/**
+ * Check authentication status and update user data
+ * @returns {Promise<boolean>} Authentication status
+ */
+export async function checkAuth() {
+	try {
+		const result = await getCurrentUser();
+
+		if (result.success && result.user) {
+			setUser(result.user);
+			return true;
+		} else if (result.status === 401) {
+			// Token is invalid
+			clearAuthState();
+			return false;
+		} else {
+			// Network or other errors, keep current state
+			return authState.isAuthenticated;
+		}
+	} catch (error) {
+		console.error('Check auth error:', error);
+		// On error, check if we still have user data
+		return authState.isAuthenticated;
+	}
+}
+
+/**
+ * Get current user data for display (with fallback to localStorage if needed)
+ * @returns {Object|null} User data or null
+ */
+export function getCurrentUserData() {
+	return authState.user;
+}
