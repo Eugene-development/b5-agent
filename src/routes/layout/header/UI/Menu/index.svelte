@@ -13,7 +13,7 @@
 		const hoverClasses = 'hover:text-gray-300 transition-colors';
 
 		if (isActive) {
-			return `${baseClasses.replace('text-white', 'text-blue-400').replace('font-normal', 'font-semibold')}`;
+			return `${baseClasses.replace('text-white', 'text-blue-400')}`;
 		}
 		return `${baseClasses} ${hoverClasses}`;
 	}
@@ -51,8 +51,7 @@
 		</button>
 	</div>
 	<div class="hidden *:tracking-widest lg:flex lg:gap-x-12">
-		<a href="/" class={getLinkClasses('/')}>Главная1</a>
-		<a href="/finances" class={getLinkClasses('/finances')}>Финансы</a>
+		<a href="/" class={getLinkClasses('/')}>Главная</a>
 		<!-- <a href="/oferta" class="text-sm/6 font-normal text-white">Оферта</a> -->
 		<a href="/about" class={getLinkClasses('/about')}>О проекте</a>
 		<a href="/payments" class={getLinkClasses('/payments')}>Выплаты</a>

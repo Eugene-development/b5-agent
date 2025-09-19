@@ -120,7 +120,7 @@
 							</svg> -->
 							<h3 class="text-2xl font-semibold tracking-wide text-white">Открытая форма</h3>
 						</div>
-						Открыто передать данные →
+						Наш куратор свяжется с вами для уточнения вопросов →
 					</a>
 				</div>
 			</div>
@@ -149,7 +149,7 @@
 							</svg> -->
 							<h3 class="text-2xl font-semibold tracking-wide text-white">Секретная Форма</h3>
 						</div>
-						Передать данные инкогнито →
+						Наш куратор и поставщик не будут знать от кого заявка →
 					</a>
 				</div>
 			</div>
