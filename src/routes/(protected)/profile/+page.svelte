@@ -360,10 +360,10 @@
 
 						<div>
 							<label for="user-id" class="mb-2 block text-sm font-medium text-gray-400">
-								ID пользователя
+								Телефон или Telegram
 							</label>
 							<div id="user-id" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
-								{user.id || 'Не указано'}
+								{user.phone || 'Не указано'}
 							</div>
 						</div>
 					</div>

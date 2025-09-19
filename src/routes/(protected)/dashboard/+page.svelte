@@ -98,12 +98,7 @@
 			<!-- Client Data Form Section -->
 			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
 				<div class="text-center">
-					<a
-						href="https://mebelmobile.ru/"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="font-medium text-orange-400 hover:text-orange-300"
-					>
+					<a href="https://mebelmobile.ru/" target="_blank" rel="noopener noreferrer">
 						<div class="mb-4 flex items-center justify-center">
 							<!-- <svg
 								class="mr-3 h-8 w-8 text-orange-400"
@@ -118,21 +113,19 @@
 									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 								></path>
 							</svg> -->
-							<h3 class="text-2xl font-semibold tracking-wide text-white">Открытая форма</h3>
+							<h3 class="text-3xl font-semibold tracking-wide text-white">Открытая форма</h3>
 						</div>
-						Наш куратор свяжется с вами для уточнения вопросов →
+						<p class="font-medium text-orange-400 hover:text-orange-300">
+							Наш куратор свяжется с вами для уточнения вопросов через почту. Данные отправляются
+							через форму →
+						</p>
 					</a>
 				</div>
 			</div>
 			<!-- Client Data Form Section -->
 			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
 				<div class="text-center">
-					<a
-						href="https://t.me/mytestbot_2025_v1_bot"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="font-medium text-orange-400 hover:text-orange-300"
-					>
+					<a href="https://t.me/mytestbot_2025_v1_bot" target="_blank" rel="noopener noreferrer">
 						<div class="mb-4 flex items-center justify-center">
 							<!-- <svg
 								class="mr-3 h-8 w-8 text-orange-400"
@@ -147,9 +140,12 @@
 									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 								></path>
 							</svg> -->
-							<h3 class="text-2xl font-semibold tracking-wide text-white">Секретная Форма</h3>
+							<h3 class="text-3xl font-semibold tracking-wide text-white">Секретная Форма</h3>
 						</div>
-						Наш куратор и поставщик не будут знать от кого заявка →
+						<p class="font-medium text-orange-400 hover:text-orange-300">
+							Наш куратор и поставщик не будут знать от кого заявка. Данные отправляются через
+							Telegram бота →
+						</p>
 					</a>
 				</div>
 			</div>
