@@ -161,12 +161,12 @@
 	}
 </script>
 
-<div class="projects-page min-h-screen bg-gray-900 py-8">
+<div class="projects-page min-h-screen bg-gray-900 py-2 sm:py-8">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mb-8">
 			<h1 class="mb-2 text-3xl font-bold text-white">Проекты</h1>
-			<p class="text-gray-300">Управление проектами и просмотр их статистики</p>
+			<!-- <p class="text-gray-300">Управление проектами и просмотр их статистики</p> -->
 		</div>
 
 		<!-- Data State Management -->
@@ -187,7 +187,7 @@
 			<!-- Content when data is successfully loaded -->
 
 			<!-- Statistics Cards -->
-			<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+			<!-- <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
 				<div class="rounded-lg bg-gray-800 p-6 shadow">
 					<div class="flex items-center">
 						<div class="flex-shrink-0">
@@ -293,7 +293,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 			<!-- Filters and Search -->
 			<div class="mb-6 rounded-lg bg-gray-800 shadow">
@@ -341,8 +341,9 @@
 								class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
 							>
 								<option value="">Все статусы</option>
+								<option value="active">В обработке</option>
 								<option value="active">Активный</option>
-								<option value="paused">Приостановлен</option>
+								<option value="paused">Выполнен</option>
 								<option value="completed">Завершен</option>
 							</select>
 						</div>
@@ -420,7 +421,7 @@
 										</div>
 									</th>
 									<th
-										class="hidden cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 md:table-cell"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 md:table-cell"
 										onclick={() => handleSort('contract_amount')}
 									>
 										<div class="flex items-center space-x-1">
@@ -443,7 +444,7 @@
 										</div>
 									</th>
 									<th
-										class="hidden cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 lg:table-cell"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 lg:table-cell"
 										onclick={() => handleSort('planned_completion_date')}
 									>
 										<div class="flex items-center space-x-1">
@@ -471,7 +472,7 @@
 										Статус
 									</th>
 									<th
-										class="hidden cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 sm:table-cell"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 sm:table-cell"
 										onclick={() => handleSort('created_at')}
 									>
 										<div class="flex items-center space-x-1">
@@ -517,10 +518,10 @@
 										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
 											{project.city || 'Не указано'}
 										</td>
-										<td class="hidden whitespace-nowrap px-6 py-4 text-sm text-white md:table-cell">
+										<td class="whitespace-nowrap px-6 py-4 text-sm text-white md:table-cell">
 											{formatCurrency(project.contract_amount)}
 										</td>
-										<td class="hidden whitespace-nowrap px-6 py-4 text-sm text-white lg:table-cell">
+										<td class="whitespace-nowrap px-6 py-4 text-sm text-white lg:table-cell">
 											{formatDate(project.planned_completion_date)}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4">
@@ -532,7 +533,7 @@
 												{getStatusText(project.is_active)}
 											</span>
 										</td>
-										<td class="hidden whitespace-nowrap px-6 py-4 text-sm text-white sm:table-cell">
+										<td class="whitespace-nowrap px-6 py-4 text-sm text-white sm:table-cell">
 											{formatDate(project.created_at)}
 										</td>
 									</tr>
