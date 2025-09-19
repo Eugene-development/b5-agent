@@ -325,7 +325,7 @@
 									type="text"
 									bind:value={searchTerm}
 									placeholder="Поиск по названию, городу, описанию или агенту..."
-									class="block w-full rounded-md border border-gray-600 bg-gray-700 py-4 pl-10 pr-3 leading-5 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+									class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 pl-10 pr-3 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
 								/>
 							</div>
 						</div>
