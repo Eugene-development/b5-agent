@@ -500,7 +500,7 @@
 								{#each sortedProjects() as project, index (project.id)}
 									<tr class="hover:bg-gray-700">
 										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
-											{index + 1}
+											{sortedProjects().length - index}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4">
 											<div class="text-sm font-medium text-white">
