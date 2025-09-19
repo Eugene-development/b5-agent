@@ -7,6 +7,7 @@
 -->
 <script>
 	import DataState from '$lib/components/DataState.svelte';
+	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import { goto } from '$app/navigation';
 
 	// Get client-loaded data
@@ -657,5 +658,19 @@
 				</div>
 			</div>
 		</DataState>
+
+		<!-- Action Buttons -->
+		<div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+			<LogoutButton />
+		</div>
+
+		<!-- Security Notice -->
+		<div class="mt-8 text-center">
+			<p class="text-sm text-gray-400">
+				Эта страница доступна только авторизованным пользователям.
+				<br />
+				Ваша сессия защищена и данные передаются по защищенному соединению.
+			</p>
+		</div>
 	</div>
 </div>

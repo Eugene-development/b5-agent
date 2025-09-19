@@ -1,41 +1,3 @@
-<!-- <script>
-	import RegisterForm from '$lib/components/RegisterForm.svelte';
-</script>
-
-<svelte:head>
-	<title>Register - B5 Agent</title>
-	<meta name="description" content="Create a new account for B5 Agent" />
-</svelte:head>
-
-<main class="register-page">
-	<div class="container">
-		<RegisterForm />
-	</div>
-</main>
-
-<style>
-	.register-page {
-		min-height: 100vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: #f8f9fa;
-		padding: 1rem;
-	}
-
-	.container {
-		width: 100%;
-		max-width: 500px;
-	}
-
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
-		.register-page {
-			padding: 0.5rem;
-		}
-	}
-</style> -->
-
 <script>
 	import { register, authState } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
@@ -45,6 +7,7 @@
 		firstName: '',
 		city: '',
 		email: '',
+		phone: '',
 		password: '',
 		passwordConfirm: '',
 		termsAccepted: false
@@ -55,6 +18,7 @@
 		firstName: '',
 		city: '',
 		email: '',
+		phone: '',
 		password: '',
 		passwordConfirm: '',
 		terms: '',
@@ -87,6 +51,7 @@
 			firstName: '',
 			city: '',
 			email: '',
+			phone: '',
 			password: '',
 			passwordConfirm: '',
 			terms: '',
@@ -107,6 +72,15 @@
 		if (!formData.email) {
 			errors.email = 'Email обязателен';
 			return false;
+		}
+
+		// Validate phone (optional field)
+		if (formData.phone && formData.phone.trim()) {
+			const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,20}$/;
+			if (!phoneRegex.test(formData.phone.trim())) {
+				errors.phone = 'Пожалуйста, введите корректный номер телефона';
+				return false;
+			}
 		}
 
 		if (!formData.password) {
@@ -145,7 +119,8 @@
 				formData.firstName,
 				formData.email,
 				formData.password,
-				formData.passwordConfirm
+				formData.passwordConfirm,
+				formData.phone
 			);
 
 			if (result) {
@@ -277,6 +252,28 @@
 							/>
 							{#if errors.email}
 								<p class="mt-1 text-sm text-red-400">{errors.email}</p>
+							{/if}
+						</div>
+					</div>
+					<div class="sm:col-span-2">
+						<label for="phone" class="block text-sm/6 font-semibold text-white"
+							>Телефон (необязательно)</label
+						>
+						<div class="mt-2.5">
+							<input
+								type="tel"
+								name="phone"
+								id="phone"
+								autocomplete="tel"
+								bind:value={formData.phone}
+								disabled={isLoading}
+								placeholder="+7 (900) 123-45-67"
+								class="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:opacity-50 {errors.phone
+									? 'outline-red-500'
+									: ''}"
+							/>
+							{#if errors.phone}
+								<p class="mt-1 text-sm text-red-400">{errors.phone}</p>
 							{/if}
 						</div>
 					</div>

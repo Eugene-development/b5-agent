@@ -1,6 +1,5 @@
 <script>
-	import { logout } from '$lib/auth/auth.svelte.js';
-	import { goto } from '$app/navigation';
+	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 
@@ -38,20 +37,6 @@
 			}, 3000);
 		}
 	});
-
-	// Handle logout with redirect
-	async function handleLogout() {
-		console.log('🚪 Starting logout process...');
-
-		try {
-			await logout({ redirectTo: '/' });
-			console.log('✅ Logout successful, redirecting to home');
-		} catch (error) {
-			console.error('💥 Logout error:', error);
-			// Force redirect even if logout fails
-			goto('/');
-		}
-	}
 </script>
 
 <svelte:head>
@@ -249,12 +234,7 @@
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
-			<button
-				onclick={handleLogout}
-				class="rounded-lg bg-red-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-red-600"
-			>
-				Выйти из аккаунта
-			</button>
+			<LogoutButton />
 		</div>
 
 		<!-- Security Notice -->
@@ -262,7 +242,7 @@
 			<p class="text-sm text-gray-400">
 				Эта страница доступна только авторизованным пользователям.
 				<br />
-				Ваша сессия защищена API токенами и данные передаются по защищенному соединению.
+				Ваша сессия защищена и данные передаются по защищенному соединению.
 			</p>
 		</div>
 	</div>

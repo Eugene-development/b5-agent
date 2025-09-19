@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import {
 		authState,
-		logout,
 		getCurrentUserData,
 		checkAuth,
 		getCurrentUser
@@ -15,7 +15,6 @@
 	let userData = $state(null);
 	let isCheckingAuth = $state(false);
 	let authError = $state(null);
-	let isLogoutLoading = $state(false);
 
 	// Get user data for display
 	function getUserDisplayData() {
@@ -122,24 +121,9 @@
 		}
 	});
 
-	// Handle logout with enhanced loading states
-	async function handleLogout() {
-		isLogoutLoading = true;
-		authError = null;
-
-		try {
-			await logout({ redirectTo: '/' });
-			console.log('✅ Logout successful, redirecting to home');
-		} catch (error) {
-			console.error('💥 Logout error:', error);
-			authError = 'Произошла ошибка при выходе из системы';
-			// Force redirect even if logout fails
-			setTimeout(() => {
-				goto('/');
-			}, 1000);
-		} finally {
-			isLogoutLoading = false;
-		}
+	// Handle logout error callback
+	async function handleLogoutError(error) {
+		authError = 'Произошла ошибка при выходе из системы';
 	}
 
 	// Copy key to clipboard
@@ -294,24 +278,6 @@
 						</div>
 
 						<div>
-							<label for="user-email" class="mb-2 block text-sm font-medium text-gray-400">
-								Email
-							</label>
-							<div id="user-email" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
-								{user.email || 'Не указано'}
-							</div>
-						</div>
-
-						<div>
-							<label for="user-city" class="mb-2 block text-sm font-medium text-gray-400">
-								Город
-							</label>
-							<div id="user-city" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
-								{user.city || 'Не указано'}
-							</div>
-						</div>
-
-						<div>
 							<label for="user-key" class="mb-2 block text-sm font-medium text-gray-400">
 								Секретный ключ
 							</label>
@@ -325,6 +291,24 @@
 							>
 								{user.key || 'Не указано'}
 							</button>
+						</div>
+
+						<div>
+							<label for="user-city" class="mb-2 block text-sm font-medium text-gray-400">
+								Город
+							</label>
+							<div id="user-city" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
+								{user.city || 'Не указано'}
+							</div>
+						</div>
+
+						<div>
+							<label for="user-email" class="mb-2 block text-sm font-medium text-gray-400">
+								Email
+							</label>
+							<div id="user-email" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
+								{user.email || 'Не указано'}
+							</div>
 						</div>
 
 						<div>
@@ -506,20 +490,7 @@
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
-			<button
-				onclick={handleLogout}
-				disabled={isLogoutLoading}
-				class="flex items-center justify-center gap-2 rounded-lg bg-red-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
-			>
-				{#if isLogoutLoading}
-					<div
-						class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-					></div>
-					<span>Выход...</span>
-				{:else}
-					<span>Выйти из аккаунта</span>
-				{/if}
-			</button>
+			<LogoutButton onLogoutError={handleLogoutError} />
 		</div>
 
 		<!-- Security Notice -->
@@ -527,7 +498,7 @@
 			<p class="text-sm text-gray-400">
 				Эта страница доступна только авторизованным пользователям.
 				<br />
-				Ваша сессия защищена API токенами и данные передаются по защищенному соединению.
+				Ваша сессия защищена и данные передаются по защищенному соединению.
 			</p>
 		</div>
 	</div>

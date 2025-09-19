@@ -227,12 +227,20 @@ export async function login(email, password, options = {}) {
  * @param {string} email - User email
  * @param {string} password - User password
  * @param {string} passwordConfirmation - Password confirmation
+ * @param {string} phone - User phone (optional)
  * @param {Object} options - Registration options
  * @param {string} options.redirectTo - Path to redirect after successful registration
  * @returns {Promise<Object>} User data on success
  * @throws {Error} Registration error
  */
-export async function register(name, email, password, passwordConfirmation, options = {}) {
+export async function register(
+	name,
+	email,
+	password,
+	passwordConfirmation,
+	phone = '',
+	options = {}
+) {
 	setLoading(true);
 	clearErrors();
 
@@ -243,6 +251,7 @@ export async function register(name, email, password, passwordConfirmation, opti
 		const data = await authHttpClient.post('/api/register', {
 			name,
 			email,
+			phone,
 			password,
 			password_confirmation: passwordConfirmation
 		});
