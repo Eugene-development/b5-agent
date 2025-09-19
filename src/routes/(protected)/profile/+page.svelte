@@ -180,7 +180,7 @@
 </svelte:head>
 
 <!-- Main content -->
-<div class="relative isolate bg-gray-900 py-24 sm:py-32">
+<div class="relative isolate bg-gray-900 py-16 sm:py-24">
 	<!-- Success Message -->
 	{#if showSuccessMessage}
 		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
@@ -426,104 +426,109 @@
 		{/if}
 	</div>
 
-	<!-- Navigation Actions -->
-	<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-		<!-- Dashboard Section -->
-		<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-			<div class="mb-4 flex items-center">
-				<svg
-					class="mr-3 h-8 w-8 text-blue-400"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-					></path>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
-					></path>
-				</svg>
-				<h3 class="text-xl font-semibold text-white">Дашборд</h3>
+	<!-- Page footer content wrapped to container -->
+	<div class="mx-auto max-w-4xl px-6 lg:px-8">
+		<!-- Navigation Actions -->
+		<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+			<!-- Dashboard Section -->
+			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
+				<div class="mb-4 flex items-center">
+					<svg
+						class="mr-3 h-8 w-8 text-blue-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
+						></path>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
+						></path>
+					</svg>
+					<h3 class="text-xl font-semibold text-white">Дашборд</h3>
+				</div>
+				<a href="/dashboard" class="font-medium text-blue-400 hover:text-blue-300"> Вернуться → </a>
 			</div>
-			<a href="/dashboard" class="font-medium text-blue-400 hover:text-blue-300"> Вернуться → </a>
+
+			<!-- Projects Section -->
+			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
+				<div class="mb-4 flex items-center">
+					<svg
+						class="mr-3 h-8 w-8 text-purple-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+						></path>
+					</svg>
+					<h3 class="text-xl font-semibold text-white">Проекты</h3>
+				</div>
+				<a href="/projects" class="font-medium text-purple-400 hover:text-purple-300">
+					Управлять →
+				</a>
+			</div>
+
+			<!-- Finances Section -->
+			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
+				<div class="mb-4 flex items-center">
+					<svg
+						class="mr-3 h-8 w-8 text-green-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+						></path>
+					</svg>
+					<h3 class="text-xl font-semibold text-white">Финансы</h3>
+				</div>
+				<a href="/finances" class="font-medium text-green-400 hover:text-green-300">
+					Управлять →
+				</a>
+			</div>
 		</div>
 
-		<!-- Projects Section -->
-		<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-			<div class="mb-4 flex items-center">
-				<svg
-					class="mr-3 h-8 w-8 text-purple-400"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-					></path>
-				</svg>
-				<h3 class="text-xl font-semibold text-white">Проекты</h3>
-			</div>
-			<a href="/projects" class="font-medium text-purple-400 hover:text-purple-300">
-				Управлять →
-			</a>
+		<!-- Action Buttons -->
+		<div class="flex flex-col justify-center gap-4 sm:flex-row">
+			<button
+				onclick={handleLogout}
+				disabled={isLogoutLoading}
+				class="flex items-center justify-center gap-2 rounded-lg bg-red-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+			>
+				{#if isLogoutLoading}
+					<div
+						class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+					></div>
+					<span>Выход...</span>
+				{:else}
+					<span>Выйти из аккаунта</span>
+				{/if}
+			</button>
 		</div>
 
-		<!-- Finances Section -->
-		<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-			<div class="mb-4 flex items-center">
-				<svg
-					class="mr-3 h-8 w-8 text-green-400"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-					></path>
-				</svg>
-				<h3 class="text-xl font-semibold text-white">Финансы</h3>
-			</div>
-			<a href="/finances" class="font-medium text-green-400 hover:text-green-300"> Управлять → </a>
+		<!-- Security Notice -->
+		<div class="mt-8 text-center">
+			<p class="text-sm text-gray-400">
+				Эта страница доступна только авторизованным пользователям.
+				<br />
+				Ваша сессия защищена API токенами и данные передаются по защищенному соединению.
+			</p>
 		</div>
-	</div>
-
-	<!-- Action Buttons -->
-	<div class="flex flex-col justify-center gap-4 sm:flex-row">
-		<button
-			onclick={handleLogout}
-			disabled={isLogoutLoading}
-			class="flex items-center justify-center gap-2 rounded-lg bg-red-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
-		>
-			{#if isLogoutLoading}
-				<div
-					class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-				></div>
-				<span>Выход...</span>
-			{:else}
-				<span>Выйти из аккаунта</span>
-			{/if}
-		</button>
-	</div>
-
-	<!-- Security Notice -->
-	<div class="mt-8 text-center">
-		<p class="text-sm text-gray-400">
-			Эта страница доступна только авторизованным пользователям.
-			<br />
-			Ваша сессия защищена API токенами и данные передаются по защищенному соединению.
-		</p>
 	</div>
 </div>

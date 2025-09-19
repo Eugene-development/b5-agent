@@ -58,7 +58,7 @@
 	<title>Dashboard - B5 Agent</title>
 </svelte:head>
 
-<div class="relative isolate bg-gray-900 py-24 sm:py-32">
+<div class="relative isolate bg-gray-900 py-12 sm:py-24">
 	<!-- Success Message -->
 	{#if showSuccessMessage}
 		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
