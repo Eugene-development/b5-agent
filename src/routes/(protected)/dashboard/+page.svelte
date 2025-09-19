@@ -2,6 +2,8 @@
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
+	import { authState } from '$lib/auth/auth.svelte.js';
+	import { goto } from '$app/navigation';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
@@ -16,9 +18,9 @@
 	// Check for verification success message
 	onMount(() => {
 		const urlParams = new URLSearchParams(page.url.search);
-		const message = urlParams.get('message');
+		const verified = urlParams.get('verified');
 
-		if (message === 'email_verified') {
+		if (verified === 'true') {
 			showSuccessMessage = true;
 			successMessage =
 				'Email успешно подтвержден! Теперь вы можете пользоваться всеми функциями сервиса.';
@@ -28,13 +30,6 @@
 				// Clear URL params
 				window.history.replaceState({}, '', '/dashboard');
 			}, 5000);
-		} else if (message === 'email_already_verified') {
-			showSuccessMessage = true;
-			successMessage = 'Email уже был подтвержден ранее.';
-			setTimeout(() => {
-				showSuccessMessage = false;
-				window.history.replaceState({}, '', '/dashboard');
-			}, 3000);
 		}
 	});
 </script>
@@ -65,6 +60,45 @@
 						/>
 					</svg>
 					<p class="text-sm font-medium text-green-300">{successMessage}</p>
+				</div>
+			</div>
+		</div>
+	{/if}
+
+	<!-- Email Verification Warning -->
+	{#if authState.user && !authState.user.email_verified_at}
+		<div class="fixed left-1/2 top-16 z-40 w-full max-w-lg -translate-x-1/2 transform px-4">
+			<div
+				class="rounded-lg border border-yellow-500/30 bg-yellow-500/20 p-4 shadow-lg backdrop-blur-sm"
+			>
+				<div class="flex items-start">
+					<svg
+						class="mr-3 mt-0.5 h-5 w-5 text-yellow-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.864-.833-2.634 0L3.098 16.5c-.77.833.192 2.5 1.732 2.5z"
+						/>
+					</svg>
+					<div class="flex-1">
+						<p class="text-sm font-medium text-yellow-300">Подтвердите свой email</p>
+						<p class="mt-1 text-sm text-yellow-200">
+							Для полного доступа к функциям сервиса необходимо подтвердить email адрес.
+						</p>
+						<div class="mt-3">
+							<button
+								onclick={() => goto('/email-verify')}
+								class="text-sm font-medium text-yellow-400 underline hover:text-yellow-300"
+							>
+								Подтвердить сейчас →
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

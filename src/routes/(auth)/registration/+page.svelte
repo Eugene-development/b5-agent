@@ -132,9 +132,9 @@
 					showSuccess = false;
 				}, 3000);
 
-				// Redirect to dashboard
+				// Redirect to email verification page
 				setTimeout(() => {
-					goto('/dashboard');
+					goto('/email-verify?from_registration=true');
 				}, 1500);
 			} else {
 				console.log('❌ Registration failed');
@@ -172,7 +172,7 @@
 				<div class="min-w-0 flex-1">
 					<h4 class="text-sm font-medium leading-tight text-white">Регистрация прошла успешно</h4>
 					<p class="mt-1 text-sm leading-relaxed text-gray-300">
-						Перенаправляем вас на главную страницу
+						Проверьте свою почту для подтверждения email
 					</p>
 				</div>
 			</div>
