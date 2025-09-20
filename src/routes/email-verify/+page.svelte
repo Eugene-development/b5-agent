@@ -66,25 +66,12 @@
 		const expires = urlParams.get('expires');
 		const signature = urlParams.get('signature');
 
-		if (id && hash && expires && signature) {
+		if (id && hash) {
 			console.log('📧 Email verification parameters found in URL');
 
 			try {
-				// Build verification URL
-				const verificationUrl = `/api/email/verify/${id}/${hash}`;
-				const url = new URL(verificationUrl, window.location.origin);
-				url.searchParams.set('expires', expires);
-				url.searchParams.set('signature', signature);
-
-				const response = await fetch(url.toString(), {
-					method: 'GET',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json'
-					}
-				});
-
-				const result = await response.json();
+				const { verifyEmailWithParams } = await import('$lib/api/auth.js');
+				const result = await verifyEmailWithParams(id, hash);
 				console.log('📧 Email verification result:', result);
 
 				if (result.success) {
@@ -93,8 +80,8 @@
 					errorMessage = 'Email успешно подтвержден!';
 
 					// Update auth state with verified user data
-					if (result.data?.user) {
-						console.log('📧 Updating auth state with verified user data:', result.data.user);
+					if (result.user) {
+						console.log('📧 Updating auth state with verified user data:', result.user);
 						// Force a refresh of auth state
 						window.location.reload();
 					}
