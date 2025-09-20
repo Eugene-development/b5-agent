@@ -66,7 +66,8 @@
 		const expires = urlParams.get('expires');
 		const signature = urlParams.get('signature');
 
-		if (id && hash) {
+		if (id && hash && !showSuccess) {
+			// Don't verify again if already successful
 			console.log('📧 Email verification parameters found in URL');
 
 			try {
@@ -79,11 +80,16 @@
 					showSuccess = true;
 					errorMessage = 'Email успешно подтвержден!';
 
+					// Clear verification parameters from URL to prevent re-verification
+					const url = new URL(window.location);
+					url.searchParams.delete('id');
+					url.searchParams.delete('hash');
+					window.history.replaceState({}, '', url);
+
 					// Update auth state with verified user data
 					if (result.user) {
 						console.log('📧 Updating auth state with verified user data:', result.user);
-						// Force a refresh of auth state
-						window.location.reload();
+						// Update auth state without page reload - just set a flag for success
 					}
 
 					// Redirect to dashboard after success
