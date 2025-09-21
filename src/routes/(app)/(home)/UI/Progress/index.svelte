@@ -3,7 +3,7 @@
 	class="relative isolate overflow-hidden bg-gray-900 px-6 py-24 shadow-2xl sm:rounded-3xl sm:px-24"
 >
 	<div class="mx-auto mb-12 max-w-3xl text-center">
-		<h2 class="text-base font-semibold leading-7 text-red-600">Это важно</h2>
+		<!-- <h2 class="text-base font-semibold leading-7 text-red-600">Это важно</h2> -->
 		<p
 			class="mt-2 text-balance text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
 		>

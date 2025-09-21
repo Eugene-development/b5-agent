@@ -18,7 +18,7 @@
 	<div class="relative mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Header section -->
 		<div class="mx-auto max-w-3xl text-center">
-			<h2 class="text-base font-semibold leading-7 text-red-600">Вы это наша команда</h2>
+			<!-- <h2 class="text-base font-semibold leading-7 text-red-600">Вы это наша команда</h2> -->
 			<p
 				class="mt-2 text-balance text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
 			>
