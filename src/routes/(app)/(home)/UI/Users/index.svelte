@@ -49,7 +49,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Менеджеры</h3>
+				<h3 class="mb-4 text-xl font-semibold text-slate-900">Менеджеры компаний</h3>
 				<p class="leading-relaxed text-slate-600">
 					Вы являетесь менеджером по продажам мягкой или корпусной мебели в салоне
 				</p>
@@ -106,7 +106,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Дизайнеры</h3>
+				<h3 class="mb-4 text-xl font-semibold text-slate-900">Дизайнеры интерьеров</h3>
 				<p class="leading-relaxed text-slate-600">
 					Вы проектируете дизайн мебели или интерьеров и ищете, кто выполнит проект
 				</p>
@@ -134,7 +134,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Самозанятые</h3>
+				<h3 class="mb-4 text-xl font-semibold text-slate-900">Самозанятые и физ. лица</h3>
 				<p class="leading-relaxed text-slate-600">
 					Вы работаете на себя и предлагаете клиентуру для мебельных компаний
 				</p>
