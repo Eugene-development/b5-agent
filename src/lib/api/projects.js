@@ -19,7 +19,7 @@ const PROJECTS_QUERIES = {
 				data {
 					id
 					value
-					agent_id
+					user_id
 					agent {
 						id
 						name
@@ -55,7 +55,7 @@ const PROJECTS_QUERIES = {
 			projectsByAgent(user_id: $user_id) {
 				id
 				value
-				agent_id
+				user_id
 				agent {
 					id
 					name
@@ -83,7 +83,7 @@ const PROJECTS_QUERIES = {
 			project(id: $id) {
 				id
 				value
-				agent_id
+				user_id
 				agent {
 					id
 					name
@@ -112,7 +112,7 @@ const PROJECTS_QUERIES = {
 				data {
 					id
 					value
-					agent_id
+					user_id
 					agent {
 						id
 						name

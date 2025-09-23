@@ -99,25 +99,12 @@ function createProjectsFallbackData() {
 
 /**
  * Validate projects data structure
- * @param {any} projectsResult - Projects result from API
+ * @param {any} projectsData - Projects data from API
  * @returns {boolean} Whether data is valid
  */
-function validateProjectsData(projectsResult) {
-	if (!projectsResult || typeof projectsResult !== 'object') {
-		return false;
-	}
-
-	if (!Array.isArray(projectsResult.data)) {
-		return false;
-	}
-
-	// Validate pagination info structure
-	const paginatorInfo = projectsResult.paginatorInfo;
-	if (paginatorInfo && typeof paginatorInfo !== 'object') {
-		return false;
-	}
-
-	return true;
+function validateProjectsData(projectsData) {
+	// getByAgent returns array directly
+	return Array.isArray(projectsData);
 }
 
 /**
@@ -184,6 +171,14 @@ export async function load({ fetch, parent, url }) {
 			});
 		}
 
+		// Get user ID for filtering projects
+		const userId = user?.id;
+		if (!userId) {
+			throw error(400, {
+				message: 'Не удалось получить идентификатор пользователя'
+			});
+		}
+
 		// Create projects API client with fetch function
 		const projectsApi = createProjectsApi(fetch);
 
@@ -191,6 +186,7 @@ export async function load({ fetch, parent, url }) {
 		console.log('🔧 Projects API Configuration:', {
 			timestamp: new Date().toISOString(),
 			user: user?.name || user?.email || 'Unknown',
+			userId: userId,
 			userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Server'
 		});
 
@@ -214,28 +210,25 @@ export async function load({ fetch, parent, url }) {
 				setTimeout(() => reject(new Error('Request timeout')), 30000); // 30 seconds
 			});
 
-			// Load projects data with timeout
-			const projectsResult = await Promise.race([
-				projectsApi.getAll({ first: 100, page: 1 }),
-				timeoutPromise
-			]);
+			// Load projects data for current user with timeout
+			const projectsData = await Promise.race([projectsApi.getByAgent(userId), timeoutPromise]);
 
-			// Validate data structure
-			if (!validateProjectsData(projectsResult)) {
+			// Validate data structure - getByAgent returns array directly
+			if (!Array.isArray(projectsData)) {
 				throw new Error('Invalid data format received from API');
 			}
 
-			const projects = projectsResult.data || [];
+			const projects = projectsData;
 
 			// Calculate statistics with error handling
 			const stats = calculateProjectStats(projects);
 
-			// Ensure pagination info is valid
-			const pagination = projectsResult.paginatorInfo || {
+			// Create pagination info for user's projects
+			const pagination = {
 				currentPage: 1,
 				lastPage: 1,
 				total: projects.length,
-				perPage: 100,
+				perPage: projects.length,
 				hasMorePages: false
 			};
 
@@ -260,7 +253,8 @@ export async function load({ fetch, parent, url }) {
 			if (apiError.message?.includes('CORS') || apiError.message?.includes('Access-Control')) {
 				console.error('🚨 CORS Issue Detected:', {
 					error: apiError.message,
-					solution: 'Server needs to set Access-Control-Allow-Origin to specific origin instead of *',
+					solution:
+						'Server needs to set Access-Control-Allow-Origin to specific origin instead of *',
 					temporaryFix: 'credentials temporarily set to omit',
 					timestamp: new Date().toISOString()
 				});
