@@ -101,7 +101,7 @@
 	</div>
 
 	<div
-		class="divide-y divide-gray-200 overflow-hidden rounded-2xl bg-gray-50 p-24 shadow-sm *:p-8 sm:grid sm:grid-cols-2 sm:divide-y-0"
+		class="divide-y divide-gray-200 overflow-hidden rounded-2xl bg-gray-50 px-6 py-12 shadow-sm *:p-8 sm:grid sm:grid-cols-2 sm:divide-y-0 sm:px-24 sm:py-24"
 	>
 		{#each advantages as advantage, index (advantage.id)}
 			<div
