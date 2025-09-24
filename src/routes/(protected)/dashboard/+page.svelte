@@ -113,7 +113,7 @@
 			</p> -->
 		</div>
 
-		<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+		<div class=" grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
 			<!-- Client Data Form Section -->
 			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
 				<div class="text-center">
