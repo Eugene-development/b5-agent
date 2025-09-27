@@ -1,38 +1,68 @@
-# sv
+# B5 Agent
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Агентское приложение для проекта Bonus5, построенное на SvelteKit.
 
-## Creating a project
+## Настройка окружения
 
-If you're seeing this, you've probably already done this step. Congrats!
+Проект использует переменные окружения для конфигурации. Создайте файлы окружения:
 
 ```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+# Скопируйте example файлы
+cp .env.development.example .env.development
+cp .env.production.example .env.production
 ```
 
-## Developing
+При необходимости отредактируйте переменные в файлах под ваше окружение.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Переменные окружения
+
+- `VITE_API_BASE_URL` - URL GraphQL API сервера [[memory:7942004]]
+- `VITE_AUTH_API_URL` - URL сервера аутентификации [[memory:7942004]]
+- `VITE_FRONTEND_URL` - URL frontend приложения агента
+
+## Разработка
+
+Установите зависимости и запустите dev сервер:
 
 ```sh
+npm install
 npm run dev
 
-# or start the server and open the app in a new browser tab
+# или откройте в браузере автоматически
 npm run dev -- --open
+
+# для тестирования с production конфигурацией
+npm run dev:prod
 ```
 
-## Building
+## Сборка
 
-To create a production version of your app:
+Для создания production версии:
 
 ```sh
-npm run build
+npm run build        # production сборка
+npm run build:dev    # development сборка для тестирования
 ```
 
-You can preview the production build with `npm run preview`.
+Предварительный просмотр production сборки:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```sh
+npm run preview
+```
+
+## Структура проекта
+
+- `/src/lib/config/api.js` - конфигурация API endpoints
+- `/src/routes/` - страницы и маршруты приложения
+- `/src/lib/components/` - переиспользуемые компоненты
+- `/src/lib/auth/` - система аутентификации
+- `/static/` - статические файлы
+
+## Особенности агентского приложения
+
+Это frontend для агентов системы Bonus5. Включает в себя:
+
+- Систему аутентификации через b5-auth-2
+- Интеграцию с GraphQL API через b5-api2
+- Управление проектами агента
+- Личный кабинет и финансы

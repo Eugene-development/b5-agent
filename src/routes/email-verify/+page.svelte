@@ -186,7 +186,7 @@
 				<div class="min-w-0 flex-1">
 					<h4 class="text-sm font-medium leading-tight text-white">Письмо отправлено</h4>
 					<p class="mt-1 text-sm leading-relaxed text-gray-300">
-						Новое письмо с подтверждением отправлено на вашу почту
+						Вы успешно подтвердили вашу почту
 					</p>
 				</div>
 			</div>
