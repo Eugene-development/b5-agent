@@ -20,7 +20,8 @@
 		Начать в Telegram 
 	</a>
 </div> -->
-<Progress />
 <Users />
+<Progress />
+
 <Questions />
 <CTA />

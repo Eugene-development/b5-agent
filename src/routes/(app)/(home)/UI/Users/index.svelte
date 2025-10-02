@@ -26,12 +26,12 @@
 			</p>
 			<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-slate-600">
 				Мы предлагаем удобную систему бонусов и поощрений для разных категорий специалистов,
-				желающих иметь дополнительный заработок.
+				желающих иметь дополнительный заработок без лишних усилий.
 			</p>
 		</div>
 
 		<!-- Cards grid -->
-		<div class="mx-auto mt-20 grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
+		<div class="mx-auto mt-20 grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
 			<!-- Managers card -->
 			<div
 				class="group relative rounded-2xl border border-slate-200/60 bg-white/70 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/50"
@@ -51,7 +51,8 @@
 				</div>
 				<h3 class="mb-4 text-xl font-semibold text-slate-900">Менеджеры компаний</h3>
 				<p class="leading-relaxed text-slate-600">
-					Вы являетесь менеджером по продажам мягкой или корпусной мебели в салоне
+					Вы являетесь менеджером по продажам мебели и ваш клиент ищет что-то другое. Не теряйте
+					клиента! Передайте его нам и заработаете до 5% со сделки.
 				</p>
 			</div>
 
@@ -80,7 +81,8 @@
 				</div>
 				<h3 class="mb-4 text-xl font-semibold text-slate-900">Ремонтные бригады</h3>
 				<p class="leading-relaxed text-slate-600">
-					Вы занимаетесь строительством и ремонтом коммерческих и жилых помещений
+					Вы занимаетесь строительством и ремонтом коммерческих или жилых помещений и ваши клиенты
+					планируют приобрести мебель. Мы ждём от вас информацию о клиенте.
 				</p>
 			</div>
 
@@ -108,7 +110,8 @@
 				</div>
 				<h3 class="mb-4 text-xl font-semibold text-slate-900">Дизайнеры интерьеров</h3>
 				<p class="leading-relaxed text-slate-600">
-					Вы проектируете дизайн мебели или интерьеров и ищете, кто выполнит проект
+					Вы проектируете дизайн мебели или интерьеров и ищете, кто выполнит проект по производству
+					мебели. Сэкономьте своё время и передайте проект нам.
 				</p>
 			</div>
 
@@ -134,9 +137,10 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Самозанятые и физ. лица</h3>
+				<h3 class="mb-4 text-xl font-semibold text-slate-900">Мебель для себя</h3>
 				<p class="leading-relaxed text-slate-600">
-					Вы работаете на себя и предлагаете клиентуру для мебельных компаний
+					Вы узнали о нас и хотите купить мебель для себя? Тогда вы получите кэшбек до 5%.
+					Зарегистрируйтесь и отправьте форму со своими данными.
 				</p>
 			</div>
 		</div>

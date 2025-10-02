@@ -38,7 +38,7 @@
 			id: 4,
 			title: 'Высокий доход',
 			description:
-				'Конкурентные комиссионные выплаты от 2% до 10% с каждой успешной сделки. Чем больше клиентов - тем выше ваш доход.',
+				'Конкурентные комиссионные выплаты до 5% без усилий с каждой успешной сделки. Чем больше клиентов - тем выше ваш доход.',
 			icon: 'banknotes',
 			iconBg: 'bg-yellow-50',
 			iconColor: 'text-yellow-700',
@@ -84,24 +84,22 @@
 </script>
 
 <!-- Header section -->
-<div
-	class="relative isolate overflow-hidden bg-gray-900 px-6 py-24 shadow-2xl sm:rounded-3xl sm:px-24"
->
+<div class="relative isolate overflow-hidden bg-gray-50 px-6 py-24 shadow-2xl sm:px-24">
 	<div class="mx-auto mb-12 max-w-3xl text-center">
 		<!-- <h2 class="text-base font-semibold leading-7 text-red-600">Это важно</h2> -->
 		<p
-			class="mt-2 text-balance text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
+			class="mt-2 text-balance text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
 		>
 			Преимущества
 		</p>
-		<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-slate-100">
+		<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-slate-800">
 			Мы предлагаем удобную систему бонусов и поощрений для разных категорий специалистов, желающих
 			иметь дополнительный заработок.
 		</p>
 	</div>
 
 	<div
-		class="divide-y divide-gray-200 overflow-hidden rounded-2xl bg-gray-50 px-6 py-12 shadow-sm *:p-8 sm:grid sm:grid-cols-2 sm:divide-y-0 sm:px-24 sm:py-24"
+		class="opacity-20px-6 divide-y divide-gray-200 overflow-hidden rounded-2xl bg-gradient-to-l from-[#80caff] to-[#4f46e5] py-12 shadow-sm shadow-xl *:p-8 sm:grid sm:grid-cols-2 sm:divide-y-0 sm:px-24 sm:py-24"
 	>
 		{#each advantages as advantage, index (advantage.id)}
 			<div
