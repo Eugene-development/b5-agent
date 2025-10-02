@@ -1,5 +1,5 @@
 <script>
-	let openIndex = null;
+	let openIndex = $state(null);
 
 	function toggleQuestion(index) {
 		openIndex = openIndex === index ? null : index;
@@ -9,12 +9,12 @@
 		{
 			question: 'Как это работает?',
 			answer:
-				'Зачастую у вас может быть клиент, который по объективным причинам не может приобрести необходимый товар или услугу у вас. В такой ситуации вы можете с его согласия передать контакты нашим партнёрам через специальную анонимную форму. Мы гарантируем конфиденциальность и защиту ваших данных. За успешную сделку вы получаете вознаграждение — до 5% от её стоимости.'
+				'Зачастую у вас может быть клиент, который по объективным причинам не может приобрести необходимый товар или услугу у вас. В такой ситуации вы можете с его согласия передать контакты нашим партнёрам через специальную анонимную форму. Мы гарантируем конфиденциальность и защиту ваших данных. За успешную сделку вы получаете вознаграждение до 5%.'
 		},
 		{
 			question: 'А вдруг меня уволят?',
 			answer:
-				'Мы предполагаем, что передача вами данных клиента осуществляется без возникновения конфликта интересов с вашей компанией. При этом мы строго соблюдаем требования Федерального закона №152-ФЗ и не передаём ваши контактные данные и информацию о сделках третьим лицам. Сама регистрация в нашем сервисе является конфиденциальной, поэтому наши партнёры не имеют доступа к информации о вас.'
+				'Мы предполагаем, что не будет конфликта интересов с компанией, где вы работаете. При этом мы строго соблюдаем требования Федерального закона №152-ФЗ и не передаём ваши контактные данные и информацию о сделках третьим лицам. Сама регистрация в нашем сервисе является конфиденциальной, поэтому наши партнёры не имеют доступа к информации о вас.'
 		},
 		{
 			question: 'Как я получу бонусы?',
@@ -39,7 +39,7 @@
 	];
 </script>
 
-<div class="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+<div class="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50">
 	<!-- Background Pattern -->
 	<div class="absolute inset-0 opacity-50">
 		<div
@@ -51,8 +51,8 @@
 	<div class="relative mx-auto max-w-4xl px-6 py-20 sm:py-28 lg:px-8">
 		<!-- Header Section -->
 		<div class="mb-16 text-center">
-			<div class="mb-6 inline-flex items-center justify-center rounded-full bg-blue-100 p-2">
-				<svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<div class="mb-6 inline-flex items-center justify-center rounded-full bg-red-100 p-2">
+				<svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -62,7 +62,7 @@
 				</svg>
 			</div>
 			<h1
-				class="mb-4 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl"
+				class="mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl"
 			>
 				Часто задаваемые вопросы
 			</h1>
@@ -75,15 +75,15 @@
 		<div class="space-y-4">
 			{#each questions as { question, answer }, index}
 				<div
-					class="group rounded-2xl border border-gray-200/50 bg-white/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-blue-200 hover:shadow-md"
+					class="group rounded-2xl border border-gray-200/50 bg-white/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-red-200 hover:shadow-md"
 				>
 					<button
-						class="w-full rounded-2xl px-6 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-						on:click={() => toggleQuestion(index)}
+						class="w-full rounded-2xl px-6 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+						onclick={() => toggleQuestion(index)}
 					>
 						<div class="flex items-center justify-between">
 							<h3
-								class="text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-blue-700"
+								class="text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-red-700"
 							>
 								{question}
 							</h3>
@@ -124,13 +124,11 @@
 
 		<!-- Call to Action -->
 		<div class="mt-16 text-center">
-			<div
-				class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-8"
-			>
+			<div class="rounded-2xl border border-red-100 p-8">
 				<h3 class="mb-2 text-xl font-semibold text-gray-900">Не нашли ответ на свой вопрос?</h3>
 				<p class="mb-6 text-gray-600">Наша команда поддержки готова помочь вам в любое время</p>
 				<button
-					class="inline-flex items-center rounded-xl bg-blue-600 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 hover:shadow-md"
+					class="inline-flex items-center rounded-xl bg-red-700 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:cursor-pointer hover:bg-red-800 hover:shadow-md"
 				>
 					<svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path

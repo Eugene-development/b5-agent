@@ -10,42 +10,42 @@
 		 * @type {string} error - Error message to display
 		 */
 		error = '',
-		
+
 		/**
 		 * @type {string} errorType - Type of error (network, api, auth, timeout, validation, unknown)
 		 */
 		errorType = 'unknown',
-		
+
 		/**
 		 * @type {boolean} canRetry - Whether retry is possible
 		 */
 		canRetry = false,
-		
+
 		/**
 		 * @type {Function} onRetry - Callback function for retry action
 		 */
 		onRetry = null,
-		
+
 		/**
 		 * @type {string} title - Optional error title
 		 */
 		title = '',
-		
+
 		/**
 		 * @type {string} className - Additional CSS classes
 		 */
 		className = '',
-		
+
 		/**
 		 * @type {boolean} showIcon - Whether to show error icon
 		 */
 		showIcon = true,
-		
+
 		/**
 		 * @type {boolean} dismissible - Whether error can be dismissed
 		 */
 		dismissible = false,
-		
+
 		/**
 		 * @type {Function} onDismiss - Callback function for dismiss action
 		 */
@@ -59,7 +59,7 @@
 	// Computed values
 	let errorTitle = $derived(() => {
 		if (title) return title;
-		
+
 		switch (errorType) {
 			case 'network':
 				return 'Проблема с подключением';
@@ -102,7 +102,7 @@
 	// Handle retry action
 	async function handleRetry() {
 		if (!onRetry || isRetrying) return;
-		
+
 		isRetrying = true;
 		try {
 			await onRetry();
@@ -130,7 +130,7 @@
 					{errorIcon()}
 				</div>
 			{/if}
-			
+
 			<div class="error-text">
 				<div class="error-title">
 					{errorTitle()}
@@ -345,7 +345,7 @@
 		.button-spinner {
 			animation: none;
 		}
-		
+
 		.error-button {
 			transition: none;
 		}
