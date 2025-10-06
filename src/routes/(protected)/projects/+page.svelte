@@ -31,7 +31,7 @@
 			if (normalizedSearchTerm) {
 				const matchesSearch =
 					project.value?.toLowerCase().includes(normalizedSearchTerm) ||
-					project.city?.toLowerCase().includes(normalizedSearchTerm) ||
+					project.region?.toLowerCase().includes(normalizedSearchTerm) ||
 					project.description?.toLowerCase().includes(normalizedSearchTerm) ||
 					project.agent?.name?.toLowerCase().includes(normalizedSearchTerm);
 				if (!matchesSearch) return false;
@@ -400,11 +400,11 @@
 									</th>
 									<th
 										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
-										onclick={() => handleSort('city')}
+										onclick={() => handleSort('region')}
 									>
 										<div class="flex items-center space-x-1">
-											<span>Город</span>
-											{#if sortBy === 'city'}
+											<span>Регион</span>
+											{#if sortBy === 'region'}
 												<svg
 													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
 													fill="none"
@@ -517,7 +517,7 @@
 											{/if}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
-											{project.city || 'Не указано'}
+											{project.region || 'Не указано'}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4 text-sm text-white md:table-cell">
 											{formatCurrency(project.contract_amount)}

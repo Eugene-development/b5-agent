@@ -25,7 +25,7 @@ const PROJECTS_QUERIES = {
 						name
 						email
 					}
-					city
+					region
 					description
 					is_active
 					contract_name
@@ -118,7 +118,7 @@ const PROJECTS_QUERIES = {
 						name
 						email
 					}
-					city
+					region
 					description
 					is_active
 					contract_name
@@ -330,7 +330,7 @@ export class ProjectsApi {
 	}
 
 	/**
-	 * Search projects by name or city
+	 * Search projects by name or region
 	 * @param {string} searchTerm - Search term
 	 * @param {Object} options - Query options
 	 * @param {number} [options.first=50] - Number of items per page
@@ -346,7 +346,7 @@ export class ProjectsApi {
 			const filteredData = result.data.filter(
 				(project) =>
 					project.value?.toLowerCase().includes(term) ||
-					project.city?.toLowerCase().includes(term) ||
+					project.region?.toLowerCase().includes(term) ||
 					project.description?.toLowerCase().includes(term)
 			);
 

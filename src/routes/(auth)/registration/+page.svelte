@@ -5,7 +5,7 @@
 	// Form state using Svelte 5 runes
 	let formData = $state({
 		firstName: '',
-		city: '',
+		region: '',
 		email: '',
 		phone: '',
 		password: '',
@@ -16,7 +16,7 @@
 	// Form errors state
 	let errors = $state({
 		firstName: '',
-		city: '',
+		region: '',
 		email: '',
 		phone: '',
 		password: '',
@@ -49,7 +49,7 @@
 		// Reset errors
 		errors = {
 			firstName: '',
-			city: '',
+			region: '',
 			email: '',
 			phone: '',
 			password: '',
@@ -64,8 +64,8 @@
 			return false;
 		}
 
-		if (!formData.city) {
-			errors.city = 'Город обязателен';
+		if (!formData.region) {
+			errors.region = 'Регион обязателен';
 			return false;
 		}
 
@@ -120,6 +120,7 @@
 				formData.email,
 				formData.password,
 				formData.passwordConfirm,
+				formData.region,
 				formData.phone
 			);
 
@@ -218,21 +219,21 @@
 						</div>
 					</div>
 					<div>
-						<label for="city" class="block text-sm/6 font-semibold text-white">Город</label>
+						<label for="region" class="block text-sm/6 font-semibold text-white">Регион</label>
 						<div class="mt-2.5">
 							<input
 								type="text"
-								name="city"
-								id="city"
+								name="region"
+								id="region"
 								autocomplete="address-level2"
-								bind:value={formData.city}
+								bind:value={formData.region}
 								disabled={isLoading}
-								class="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:opacity-50 {errors.city
+								class="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:opacity-50 {errors.region
 									? 'outline-red-500'
 									: ''}"
 							/>
-							{#if errors.city}
-								<p class="mt-1 text-sm text-red-400">{errors.city}</p>
+							{#if errors.region}
+								<p class="mt-1 text-sm text-red-400">{errors.region}</p>
 							{/if}
 						</div>
 					</div>

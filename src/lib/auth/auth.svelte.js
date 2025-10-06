@@ -227,6 +227,7 @@ export async function login(email, password, options = {}) {
  * @param {string} email - User email
  * @param {string} password - User password
  * @param {string} passwordConfirmation - Password confirmation
+ * @param {string} region - User region (optional)
  * @param {string} phone - User phone (optional)
  * @param {Object} options - Registration options
  * @param {string} options.redirectTo - Path to redirect after successful registration
@@ -238,6 +239,7 @@ export async function register(
 	email,
 	password,
 	passwordConfirmation,
+	region = '',
 	phone = '',
 	options = {}
 ) {
@@ -251,6 +253,7 @@ export async function register(
 		const data = await authHttpClient.post('/api/register', {
 			name,
 			email,
+			region,
 			phone,
 			password,
 			password_confirmation: passwordConfirmation

@@ -294,11 +294,11 @@
 						</div>
 
 						<div>
-							<label for="user-city" class="mb-2 block text-sm font-medium text-gray-400">
-								Город
+							<label for="user-region" class="mb-2 block text-sm font-medium text-gray-400">
+								Регион
 							</label>
-							<div id="user-city" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
-								{user.city || 'Не указано'}
+							<div id="user-region" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
+								{user.region || 'Не указано'}
 							</div>
 						</div>
 
