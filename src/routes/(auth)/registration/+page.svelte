@@ -31,11 +31,19 @@
 	// Loading state
 	let isLoading = $state(false);
 
-	// Redirect if already authenticated
+	// Redirect if already authenticated and email is verified
 	$effect(() => {
 		if (authState.isAuthenticated) {
-			console.log('👤 User already authenticated, redirecting to dashboard');
-			goto('/dashboard');
+			// Check if email is verified
+			if (!authState.user?.email_verified_at) {
+				// Email not verified - redirect to email verification page
+				console.log('📧 User authenticated but email not verified, redirecting to email-verify');
+				goto('/email-verify');
+			} else {
+				// Email verified - redirect to dashboard
+				console.log('👤 User already authenticated, redirecting to dashboard');
+				goto('/dashboard');
+			}
 		}
 	});
 
@@ -133,10 +141,8 @@
 					showSuccess = false;
 				}, 3000);
 
-				// Redirect to email verification page
-				setTimeout(() => {
-					goto('/email-verify?from_registration=true');
-				}, 1500);
+				// Redirect to email verification page immediately
+				goto('/email-verify?from_registration=true');
 			} else {
 				console.log('❌ Registration failed');
 				errors.general =

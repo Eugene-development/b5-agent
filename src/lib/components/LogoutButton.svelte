@@ -28,7 +28,7 @@
 
 		// Variant styles
 		const variantClasses = {
-			default: 'bg-red-500 text-white hover:bg-red-600',
+			default: 'cursor-pointer bg-red-500 text-white hover:bg-red-600',
 			outline: 'border border-red-500 text-red-500 hover:bg-red-500 hover:text-white',
 			ghost: 'text-red-500 hover:bg-red-500/10'
 		};

@@ -74,20 +74,28 @@
 					user: authState.user
 				});
 
-				// Increased delay for state synchronization
-				await new Promise((resolve) => setTimeout(resolve, 300));
+				// Check if email is verified
+				if (authState.user && !authState.user.email_verified_at) {
+					// Email not verified - redirect to email verification page
+					console.log('📧 Email not verified, redirecting to email-verify');
+					goto('/email-verify');
+				} else {
+					// Email verified - proceed to intended destination
+					// Increased delay for state synchronization
+					await new Promise((resolve) => setTimeout(resolve, 300));
 
-				console.log('🔄 Final auth state before redirect:', {
-					isAuthenticated: authState.isAuthenticated,
-					redirectTo: redirectTo
-				});
+					console.log('🔄 Final auth state before redirect:', {
+						isAuthenticated: authState.isAuthenticated,
+						redirectTo: redirectTo
+					});
 
-				// Manually redirect after successful login
-				console.log('✅ Login completed, initiating redirect');
+					// Manually redirect after successful login
+					console.log('✅ Login completed, initiating redirect');
 
-				// Use replace instead of push to avoid adding to history
-				console.log('🎯 Redirecting to:', redirectTo);
-				goto(redirectTo, { replaceState: true });
+					// Use replace instead of push to avoid adding to history
+					console.log('🎯 Redirecting to:', redirectTo);
+					goto(redirectTo, { replaceState: true });
+				}
 			} else {
 				console.log('❌ Login failed:', authState.errors);
 				errors.general =
