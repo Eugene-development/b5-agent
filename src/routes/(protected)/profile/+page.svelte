@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
+	import { formatPhone } from '$lib/utils/formatters.js';
 	import {
 		authState,
 		getCurrentUserData,
@@ -347,7 +348,7 @@
 								Телефон или Telegram
 							</label>
 							<div id="user-id" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
-								{user.phone || 'Не указано'}
+								{formatPhone(user.phone)}
 							</div>
 						</div>
 					</div>
