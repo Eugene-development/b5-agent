@@ -61,7 +61,7 @@ const PROJECTS_QUERIES = {
 					name
 					email
 				}
-				city
+				region
 				description
 				is_active
 				contract_name
@@ -89,7 +89,7 @@ const PROJECTS_QUERIES = {
 					name
 					email
 				}
-				city
+				region
 				description
 				is_active
 				contract_name
