@@ -40,17 +40,34 @@
 	<title>Dashboard - B5 Agent</title>
 </svelte:head>
 
-<div class="relative isolate min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-12 sm:py-24">
+<div
+	class="relative isolate min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-12 sm:py-24"
+>
 	<!-- Animated background elements -->
-	<div class="absolute inset-0 overflow-hidden">
-		<div class="absolute -left-4 top-0 h-72 w-72 animate-pulse rounded-full bg-indigo-500/10 blur-3xl"></div>
-		<div class="absolute -right-4 top-1/4 h-96 w-96 animate-pulse rounded-full bg-purple-500/10 blur-3xl" style="animation-delay: 2s;"></div>
-		<div class="absolute bottom-0 left-1/3 h-80 w-80 animate-pulse rounded-full bg-blue-500/10 blur-3xl" style="animation-delay: 4s;"></div>
-	</div>
+	<!-- <div class="absolute inset-0 overflow-hidden">
+		<div
+			class="absolute -left-4 top-0 h-72 w-72 animate-pulse rounded-full bg-indigo-500/10 blur-3xl"
+		></div>
+		<div
+			class="absolute -right-4 top-1/4 h-96 w-96 animate-pulse rounded-full bg-purple-500/10 blur-3xl"
+			style="animation-delay: 2s;"
+		></div>
+		<div
+			class="absolute bottom-0 left-1/3 h-80 w-80 animate-pulse rounded-full bg-blue-500/10 blur-3xl"
+			style="animation-delay: 4s;"
+		></div>
+	</div> -->
 
 	<!-- Success Message -->
 	{#if showSuccessMessage}
-		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -tra
+		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+			<div
+				class="rounded-lg border border-green-500/30 bg-green-500/20 p-4 shadow-lg backdrop-blur-sm"
+			>
+				<div class="flex items-start">
+					<svg
+						class="mr-3 mt-0.5 h-5 w-5 text-green-400"
+						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
 					>
