@@ -135,8 +135,7 @@
 							<h3 class="text-3xl font-semibold tracking-wide text-white">Открытая форма</h3>
 						</div>
 						<p class="font-medium text-orange-400 hover:text-orange-300">
-							Наш куратор свяжется с вами для уточнения вопросов через почту. Данные отправляются
-							через форму →
+							Данные отправляются через форму на сайте партнёра→
 						</p>
 					</a>
 				</div>
@@ -162,8 +161,7 @@
 							<h3 class="text-3xl font-semibold tracking-wide text-white">Секретная Форма</h3>
 						</div>
 						<p class="font-medium text-orange-400 hover:text-orange-300">
-							Наш куратор и поставщик не будут знать от кого заявка. Данные отправляются через
-							Telegram бота →
+							Данные отправляются через анонимный Telegram бот →
 						</p>
 					</a>
 				</div>
