@@ -122,11 +122,6 @@
 		}
 	});
 
-	// Handle logout error callback
-	async function handleLogoutError(error) {
-		authError = 'Произошла ошибка при выходе из системы';
-	}
-
 	// Copy key to clipboard
 	async function copyKey() {
 		const user = getUserDisplayData();
@@ -217,7 +212,7 @@
 		</div>
 	{/if}
 
-	<div class="mx-auto max-w-4xl px-6 lg:px-8">
+	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mx-auto mb-16 text-center">
 			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Профиль</h1>
@@ -412,7 +407,7 @@
 	</div>
 
 	<!-- Page footer content wrapped to container -->
-	<div class="mx-auto max-w-4xl px-6 lg:px-8">
+	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Navigation Actions -->
 		<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 			<!-- Dashboard Section -->
@@ -465,7 +460,7 @@
 				</a>
 			</div>
 
-			<!-- Finances Section -->
+			<!-- Statistics Section -->
 			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
 				<div class="mb-4 flex items-center">
 					<svg
@@ -478,20 +473,20 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+							d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
 						></path>
 					</svg>
-					<h3 class="text-xl font-semibold text-white">Финансы</h3>
+					<h3 class="text-xl font-semibold text-white">Статистика</h3>
 				</div>
-				<a href="/finances" class="font-medium text-green-400 hover:text-green-300">
-					Управлять →
+				<a href="/statistics" class="font-medium text-green-400 hover:text-green-300">
+					Просмотреть →
 				</a>
 			</div>
 		</div>
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
-			<LogoutButton onLogoutError={handleLogoutError} />
+			<LogoutButton />
 		</div>
 
 		<!-- Security Notice -->

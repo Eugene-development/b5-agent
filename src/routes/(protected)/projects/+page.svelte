@@ -8,7 +8,7 @@
 <script>
 	import DataState from '$lib/components/DataState.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 
 	// Get client-loaded data
 	let { data } = $props();
@@ -160,14 +160,69 @@
 		// Reload the page to retry data loading
 		goto('/projects', { replaceState: true });
 	}
+
+	// Refresh data from server
+	let isRefreshing = $state(false);
+	async function refreshData() {
+		isRefreshing = true;
+		try {
+			// Invalidate all data to trigger reload
+			await invalidate(() => true);
+		} catch (error) {
+			console.error('Failed to refresh data:', error);
+		} finally {
+			isRefreshing = false;
+		}
+	}
 </script>
 
 <div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<!-- Page Header -->
-		<div class="mb-8">
-			<h1 class="mb-2 text-3xl font-bold text-white">Проекты</h1>
-			<!-- <p class="text-gray-300">Управление проектами и просмотр их статистики</p> -->
+		<div class="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+			<div>
+				<h1 class="mb-2 text-3xl font-bold text-white">Проекты</h1>
+				<!-- <p class="text-gray-300">Управление проектами и просмотр их статистики</p> -->
+			</div>
+			<button
+				type="button"
+				onclick={refreshData}
+				disabled={isRefreshing}
+				class="inline-flex min-h-[44px] w-[180px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 disabled:cursor-not-allowed disabled:opacity-50"
+				aria-label="Обновить данные проектов с сервера"
+			>
+				<svg
+					class="mr-2 h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					{#if isRefreshing}
+						<circle
+							class="opacity-25"
+							cx="12"
+							cy="12"
+							r="10"
+							stroke="currentColor"
+							stroke-width="4"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
+					{:else}
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+						/>
+					{/if}
+				</svg>
+				{isRefreshing ? 'Обновляю...' : 'Обновить'}
+			</button>
 		</div>
 
 		<!-- Data State Management -->
@@ -649,13 +704,13 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+							d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
 						/>
 					</svg>
-					<h3 class="text-xl font-semibold text-white">Финансы</h3>
+					<h3 class="text-xl font-semibold text-white">Статистика</h3>
 				</div>
-				<a href="/finances" class="font-medium text-green-400 hover:text-green-300">
-					Управлять →
+				<a href="/statistics" class="font-medium text-green-400 hover:text-green-300">
+					Просмотреть →
 				</a>
 			</div>
 		</div>

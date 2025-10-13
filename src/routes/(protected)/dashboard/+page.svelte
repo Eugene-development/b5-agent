@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
-	import { authState, logout } from '$lib/auth/auth.svelte.js';
+	import { authState } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
+	import LogoutButton from '$lib/components/LogoutButton.svelte';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
@@ -104,7 +105,7 @@
 		</div>
 	{/if}
 
-	<div class="mx-auto max-w-4xl px-6 lg:px-8">
+	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mx-auto mb-16 text-center">
 			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Личный кабинет</h1>
@@ -216,7 +217,7 @@
 				</a>
 			</div>
 
-			<!-- Finances Section -->
+			<!-- Statistics Section -->
 			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
 				<div class="mb-4 flex items-center">
 					<svg
@@ -229,13 +230,13 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+							d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
 						></path>
 					</svg>
-					<h3 class="text-xl font-semibold text-white">Финансы</h3>
+					<h3 class="text-xl font-semibold text-white">Статистика</h3>
 				</div>
-				<a href="/finances" class="font-medium text-green-400 hover:text-green-300">
-					Управлять →
+				<a href="/statistics" class="font-medium text-green-400 hover:text-green-300">
+					Просмотреть →
 				</a>
 			</div>
 		</div>
@@ -266,14 +267,7 @@
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
-			<button
-				onclick={async () => {
-					await logout({ redirectTo: '/' });
-				}}
-				class="cursor-pointer rounded-xl border border-red-500/30 bg-red-500/15 px-5 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-red-500/50 hover:bg-red-500/25 hover:text-red-300 hover:shadow-md hover:shadow-red-500/30"
-			>
-				Выйти из аккаунта
-			</button>
+			<LogoutButton />
 		</div>
 
 		<!-- Security Notice -->
