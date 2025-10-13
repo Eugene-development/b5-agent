@@ -4,6 +4,7 @@
 	import { authState } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
+	import NavigationCards from '$lib/components/NavigationCards.svelte';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
@@ -169,78 +170,6 @@
 			</div>
 		</div>
 
-		<!-- Dashboard Actions -->
-		<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-			<!-- Profile Section -->
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-indigo-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-						></path>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Профиль</h3>
-				</div>
-				<a href="/profile" class="font-medium text-indigo-400 hover:text-indigo-300">
-					Просмотреть →
-				</a>
-			</div>
-
-			<!-- Projects Section -->
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-purple-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-						></path>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Проекты</h3>
-				</div>
-				<a href="/projects" class="font-medium text-purple-400 hover:text-purple-300">
-					Управлять →
-				</a>
-			</div>
-
-			<!-- Statistics Section -->
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-green-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-						></path>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Статистика</h3>
-				</div>
-				<a href="/statistics" class="font-medium text-green-400 hover:text-green-300">
-					Просмотреть →
-				</a>
-			</div>
-		</div>
-
 		<!-- Quick Stats -->
 		<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
 			<h2 class="mb-6 text-center text-2xl font-semibold tracking-wide text-white">
@@ -264,6 +193,9 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Dashboard Actions -->
+		<NavigationCards currentPage="dashboard" />
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">

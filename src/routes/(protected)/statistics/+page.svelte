@@ -1,5 +1,6 @@
 <script>
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
+	import NavigationCards from '$lib/components/NavigationCards.svelte';
 
 	// Mock data for statistics
 	const stats = {
@@ -300,79 +301,7 @@
 		</div>
 
 		<!-- Navigation Cards -->
-		<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-blue-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-						/>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
-						/>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Дашборд</h3>
-				</div>
-				<a href="/dashboard" class="font-medium text-blue-400 hover:text-blue-300">
-					Вернуться →
-				</a>
-			</div>
-
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-indigo-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-						/>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Профиль</h3>
-				</div>
-				<a href="/profile" class="font-medium text-indigo-400 hover:text-indigo-300">
-					Просмотреть →
-				</a>
-			</div>
-
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-purple-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-						/>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Проекты</h3>
-				</div>
-				<a href="/projects" class="font-medium text-purple-400 hover:text-purple-300">
-					Управлять →
-				</a>
-			</div>
-		</div>
+		<NavigationCards currentPage="statistics" />
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">

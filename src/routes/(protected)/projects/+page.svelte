@@ -8,6 +8,7 @@
 <script>
 	import DataState from '$lib/components/DataState.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
+	import NavigationCards from '$lib/components/NavigationCards.svelte';
 	import { goto, invalidate } from '$app/navigation';
 
 	// Get client-loaded data
@@ -641,79 +642,7 @@
 		</DataState>
 
 		<!-- Navigation Cards -->
-		<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-			<div class="rounded-lg bg-gray-800 p-6 shadow">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-blue-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-						/>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
-						/>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Дашборд</h3>
-				</div>
-				<a href="/dashboard" class="font-medium text-blue-400 hover:text-blue-300">
-					Вернуться →
-				</a>
-			</div>
-
-			<div class="rounded-lg bg-gray-800 p-6 shadow">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-indigo-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-						/>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Профиль</h3>
-				</div>
-				<a href="/profile" class="font-medium text-indigo-400 hover:text-indigo-300">
-					Просмотреть →
-				</a>
-			</div>
-
-			<div class="rounded-lg bg-gray-800 p-6 shadow">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-green-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-						/>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Статистика</h3>
-				</div>
-				<a href="/statistics" class="font-medium text-green-400 hover:text-green-300">
-					Просмотреть →
-				</a>
-			</div>
-		</div>
+		<NavigationCards currentPage="projects" />
 
 		<!-- Action Buttons -->
 		<div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">

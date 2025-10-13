@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
+	import NavigationCards from '$lib/components/NavigationCards.svelte';
 	import { formatPhone } from '$lib/utils/formatters.js';
 	import {
 		authState,
@@ -409,80 +410,7 @@
 	<!-- Page footer content wrapped to container -->
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Navigation Actions -->
-		<div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-			<!-- Dashboard Section -->
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-blue-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-						></path>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
-						></path>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Дашборд</h3>
-				</div>
-				<a href="/dashboard" class="font-medium text-blue-400 hover:text-blue-300"> Вернуться → </a>
-			</div>
-
-			<!-- Projects Section -->
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-purple-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-						></path>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Проекты</h3>
-				</div>
-				<a href="/projects" class="font-medium text-purple-400 hover:text-purple-300">
-					Управлять →
-				</a>
-			</div>
-
-			<!-- Statistics Section -->
-			<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
-				<div class="mb-4 flex items-center">
-					<svg
-						class="mr-3 h-8 w-8 text-green-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-						></path>
-					</svg>
-					<h3 class="text-xl font-semibold text-white">Статистика</h3>
-				</div>
-				<a href="/statistics" class="font-medium text-green-400 hover:text-green-300">
-					Просмотреть →
-				</a>
-			</div>
-		</div>
+		<NavigationCards currentPage="profile" />
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
