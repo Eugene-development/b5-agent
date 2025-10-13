@@ -229,7 +229,7 @@
 {/if}
 
 <!-- Main Content -->
-<div class="flex min-h-screen items-center justify-center bg-gray-900 px-6">
+<div class="flex min-h-screen items-center justify-center bg-gray-950 px-6">
 	<div class="w-full max-w-md">
 		<!-- Animated Email Icon -->
 		<div class="mb-8 text-center">

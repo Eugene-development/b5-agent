@@ -126,7 +126,7 @@
 		<div class="mt-16 text-center">
 			<div class="rounded-2xl border border-red-100 p-8">
 				<h3 class="mb-2 text-xl font-semibold text-gray-900">Не нашли ответ на свой вопрос?</h3>
-				<p class="mb-6 text-gray-600">Наша команда поддержки готова помочь вам в любое время</p>
+				<p class="mb-6 text-gray-600">Напишите нам и мы ответим вам в ближайшее время</p>
 				<button
 					class="inline-flex items-center rounded-xl bg-red-700 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:cursor-pointer hover:bg-red-800 hover:shadow-md"
 				>
@@ -138,7 +138,7 @@
 							d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
 						></path>
 					</svg>
-					Связаться с поддержкой
+					info@bonus5.ru
 				</button>
 			</div>
 		</div>

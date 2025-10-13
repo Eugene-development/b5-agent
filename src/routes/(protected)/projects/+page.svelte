@@ -162,7 +162,7 @@
 	}
 </script>
 
-<div class="projects-page min-h-screen bg-gray-900 py-2 sm:py-8">
+<div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mb-8">

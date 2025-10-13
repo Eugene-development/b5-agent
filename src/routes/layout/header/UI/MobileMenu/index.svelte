@@ -64,7 +64,7 @@
 			aria-label="Close mobile menu"
 		></div>
 		<div
-			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-4 py-4 sm:max-w-sm sm:px-6 sm:py-6 sm:ring-1 sm:ring-white/10"
+			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-950 px-4 py-4 sm:max-w-sm sm:px-6 sm:py-6 sm:ring-1 sm:ring-white/10"
 			onclick={handleMenuClick}
 			onkeydown={handleBackdropKeydown}
 			role="dialog"

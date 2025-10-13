@@ -22,9 +22,9 @@
 </svelte:head>
 
 <!-- Render children directly since auth is initialized from server -->
-<div class="min-h-screen bg-gray-900 text-white">
+<div class="min-h-screen bg-gray-950 text-white">
 	<!-- Header with navigation -->
-	<header class="bg-gray-900">
+	<header class="bg-gray-950">
 		<Menu />
 	</header>
 
@@ -34,7 +34,7 @@
 	</main>
 
 	<!-- Footer -->
-	<footer class="bg-gray-900 py-8">
+	<footer class="bg-gray-950 py-8">
 		<Footer />
 	</footer>
 </div>

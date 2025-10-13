@@ -31,7 +31,7 @@
 		</div>
 
 		<!-- Cards grid -->
-		<div class="mx-auto mt-20 grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
+		<div class="mx-auto mt-20 grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
 			<!-- Managers card -->
 			<div
 				class="group relative rounded-2xl border border-slate-200/60 bg-white/70 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/50"
@@ -51,8 +51,8 @@
 				</div>
 				<h3 class="mb-4 text-xl font-semibold text-slate-900">Менеджеры компаний</h3>
 				<p class="leading-relaxed text-slate-600">
-					Вы являетесь менеджером по продажам мебели и ваш клиент ищет что-то другое. Не теряйте
-					клиента! Передайте его нам и заработаете до 5% со сделки.
+					Вы являетесь менеджером по продаже товаров для дома, а ваш клиент планирует покупку
+					мебели. Не теряйте клиента! Передайте его нам и заработаете до 5% со сделки.
 				</p>
 			</div>
 
@@ -110,8 +110,8 @@
 				</div>
 				<h3 class="mb-4 text-xl font-semibold text-slate-900">Дизайнеры интерьеров</h3>
 				<p class="leading-relaxed text-slate-600">
-					Вы проектируете дизайн мебели или интерьеров и ищете, кто выполнит проект по производству
-					мебели. Сэкономьте своё время и передайте проект нам.
+					Вы проектируете дизайн мебели или интерьеров и ищете подрядчика, который выполнит работы
+					по производству мебели. Сэкономьте время и передайте вопрос нам.
 				</p>
 			</div>
 
@@ -140,7 +140,7 @@
 				<h3 class="mb-4 text-xl font-semibold text-slate-900">Мебель для себя</h3>
 				<p class="leading-relaxed text-slate-600">
 					Вы узнали о нас и хотите купить мебель для себя? Тогда вы получите кэшбек до 5%.
-					Зарегистрируйтесь и отправьте форму со своими данными.
+					Зарегистрируйтесь на платформе и отправьте форму со своими данными.
 				</p>
 			</div>
 		</div>
