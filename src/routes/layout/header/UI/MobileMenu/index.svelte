@@ -2,61 +2,34 @@
 	import { visibleMobileMenu, closeMobileMenu } from '$lib/state/visibleMobileMenu.svelte.js';
 	import { authState, logout } from '$lib/auth/auth.svelte.js';
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
 
-	// Handle backdrop click to close menu
 	function handleBackdropClick(event) {
 		if (event.target === event.currentTarget) {
 			closeMobileMenu();
 		}
 	}
 
-	// Handle backdrop keydown to close menu
 	function handleBackdropKeydown(event) {
 		if (event.key === 'Escape') {
 			closeMobileMenu();
 		}
 	}
 
-	// Handle menu content click to prevent closing
 	function handleMenuClick(event) {
 		event.stopPropagation();
 	}
 
-	// Optimized current path using derived state
 	let currentPath = $derived(page.url.pathname);
 
-	// Optimized function to get mobile link classes with active state
-	function getMobileLinkClasses(
-		href,
-		baseClasses = '-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800'
-	) {
-		const isActive = currentPath === href;
-		if (isActive) {
-			return baseClasses.replace('text-white', 'text-blue-400 bg-gray-800');
-		}
-		return baseClasses;
-	}
-
-	// Optimized function to get mobile protected link classes with active state
-	function getMobileProtectedLinkClasses(
-		href,
-		baseClasses = '-mx-3 mb-3 flex items-center rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-800'
-	) {
-		const isActive = currentPath === href;
-		if (isActive) {
-			return baseClasses.replace('text-white', 'text-blue-400 bg-gray-800');
-		}
-		return baseClasses;
+	function isActive(href) {
+		return currentPath === href;
 	}
 </script>
 
 {#if visibleMobileMenu.value}
-	<!-- Mobile menu, show/hide based on menu open state. -->
 	<div class="lg:hidden" role="dialog" aria-modal="true">
-		<!-- Background backdrop, show/hide based on slide-over state. -->
 		<div
-			class="fixed inset-0 z-10"
+			class="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm"
 			onclick={handleBackdropClick}
 			onkeydown={handleBackdropKeydown}
 			tabindex="0"
@@ -64,22 +37,18 @@
 			aria-label="Close mobile menu"
 		></div>
 		<div
-			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-950 px-4 py-4 sm:max-w-sm sm:px-6 sm:py-6 sm:ring-1 sm:ring-white/10"
+			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-linear-to-br/oklch from-slate-900/98 to-slate-800/98 px-4 py-4 backdrop-blur-xl sm:max-w-sm sm:px-6 sm:py-6 sm:ring-1 sm:ring-white/10"
 			onclick={handleMenuClick}
 			onkeydown={handleBackdropKeydown}
 			role="dialog"
 			aria-label="Mobile navigation menu"
 			tabindex="0"
 		>
-			<div class="flex items-center justify-between">
-				<!-- <a href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">Your Company</span>
-          <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="">
-        </a> -->
+			<div class="flex items-center justify-end">
 				<button
 					onclick={closeMobileMenu}
 					type="button"
-					class="-m-2.5 rounded-md p-2.5 text-gray-400"
+					class="rounded-lg border border-slate-400/10 bg-slate-700/30 p-2.5 text-gray-400/90 transition-all duration-300 active:scale-95 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-400"
 				>
 					<span class="sr-only">Close menu</span>
 					<svg
@@ -89,7 +58,6 @@
 						stroke-width="1.5"
 						stroke="currentColor"
 						aria-hidden="true"
-						data-slot="icon"
 					>
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 					</svg>
@@ -97,38 +65,62 @@
 			</div>
 			<div class="mt-6 flow-root">
 				<div class="-my-6 divide-y divide-gray-500/25">
-					<div class="space-y-2 py-6">
-						<!-- <a
-							href="/oferta"
-							class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800"
-							>Оферта</a
-						> -->
-						<a href="/" onclick={() => closeMobileMenu()} class={getMobileLinkClasses('/')}
-							>Главная</a
+					<div class="space-y-3 py-6">
+						<a
+							href="/"
+							onclick={() => closeMobileMenu()}
+							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+								'/'
+							)
+								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								: ''}"
 						>
+							Главная
+						</a>
 						<a
 							href="/about"
 							onclick={() => closeMobileMenu()}
-							class={getMobileLinkClasses('/about')}>О проекте</a
+							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+								'/about'
+							)
+								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								: ''}"
 						>
+							О проекте
+						</a>
 						<a
 							href="/payments"
 							onclick={() => closeMobileMenu()}
-							class={getMobileLinkClasses('/payments')}>Выплаты</a
+							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+								'/payments'
+							)
+								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								: ''}"
 						>
+							Выплаты
+						</a>
 						<a
 							href="/152fz"
 							onclick={() => closeMobileMenu()}
-							class={getMobileLinkClasses('/152fz')}>152 ФЗ</a
+							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+								'/152fz'
+							)
+								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								: ''}"
 						>
+							152 ФЗ
+						</a>
 					</div>
 					<div class="py-6">
 						{#if authState.isAuthenticated}
-							<!-- Dashboard Section -->
 							<a
 								href="/dashboard"
 								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses('/dashboard')}
+								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+									'/dashboard'
+								)
+									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									: ''}"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-blue-400"
@@ -152,11 +144,14 @@
 								Личный кабинет
 							</a>
 
-							<!-- Profile Section -->
 							<a
 								href="/profile"
 								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses('/profile')}
+								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+									'/profile'
+								)
+									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									: ''}"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-indigo-400"
@@ -174,11 +169,14 @@
 								Профиль
 							</a>
 
-							<!-- Projects Section -->
 							<a
 								href="/projects"
 								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses('/projects')}
+								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+									'/projects'
+								)
+									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									: ''}"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-purple-400"
@@ -196,11 +194,14 @@
 								Проекты
 							</a>
 
-							<!-- Finances Section -->
 							<a
 								href="/finances"
 								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses('/finances')}
+								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+									'/finances'
+								)
+									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									: ''}"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-green-400"
@@ -218,13 +219,12 @@
 								Финансы
 							</a>
 
-							<!-- Logout Button -->
 							<button
 								onclick={async () => {
 									await logout({ redirectTo: '/' });
 									closeMobileMenu();
 								}}
-								class="-mx-3 mt-4 flex w-full items-center rounded-lg px-3 py-2.5 text-left text-base/7 font-semibold text-white hover:bg-gray-800"
+								class="-mx-3 mt-4 flex w-full items-center rounded-xl border border-red-500/30 bg-red-500/15 px-4 py-3 text-left text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-red-500/50 active:bg-red-500/25 active:text-red-300"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-red-400"
@@ -245,7 +245,11 @@
 							<a
 								href="/login"
 								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses('/login')}
+								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+									'/login'
+								)
+									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									: ''}"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-blue-400"
@@ -265,10 +269,11 @@
 							<a
 								href="/registration"
 								onclick={closeMobileMenu}
-								class={getMobileProtectedLinkClasses(
-									'/registration',
-									'-mx-3 flex items-center rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-800'
-								)}
+								class="-mx-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+									'/registration'
+								)
+									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									: ''}"
 							>
 								<svg
 									class="mr-3 h-6 w-6 text-green-400"
