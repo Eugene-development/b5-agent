@@ -1,11 +1,5 @@
-<section
-	class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 py-20 sm:py-32"
->
+<section class="relative overflow-hidden bg-gray-950 py-20 sm:py-32">
 	<!-- Background decoration -->
-	<div
-		class="bg-grid-slate-900/[0.04] absolute inset-0 bg-[size:20px_20px]"
-		aria-hidden="true"
-	></div>
 	<div
 		class="absolute -top-52 left-20 -z-10 transform-gpu blur-3xl xl:left-1/2 xl:-ml-80"
 		aria-hidden="true"
@@ -18,13 +12,12 @@
 	<div class="relative mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Header section -->
 		<div class="mx-auto max-w-3xl text-center">
-			<!-- <h2 class="text-base font-semibold leading-7 text-red-600">Вы это наша команда</h2> -->
 			<p
-				class="mt-2 text-balance text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
+				class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
 			>
 				Для кого сервис
 			</p>
-			<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-slate-600">
+			<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-gray-300">
 				Мы предлагаем удобную систему бонусов и поощрений для разных категорий специалистов,
 				желающих иметь дополнительный заработок без лишних усилий.
 			</p>
@@ -34,13 +27,15 @@
 		<div class="mx-auto mt-20 grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
 			<!-- Managers card -->
 			<div
-				class="group relative rounded-2xl border border-slate-200/60 bg-white/70 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/50"
+				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-blue-500/20"
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 				></div>
-				<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100">
-					<svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div
+					class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20 ring-1 ring-blue-500/30"
+				>
+					<svg class="h-6 w-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -49,8 +44,8 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Менеджеры компаний</h3>
-				<p class="leading-relaxed text-slate-600">
+				<h3 class="mb-4 text-xl font-semibold text-white">Менеджеры компаний</h3>
+				<p class="leading-relaxed text-gray-300">
 					Вы являетесь менеджером по продаже товаров для дома, а ваш клиент планирует покупку
 					мебели. Не теряйте клиента! Передайте его нам и заработаете до 5% со сделки.
 				</p>
@@ -58,13 +53,15 @@
 
 			<!-- Repair teams card -->
 			<div
-				class="group relative rounded-2xl border border-slate-200/60 bg-white/70 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-green-100/50"
+				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-green-500/20"
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 				></div>
-				<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-green-100">
-					<svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div
+					class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/20 ring-1 ring-green-500/30"
+				>
+					<svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -79,8 +76,8 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Ремонтные бригады</h3>
-				<p class="leading-relaxed text-slate-600">
+				<h3 class="mb-4 text-xl font-semibold text-white">Ремонтные бригады</h3>
+				<p class="leading-relaxed text-gray-300">
 					Вы занимаетесь строительством и ремонтом коммерческих или жилых помещений и ваши клиенты
 					планируют приобрести мебель. Мы ждём от вас информацию о клиенте.
 				</p>
@@ -88,14 +85,16 @@
 
 			<!-- Designers card -->
 			<div
-				class="group relative rounded-2xl border border-slate-200/60 bg-white/70 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-100/50"
+				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-purple-500/20"
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 				></div>
-				<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100">
+				<div
+					class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/20 ring-1 ring-purple-500/30"
+				>
 					<svg
-						class="h-6 w-6 text-purple-600"
+						class="h-6 w-6 text-purple-400"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -108,8 +107,8 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Дизайнеры интерьеров</h3>
-				<p class="leading-relaxed text-slate-600">
+				<h3 class="mb-4 text-xl font-semibold text-white">Дизайнеры интерьеров</h3>
+				<p class="leading-relaxed text-gray-300">
 					Вы проектируете дизайн мебели или интерьеров и ищете подрядчика, который выполнит работы
 					по производству мебели. Сэкономьте время и передайте вопрос нам.
 				</p>
@@ -117,14 +116,16 @@
 
 			<!-- Freelancers card -->
 			<div
-				class="group relative rounded-2xl border border-slate-200/60 bg-white/70 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-100/50"
+				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-orange-500/20"
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 				></div>
-				<div class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100">
+				<div
+					class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/20 ring-1 ring-orange-500/30"
+				>
 					<svg
-						class="h-6 w-6 text-orange-600"
+						class="h-6 w-6 text-orange-400"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -137,8 +138,8 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="mb-4 text-xl font-semibold text-slate-900">Мебель для себя</h3>
-				<p class="leading-relaxed text-slate-600">
+				<h3 class="mb-4 text-xl font-semibold text-white">Мебель для себя</h3>
+				<p class="leading-relaxed text-gray-300">
 					Вы узнали о нас и хотите купить мебель для себя? Тогда вы получите кэшбек до 5%.
 					Зарегистрируйтесь на платформе и отправьте форму со своими данными.
 				</p>

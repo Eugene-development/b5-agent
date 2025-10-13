@@ -39,20 +39,24 @@
 	];
 </script>
 
-<div class="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50">
-	<!-- Background Pattern -->
-	<div class="absolute inset-0 opacity-50">
+<div class="relative min-h-screen bg-gray-950">
+	<!-- Background decoration -->
+	<div
+		class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 transform-gpu blur-3xl"
+		aria-hidden="true"
+	>
 		<div
-			class="absolute inset-0"
-			style="background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.15) 1px, transparent 0); background-size: 20px 20px;"
+			class="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
 		></div>
 	</div>
 
 	<div class="relative mx-auto max-w-4xl px-6 py-20 sm:py-28 lg:px-8">
 		<!-- Header Section -->
 		<div class="mb-16 text-center">
-			<div class="mb-6 inline-flex items-center justify-center rounded-full bg-red-100 p-2">
-				<svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<div
+				class="mb-6 inline-flex items-center justify-center rounded-full bg-indigo-500/20 p-2 ring-1 ring-indigo-500/30"
+			>
+				<svg class="h-6 w-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -61,12 +65,10 @@
 					></path>
 				</svg>
 			</div>
-			<h1
-				class="mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl"
-			>
+			<h1 class="mb-4 text-4xl font-bold text-white md:text-5xl">
 				Часто задаваемые вопросы
 			</h1>
-			<p class="mx-auto max-w-2xl text-lg text-gray-600">
+			<p class="mx-auto max-w-2xl text-lg text-gray-300">
 				Найдите ответы на самые популярные вопросы о нашем сервисе
 			</p>
 		</div>
@@ -75,23 +77,23 @@
 		<div class="space-y-4">
 			{#each questions as { question, answer }, index}
 				<div
-					class="group rounded-2xl border border-gray-200/50 bg-white/70 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-red-200 hover:shadow-md"
+					class="group rounded-2xl border border-slate-700/50 bg-white/5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/50 hover:bg-white/10 hover:shadow-xl"
 				>
 					<button
-						class="w-full rounded-2xl px-6 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+						class="w-full rounded-2xl px-6 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950"
 						onclick={() => toggleQuestion(index)}
 					>
 						<div class="flex items-center justify-between">
 							<h3
-								class="text-lg font-semibold text-gray-900 transition-colors duration-200 group-hover:text-red-700"
+								class="text-lg font-semibold text-white transition-colors duration-200 group-hover:text-indigo-300"
 							>
 								{question}
 							</h3>
 							<div class="ml-4 flex-shrink-0">
 								<svg
-									class="h-5 w-5 transform text-gray-500 transition-transform duration-200 {openIndex ===
+									class="h-5 w-5 transform text-gray-400 transition-transform duration-200 {openIndex ===
 									index
-										? 'rotate-180'
+										? 'rotate-180 text-indigo-400'
 										: ''}"
 									fill="none"
 									stroke="currentColor"
@@ -111,9 +113,9 @@
 					{#if openIndex === index}
 						<div class="animate-in slide-in-from-top-2 px-6 pb-6 duration-200">
 							<div
-								class="mb-4 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"
+								class="mb-4 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent"
 							></div>
-							<p class="leading-relaxed text-gray-600">
+							<p class="leading-relaxed text-gray-300">
 								{answer}
 							</p>
 						</div>
@@ -124,11 +126,11 @@
 
 		<!-- Call to Action -->
 		<div class="mt-16 text-center">
-			<div class="rounded-2xl border border-red-100 p-8">
-				<h3 class="mb-2 text-xl font-semibold text-gray-900">Не нашли ответ на свой вопрос?</h3>
-				<p class="mb-6 text-gray-600">Напишите нам и мы ответим вам в ближайшее время</p>
+			<div class="rounded-2xl border border-slate-700/50 bg-white/5 p-8 backdrop-blur-sm">
+				<h3 class="mb-2 text-xl font-semibold text-white">Не нашли ответ на свой вопрос?</h3>
+				<p class="mb-6 text-gray-300">Напишите нам и мы ответим вам в ближайшее время</p>
 				<button
-					class="inline-flex items-center rounded-xl bg-red-700 px-6 py-3 font-medium text-white shadow-sm transition-colors duration-200 hover:cursor-pointer hover:bg-red-800 hover:shadow-md"
+					class="inline-flex items-center rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-3 font-medium text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:cursor-pointer hover:from-indigo-700 hover:to-indigo-800 hover:shadow-xl hover:shadow-indigo-500/40"
 				>
 					<svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path

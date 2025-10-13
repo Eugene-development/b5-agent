@@ -84,22 +84,30 @@
 </script>
 
 <!-- Header section -->
-<div class="relative isolate overflow-hidden bg-gray-50 px-6 py-24 shadow-2xl sm:px-24">
+<div class="relative isolate overflow-hidden bg-gray-950 px-6 py-24 sm:px-24">
+	<div
+		class="absolute -top-52 right-20 -z-10 transform-gpu blur-3xl xl:right-1/2 xl:-mr-80"
+		aria-hidden="true"
+	>
+		<div
+			class="aspect-[1108/632] w-[69.25rem] bg-gradient-to-l from-[#80caff] to-[#4f46e5] opacity-20"
+		></div>
+	</div>
+
 	<div class="mx-auto mb-12 max-w-3xl text-center">
-		<!-- <h2 class="text-base font-semibold leading-7 text-red-600">Это важно</h2> -->
 		<p
-			class="mt-2 text-balance text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
+			class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
 		>
 			Преимущества
 		</p>
-		<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-slate-800">
+		<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-gray-300">
 			Мы предлагаем удобную систему бонусов и поощрений для разных категорий специалистов, желающих
 			иметь дополнительный заработок.
 		</p>
 	</div>
 
 	<div
-		class="opacity-20px-6 divide-y divide-gray-200 overflow-hidden rounded-2xl bg-gradient-to-l from-[#80caff] to-[#4f46e5] py-12 shadow-sm shadow-xl *:p-8 sm:grid sm:grid-cols-2 sm:divide-y-0 sm:px-24 sm:py-24"
+		class="divide-y divide-gray-700/50 overflow-hidden rounded-2xl border border-slate-700/50 bg-white/5 py-12 shadow-xl backdrop-blur-sm *:p-8 sm:grid sm:grid-cols-2 sm:divide-y-0 sm:px-24 sm:py-24"
 	>
 		{#each advantages as advantage, index (advantage.id)}
 			<div
@@ -109,10 +117,12 @@
 						? 'sm:rounded-bl-lg'
 						: index === 5
 							? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
-							: ''} sm:odd:not-nth-last-2:border-b sm:even:not-last:border-b group relative border-gray-200 {advantage.cardBg} p-6 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:even:border-l"
+							: ''} sm:odd:not-nth-last-2:border-b sm:even:not-last:border-b group relative border-gray-700/50 p-6 transition-all duration-300 hover:bg-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 sm:even:border-l"
 			>
 				<div>
-					<span class="inline-flex rounded-lg {advantage.iconBg} p-3 {advantage.iconColor}">
+					<span
+						class="inline-flex rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 p-3 ring-1 ring-indigo-500/30"
+					>
 						<svg
 							viewBox="0 0 24 24"
 							fill="none"
@@ -120,27 +130,26 @@
 							stroke-width="1.5"
 							data-slot="icon"
 							aria-hidden="true"
-							class="size-6"
+							class="size-6 text-indigo-400"
 						>
 							{@html getIconSvg(advantage.icon)}
 						</svg>
 					</span>
 				</div>
 				<div class="mt-8">
-					<h3 class="text-base font-semibold text-gray-900">
+					<h3 class="text-base font-semibold text-white">
 						<a href={advantage.href} class="focus:outline-hidden">
-							<!-- Extend touch target to entire panel -->
 							<span aria-hidden="true" class="absolute inset-0"></span>
 							{advantage.title}
 						</a>
 					</h3>
-					<p class="mt-2 text-sm text-gray-500">
+					<p class="mt-2 text-sm text-gray-300">
 						{advantage.description}
 					</p>
 				</div>
 				<span
 					aria-hidden="true"
-					class="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400"
+					class="pointer-events-none absolute right-6 top-6 text-gray-600 transition-colors duration-300 group-hover:text-indigo-400"
 				>
 					<svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
 						<path
