@@ -7,7 +7,6 @@
 
 	let cooldownTime = $state(0);
 	let isResending = $state(false);
-	let verificationProgress = $state(0);
 	let showSuccess = $state(false);
 	let showError = $state(false);
 	let errorMessage = $state('');
@@ -155,15 +154,6 @@
 			showError = true;
 			errorMessage = 'Произошла ошибка при подтверждении email. Попробуйте еще раз.';
 		}
-
-		// Simulate verification progress
-		const progressTimer = setInterval(() => {
-			if (verificationProgress < 100) {
-				verificationProgress += 2;
-			} else {
-				clearInterval(progressTimer);
-			}
-		}, 100);
 	});
 </script>
 
@@ -171,164 +161,254 @@
 	<title>Подтверждение Email - B5 Agent</title>
 </svelte:head>
 
-<!-- Success Notification -->
-{#if showSuccess}
-	<div class="notification-container fixed right-4 top-4 z-50">
+<div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">
+	<!-- Animated gradient background -->
+	<div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
 		<div
-			class="notification glass-card slide-in min-w-80 transform p-4 transition-all duration-300"
+			class="absolute left-1/2 top-0 -translate-x-1/2 blur-3xl"
+			style="width: 90rem; height: 50rem;"
 		>
-			<div class="flex items-start space-x-3">
-				<div class="flex-shrink-0">
-					<div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/20">
-						<span class="text-lg">📨</span>
-					</div>
-				</div>
-				<div class="min-w-0 flex-1">
-					<h4 class="text-sm font-medium leading-tight text-white">Письмо отправлено</h4>
-					<p class="mt-1 text-sm leading-relaxed text-gray-300">
-						Вы успешно подтвердили вашу почту
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-{/if}
-
-<!-- Error Notification -->
-{#if showError}
-	<div class="notification-container fixed right-4 top-4 z-50">
-		<div
-			class="notification glass-card slide-in min-w-80 transform border border-red-500/30 bg-red-500/20 p-4 transition-all duration-300"
-		>
-			<div class="flex items-start space-x-3">
-				<div class="flex-shrink-0">
-					<div class="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/20">
-						<span class="text-lg">⚠️</span>
-					</div>
-				</div>
-				<div class="min-w-0 flex-1">
-					<h4 class="text-sm font-medium leading-tight text-white">Ошибка подтверждения</h4>
-					<p class="mt-1 text-sm leading-relaxed text-red-300">
-						{errorMessage}
-					</p>
-				</div>
-				<button
-					class="ml-2 text-red-400 hover:text-red-300"
-					onclick={() => (showError = false)}
-					aria-label="Закрыть уведомление"
-				>
-					<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-						<path
-							d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-						/>
-					</svg>
-				</button>
-			</div>
-		</div>
-	</div>
-{/if}
-
-<!-- Main Content -->
-<div class="flex min-h-screen items-center justify-center bg-gray-950 px-6">
-	<div class="w-full max-w-md">
-		<!-- Animated Email Icon -->
-		<div class="mb-8 text-center">
 			<div
-				class="mb-6 inline-flex h-24 w-24 items-center justify-center rounded-full bg-blue-500/20"
-			>
-				<svg
-					class="h-12 w-12 animate-pulse text-blue-400"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
+				class="aspect-[1155/678] w-full bg-gradient-to-tr from-indigo-500/30 via-purple-500/20 to-pink-500/30 opacity-30"
+				style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
+			></div>
+		</div>
+	</div>
+
+	<div class="mx-auto max-w-7xl px-6 lg:px-8">
+		<!-- Header -->
+		<div class="mx-auto max-w-2xl text-center">
+			<div class="mb-8 inline-flex items-center justify-center">
+				<div
+					class="rounded-2xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 p-3 ring-1 ring-white/10 backdrop-blur-sm"
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-					></path>
-					{#if verificationProgress > 50}
+					<svg
+						class="h-12 w-12 text-indigo-400 transition-transform duration-500 hover:scale-110"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M9 12l2 2 4-4"
-							class="text-green-400"
+							d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
 						></path>
-					{/if}
-				</svg>
+					</svg>
+				</div>
 			</div>
-
-			<h1 class="verify-headline mb-4 text-3xl font-bold tracking-wide text-white">
+			<h1
+				class="bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-5xl"
+			>
 				Подтвердите вашу почту
 			</h1>
-
-			<p class="verify-subheadline text-lg leading-relaxed text-gray-300">
+			<p class="mt-6 text-lg leading-8 text-gray-300">
 				Мы отправили письмо с подтверждением на<br />
-				<span class="font-medium text-blue-400">{authState.user?.email || 'вашу почту'}</span>
+				<span class="font-semibold text-indigo-400"
+					>{authState.user?.email || 'вашу почту'}</span
+				>
 			</p>
 		</div>
 
-		<!-- Progress Indicator -->
-		<div class="glass-card mb-6 p-6">
-			<div class="flex items-center space-x-4">
-				<div class="flex-shrink-0">
-					<div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500">
-						<svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-							<path
-								fill-rule="evenodd"
-								d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-								clip-rule="evenodd"
-							></path>
-						</svg>
+		<!-- Main Card -->
+		<div class="mx-auto mt-8 max-w-md sm:mt-12">
+			<!-- Success Notification -->
+			{#if showSuccess}
+				<div
+					class="mb-6 animate-slide-in rounded-xl border border-green-500/20 bg-green-500/10 p-4 backdrop-blur-sm"
+				>
+					<div class="flex items-start gap-3">
+						<div
+							class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-green-500/20"
+						>
+							<svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+								<path
+									fill-rule="evenodd"
+									d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+						</div>
+						<div class="flex-1">
+							<h4 class="text-sm font-medium text-white">Письмо отправлено</h4>
+							<p class="mt-1 text-sm text-green-300">Проверьте вашу почту</p>
+						</div>
+						<button
+							class="text-green-400 transition-colors hover:text-green-300"
+							onclick={() => (showSuccess = false)}
+							aria-label="Закрыть уведомление"
+						>
+							<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+								<path
+									fill-rule="evenodd"
+									d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+						</button>
 					</div>
 				</div>
-				<div class="flex-1">
-					<h3 class="mb-1 font-medium text-white">Email отправлен</h3>
-					<p class="text-sm text-gray-400">Проверьте папку "Входящие" и "Спам"</p>
+			{/if}
 
-					<!-- Progress Bar -->
-					<div class="mt-3 h-1 overflow-hidden rounded-full bg-gray-700">
-						<div
-							class="h-full bg-blue-400 transition-all duration-1000 ease-out"
-							style="width: {verificationProgress}%"
-						></div>
+			<!-- Error Notification -->
+			{#if showError}
+				<div
+					class="mb-6 animate-shake rounded-xl border border-red-500/20 bg-red-500/10 p-4 backdrop-blur-sm"
+				>
+					<div class="flex items-start gap-3">
+						<svg
+							class="h-5 w-5 flex-shrink-0 text-red-400"
+							fill="currentColor"
+							viewBox="0 0 20 20"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+								clip-rule="evenodd"
+							/>
+						</svg>
+						<div class="flex-1">
+							<h4 class="text-sm font-medium text-white">Ошибка</h4>
+							<p class="mt-1 text-sm text-red-300">{errorMessage}</p>
+						</div>
+						<button
+							class="text-red-400 transition-colors hover:text-red-300"
+							onclick={() => (showError = false)}
+							aria-label="Закрыть уведомление"
+						>
+							<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+								<path
+									fill-rule="evenodd"
+									d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+						</button>
+					</div>
+				</div>
+			{/if}
+
+			<div
+				class="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/50 backdrop-blur-xl"
+			>
+				<!-- Status Card -->
+				<div class="mb-6 rounded-xl border border-white/10 bg-white/5 p-6">
+					<div class="flex items-start gap-4">
+						<div class="flex-shrink-0">
+							<div
+								class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500"
+							>
+								<svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+									<path
+										fill-rule="evenodd"
+										d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+										clip-rule="evenodd"
+									></path>
+								</svg>
+							</div>
+						</div>
+						<div class="flex-1">
+							<h3 class="font-semibold text-white">Email отправлен</h3>
+							<p class="mt-1 text-sm text-gray-400">
+								Проверьте папку "Входящие" и "Спам"
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Resend Button -->
+				<button
+					onclick={handleResendEmail}
+					disabled={cooldownTime > 0 || isResending}
+					class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+				>
+					<span class="relative z-10 flex items-center justify-center gap-2">
+						{#if isResending}
+							<svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+								<circle
+									class="opacity-25"
+									cx="12"
+									cy="12"
+									r="10"
+									stroke="currentColor"
+									stroke-width="4"
+								></circle>
+								<path
+									class="opacity-75"
+									fill="currentColor"
+									d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+								></path>
+							</svg>
+							Отправляем...
+						{:else if cooldownTime > 0}
+							<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+							Доступно через {cooldownTime}с
+						{:else}
+							<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+								/>
+							</svg>
+							Переотправить письмо
+						{/if}
+					</span>
+					<div
+						class="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 transition-opacity group-hover:opacity-100"
+					></div>
+				</button>
+
+				<!-- Help Section -->
+				<div class="mt-8 space-y-4 border-t border-white/10 pt-6">
+					<p class="text-center text-sm font-medium text-gray-400">Не получили письмо?</p>
+					<div class="flex flex-col gap-3 text-sm sm:flex-row sm:justify-center">
+						<button
+							class="flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-gray-300 transition-all hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-300"
+						>
+							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"
+								/>
+							</svg>
+							Проверить спам
+						</button>
+						<a
+							href="mailto:support@bonus5.com"
+							class="flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-gray-300 transition-all hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-300"
+						>
+							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+								/>
+							</svg>
+							Поддержка
+						</a>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Action Buttons -->
-		<div class="space-y-4">
-			<button
-				class="w-full rounded-lg bg-white/10 px-4 py-3 font-medium text-white transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
-				onclick={handleResendEmail}
-				disabled={cooldownTime > 0 || isResending}
-			>
-				{#if isResending}
-					Отправляем...
-				{:else if cooldownTime > 0}
-					Переотправить письмо
-					<span class="block text-sm text-gray-400">Доступно через {cooldownTime}с</span>
-				{:else}
-					Переотправить письмо
-				{/if}
-			</button>
-		</div>
-
-		<!-- Help Section -->
-		<div class="mt-8 text-center">
-			<p class="mb-4 text-sm text-gray-400">Не получили письмо?</p>
-			<div class="space-y-2 text-sm">
-				<p class="block text-blue-400 transition-colors hover:text-blue-300">
-					📥 Проверить папку "Спам"
-				</p>
+			<!-- Back to Login -->
+			<div class="mt-8 text-center">
 				<a
-					href="mailto:support@bonus5.com"
-					class="block text-blue-400 transition-colors hover:text-blue-300"
+					href="/login"
+					class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
 				>
-					💬 Связаться с поддержкой
+					← Вернуться к входу
 				</a>
 			</div>
 		</div>
@@ -336,51 +416,42 @@
 </div>
 
 <style>
-	.glass-card {
-		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(12px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		border-radius: 12px;
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		10%,
+		30%,
+		50%,
+		70%,
+		90% {
+			transform: translateX(-4px);
+		}
+		20%,
+		40%,
+		60%,
+		80% {
+			transform: translateX(4px);
+		}
 	}
 
-	.verify-headline {
-		font-family:
-			'Inter',
-			system-ui,
-			-apple-system,
-			sans-serif;
-		letter-spacing: -0.025em;
-	}
-
-	.verify-subheadline {
-		font-family:
-			'Inter',
-			system-ui,
-			-apple-system,
-			sans-serif;
-		line-height: 1.6;
-	}
-
-	.slide-in {
-		animation: slideInFromRight 0.3s ease-out;
-	}
-
-	@keyframes slideInFromRight {
+	@keyframes slide-in {
 		from {
 			opacity: 0;
-			transform: translateX(100%);
+			transform: translateY(-10px);
 		}
 		to {
 			opacity: 1;
-			transform: translateX(0);
+			transform: translateY(0);
 		}
 	}
 
-	.notification-container {
-		pointer-events: none;
+	.animate-shake {
+		animation: shake 0.5s ease-in-out;
 	}
 
-	.notification {
-		pointer-events: auto;
+	.animate-slide-in {
+		animation: slide-in 0.3s ease-out;
 	}
 </style>
