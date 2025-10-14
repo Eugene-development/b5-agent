@@ -5,7 +5,7 @@
 <div
 	class="relative isolate overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
 >
-	<div class="grid grid-cols-1 lg:grid-cols-2">
+	<div class="grid grid-cols-1 -mt-4 lg:grid-cols-2">
 		<div class="relative flex px-6 py-20 lg:static lg:px-8 lg:pt-32">
 			<div class="mx-auto w-full max-w-xl lg:max-w-lg">
 				<div
@@ -92,7 +92,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Честно</strong>
-							<span class="text-sm text-gray-400">Выплата за 5 дней после сделки</span>
+							<span class="text-sm text-gray-400">Выплата через 5 дней после закрытия сделки</span>
 						</dd>
 					</div>
 
@@ -148,7 +148,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Секретно</strong>
-							<span class="text-sm text-gray-400">Полная конфиденциальность данных</span>
+							<span class="text-sm text-gray-400">Полная конфиденциальность ваших данных</span>
 						</dd>
 					</div>
 
@@ -176,7 +176,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Надёжно</strong>
-							<span class="text-sm text-gray-400">Только проверенные поставщики</span>
+							<span class="text-sm text-gray-400">Только проверенные поставщики и подрядчики</span>
 						</dd>
 					</div>
 				</dl>
@@ -184,7 +184,7 @@
 		</div>
 
 		<div class="relative flex justify-center px-6 pb-12 pt-20 lg:px-8 lg:pt-32">
-			<div class="relative mx-auto flex w-full max-w-lg items-center justify-center lg:max-w-xl">
+			<div class="relative mx-auto flex w-full max-w-xl items-center justify-center lg:max-w-2xl">
 				<div
 					class="absolute -inset-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 opacity-20 blur-2xl"
 				></div>
