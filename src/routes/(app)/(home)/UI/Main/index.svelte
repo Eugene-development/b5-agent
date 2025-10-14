@@ -2,15 +2,17 @@
 	import bonusImage from './img/Gemini_Generated_Image_iowmgviowmgviowm.png';
 </script>
 
-<div class="relative isolate bg-gray-950">
-	<div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
-		<div class="relative mt-2 px-6 pb-20 pt-16 sm:pt-32 lg:static lg:px-8 lg:py-48">
-			<div class="mx-auto max-w-xl lg:mx-0 lg:max-w-lg">
+<div
+	class="relative isolate overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
+>
+	<div class="grid grid-cols-1 lg:grid-cols-2">
+		<div class="relative flex px-6 py-20 lg:static lg:px-8 lg:pt-32">
+			<div class="mx-auto w-full max-w-xl lg:max-w-lg">
 				<div
 					class="absolute inset-y-0 left-0 -z-10 w-full overflow-hidden ring-1 ring-white/5 lg:w-1/2"
 				>
 					<svg
-						class="absolute inset-0 size-full stroke-gray-700 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+						class="absolute inset-0 size-full stroke-indigo-500/30 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
 						aria-hidden="true"
 					>
 						<defs>
@@ -25,7 +27,7 @@
 								<path d="M130 200V.5M.5 .5H200" fill="none" />
 							</pattern>
 						</defs>
-						<svg x="100%" y="-1" class="overflow-visible fill-gray-800/20">
+						<svg x="100%" y="-1" class="overflow-visible fill-indigo-900/20">
 							<path d="M-470.5 0h201v201h-201Z" stroke-width="0" />
 						</svg>
 						<rect
@@ -40,129 +42,163 @@
 						aria-hidden="true"
 					>
 						<div
-							class="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-br from-[#80caff] to-[#4f46e5] opacity-20"
+							class="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-br from-cyan-400 via-indigo-500 to-purple-600 opacity-30"
 							style="clip-path: polygon(74.1% 56.1%, 100% 38.6%, 97.5% 73.3%, 85.5% 100%, 80.7% 98.2%, 72.5% 67.7%, 60.2% 37.8%, 52.4% 32.2%, 47.5% 41.9%, 45.2% 65.8%, 27.5% 23.5%, 0.1% 35.4%, 17.9% 0.1%, 27.6% 23.5%, 76.1% 2.6%, 74.1% 56.1%)"
 						></div>
 					</div>
 				</div>
-				<h2 class="text-pretty text-4xl font-semibold tracking-widest text-white sm:text-6xl">
-					BONUS 5
-				</h2>
-				<p class="mt-6 text-lg/8 text-gray-300">
-					Бонус 5 — это сервис тайного маркетинга, который позволяет получать до 5% бонусами с
-					рекомендаций <sup class="text-indigo-400">*</sup>
+
+				<div class="inline-block">
+					<h2
+						class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-6xl font-black tracking-tight text-transparent sm:text-7xl lg:text-8xl"
+					>
+						BONUS 5
+					</h2>
+					<!-- <div
+						class="mt-2 h-1.5 w-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400"
+					></div> -->
+				</div>
+
+				<p class="mt-8 text-xl font-medium leading-relaxed text-gray-100">
+					Бонус 5 — это сервис тайного маркетинга, который позволяет получать до <span
+						class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-2xl font-black text-transparent"
+						>5%</span
+					>
+					с рекомендаций<sup class="text-cyan-400">*</sup>
 				</p>
-				<dl class="mt-10 space-y-4 text-base/7 text-gray-300">
-					<div class="flex gap-x-4">
+
+				<dl class="mt-12 space-y-5">
+					<div
+						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+					>
 						<dt class="flex-none">
-							<svg
-								class="h-7 w-6 text-indigo-400"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								aria-hidden="true"
-								data-slot="icon"
+							<div
+								class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-indigo-600"
 							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
+								<svg
+									class="h-6 w-6 text-white"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</div>
 						</dt>
-						<dd>
-							<strong class="text-indigo-300">Честно.</strong>
-							Гарантировано выплатим бонус в полном объёме в течении 5 рабочих дней после закрытия сделки
+						<dd class="flex flex-col justify-center">
+							<strong class="text-lg font-bold text-white">Честно</strong>
+							<span class="text-sm text-gray-400">Выплата за 5 дней после сделки</span>
 						</dd>
 					</div>
 
-					<div class="flex gap-x-4">
+					<div
+						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+					>
 						<dt class="flex-none">
-							<span class="sr-only">Address</span>
-							<svg
-								class="h-7 w-6 text-indigo-400"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								aria-hidden="true"
-								data-slot="icon"
+							<div
+								class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-600"
 							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
+								<svg
+									class="h-6 w-6 text-white"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</div>
 						</dt>
-						<dd>
-							<strong class="text-indigo-300">Выгодно.</strong>
-							Дополнительный заработок на рекомендациях вам или хорошая экономия вашим клиентам
-						</dd>
-					</div>
-					<div class="flex gap-x-4">
-						<dt class="flex-none">
-							<svg
-								class="h-7 w-6 text-indigo-400"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								aria-hidden="true"
-								data-slot="icon"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
-						</dt>
-						<dd>
-							<strong class="text-indigo-300">Секретно.</strong>
-							Мы не раскрываем ваши данные и информацию о вашем рекомендованном клиенте
+						<dd class="flex flex-col justify-center">
+							<strong class="text-lg font-bold text-white">Выгодно</strong>
+							<span class="text-sm text-gray-400">Дополнительный доход или экономия клиентам</span>
 						</dd>
 					</div>
 
-					<div class="flex gap-x-4">
+					<div
+						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+					>
 						<dt class="flex-none">
-							<svg
-								class="h-7 w-6 text-indigo-400"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								aria-hidden="true"
-								data-slot="icon"
+							<div
+								class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-blue-600"
 							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
+								<svg
+									class="h-6 w-6 text-white"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</div>
 						</dt>
-						<dd>
-							<strong class="text-indigo-300">Надёжно.</strong> Работаем только с лучшими компаниями
-							поставщиками товаров и услуг
+						<dd class="flex flex-col justify-center">
+							<strong class="text-lg font-bold text-white">Секретно</strong>
+							<span class="text-sm text-gray-400">Полная конфиденциальность данных</span>
+						</dd>
+					</div>
+
+					<div
+						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+					>
+						<dt class="flex-none">
+							<div
+								class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-emerald-600"
+							>
+								<svg
+									class="h-6 w-6 text-white"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</div>
+						</dt>
+						<dd class="flex flex-col justify-center">
+							<strong class="text-lg font-bold text-white">Надёжно</strong>
+							<span class="text-sm text-gray-400">Только проверенные поставщики</span>
 						</dd>
 					</div>
 				</dl>
 			</div>
 		</div>
 
-		<div class="flex items-center justify-center sm:ml-12">
-			<img
-				src={bonusImage}
-				alt="Бонусная программа"
-				class="my-6 h-auto max-w-full rounded-lg shadow-lg"
-			/>
+		<div class="relative flex justify-center px-6 pb-12 pt-20 lg:px-8 lg:pt-32">
+			<div class="relative mx-auto flex w-full max-w-lg items-center justify-center lg:max-w-xl">
+				<div
+					class="absolute -inset-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 opacity-20 blur-2xl"
+				></div>
+				<img
+					src={bonusImage}
+					alt="Бонусная программа"
+					class="relative h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10"
+				/>
+			</div>
 		</div>
 	</div>
 	<div class="px-6 pb-6">
-		<p class="text-sm text-gray-400">
-			<span class="text-indigo-400">*</span> рекомендации только с согласия клиента
+		<p class="text-xs text-gray-500">
+			<span class="text-cyan-400">*</span> только с согласия клиента
 		</p>
 	</div>
 </div>
