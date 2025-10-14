@@ -3,9 +3,9 @@
 </script>
 
 <div
-	class="relative isolate overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
+	class="relative isolate overflow-x-hidden overflow-y-visible bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
 >
-	<div class="grid grid-cols-1 -mt-4 lg:grid-cols-2">
+	<div class="-mt-4 grid grid-cols-1 lg:grid-cols-2">
 		<div class="relative flex px-6 py-20 lg:static lg:px-8 lg:pt-32">
 			<div class="mx-auto w-full max-w-xl lg:max-w-lg">
 				<div
@@ -183,7 +183,7 @@
 			</div>
 		</div>
 
-		<div class="relative flex justify-center px-6 pb-12 pt-20 lg:px-8 lg:pt-32">
+		<div class="relative hidden justify-center px-6 pb-12 pt-20 lg:flex lg:px-8 lg:pt-32">
 			<div class="relative mx-auto flex w-full max-w-xl items-center justify-center lg:max-w-2xl">
 				<div
 					class="absolute -inset-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 opacity-20 blur-2xl"

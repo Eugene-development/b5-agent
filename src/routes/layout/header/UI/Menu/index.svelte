@@ -1,45 +1,78 @@
 <script>
-	import { openMobileMenu } from '$lib/state/visibleMobileMenu.svelte.js';
+	import { openMobileMenu, visibleMobileMenu } from '$lib/state/visibleMobileMenu.svelte.js';
 	import { authState, logout } from '$lib/auth/auth.svelte.js';
 	import { page } from '$app/state';
 	import MobileMenu from '../MobileMenu/index.svelte';
+	import { onMount } from 'svelte';
 
 	let currentPath = $derived(page.url.pathname);
+	let isVisible = $state(true);
+	let lastScrollY = $state(0);
+	let isMobileMenuOpen = $derived(visibleMobileMenu.value);
 
 	function isActive(href) {
 		return currentPath === href;
 	}
+
+	onMount(() => {
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
+
+			if (currentScrollY < 10) {
+				isVisible = true;
+			} else if (currentScrollY < lastScrollY) {
+				// Скролл вверх
+				isVisible = true;
+			} else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+				// Скролл вниз
+				isVisible = false;
+			}
+
+			lastScrollY = currentScrollY;
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	});
 </script>
 
-<nav
-	class="mx-auto flex max-w-7xl items-center justify-between border-b border-slate-400/10 bg-gray-950 p-6 shadow-lg shadow-black/20 lg:px-8"
-	aria-label="Global"
->
-	<div class="flex lg:hidden">
-		<button
-			onclick={openMobileMenu}
-			type="button"
-			class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400 transition-colors duration-300 hover:text-indigo-400"
-		>
-			<span class="sr-only">Open main menu</span>
-			<svg
-				class="size-6"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
-				aria-hidden="true"
+{#if !isMobileMenuOpen}
+	<nav
+		class="fixed top-0 left-0 right-0 z-50 border-b border-slate-400/10 bg-gray-950 shadow-lg shadow-black/20 transition-transform duration-300 {isVisible
+			? 'translate-y-0'
+			: '-translate-y-full'}"
+		aria-label="Global"
+	>
+		<div class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+			<div class="flex lg:hidden">
+			<button
+				onclick={openMobileMenu}
+				type="button"
+				class="-m-2.5 inline-flex items-center justify-center gap-2 rounded-md p-2.5 text-gray-400 transition-colors duration-300 hover:text-indigo-400"
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-				/>
-			</svg>
-		</button>
-	</div>
+				<span class="sr-only">Open main menu</span>
+				<svg
+					class="size-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					aria-hidden="true"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+					/>
+				</svg>
+				<span class="text-sm font-medium">Меню</span>
+			</button>
+			</div>
 
-	<div class="hidden lg:flex lg:gap-x-3">
+			<div class="hidden lg:flex lg:gap-x-3">
 		<a
 			href="/"
 			class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20 {isActive(
@@ -103,9 +136,9 @@
 				></span>
 			{/if}
 		</a>
-	</div>
+			</div>
 
-	<div class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
+			<div class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
 		{#if authState.isAuthenticated}
 			<a
 				href="/dashboard"
@@ -135,7 +168,9 @@
 				Регистрация
 			</a>
 		{/if}
-	</div>
-</nav>
+			</div>
+		</div>
+	</nav>
+{/if}
 
 <MobileMenu />

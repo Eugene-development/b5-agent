@@ -29,7 +29,7 @@
 {#if visibleMobileMenu.value}
 	<div class="lg:hidden" role="dialog" aria-modal="true">
 		<div
-			class="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm"
+			class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md transition-opacity duration-300"
 			onclick={handleBackdropClick}
 			onkeydown={handleBackdropKeydown}
 			tabindex="0"
@@ -37,7 +37,7 @@
 			aria-label="Close mobile menu"
 		></div>
 		<div
-			class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-linear-to-br/oklch from-slate-900/98 to-slate-800/98 px-4 py-4 backdrop-blur-xl sm:max-w-sm sm:px-6 sm:py-6 sm:ring-1 sm:ring-white/10"
+			class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 px-6 py-6 shadow-2xl shadow-indigo-500/20 backdrop-blur-xl sm:max-w-sm sm:border-l sm:border-slate-400/10"
 			onclick={handleMenuClick}
 			onkeydown={handleBackdropKeydown}
 			role="dialog"
@@ -48,7 +48,7 @@
 				<button
 					onclick={closeMobileMenu}
 					type="button"
-					class="rounded-lg border border-slate-400/10 bg-slate-700/30 p-2.5 text-gray-400/90 transition-all duration-300 active:scale-95 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-400"
+					class="rounded-xl border border-slate-400/10 bg-gray-950 p-2.5 text-gray-400 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-95"
 				>
 					<span class="sr-only">Close menu</span>
 					<svg
@@ -63,67 +63,87 @@
 					</svg>
 				</button>
 			</div>
-			<div class="mt-6 flow-root">
-				<div class="-my-6 divide-y divide-gray-500/25">
-					<div class="space-y-3 py-6">
+			<div class="mt-8 flow-root">
+				<div class="-my-6 divide-y divide-slate-400/10">
+					<div class="space-y-2 py-6">
 						<a
 							href="/"
 							onclick={() => closeMobileMenu()}
-							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+							class="relative block overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 								'/'
 							)
-								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 								: ''}"
 						>
 							Главная
+							{#if isActive('/')}
+								<span
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+								></span>
+							{/if}
 						</a>
 						<a
 							href="/about"
 							onclick={() => closeMobileMenu()}
-							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+							class="relative block overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 								'/about'
 							)
-								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 								: ''}"
 						>
 							О проекте
+							{#if isActive('/about')}
+								<span
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+								></span>
+							{/if}
 						</a>
 						<a
 							href="/payments"
 							onclick={() => closeMobileMenu()}
-							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+							class="relative block overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 								'/payments'
 							)
-								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 								: ''}"
 						>
 							Выплаты
+							{#if isActive('/payments')}
+								<span
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+								></span>
+							{/if}
 						</a>
 						<a
 							href="/152fz"
 							onclick={() => closeMobileMenu()}
-							class="-mx-3 block overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-blue-400/30 active:bg-blue-500/20 active:text-blue-300 {isActive(
+							class="relative block overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 								'/152fz'
 							)
-								? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 								: ''}"
 						>
 							152 ФЗ
+							{#if isActive('/152fz')}
+								<span
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+								></span>
+							{/if}
 						</a>
 					</div>
-					<div class="py-6">
+					<div class="space-y-2 py-6">
 						{#if authState.isAuthenticated}
 							<a
 								href="/dashboard"
 								onclick={closeMobileMenu}
-								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+								class="mb-2 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 									'/dashboard'
 								)
-									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-blue-400"
+									class="mr-3 h-5 w-5 text-emerald-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -147,14 +167,14 @@
 							<a
 								href="/profile"
 								onclick={closeMobileMenu}
-								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+								class="mb-2 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 									'/profile'
 								)
-									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-indigo-400"
+									class="mr-3 h-5 w-5 text-indigo-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -172,14 +192,14 @@
 							<a
 								href="/projects"
 								onclick={closeMobileMenu}
-								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+								class="mb-2 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 									'/projects'
 								)
-									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-purple-400"
+									class="mr-3 h-5 w-5 text-purple-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -197,14 +217,14 @@
 							<a
 								href="/finances"
 								onclick={closeMobileMenu}
-								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+								class="mb-2 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
 									'/finances'
 								)
-									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-green-400"
+									class="mr-3 h-5 w-5 text-emerald-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -224,10 +244,10 @@
 									await logout({ redirectTo: '/' });
 									closeMobileMenu();
 								}}
-								class="-mx-3 mt-4 flex w-full items-center rounded-xl border border-red-500/30 bg-red-500/15 px-4 py-3 text-left text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:border-red-500/50 active:bg-red-500/25 active:text-red-300"
+								class="mt-4 flex w-full items-center rounded-xl border border-red-500/30 bg-red-500/15 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/25 hover:text-red-300 active:scale-98"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-red-400"
+									class="mr-3 h-5 w-5 text-red-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -245,14 +265,14 @@
 							<a
 								href="/login"
 								onclick={closeMobileMenu}
-								class="-mx-3 mb-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+								class="mb-2 flex items-center overflow-hidden rounded-xl border border-slate-400/20 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-indigo-300 active:scale-98 {isActive(
 									'/login'
 								)
-									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-blue-400"
+									class="mr-3 h-5 w-5 text-indigo-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -269,14 +289,14 @@
 							<a
 								href="/registration"
 								onclick={closeMobileMenu}
-								class="-mx-3 flex items-center overflow-hidden rounded-xl border border-slate-400/10 bg-slate-700/30 px-4 py-3 text-base font-semibold text-slate-200/90 shadow-sm transition-all duration-300 active:scale-98 active:bg-blue-500/20 {isActive(
+								class="flex items-center overflow-hidden rounded-xl border border-slate-400/20 bg-gray-950 px-5 py-3.5 text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-indigo-300 active:scale-98 {isActive(
 									'/registration'
 								)
-									? 'border-blue-400/40 bg-linear-to-br from-blue-500/25 to-blue-600/25 text-blue-400 shadow-md shadow-blue-500/30'
+									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
 							>
 								<svg
-									class="mr-3 h-6 w-6 text-green-400"
+									class="mr-3 h-5 w-5 text-indigo-400"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"

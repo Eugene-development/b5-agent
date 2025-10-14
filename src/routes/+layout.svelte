@@ -29,7 +29,7 @@
 	</header>
 
 	<!-- Main content -->
-	<main class="flex-1">
+	<main class="flex-1 pt-20">
 		{@render children?.()}
 	</main>
 
