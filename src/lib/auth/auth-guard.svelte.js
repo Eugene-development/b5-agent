@@ -109,12 +109,15 @@ export function createAuthLoad(options = {}) {
 export function createGuestLoad(options = {}) {
 	const { redirectTo = '/dashboard' } = options;
 
-	return async ({ url }) => {
-		// Auth state is now initialized from server load function
-		// No need for client-side initialization
+	return async ({ url, parent }) => {
+		// Wait for parent layout data (includes auth state from server)
+		const parentData = await parent();
+		
+		// Use parent data if available, otherwise use current auth state
+		const isAuth = parentData?.isAuthenticated ?? authState.isAuthenticated;
 
 		// Redirect authenticated users
-		if (authState.isAuthenticated) {
+		if (isAuth) {
 			throw redirect(302, redirectTo);
 		}
 
