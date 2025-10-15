@@ -2,6 +2,7 @@
 	import { login, authState } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
 
 	// Get redirectTo parameter from URL
 	let redirectTo = $derived.by(() => {
@@ -26,6 +27,16 @@
 
 	// Loading state
 	let isLoading = $state(false);
+
+	// Restore "Remember Me" preference from localStorage
+	$effect(() => {
+		if (browser) {
+			const savedRememberMe = localStorage.getItem('rememberMe');
+			if (savedRememberMe === 'true') {
+				formData.rememberMe = true;
+			}
+		}
+	});
 
 	// Redirect if already authenticated
 	$effect(() => {
@@ -65,7 +76,14 @@
 		try {
 			console.log('🚀 Submitting login form...');
 
-			const success = await login(formData.email, formData.password);
+			// Save "Remember Me" preference to localStorage
+			if (browser) {
+				localStorage.setItem('rememberMe', formData.rememberMe.toString());
+			}
+
+			const success = await login(formData.email, formData.password, {
+				remember: formData.rememberMe
+			});
 
 			if (success) {
 				console.log('✅ Login successful');

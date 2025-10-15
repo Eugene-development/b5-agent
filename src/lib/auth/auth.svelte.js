@@ -188,6 +188,7 @@ function handleApiError(error) {
  * @param {string} email - User email
  * @param {string} password - User password
  * @param {Object} options - Login options
+ * @param {boolean} options.remember - Remember user session
  * @param {string} options.redirectTo - Path to redirect after successful login
  * @returns {Promise<Object>} User data on success
  * @throws {Error} Login error
@@ -200,7 +201,11 @@ export async function login(email, password, options = {}) {
 		// Initialize CSRF protection first
 		await initCsrf();
 
-		const data = await authHttpClient.post('/api/login', { email, password });
+		const data = await authHttpClient.post('/api/login', { 
+			email, 
+			password,
+			remember: options.remember || false
+		});
 
 		if (data.success && data.user) {
 			setUser(data.user);
