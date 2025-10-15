@@ -68,7 +68,7 @@
 							1
 						</div>
 						<p class="text-base text-gray-300 sm:text-lg">
-							Клиент, которого вы привели, заключает договор с компанией партнёром
+							Вы должны быть зарегистрированы в нашей системе
 						</p>
 					</div>
 				</div>
@@ -83,7 +83,7 @@
 							2
 						</div>
 						<p class="text-base text-gray-300 sm:text-lg">
-							Клиент должен полностью оплатить услуги по договору
+							Клиент, которого вы привели, заключает договор с компанией партнёром
 						</p>
 					</div>
 				</div>
@@ -97,7 +97,9 @@
 						>
 							3
 						</div>
-						<p class="text-base text-gray-300 sm:text-lg">Сделка должна быть закрыта</p>
+						<p class="text-base text-gray-300 sm:text-lg">
+							Клиент должен полностью оплатить услуги по договору
+						</p>
 					</div>
 				</div>
 
@@ -110,9 +112,7 @@
 						>
 							4
 						</div>
-						<p class="text-base text-gray-300 sm:text-lg">
-							Вы должны быть зарегистрированы в нашей системе
-						</p>
+						<p class="text-base text-gray-300 sm:text-lg">Сделка должна быть закрыта</p>
 					</div>
 				</div>
 			</div>
@@ -174,7 +174,7 @@
 		<!-- Payment Methods Section -->
 		<div class="mx-auto mt-20 max-w-6xl">
 			<h2 class="text-center text-2xl font-bold text-white sm:text-3xl">
-				Способы получения вознаграждения
+				Способы получения вознаграждения*
 			</h2>
 			<p class="mt-4 text-center text-base text-gray-400">Выберите удобный для вас способ</p>
 
@@ -275,6 +275,10 @@
 					</p>
 				</div>
 			</div>
+
+			<p class="mt-8 text-center text-sm text-gray-400">
+				* Все выплаты осуществляются в строгом соответствии с действующим налоговым законодательством
+			</p>
 		</div>
 
 		<!-- Tax & Tracking Section -->
@@ -356,7 +360,7 @@
 			>
 				<h2 class="text-2xl font-bold text-white sm:text-3xl">Готовы начать зарабатывать?</h2>
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
-					Зарегистрируйтесь сейчас и получите доступ к прозрачной системе выплат
+					Зарегистрируйтесь сейчас и получите доступ к дополнительному заработку
 				</p>
 				<div class="mt-8">
 					<a
