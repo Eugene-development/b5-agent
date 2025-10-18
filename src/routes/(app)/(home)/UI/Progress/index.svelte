@@ -100,9 +100,9 @@
 		>
 			Преимущества
 		</p>
-		<p class="mx-auto mt-6 max-w-2xl text-xl leading-8 text-gray-300">
-			Мы предлагаем удобную систему бонусов и поощрений для разных категорий специалистов, желающих
-			иметь дополнительный заработок.
+		<p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-300 sm:text-xl">
+			Получите максимум от сотрудничества с нами благодаря системе преимуществ, которая обеспечивает
+			максимальную прибыльность для каждой сделки.
 		</p>
 	</div>
 
@@ -117,7 +117,7 @@
 						? 'sm:rounded-bl-lg'
 						: index === 5
 							? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
-							: ''} sm:odd:not-nth-last-2:border-b sm:even:not-last:border-b group relative border-gray-700/50 p-6 transition-all duration-300 hover:bg-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 sm:even:border-l"
+							: ''} sm:odd:not-nth-last-2:border-b sm:even:not-last:border-b group relative border-gray-700/50 p-6 transition-all duration-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 hover:bg-white/10 sm:even:border-l"
 			>
 				<div>
 					<span

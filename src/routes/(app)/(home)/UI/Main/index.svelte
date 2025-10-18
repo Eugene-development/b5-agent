@@ -67,7 +67,7 @@
 					с рекомендаций<sup class="text-cyan-400">*</sup>
 				</p>
 
-				<dl class="mt-12 space-y-5">
+				<dl class="mt-12 space-y-4">
 					<div
 						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
 					>
@@ -180,6 +180,12 @@
 						</dd>
 					</div>
 				</dl>
+
+				<div class="mt-8">
+					<p class="text-xs text-gray-500">
+						<span class="text-cyan-400">*</span> передача данных только с согласия клиента
+					</p>
+				</div>
 			</div>
 		</div>
 
@@ -195,10 +201,5 @@
 				/>
 			</div>
 		</div>
-	</div>
-	<div class="px-6 pb-6">
-		<p class="text-xs text-gray-500">
-			<span class="text-cyan-400">*</span> только с согласия клиента
-		</p>
 	</div>
 </div>
