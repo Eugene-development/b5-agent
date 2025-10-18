@@ -19,6 +19,7 @@
 	let statusFilter = $state('all');
 	let sortBy = $state('created_at');
 	let sortOrder = $state('desc');
+	let showFilters = $state(false);
 
 	// Optimized search term for case-insensitive comparison
 	let normalizedSearchTerm = $derived(searchTerm.toLowerCase().trim());
@@ -175,55 +176,84 @@
 			isRefreshing = false;
 		}
 	}
+
+	// Toggle filters visibility
+	function toggleFilters() {
+		showFilters = !showFilters;
+	}
 </script>
 
 <div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<!-- Page Header -->
-		<div class="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-			<div>
+		<div class="mb-8">
+			<div class="mb-4">
 				<h1 class="mb-2 text-3xl font-bold text-white">Проекты</h1>
 				<!-- <p class="text-gray-300">Управление проектами и просмотр их статистики</p> -->
 			</div>
-			<button
-				type="button"
-				onclick={refreshData}
-				disabled={isRefreshing}
-				class="inline-flex min-h-[44px] w-[180px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 disabled:cursor-not-allowed disabled:opacity-50"
-				aria-label="Обновить данные проектов с сервера"
-			>
-				<svg
-					class="mr-2 h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
+			<div class="grid grid-cols-2 gap-2 sm:gap-4">
+				<button
+					type="button"
+					onclick={refreshData}
+					disabled={isRefreshing}
+					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 disabled:cursor-not-allowed disabled:opacity-50"
+					aria-label="Обновить данные проектов с сервера"
 				>
-					{#if isRefreshing}
-						<circle
-							class="opacity-25"
-							cx="12"
-							cy="12"
-							r="10"
-							stroke="currentColor"
-							stroke-width="4"
-						></circle>
-						<path
-							class="opacity-75"
-							fill="currentColor"
-							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-						></path>
-					{:else}
+					<svg
+						class="mr-2 h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						{#if isRefreshing}
+							<circle
+								class="opacity-25"
+								cx="12"
+								cy="12"
+								r="10"
+								stroke="currentColor"
+								stroke-width="4"
+							></circle>
+							<path
+								class="opacity-75"
+								fill="currentColor"
+								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+							></path>
+						{:else}
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+							/>
+						{/if}
+					</svg>
+					{isRefreshing ? 'Обновляю...' : 'Обновить'}
+				</button>
+				<button
+					type="button"
+					onclick={toggleFilters}
+					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+					aria-label="Открыть фильтры проектов"
+				>
+					<svg
+						class="mr-2 h-4 w-4"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+							d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
 						/>
-					{/if}
-				</svg>
-				{isRefreshing ? 'Обновляю...' : 'Обновить'}
-			</button>
+					</svg>
+					Фильтры
+				</button>
+			</div>
 		</div>
 
 		<!-- Data State Management -->
@@ -353,6 +383,7 @@
 			</div> -->
 
 			<!-- Filters and Search -->
+			{#if showFilters}
 			<div class="mb-6 rounded-lg bg-gray-800 shadow">
 				<div class="p-4 sm:p-6">
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -417,6 +448,7 @@
 					</div>
 				</div>
 			</div>
+			{/if}
 
 			<!-- Projects Table -->
 			<div class="overflow-hidden rounded-lg bg-gray-800 shadow">
