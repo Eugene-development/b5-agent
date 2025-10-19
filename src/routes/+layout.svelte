@@ -1,8 +1,8 @@
 <script>
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { initAuthFromServer, checkAuth, authState } from '$lib/auth/auth.svelte.js';
-	import { browser } from '$app/environment';
+	import { initAuthFromServer, authState } from '$lib/auth/auth.svelte.js';
+
 	import Menu from './layout/header/UI/Menu/index.svelte';
 	import Footer from './layout/footer/index.svelte';
 
@@ -11,24 +11,13 @@
 
 	// Track if initial auth check is complete
 	let authInitialized = $state(false);
-	let checkingAuth = $state(false);
 
-	// Initialize authentication from server data or check via API
+	// Initialize authentication from server data
 	$effect(() => {
-		if (data?.user && data?.isAuthenticated) {
-			// Use server data if available
-			console.log('🔄 Using server data for auth');
-			initAuthFromServer(data);
-			authInitialized = true;
-		} else if (browser && !authInitialized && !checkingAuth) {
-			// Always check authentication via API on client side
-			console.log('🔄 Checking auth via API');
-			checkingAuth = true;
-			checkAuth().finally(() => {
-				authInitialized = true;
-				checkingAuth = false;
-			});
-		}
+		// Always use server data (whether authenticated or not)
+		console.log('🔄 Using server data for auth');
+		initAuthFromServer(data);
+		authInitialized = true;
 	});
 </script>
 
@@ -36,15 +25,8 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<!-- Show loading indicator while checking auth on initial load -->
-{#if !authInitialized && browser}
-	<div class="flex min-h-screen items-center justify-center bg-gray-950">
-		<div class="text-center">
-			<div class="mb-4 inline-block h-12 w-12 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
-			<p class="text-gray-400">Загрузка...</p>
-		</div>
-	</div>
-{:else}
+<!-- Show content immediately, no loading spinner -->
+{#if authInitialized}
 	<!-- Render children once auth is initialized -->
 	<div class="min-h-screen bg-gray-950 text-white">
 		<!-- Header with navigation -->

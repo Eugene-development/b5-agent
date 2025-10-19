@@ -146,6 +146,10 @@ export function initAuthFromServer(serverData) {
 	if (serverData?.user && serverData?.isAuthenticated) {
 		user = serverData.user;
 		clearErrors();
+	} else {
+		// Clear user state if not authenticated
+		user = null;
+		clearErrors();
 	}
 }
 
