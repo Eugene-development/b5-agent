@@ -123,6 +123,16 @@
 		}
 	});
 
+	// Mask secret key showing only last 4 characters
+	function maskSecretKey(key) {
+		if (!key || key.length <= 4) {
+			return key || 'Не указано';
+		}
+		const visiblePart = key.slice(-4);
+		const maskedPart = '*'.repeat(key.length - 4);
+		return maskedPart + visiblePart;
+	}
+
 	// Copy key to clipboard
 	async function copyKey() {
 		const user = getUserDisplayData();
@@ -276,17 +286,17 @@
 
 						<div>
 							<label for="user-key" class="mb-2 block text-sm font-medium text-gray-400">
-								Секретный ключ
+								Секретный ключ (кликните для копирования)
 							</label>
 							<button
 								type="button"
 								id="user-key"
-								class="cursor-pointer select-none rounded-md bg-white/10 px-4 py-3 font-mono text-lg text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
+								class="cursor-pointer select-none rounded-md bg-white/10 px-4 py-3 font-mono text-lg tracking-widest text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
 								onclick={copyKey}
 								title="Кликните для копирования ключа"
 								style="user-select: none;"
 							>
-								{user.key || 'Не указано'}
+								{maskSecretKey(user.key)}
 							</button>
 						</div>
 
@@ -341,7 +351,7 @@
 
 						<div>
 							<label for="user-id" class="mb-2 block text-sm font-medium text-gray-400">
-								Телефон или Telegram
+								Телефон
 							</label>
 							<div id="user-id" class="rounded-md bg-white/10 px-4 py-3 text-lg text-white">
 								{formatPhone(user.phone)}
