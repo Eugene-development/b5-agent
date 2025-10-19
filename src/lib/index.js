@@ -1,11 +1,15 @@
 // place files you want to import through the `$lib` alias in this folder.
 
-// Authentication components
-export { default as LoginForm } from './components/LoginForm.svelte';
-export { default as RegisterForm } from './components/RegisterForm.svelte';
+// UI components
 export { default as LogoutButton } from './components/LogoutButton.svelte';
 export { default as ErrorDisplay } from './components/ErrorDisplay.svelte';
 export { default as ErrorHandlerExample } from './components/ErrorHandlerExample.svelte';
+export { default as LoadingSpinner } from './components/LoadingSpinner.svelte';
+export { default as LoadingOverlay } from './components/LoadingOverlay.svelte';
+export { default as LoadingState } from './components/LoadingState.svelte';
+export { default as DataState } from './components/DataState.svelte';
+export { default as ErrorMessage } from './components/ErrorMessage.svelte';
+export { default as NavigationCards } from './components/NavigationCards.svelte';
 
 // Authentication utilities
 export * from './auth/auth.svelte.js';
