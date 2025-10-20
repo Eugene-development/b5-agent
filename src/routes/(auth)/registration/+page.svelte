@@ -166,7 +166,7 @@
 
 <!-- Success Notification -->
 {#if showSuccess}
-	<div class="animate-slide-in fixed right-4 top-4 z-50">
+	<div class="animate-slide-in fixed top-4 right-4 z-50">
 		<div
 			class="min-w-80 rounded-xl border border-green-500/20 bg-green-500/10 p-4 shadow-xl backdrop-blur-xl"
 		>
@@ -197,7 +197,7 @@
 	<!-- Animated gradient background -->
 	<div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
 		<div
-			class="absolute left-1/2 top-0 -translate-x-1/2 blur-3xl"
+			class="absolute top-0 left-1/2 -translate-x-1/2 blur-3xl"
 			style="width: 90rem; height: 50rem;"
 		>
 			<div
@@ -240,7 +240,7 @@
 		<div class="mx-auto mt-6 max-w-2xl sm:mt-12">
 			{#if errors.general}
 				<div
-					class="animate-shake mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-4 backdrop-blur-sm"
+					class="mb-6 animate-shake rounded-xl border border-red-500/20 bg-red-500/10 p-4 backdrop-blur-sm"
 				>
 					<div class="flex items-start gap-3">
 						<svg class="h-5 w-5 flex-shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -290,7 +290,7 @@
 									bind:value={formData.firstName}
 									disabled={isLoading}
 									placeholder="Иван"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.firstName
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.firstName
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
@@ -333,7 +333,7 @@
 									bind:value={formData.region}
 									disabled={isLoading}
 									placeholder="Москва"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.region
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.region
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
@@ -373,7 +373,7 @@
 									bind:value={formData.email}
 									disabled={isLoading}
 									placeholder="your@email.com"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.email
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.email
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
@@ -412,7 +412,7 @@
 									bind:value={formData.phone}
 									disabled={isLoading}
 									placeholder="+7 (900) 123-45-67"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.phone
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.phone
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
@@ -452,7 +452,7 @@
 									bind:value={formData.password}
 									disabled={isLoading}
 									placeholder="••••••••"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.password
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.password
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
@@ -491,7 +491,7 @@
 									bind:value={formData.passwordConfirm}
 									disabled={isLoading}
 									placeholder="••••••••"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.passwordConfirm
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.passwordConfirm
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
@@ -538,7 +538,7 @@
 					<button
 						type="submit"
 						disabled={isLoading || !formData.termsAccepted}
-						class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+						class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 					>
 						<span class="relative z-10 flex items-center justify-center gap-2">
 							{#if isLoading}

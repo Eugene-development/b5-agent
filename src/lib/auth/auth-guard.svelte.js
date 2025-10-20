@@ -84,7 +84,12 @@ export function createAuthLoad(options = {}) {
 		}
 
 		// Check email verification requirement
-		if (requireEmailVerification && authState.isAuthenticated && authState.user && !authState.user.email_verified_at) {
+		if (
+			requireEmailVerification &&
+			authState.isAuthenticated &&
+			authState.user &&
+			!authState.user.email_verified_at
+		) {
 			// User is authenticated but email not verified
 			throw redirect(302, '/email-verify');
 		}
@@ -112,7 +117,7 @@ export function createGuestLoad(options = {}) {
 	return async ({ url, parent }) => {
 		// Wait for parent layout data (includes auth state from server)
 		const parentData = await parent();
-		
+
 		// Use parent data if available, otherwise use current auth state
 		const isAuth = parentData?.isAuthenticated ?? authState.isAuthenticated;
 

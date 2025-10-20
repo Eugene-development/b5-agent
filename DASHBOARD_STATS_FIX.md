@@ -1,9 +1,11 @@
 # Исправление отображения статистики на Dashboard
 
 ## Проблема
+
 На странице dashboard в разделе "Быстрая статистика" количество активных проектов было захардкожено значением `12`, вместо отображения реальных данных из API.
 
 ## Решение
+
 Создан файл `src/routes/(protected)/dashboard/+page.js` для клиентской загрузки данных о проектах пользователя через API (аналогично странице проектов). Удален `+page.server.js`, так как данные теперь загружаются на клиенте.
 
 ## Изменения
@@ -17,49 +19,49 @@ import { error } from '@sveltejs/kit';
 import { createProjectsApi } from '$lib/api/projects.js';
 
 function calculateProjectStats(projects) {
-    if (!Array.isArray(projects)) {
-        return {
-            activeProjects: 0,
-            completedProjects: 0,
-            totalPayouts: 0
-        };
-    }
+	if (!Array.isArray(projects)) {
+		return {
+			activeProjects: 0,
+			completedProjects: 0,
+			totalPayouts: 0
+		};
+	}
 
-    const stats = {
-        activeProjects: 0,
-        completedProjects: 0,
-        totalPayouts: 0
-    };
+	const stats = {
+		activeProjects: 0,
+		completedProjects: 0,
+		totalPayouts: 0
+	};
 
-    for (const project of projects) {
-        // Check for active projects (handle different data types)
-        if (project?.is_active === true || project?.is_active === 1 || project?.is_active === '1') {
-            stats.activeProjects++;
-        } else {
-            stats.completedProjects++;
-        }
-    }
+	for (const project of projects) {
+		// Check for active projects (handle different data types)
+		if (project?.is_active === true || project?.is_active === 1 || project?.is_active === '1') {
+			stats.activeProjects++;
+		} else {
+			stats.completedProjects++;
+		}
+	}
 
-    return stats;
+	return stats;
 }
 
 export async function load({ fetch, parent }) {
-    const { user, isAuthenticated } = await parent();
+	const { user, isAuthenticated } = await parent();
 
-    if (!isAuthenticated || !user) {
-        throw error(401, { message: 'Необходима авторизация' });
-    }
+	if (!isAuthenticated || !user) {
+		throw error(401, { message: 'Необходима авторизация' });
+	}
 
-    const projectsApi = createProjectsApi(fetch);
-    const userProjects = await projectsApi.getByAgent(user.id);
-    const stats = calculateProjectStats(userProjects);
+	const projectsApi = createProjectsApi(fetch);
+	const userProjects = await projectsApi.getByAgent(user.id);
+	const stats = calculateProjectStats(userProjects);
 
-    return {
-        user,
-        stats,
-        isAuthenticated: true,
-        error: null
-    };
+	return {
+		user,
+		stats,
+		isAuthenticated: true,
+		error: null
+	};
 }
 ```
 
@@ -78,6 +80,7 @@ export async function load({ fetch, parent }) {
 ## Результат
 
 Теперь на странице dashboard в разделе "Быстрая статистика" отображается:
+
 - **Активных проектов**: реальное количество проектов пользователя со статусом `is_active = true`
 - **Закрытых проектов**: реальное количество проектов пользователя со статусом `is_active = false`
 - **Выплат получено**: пока 0 (требует дополнительной реализации)
@@ -85,6 +88,7 @@ export async function load({ fetch, parent }) {
 ## Тестирование
 
 Для проверки:
+
 1. Войдите в систему как пользователь с проектами
 2. Перейдите на страницу `/dashboard`
 3. Проверьте раздел "Быстрая статистика"
@@ -93,6 +97,7 @@ export async function load({ fetch, parent }) {
 ## Дополнительные улучшения
 
 В будущем можно добавить:
+
 - Подсчет выплат (`totalPayouts`) из финансовых данных
 - Кэширование статистики для улучшения производительности
 - Отображение дополнительной статистики (сумма контрактов, средний процент агента и т.д.)

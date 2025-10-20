@@ -13,7 +13,7 @@
 		<!-- Header section -->
 		<div class="mx-auto max-w-3xl text-center">
 			<p
-				class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
+				class="mt-2 text-4xl font-bold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl"
 			>
 				Для кого сервис
 			</p>

@@ -6,13 +6,13 @@
 	class="relative isolate overflow-x-hidden overflow-y-visible bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
 >
 	<div class="-mt-4 grid grid-cols-1 lg:grid-cols-2">
-		<div class="relative flex px-6 py-20 lg:static lg:px-8 lg:pt-32">
+		<div class="relative flex px-6 py-16 sm:py-20 lg:static lg:px-8 lg:pt-32">
 			<div class="mx-auto w-full max-w-xl lg:max-w-lg">
 				<div
 					class="absolute inset-y-0 left-0 -z-10 w-full overflow-hidden ring-1 ring-white/5 lg:w-1/2"
 				>
 					<svg
-						class="absolute inset-0 size-full stroke-indigo-500/30 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+						class="absolute inset-0 size-full [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] stroke-indigo-500/30"
 						aria-hidden="true"
 					>
 						<defs>
@@ -38,7 +38,7 @@
 						/>
 					</svg>
 					<div
-						class="absolute -left-56 top-[calc(100%-13rem)] transform-gpu blur-3xl lg:left-[max(-14rem,calc(100%-59rem))] lg:top-[calc(50%-7rem)]"
+						class="absolute top-[calc(100%-13rem)] -left-56 transform-gpu blur-3xl lg:top-[calc(50%-7rem)] lg:left-[max(-14rem,calc(100%-59rem))]"
 						aria-hidden="true"
 					>
 						<div
@@ -59,11 +59,12 @@
 					></div> -->
 				</div>
 
-				<p class="mt-8 text-xl font-medium leading-relaxed text-gray-100">
+				<p class="mt-8 text-xl leading-relaxed font-medium text-gray-100">
 					Бонус 5 — это сервис тайного маркетинга, который позволяет получать до <span
 						class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-2xl font-black text-transparent"
-						>5%</span
 					>
+						5%
+					</span>
 					с рекомендаций<sup class="text-cyan-400">*</sup>
 				</p>
 
@@ -189,7 +190,7 @@
 			</div>
 		</div>
 
-		<div class="relative hidden justify-center px-6 pb-12 pt-20 lg:flex lg:px-8 lg:pt-32">
+		<div class="relative hidden justify-center px-6 pt-20 pb-12 lg:flex lg:px-8 lg:pt-32">
 			<div class="relative mx-auto flex w-full max-w-xl items-center justify-center lg:max-w-2xl">
 				<div
 					class="absolute -inset-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 opacity-20 blur-2xl"

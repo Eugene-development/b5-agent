@@ -134,12 +134,9 @@
 
 <div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">
 	<!-- Animated gradient background -->
-	<div
-		class="absolute inset-0 -z-10 overflow-hidden"
-		aria-hidden="true"
-	>
+	<div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
 		<div
-			class="absolute left-1/2 top-0 -translate-x-1/2 blur-3xl"
+			class="absolute top-0 left-1/2 -translate-x-1/2 blur-3xl"
 			style="width: 90rem; height: 50rem;"
 		>
 			<div
@@ -185,11 +182,7 @@
 					class="mb-6 animate-shake rounded-xl border border-red-500/20 bg-red-500/10 p-4 backdrop-blur-sm"
 				>
 					<div class="flex items-start gap-3">
-						<svg
-							class="h-5 w-5 flex-shrink-0 text-red-400"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-						>
+						<svg class="h-5 w-5 flex-shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20">
 							<path
 								fill-rule="evenodd"
 								d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -232,7 +225,7 @@
 								bind:value={formData.email}
 								disabled={isLoading}
 								placeholder="your@email.com"
-								class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.email
+								class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.email
 									? 'ring-red-500/50 focus:ring-red-500'
 									: ''}"
 							/>
@@ -269,7 +262,7 @@
 								bind:value={formData.password}
 								disabled={isLoading}
 								placeholder="••••••••"
-								class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pl-10 pr-4 text-white shadow-sm ring-1 ring-inset ring-white/10 transition-all placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.password
+								class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.password
 									? 'ring-red-500/50 focus:ring-red-500'
 									: ''}"
 							/>
@@ -304,7 +297,7 @@
 					<button
 						type="submit"
 						disabled={isLoading}
-						class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+						class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 					>
 						<span class="relative z-10 flex items-center justify-center gap-2">
 							{#if isLoading}

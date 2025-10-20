@@ -10,27 +10,27 @@
 		 * @type {boolean} show - Controls overlay visibility
 		 */
 		show = false,
-		
+
 		/**
 		 * @type {string} message - Custom loading message to display
 		 */
 		message = 'Загрузка...',
-		
+
 		/**
 		 * @type {string} spinnerSize - Size of the loading spinner
 		 */
 		spinnerSize = 'large',
-		
+
 		/**
 		 * @type {string} spinnerColor - Color of the loading spinner
 		 */
 		spinnerColor = 'white',
-		
+
 		/**
 		 * @type {boolean} preventBodyScroll - Whether to prevent body scrolling
 		 */
 		preventBodyScroll = true,
-		
+
 		/**
 		 * @type {string} className - Additional CSS classes
 		 */
@@ -52,21 +52,11 @@
 </script>
 
 {#if show}
-	<div
-		class="loading-overlay {className}"
-		role="status"
-		aria-live="polite"
-		aria-label={message}
-	>
+	<div class="loading-overlay {className}" role="status" aria-live="polite" aria-label={message}>
 		<div class="loading-overlay__backdrop"></div>
-		
+
 		<div class="loading-overlay__content">
-			<LoadingSpinner
-				size={spinnerSize}
-				color={spinnerColor}
-				{message}
-				showMessage={true}
-			/>
+			<LoadingSpinner size={spinnerSize} color={spinnerColor} {message} showMessage={true} />
 		</div>
 	</div>
 {/if}
@@ -99,7 +89,9 @@
 		padding: 2rem;
 		border-radius: 0.5rem;
 		background-color: rgba(31, 41, 55, 0.95);
-		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

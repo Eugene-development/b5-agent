@@ -12,37 +12,37 @@
 		 * @type {boolean} isLoading - Whether content is loading
 		 */
 		isLoading = false,
-		
+
 		/**
 		 * @type {string} type - Type of loading display (spinner, skeleton, inline)
 		 */
 		type = 'spinner',
-		
+
 		/**
 		 * @type {string} message - Loading message
 		 */
 		message = 'Загрузка данных...',
-		
+
 		/**
 		 * @type {string} size - Size of loading indicator (small, medium, large)
 		 */
 		size = 'medium',
-		
+
 		/**
 		 * @type {string} className - Additional CSS classes
 		 */
 		className = '',
-		
+
 		/**
 		 * @type {number} skeletonRows - Number of skeleton rows to show
 		 */
 		skeletonRows = 3,
-		
+
 		/**
 		 * @type {boolean} showMessage - Whether to show loading message
 		 */
 		showMessage = true,
-		
+
 		/**
 		 * @type {string} minHeight - Minimum height for loading container
 		 */
@@ -62,20 +62,15 @@
 </script>
 
 {#if isLoading}
-	<div 
-		class={containerClasses()} 
+	<div
+		class={containerClasses()}
 		style="min-height: {minHeight};"
-		role="status" 
+		role="status"
 		aria-live="polite"
 		aria-label={message}
 	>
 		{#if type === 'spinner'}
-			<LoadingSpinner 
-				{size} 
-				{message} 
-				{showMessage}
-				className="loading-state-spinner"
-			/>
+			<LoadingSpinner {size} {message} {showMessage} className="loading-state-spinner" />
 		{:else if type === 'skeleton'}
 			<div class="skeleton-container">
 				{#if showMessage}
@@ -308,7 +303,7 @@
 			padding: 0.5rem;
 		}
 
-		.table-skeleton-cell:nth-child(n+3) {
+		.table-skeleton-cell:nth-child(n + 3) {
 			display: none;
 		}
 	}

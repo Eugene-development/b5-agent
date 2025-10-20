@@ -174,7 +174,7 @@
 <div class="relative isolate bg-gray-950 py-16 sm:py-24">
 	<!-- Success Message -->
 	{#if showSuccessMessage}
-		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-green-500/30 bg-green-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
@@ -199,7 +199,7 @@
 	{/if}
 
 	{#if showCopyMessage}
-		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-blue-500/30 bg-blue-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
@@ -291,7 +291,7 @@
 							<button
 								type="button"
 								id="user-key"
-								class="cursor-pointer select-none rounded-md bg-white/10 px-4 py-3 font-mono text-lg tracking-widest text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
+								class="cursor-pointer rounded-md bg-white/10 px-4 py-3 font-mono text-lg tracking-widest text-white transition-all duration-200 select-none hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
 								onclick={copyKey}
 								title="Кликните для копирования ключа"
 								style="user-select: none;"

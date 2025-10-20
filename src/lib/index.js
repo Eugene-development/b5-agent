@@ -10,6 +10,7 @@ export { default as LoadingState } from './components/LoadingState.svelte';
 export { default as DataState } from './components/DataState.svelte';
 export { default as ErrorMessage } from './components/ErrorMessage.svelte';
 export { default as NavigationCards } from './components/NavigationCards.svelte';
+export { default as PageTransition } from './components/PageTransition/index.svelte';
 
 // Authentication utilities
 export * from './auth/auth.svelte.js';

@@ -1,7 +1,7 @@
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div
-		class="bg-linear-to-b absolute inset-x-0 top-0 -z-10 h-[600px] from-emerald-500/10 via-teal-500/5 to-transparent"
+		class="absolute inset-x-0 top-0 -z-10 h-[600px] bg-linear-to-b from-emerald-500/10 via-teal-500/5 to-transparent"
 	></div>
 
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -27,7 +27,7 @@
 			</div>
 
 			<h1
-				class="bg-linear-to-r mt-8 from-white via-emerald-200 to-teal-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
+				class="mt-8 bg-linear-to-r from-white via-emerald-200 to-teal-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
 			>
 				Выплаты
 			</h1>

@@ -205,8 +205,8 @@ export async function login(email, password, options = {}) {
 		// Initialize CSRF protection first
 		await initCsrf();
 
-		const data = await authHttpClient.post('/api/login', { 
-			email, 
+		const data = await authHttpClient.post('/api/login', {
+			email,
 			password,
 			remember: options.remember || false
 		});

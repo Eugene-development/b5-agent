@@ -229,7 +229,7 @@
 							/>
 						{/if}
 					</svg>
-					{isRefreshing ? 'Обновляю...' : 'Обновить'}
+					{isRefreshing ? 'Обновляю...' : 'Обновить данные'}
 				</button>
 				<button
 					type="button"
@@ -384,70 +384,70 @@
 
 			<!-- Filters and Search -->
 			{#if showFilters}
-			<div class="mb-6 rounded-lg bg-gray-800 shadow">
-				<div class="p-4 sm:p-6">
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-						<!-- Search Input -->
-						<div class="sm:col-span-2 lg:col-span-2">
-							<label for="search" class="mb-2 block text-sm font-medium text-gray-300">
-								Поиск проектов
-							</label>
-							<div class="relative">
-								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-									<svg
-										class="h-5 w-5 text-gray-400"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-										/>
-									</svg>
+				<div class="mb-6 rounded-lg bg-gray-800 shadow">
+					<div class="p-4 sm:p-6">
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+							<!-- Search Input -->
+							<div class="sm:col-span-2 lg:col-span-2">
+								<label for="search" class="mb-2 block text-sm font-medium text-gray-300">
+									Поиск проектов
+								</label>
+								<div class="relative">
+									<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+										<svg
+											class="h-5 w-5 text-gray-400"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+											/>
+										</svg>
+									</div>
+									<input
+										id="search"
+										type="text"
+										bind:value={searchTerm}
+										placeholder="Поиск по названию, городу, описанию или агенту..."
+										class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 pr-3 pl-10 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+									/>
 								</div>
-								<input
-									id="search"
-									type="text"
-									bind:value={searchTerm}
-									placeholder="Поиск по названию, городу, описанию или агенту..."
-									class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 pl-10 pr-3 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
-								/>
 							</div>
-						</div>
 
-						<!-- Status Filter -->
-						<div>
-							<label for="status-filter" class="mb-2 block text-sm font-medium text-gray-300">
-								Статус
-							</label>
-							<select
-								id="status-filter"
-								bind:value={statusFilter}
-								class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-							>
-								<option value="">Все статусы</option>
-								<option value="active">В обработке</option>
-								<option value="active">Активный</option>
-								<option value="paused">Выполнен</option>
-								<option value="completed">Завершен</option>
-							</select>
-						</div>
+							<!-- Status Filter -->
+							<div>
+								<label for="status-filter" class="mb-2 block text-sm font-medium text-gray-300">
+									Статус
+								</label>
+								<select
+									id="status-filter"
+									bind:value={statusFilter}
+									class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+								>
+									<option value="">Все статусы</option>
+									<option value="active">В обработке</option>
+									<option value="active">Активный</option>
+									<option value="paused">Выполнен</option>
+									<option value="completed">Завершен</option>
+								</select>
+							</div>
 
-						<!-- Clear Filters Button -->
-						<div class="flex items-end">
-							<button
-								onclick={clearFilters}
-								class="h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-							>
-								Очистить фильтры
-							</button>
+							<!-- Clear Filters Button -->
+							<div class="flex items-end">
+								<button
+									onclick={clearFilters}
+									class="h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+								>
+									Очистить фильтры
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			{/if}
 
 			<!-- Projects Table -->
@@ -459,12 +459,12 @@
 							<thead class="bg-gray-700">
 								<tr>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
 									>
 										№
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600"
 										onclick={() => handleSort('value')}
 									>
 										<div class="flex items-center space-x-1">
@@ -487,7 +487,7 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600"
 										onclick={() => handleSort('region')}
 									>
 										<div class="flex items-center space-x-1">
@@ -510,7 +510,7 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 md:table-cell"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600 md:table-cell"
 										onclick={() => handleSort('contract_amount')}
 									>
 										<div class="flex items-center space-x-1">
@@ -533,7 +533,7 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 lg:table-cell"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600 lg:table-cell"
 										onclick={() => handleSort('planned_completion_date')}
 									>
 										<div class="flex items-center space-x-1">
@@ -556,12 +556,12 @@
 										</div>
 									</th>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
 									>
 										Статус
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600 sm:table-cell"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600 sm:table-cell"
 										onclick={() => handleSort('created_at')}
 									>
 										<div class="flex items-center space-x-1">
@@ -588,10 +588,10 @@
 							<tbody class="divide-y divide-gray-700 bg-gray-800">
 								{#each sortedProjects() as project, index (project.id)}
 									<tr class="hover:bg-gray-700">
-										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
+										<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-white">
 											{sortedProjects().length - index}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4">
+										<td class="px-6 py-4 whitespace-nowrap">
 											<div class="text-sm font-medium text-white">
 												{project.value || 'Не указано'}
 											</div>
@@ -604,16 +604,16 @@
 												</div>
 											{/if}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
+										<td class="px-6 py-4 text-sm whitespace-nowrap text-white">
 											{project.region || 'Не указано'}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-sm text-white md:table-cell">
+										<td class="px-6 py-4 text-sm whitespace-nowrap text-white md:table-cell">
 											{formatCurrency(project.contract_amount)}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-sm text-white lg:table-cell">
+										<td class="px-6 py-4 text-sm whitespace-nowrap text-white lg:table-cell">
 											{formatDate(project.planned_completion_date)}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4">
+										<td class="px-6 py-4 whitespace-nowrap">
 											<span
 												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
 													project.is_active
@@ -622,7 +622,7 @@
 												{getStatusText(project.is_active)}
 											</span>
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-sm text-white sm:table-cell">
+										<td class="px-6 py-4 text-sm whitespace-nowrap text-white sm:table-cell">
 											{formatDate(project.created_at)}
 										</td>
 									</tr>
@@ -670,7 +670,6 @@
 					{/if}
 				</div>
 			{/if}
-
 		</DataState>
 
 		<!-- Navigation Cards -->

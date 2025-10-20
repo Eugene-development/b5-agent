@@ -71,7 +71,12 @@
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/20">
-							<svg class="h-6 w-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg
+								class="h-6 w-6 text-blue-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -92,7 +97,12 @@
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/20">
-							<svg class="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg
+								class="h-6 w-6 text-green-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -113,7 +123,12 @@
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/20">
-							<svg class="h-6 w-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg
+								class="h-6 w-6 text-purple-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -134,7 +149,12 @@
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-500/20">
-							<svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg
+								class="h-6 w-6 text-yellow-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -155,7 +175,12 @@
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-500/20">
-							<svg class="h-6 w-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg
+								class="h-6 w-6 text-cyan-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -176,7 +201,12 @@
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-500/20">
-							<svg class="h-6 w-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg
+								class="h-6 w-6 text-indigo-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
@@ -188,7 +218,9 @@
 					</div>
 					<div class="ml-4">
 						<p class="text-sm font-medium text-gray-400">Средний чек</p>
-						<p class="text-2xl font-semibold text-white">{formatCurrency(stats.averageProjectValue)}</p>
+						<p class="text-2xl font-semibold text-white">
+							{formatCurrency(stats.averageProjectValue)}
+						</p>
 					</div>
 				</div>
 			</div>
@@ -251,16 +283,24 @@
 					<table class="min-w-full divide-y divide-gray-700">
 						<thead>
 							<tr>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
+								>
 									Название
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
+								>
 									Регион
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
+								>
 									Доход
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
+								>
 									Статус
 								</th>
 							</tr>
@@ -268,16 +308,16 @@
 						<tbody class="divide-y divide-gray-700">
 							{#each topProjects as project}
 								<tr class="hover:bg-gray-700/50">
-									<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
+									<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-white">
 										{project.name}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+									<td class="px-6 py-4 text-sm whitespace-nowrap text-gray-300">
 										{project.region}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
+									<td class="px-6 py-4 text-sm whitespace-nowrap text-white">
 										{formatCurrency(project.revenue)}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4">
+									<td class="px-6 py-4 whitespace-nowrap">
 										{#if project.status === 'active'}
 											<span
 												class="inline-flex rounded-full border border-green-600 bg-green-800 px-2 py-1 text-xs font-semibold text-green-200"

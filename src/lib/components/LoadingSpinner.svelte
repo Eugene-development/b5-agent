@@ -10,22 +10,22 @@
 		 * @type {string} size - Size of the spinner (small, medium, large)
 		 */
 		size = 'medium',
-		
+
 		/**
 		 * @type {string} message - Optional loading message
 		 */
 		message = 'Загрузка...',
-		
+
 		/**
 		 * @type {boolean} showMessage - Whether to show the loading message
 		 */
 		showMessage = true,
-		
+
 		/**
 		 * @type {string} className - Additional CSS classes
 		 */
 		className = '',
-		
+
 		/**
 		 * @type {string} color - Color theme (primary, secondary, white)
 		 */
@@ -48,7 +48,7 @@
 		<div class="spinner-circle"></div>
 		<div class="spinner-circle"></div>
 	</div>
-	
+
 	{#if showMessage && message}
 		<div class="loading-message">
 			{message}
@@ -150,7 +150,9 @@
 	}
 
 	@keyframes loading-spinner {
-		0%, 80%, 100% {
+		0%,
+		80%,
+		100% {
 			transform: scale(0);
 		}
 		40% {
@@ -181,7 +183,7 @@
 		.spinner-circle {
 			animation: none;
 		}
-		
+
 		.loading-spinner::after {
 			content: '';
 			position: absolute;

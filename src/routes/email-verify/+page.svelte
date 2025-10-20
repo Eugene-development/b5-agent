@@ -165,7 +165,7 @@
 	<!-- Animated gradient background -->
 	<div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
 		<div
-			class="absolute left-1/2 top-0 -translate-x-1/2 blur-3xl"
+			class="absolute top-0 left-1/2 -translate-x-1/2 blur-3xl"
 			style="width: 90rem; height: 50rem;"
 		>
 			<div
@@ -204,9 +204,7 @@
 			</h1>
 			<p class="mt-6 text-lg leading-8 text-gray-300">
 				Мы отправили письмо с подтверждением на<br />
-				<span class="font-semibold text-indigo-400"
-					>{authState.user?.email || 'вашу почту'}</span
-				>
+				<span class="font-semibold text-indigo-400">{authState.user?.email || 'вашу почту'}</span>
 			</p>
 		</div>
 
@@ -215,7 +213,7 @@
 			<!-- Success Notification -->
 			{#if showSuccess}
 				<div
-					class="mb-6 animate-slide-in rounded-xl border border-green-500/20 bg-green-500/10 p-4 backdrop-blur-sm"
+					class="animate-slide-in mb-6 rounded-xl border border-green-500/20 bg-green-500/10 p-4 backdrop-blur-sm"
 				>
 					<div class="flex items-start gap-3">
 						<div
@@ -256,11 +254,7 @@
 					class="mb-6 animate-shake rounded-xl border border-red-500/20 bg-red-500/10 p-4 backdrop-blur-sm"
 				>
 					<div class="flex items-start gap-3">
-						<svg
-							class="h-5 w-5 flex-shrink-0 text-red-400"
-							fill="currentColor"
-							viewBox="0 0 20 20"
-						>
+						<svg class="h-5 w-5 flex-shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20">
 							<path
 								fill-rule="evenodd"
 								d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -309,9 +303,7 @@
 						</div>
 						<div class="flex-1">
 							<h3 class="font-semibold text-white">Email отправлен</h3>
-							<p class="mt-1 text-sm text-gray-400">
-								Проверьте папку "Входящие" и "Спам"
-							</p>
+							<p class="mt-1 text-sm text-gray-400">Проверьте папку "Входящие" и "Спам"</p>
 						</div>
 					</div>
 				</div>
@@ -320,7 +312,7 @@
 				<button
 					onclick={handleResendEmail}
 					disabled={cooldownTime > 0 || isResending}
-					class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+					class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 				>
 					<span class="relative z-10 flex items-center justify-center gap-2">
 						{#if isResending}

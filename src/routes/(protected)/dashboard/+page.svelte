@@ -60,13 +60,13 @@
 
 	<!-- Success Message -->
 	{#if showSuccessMessage}
-		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-green-500/30 bg-green-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
 				<div class="flex items-start">
 					<svg
-						class="mr-3 mt-0.5 h-5 w-5 text-green-400"
+						class="mt-0.5 mr-3 h-5 w-5 text-green-400"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -86,13 +86,13 @@
 
 	<!-- Email Verification Warning -->
 	{#if authState.user && !authState.user.email_verified_at}
-		<div class="fixed left-1/2 top-16 z-40 w-full max-w-lg -translate-x-1/2 transform px-4">
+		<div class="fixed top-16 left-1/2 z-40 w-full max-w-lg -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-yellow-500/30 bg-yellow-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
 				<div class="flex items-start">
 					<svg
-						class="mr-3 mt-0.5 h-5 w-5 text-yellow-400"
+						class="mt-0.5 mr-3 h-5 w-5 text-yellow-400"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"

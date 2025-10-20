@@ -96,7 +96,7 @@
 
 	<div class="mx-auto mb-12 max-w-3xl text-center">
 		<p
-			class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
+			class="mt-2 text-4xl font-bold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl"
 		>
 			Преимущества
 		</p>
@@ -116,8 +116,8 @@
 					: index === 4
 						? 'sm:rounded-bl-lg'
 						: index === 5
-							? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
-							: ''} sm:odd:not-nth-last-2:border-b sm:even:not-last:border-b group relative border-gray-700/50 p-6 transition-all duration-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 hover:bg-white/10 sm:even:border-l"
+							? 'rounded-br-lg rounded-bl-lg sm:rounded-bl-none'
+							: ''} group relative border-gray-700/50 p-6 transition-all duration-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 hover:bg-white/10 sm:odd:not-nth-last-2:border-b sm:even:border-l sm:even:not-last:border-b"
 			>
 				<div>
 					<span
@@ -149,7 +149,7 @@
 				</div>
 				<span
 					aria-hidden="true"
-					class="pointer-events-none absolute right-6 top-6 text-gray-600 transition-colors duration-300 group-hover:text-indigo-400"
+					class="pointer-events-none absolute top-6 right-6 text-gray-600 transition-colors duration-300 group-hover:text-indigo-400"
 				>
 					<svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
 						<path
