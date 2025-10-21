@@ -1,7 +1,7 @@
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div
-		class="absolute inset-x-0 top-0 -z-10 h-[600px] bg-linear-to-b from-indigo-500/10 via-purple-500/5 to-transparent"
+		class="bg-linear-to-b absolute inset-x-0 top-0 -z-10 h-[600px] from-indigo-500/10 via-purple-500/5 to-transparent"
 	></div>
 
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@
 			</div>
 
 			<h1
-				class="mt-8 bg-linear-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
+				class="bg-linear-to-r mt-8 from-white via-indigo-200 to-purple-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
 			>
 				Проект BONUS5
 			</h1>
@@ -245,7 +245,7 @@
 				<div class="mt-8">
 					<a
 						href="/registration"
-						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
 					>
 						Зарегистрироваться
 						<svg
