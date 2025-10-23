@@ -147,14 +147,30 @@
 		}).format(amount);
 	}
 
-	function getStatusBadgeClass(isActive) {
-		return isActive
+	function getStatusBadgeClass(status) {
+		if (!status) {
+			return 'bg-gray-700 text-gray-300 border-gray-500';
+		}
+		
+		// Если есть цвет в статусе, используем его
+		if (status.color) {
+			return `border-[${status.color}]`;
+		}
+		
+		// Иначе используем цвет по умолчанию в зависимости от активности
+		return status.is_active
 			? 'bg-green-800 text-green-200 border-green-600'
 			: 'bg-gray-700 text-gray-300 border-gray-500';
 	}
 
-	function getStatusText(isActive) {
-		return isActive ? 'Активный' : 'Неактивный';
+	function getStatusText(project) {
+		// Если есть статус из таблицы project_statuses, используем его
+		if (project.status?.value) {
+			return project.status.value;
+		}
+		
+		// Иначе используем старую логику на основе is_active
+		return project.is_active ? 'Активный' : 'Неактивный';
 	}
 
 	// Handle retry functionality
@@ -468,7 +484,7 @@
 										onclick={() => handleSort('value')}
 									>
 										<div class="flex items-center space-x-1">
-											<span>Название</span>
+											<span>Проект</span>
 											{#if sortBy === 'value'}
 												<svg
 													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
@@ -491,7 +507,7 @@
 										onclick={() => handleSort('region')}
 									>
 										<div class="flex items-center space-x-1">
-											<span>Регион</span>
+											<span>Адрес объекта</span>
 											{#if sortBy === 'region'}
 												<svg
 													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
@@ -604,8 +620,13 @@
 												</div>
 											{/if}
 										</td>
-										<td class="px-6 py-4 text-sm whitespace-nowrap text-white">
-											{project.region || 'Не указано'}
+										<td class="px-6 py-4 text-sm text-white">
+											<div class="relative max-w-[280px] overflow-hidden">
+												<div class="truncate">
+													{project.region || 'Не указано'}
+												</div>
+												<div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-gray-800 to-transparent"></div>
+											</div>
 										</td>
 										<td class="px-6 py-4 text-sm whitespace-nowrap text-white md:table-cell">
 											{formatCurrency(project.contract_amount)}
@@ -616,10 +637,11 @@
 										<td class="px-6 py-4 whitespace-nowrap">
 											<span
 												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
-													project.is_active
+													project.status
 												)}"
+												style={project.status?.color ? `background-color: ${project.status.color}20; color: ${project.status.color}; border-color: ${project.status.color}` : ''}
 											>
-												{getStatusText(project.is_active)}
+												{getStatusText(project)}
 											</span>
 										</td>
 										<td class="px-6 py-4 text-sm whitespace-nowrap text-white sm:table-cell">

@@ -20,10 +20,19 @@ const PROJECTS_QUERIES = {
 					id
 					value
 					user_id
+					status_id
 					agent {
 						id
 						name
 						email
+					}
+					status {
+						id
+						value
+						slug
+						color
+						icon
+						is_active
 					}
 					region
 					description
@@ -56,10 +65,19 @@ const PROJECTS_QUERIES = {
 				id
 				value
 				user_id
+				status_id
 				agent {
 					id
 					name
 					email
+				}
+				status {
+					id
+					value
+					slug
+					color
+					icon
+					is_active
 				}
 				region
 				description
@@ -84,10 +102,19 @@ const PROJECTS_QUERIES = {
 				id
 				value
 				user_id
+				status_id
 				agent {
 					id
 					name
 					email
+				}
+				status {
+					id
+					value
+					slug
+					color
+					icon
+					is_active
 				}
 				region
 				description
@@ -113,10 +140,19 @@ const PROJECTS_QUERIES = {
 					id
 					value
 					user_id
+					status_id
 					agent {
 						id
 						name
 						email
+					}
+					status {
+						id
+						value
+						slug
+						color
+						icon
+						is_active
 					}
 					region
 					description
