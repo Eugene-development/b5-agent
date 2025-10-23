@@ -9,6 +9,7 @@
 	import DataState from '$lib/components/DataState.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import NavigationCards from '$lib/components/NavigationCards.svelte';
+	import ProjectDetailsModal from '$lib/components/ProjectDetailsModal.svelte';
 	import { goto, invalidate } from '$app/navigation';
 
 	// Get client-loaded data
@@ -20,6 +21,7 @@
 	let sortBy = $state('created_at');
 	let sortOrder = $state('desc');
 	let showFilters = $state(false);
+	let selectedProject = $state(null);
 
 	// Optimized search term for case-insensitive comparison
 	let normalizedSearchTerm = $derived(searchTerm.toLowerCase().trim());
@@ -196,6 +198,16 @@
 	// Toggle filters visibility
 	function toggleFilters() {
 		showFilters = !showFilters;
+	}
+
+	// Open project details modal
+	function openProjectDetails(project) {
+		selectedProject = project;
+	}
+
+	// Close project details modal
+	function closeProjectDetails() {
+		selectedProject = null;
 	}
 </script>
 
@@ -526,52 +538,6 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600 md:table-cell"
-										onclick={() => handleSort('contract_amount')}
-									>
-										<div class="flex items-center space-x-1">
-											<span>Сумма контракта</span>
-											{#if sortBy === 'contract_amount'}
-												<svg
-													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M19 9l-7 7-7-7"
-													/>
-												</svg>
-											{/if}
-										</div>
-									</th>
-									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600 lg:table-cell"
-										onclick={() => handleSort('planned_completion_date')}
-									>
-										<div class="flex items-center space-x-1">
-											<span>Плановая дата</span>
-											{#if sortBy === 'planned_completion_date'}
-												<svg
-													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M19 9l-7 7-7-7"
-													/>
-												</svg>
-											{/if}
-										</div>
-									</th>
-									<th
 										class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
 									>
 										Статус
@@ -603,7 +569,18 @@
 							</thead>
 							<tbody class="divide-y divide-gray-700 bg-gray-800">
 								{#each sortedProjects() as project, index (project.id)}
-									<tr class="hover:bg-gray-700">
+									<tr
+										class="group cursor-pointer transition-colors hover:bg-gray-700"
+										onclick={() => openProjectDetails(project)}
+										role="button"
+										tabindex="0"
+										onkeydown={(e) => {
+											if (e.key === 'Enter' || e.key === ' ') {
+												e.preventDefault();
+												openProjectDetails(project);
+											}
+										}}
+									>
 										<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-white">
 											{sortedProjects().length - index}
 										</td>
@@ -625,14 +602,8 @@
 												<div class="truncate">
 													{project.region || 'Не указано'}
 												</div>
-												<div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-gray-800 to-transparent"></div>
+												<div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-gray-800 to-transparent group-hover:from-gray-700"></div>
 											</div>
-										</td>
-										<td class="px-6 py-4 text-sm whitespace-nowrap text-white md:table-cell">
-											{formatCurrency(project.contract_amount)}
-										</td>
-										<td class="px-6 py-4 text-sm whitespace-nowrap text-white lg:table-cell">
-											{formatDate(project.planned_completion_date)}
 										</td>
 										<td class="px-6 py-4 whitespace-nowrap">
 											<span
@@ -650,7 +621,7 @@
 									</tr>
 								{:else}
 									<tr>
-										<td colspan="7" class="px-6 py-12 text-center">
+										<td colspan="5" class="px-6 py-12 text-center">
 											<div class="flex flex-col items-center">
 												<svg
 													class="w-12 h-12 text-gray-400 mb-4"
@@ -712,3 +683,6 @@
 		</div>
 	</div>
 </div>
+
+<!-- Project Details Modal -->
+<ProjectDetailsModal bind:project={selectedProject} onClose={closeProjectDetails} />
