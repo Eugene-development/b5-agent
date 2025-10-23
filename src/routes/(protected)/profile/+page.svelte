@@ -88,8 +88,10 @@
 	let successMessage = $state('');
 
 	// Copy functionality
-	let showCopyMessage = $state(false);
-	let copyMessage = $state('');
+	let copyState = $state({
+		show: false,
+		message: ''
+	});
 
 	// Check for verification success message and initialize
 	onMount(() => {
@@ -138,29 +140,29 @@
 		const user = getUserDisplayData();
 		const key = user?.key;
 		if (!key) {
-			showCopyMessage = true;
-			copyMessage = 'Ошибка: секретный ключ не найден';
+			copyState.show = true;
+			copyState.message = 'Ошибка: секретный ключ не найден';
 			setTimeout(() => {
-				showCopyMessage = false;
+				copyState.show = false;
 			}, 3000);
 			return;
 		}
 
 		try {
 			await navigator.clipboard.writeText(key);
-			showCopyMessage = true;
-			copyMessage = 'Ключ скопирован в буфер обмена!';
+			copyState.show = true;
+			copyState.message = 'Ключ скопирован в буфер обмена!';
 
 			setTimeout(() => {
-				showCopyMessage = false;
+				copyState.show = false;
 			}, 3000);
 		} catch (error) {
 			console.error('Failed to copy key:', error);
-			showCopyMessage = true;
-			copyMessage = 'Ошибка копирования ключа';
+			copyState.show = true;
+			copyState.message = 'Ошибка копирования ключа';
 
 			setTimeout(() => {
-				showCopyMessage = false;
+				copyState.show = false;
 			}, 3000);
 		}
 	}
@@ -174,11 +176,11 @@
 <div class="relative isolate bg-gray-950 py-16 sm:py-24">
 	<!-- Success Message -->
 	{#if showSuccessMessage}
-		<div class="fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="fixed left-1/2 top-24 z-[9999] w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-green-500/30 bg-green-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
-				<div class="flex items-center">
+				<div class="flex items-center justify-center text-center">
 					<svg
 						class="mr-3 h-6 w-6 text-green-400"
 						fill="none"
@@ -198,12 +200,12 @@
 		</div>
 	{/if}
 
-	{#if showCopyMessage}
-		<div class="fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+	{#if copyState.show}
+		<div class="fixed left-1/2 top-24 z-[9999] w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-blue-500/30 bg-blue-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
-				<div class="flex items-center">
+				<div class="flex items-center text-center">
 					<svg
 						class="mr-3 h-6 w-6 text-blue-400"
 						fill="none"
@@ -217,7 +219,7 @@
 							d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
 						/>
 					</svg>
-					<p class="text-sm font-medium text-blue-300">{copyMessage}</p>
+					<p class="text-sm font-medium text-blue-300">{copyState.message}</p>
 				</div>
 			</div>
 		</div>
@@ -291,7 +293,7 @@
 							<button
 								type="button"
 								id="user-key"
-								class="cursor-pointer rounded-md bg-white/10 px-4 py-3 font-mono text-lg tracking-widest text-white transition-all duration-200 select-none hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
+								class="cursor-pointer select-none rounded-md bg-white/10 px-4 py-3 font-mono text-lg tracking-widest text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
 								onclick={copyKey}
 								title="Кликните для копирования ключа"
 								style="user-select: none;"
@@ -383,36 +385,6 @@
 						</div>
 					</div>
 				{/if}
-			</div>
-		{/if}
-
-		{#if false}
-			<!-- {#if user && !emailVerified} -->
-			<div class="mt-6 rounded-md bg-yellow-500/10 p-4">
-				<div class="flex">
-					<svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-						<path
-							fill-rule="evenodd"
-							d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-							clip-rule="evenodd"
-						/>
-					</svg>
-					<div class="ml-3">
-						<h3 class="text-sm font-medium text-yellow-400">Требуется подтверждение email</h3>
-						<div class="mt-2 text-sm text-yellow-300">
-							<p>Для доступа ко всем функциям необходимо подтвердить email адрес.</p>
-						</div>
-						<!-- Email verification link commented out until route is implemented -->
-						<div class="mt-4">
-							<a
-								href="/email-verify"
-								class="rounded-md bg-yellow-500 px-3 py-2 text-sm font-medium text-black hover:bg-yellow-400"
-							>
-								Подтвердить email
-							</a>
-						</div>
-					</div>
-				</div>
 			</div>
 		{/if}
 	</div>

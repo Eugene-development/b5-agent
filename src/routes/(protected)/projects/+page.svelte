@@ -598,11 +598,8 @@
 											{/if}
 										</td>
 										<td class="px-6 py-4 text-sm text-white">
-											<div class="relative max-w-[280px] overflow-hidden">
-												<div class="truncate">
-													{project.region || 'Не указано'}
-												</div>
-												<div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-gray-800 to-transparent group-hover:from-gray-700"></div>
+											<div class="max-w-[280px] truncate">
+												{project.region || 'Не указано'}
 											</div>
 										</td>
 										<td class="px-6 py-4 whitespace-nowrap">

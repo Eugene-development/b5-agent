@@ -43,7 +43,7 @@
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+		class="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50 overflow-y-auto p-4 pt-20"
 		onclick={handleBackdropClick}
 		role="dialog"
 		aria-modal="true"
@@ -51,10 +51,10 @@
 		tabindex="-1"
 	>
 		<div
-			class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg bg-gray-800 shadow-xl"
+			class="relative w-full max-w-4xl my-8 rounded-lg bg-gray-800 shadow-xl"
 		>
 			<!-- Header -->
-			<div class="sticky top-0 z-10 flex items-center justify-between border-b border-gray-700 bg-gray-800 px-6 py-4">
+			<div class="flex items-center justify-between border-b border-gray-700 bg-gray-800 px-6 py-4 rounded-t-lg">
 				<h2 id="modal-title" class="text-2xl font-bold text-white">
 					{project.value || 'Проект'}
 				</h2>
@@ -192,7 +192,7 @@
 			</div>
 
 			<!-- Footer -->
-			<div class="sticky bottom-0 border-t border-gray-700 bg-gray-800 px-6 py-4">
+			<div class="border-t border-gray-700 bg-gray-800 px-6 py-4 rounded-b-lg">
 				<div class="flex justify-end">
 					<button
 						onclick={onClose}
