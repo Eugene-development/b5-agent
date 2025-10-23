@@ -293,7 +293,7 @@
 							<button
 								type="button"
 								id="user-key"
-								class="cursor-pointer select-none rounded-md bg-white/10 px-4 py-3 font-mono text-lg tracking-widest text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95"
+								class="cursor-pointer select-none rounded-md bg-white/10 px-4 py-3 font-mono text-sm tracking-widest text-white transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:shadow-lg active:scale-95 sm:text-lg"
 								onclick={copyKey}
 								title="Кликните для копирования ключа"
 								style="user-select: none;"
