@@ -2,9 +2,15 @@
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import NavigationCards from '$lib/components/NavigationCards.svelte';
 
+	/** @type {import('./$types').PageData} */
+	let { data } = $props();
+
+	// Extract data from server load function
+	const totalProjects = data?.totalProjects || 0;
+
 	// Mock data for statistics
 	const stats = {
-		totalProjects: 24,
+		totalProjects: totalProjects,
 		activeProjects: 18,
 		completedProjects: 6,
 		totalRevenue: 15750000,
@@ -93,7 +99,7 @@
 				</div>
 			</div>
 
-			<div class="rounded-lg bg-gray-800 p-6 shadow">
+			<!-- <div class="rounded-lg bg-gray-800 p-6 shadow">
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
 						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/20">
@@ -223,12 +229,11 @@
 						</p>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- Charts Section -->
-		<div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-			<!-- Monthly Revenue Chart -->
+		<!-- <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
 			<div class="rounded-lg bg-gray-800 p-6 shadow">
 				<h2 class="mb-6 text-xl font-semibold text-white">Доход по месяцам</h2>
 				<div class="space-y-4">
@@ -249,7 +254,6 @@
 				</div>
 			</div>
 
-			<!-- Regional Distribution -->
 			<div class="rounded-lg bg-gray-800 p-6 shadow">
 				<h2 class="mb-6 text-xl font-semibold text-white">Распределение по регионам</h2>
 				<div class="space-y-4">
@@ -273,10 +277,10 @@
 					{/each}
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<!-- Top Projects Table -->
-		<div class="mb-8 overflow-hidden rounded-lg bg-gray-800 shadow">
+		<!-- <div class="mb-8 overflow-hidden rounded-lg bg-gray-800 shadow">
 			<div class="p-6">
 				<h2 class="mb-6 text-xl font-semibold text-white">Топ проектов</h2>
 				<div class="overflow-x-auto">
@@ -338,7 +342,7 @@
 					</table>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<!-- Navigation Cards -->
 		<NavigationCards currentPage="statistics" />
