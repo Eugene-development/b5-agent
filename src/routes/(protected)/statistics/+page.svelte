@@ -99,6 +99,31 @@
 				</div>
 			</div>
 
+			<div class="rounded-lg bg-gray-800 p-6 shadow">
+				<div class="flex items-center">
+					<div class="flex-shrink-0">
+						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-500/20">
+							<svg
+								class="h-6 w-6 text-gray-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+								/>
+							</svg>
+						</div>
+					</div>
+					<div class="ml-4">
+						<p class="text-sm font-medium text-gray-400">Здесь будет новый модуль</p>
+					</div>
+				</div>
+			</div>
+
 			<!-- <div class="rounded-lg bg-gray-800 p-6 shadow">
 				<div class="flex items-center">
 					<div class="flex-shrink-0">
