@@ -1,5 +1,16 @@
 <script>
 	import bonusImage from './img/Gemini_Generated_Image_iowmgviowmgviowm.png';
+	import { onMount } from 'svelte';
+
+	let imageLoaded = false;
+
+	onMount(() => {
+		const img = new Image();
+		img.src = bonusImage;
+		img.onload = () => {
+			imageLoaded = true;
+		};
+	});
 </script>
 
 <div
@@ -198,7 +209,9 @@
 				<img
 					src={bonusImage}
 					alt="Бонусная программа"
-					class="relative h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10"
+					class="relative h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10 {imageLoaded
+						? 'animate-fade-in'
+						: 'opacity-0'}"
 				/>
 			</div>
 		</div>

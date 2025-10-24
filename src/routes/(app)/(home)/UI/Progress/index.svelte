@@ -9,8 +9,7 @@
 			icon: 'clock',
 			iconBg: 'bg-teal-50',
 			iconColor: 'text-teal-700',
-			cardBg: 'bg-gray-50',
-			href: '/'
+			cardBg: 'bg-gray-50'
 		},
 		{
 			id: 2,
@@ -20,19 +19,17 @@
 			icon: 'shield-check',
 			iconBg: 'bg-purple-50',
 			iconColor: 'text-purple-700',
-			cardBg: 'bg-white',
-			href: '/'
+			cardBg: 'bg-white'
 		},
 		{
 			id: 3,
 			title: 'Команда кураторов проектов',
 			description:
-				'Персональная поддержка на каждом этапе. Наши кураторы помогут вам максимизировать доходы и решить любые вопросы с клиентом.',
+				'Персональная поддержка на каждом этапе. Наши кураторы помогут вам максимизировать доходы и решить любые вопросы.',
 			icon: 'users',
 			iconBg: 'bg-sky-50',
 			iconColor: 'text-sky-700',
-			cardBg: 'bg-white',
-			href: '/'
+			cardBg: 'bg-white'
 		},
 		{
 			id: 4,
@@ -42,19 +39,17 @@
 			icon: 'banknotes',
 			iconBg: 'bg-yellow-50',
 			iconColor: 'text-yellow-700',
-			cardBg: 'bg-gray-50',
-			href: '/'
+			cardBg: 'bg-gray-50'
 		},
 		{
 			id: 5,
 			title: 'Полная секретность',
 			description:
-				'Гарантируем полную конфиденциальность ваших данных и клиентской информации. Все сделки защищены соглашением о неразглашении.',
+				'Гарантируем конфиденциальность ваших данных и клиентской информации. Все сделки защищены соглашением о неразглашении.',
 			icon: 'lock-closed',
 			iconBg: 'bg-rose-50',
 			iconColor: 'text-rose-700',
-			cardBg: 'bg-gray-50',
-			href: '/'
+			cardBg: 'bg-gray-50'
 		},
 		{
 			id: 6,
@@ -64,8 +59,7 @@
 			icon: 'academic-cap',
 			iconBg: 'bg-indigo-50',
 			iconColor: 'text-indigo-700',
-			cardBg: 'bg-white',
-			href: '/'
+			cardBg: 'bg-white'
 		}
 	];
 
@@ -117,7 +111,7 @@
 						? 'sm:rounded-bl-lg'
 						: index === 5
 							? 'rounded-br-lg rounded-bl-lg sm:rounded-bl-none'
-							: ''} group relative border-gray-700/50 p-6 transition-all duration-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 hover:bg-white/10 sm:odd:not-nth-last-2:border-b sm:even:border-l sm:even:not-last:border-b"
+							: ''} group relative border-gray-700/50 p-6 transition-all duration-300 hover:bg-white/10 sm:odd:not-nth-last-2:border-b sm:even:border-l sm:even:not-last:border-b"
 			>
 				<div>
 					<span
@@ -137,26 +131,13 @@
 					</span>
 				</div>
 				<div class="mt-8">
-					<h3 class="text-base font-semibold text-white">
-						<a href={advantage.href} class="focus:outline-hidden">
-							<span aria-hidden="true" class="absolute inset-0"></span>
-							{advantage.title}
-						</a>
+					<h3 class="text-base font-semibold text-white md:text-lg lg:text-xl">
+						{advantage.title}
 					</h3>
-					<p class="mt-2 text-sm text-gray-300">
+					<p class="mt-2 text-sm text-gray-300 md:text-base lg:text-lg">
 						{advantage.description}
 					</p>
 				</div>
-				<span
-					aria-hidden="true"
-					class="pointer-events-none absolute top-6 right-6 text-gray-600 transition-colors duration-300 group-hover:text-indigo-400"
-				>
-					<svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
-						<path
-							d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
-						/>
-					</svg>
-				</span>
 			</div>
 		{/each}
 	</div>
