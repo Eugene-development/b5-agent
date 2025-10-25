@@ -37,6 +37,7 @@
 	},
 	"dependencies": {
 		"graphql-request": "^7.2.0",
-		"tailwindcss-animated": "^2.0.0"
+		"tailwindcss-animated": "^2.0.0",
+		"ulid": "^3.0.1"
 	}
 }

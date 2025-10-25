@@ -6,11 +6,13 @@
   Requirements: 2.2, 3.2, 5.2, 6.1, 7.2, 7.3
 -->
 <script>
+	import { onMount } from 'svelte';
 	import DataState from '$lib/components/DataState.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import NavigationCards from '$lib/components/NavigationCards.svelte';
 	import ProjectDetailsModal from '$lib/components/ProjectDetailsModal.svelte';
 	import { goto, invalidate } from '$app/navigation';
+	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
 
 	// Get client-loaded data
 	let { data } = $props();
@@ -209,6 +211,17 @@
 	function closeProjectDetails() {
 		selectedProject = null;
 	}
+
+	// Subscribe to projects refresh events
+	onMount(() => {
+		const unsubscribe = projectsRefresh.subscribe(() => {
+			console.log('Projects refresh triggered, reloading data...');
+			refreshData();
+		});
+
+		// Cleanup on component unmount
+		return unsubscribe;
+	});
 </script>
 
 <div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">

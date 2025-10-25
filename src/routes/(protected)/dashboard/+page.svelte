@@ -2,9 +2,11 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { authState } from '$lib/auth/auth.svelte.js';
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import NavigationCards from '$lib/components/NavigationCards.svelte';
+	import ProjectSubmitModal from '$lib/components/ProjectSubmitModal.svelte';
+	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
@@ -16,6 +18,16 @@
 	// Email verification success message
 	let showSuccessMessage = $state(false);
 	let successMessage = $state('');
+
+	// Modal state
+	let isModalOpen = $state(false);
+
+	// Handle project creation success
+	async function handleProjectCreated() {
+		console.log('Project created, refreshing dashboard stats...');
+		// Invalidate dashboard data to reload stats
+		await invalidate('/dashboard');
+	}
 
 	// Check for verification success message
 	onMount(() => {
@@ -33,6 +45,15 @@
 				window.history.replaceState({}, '', '/dashboard');
 			}, 5000);
 		}
+
+		// Subscribe to projects refresh events
+		const unsubscribe = projectsRefresh.subscribe(() => {
+			console.log('Projects refresh triggered on dashboard, reloading stats...');
+			handleProjectCreated();
+		});
+
+		// Cleanup on component unmount
+		return unsubscribe;
 	});
 </script>
 
@@ -132,59 +153,22 @@
 			</p> -->
 		</div>
 
-		<div class=" grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
-			<!-- Client Data Form Section -->
-			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-				<div class="text-center">
-					<a href="https://mebelmobile.ru/" target="_blank" rel="noopener noreferrer">
-						<div class="mb-4 flex items-center justify-center">
-							<!-- <svg
-								class="mr-3 h-8 w-8 text-orange-400"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-								></path>
-							</svg> -->
-							<h3 class="text-3xl font-semibold tracking-wide text-white">Открытая форма</h3>
-						</div>
-						<p class="font-medium text-orange-400 hover:text-orange-300">
-							Данные отправляются через форму на сайте партнёра→
-						</p>
-					</a>
-				</div>
-			</div>
-			<!-- Client Data Form Section -->
-			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-				<div class="text-center">
-					<a href="https://t.me/mytestbot_2025_v1_bot" target="_blank" rel="noopener noreferrer">
-						<div class="mb-4 flex items-center justify-center">
-							<!-- <svg
-								class="mr-3 h-8 w-8 text-orange-400"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-								></path>
-							</svg> -->
-							<h3 class="text-3xl font-semibold tracking-wide text-white">Секретная Форма</h3>
-						</div>
-						<p class="font-medium text-orange-400 hover:text-orange-300">
-							Данные отправляются через анонимный Telegram бот →
-						</p>
-					</a>
-				</div>
-			</div>
+		<!-- Create Project Button -->
+		<div class="mb-8">
+			<button
+				onclick={() => (isModalOpen = true)}
+				class="mx-auto flex items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-purple-600 via-purple-400 to-blue-500 px-8 py-4 text-xl font-bold text-white shadow-lg transition-all hover:scale-105 hover:opacity-90"
+			>
+				<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M12 4v16m8-8H4"
+					/>
+				</svg>
+				Создать проект
+			</button>
 		</div>
 
 		<!-- Quick Stats -->
@@ -229,3 +213,6 @@
 		</div>
 	</div>
 </div>
+
+<!-- Project Submit Modal -->
+<ProjectSubmitModal bind:isOpen={isModalOpen} onSuccess={handleProjectCreated} />
