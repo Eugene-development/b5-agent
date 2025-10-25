@@ -81,13 +81,13 @@
 
 	<!-- Success Message -->
 	{#if showSuccessMessage}
-		<div class="fixed top-4 left-1/2 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-green-500/30 bg-green-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
 				<div class="flex items-start">
 					<svg
-						class="mt-0.5 mr-3 h-5 w-5 text-green-400"
+						class="mr-3 mt-0.5 h-5 w-5 text-green-400"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -107,13 +107,13 @@
 
 	<!-- Email Verification Warning -->
 	{#if authState.user && !authState.user.email_verified_at}
-		<div class="fixed top-16 left-1/2 z-40 w-full max-w-lg -translate-x-1/2 transform px-4">
+		<div class="fixed left-1/2 top-16 z-40 w-full max-w-lg -translate-x-1/2 transform px-4">
 			<div
 				class="rounded-lg border border-yellow-500/30 bg-yellow-500/20 p-4 shadow-lg backdrop-blur-sm"
 			>
 				<div class="flex items-start">
 					<svg
-						class="mt-0.5 mr-3 h-5 w-5 text-yellow-400"
+						class="mr-3 mt-0.5 h-5 w-5 text-yellow-400"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -153,22 +153,87 @@
 			</p> -->
 		</div>
 
-		<!-- Create Project Button -->
+		<!-- Create Project Buttons -->
 		<div class="mb-8">
-			<button
-				onclick={() => (isModalOpen = true)}
-				class="mx-auto flex items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-purple-600 via-purple-400 to-blue-500 px-8 py-4 text-xl font-bold text-white shadow-lg transition-all hover:scale-105 hover:opacity-90"
-			>
-				<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 4v16m8-8H4"
-					/>
-				</svg>
+			<!-- <h2 class="mb-6 text-center text-2xl font-semibold tracking-wide text-white">
 				Создать проект
-			</button>
+			</h2> -->
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+				<!-- Website Form Button -->
+				<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
+					<div class="mb-4 text-center">
+						<svg
+							class="mx-auto mb-3 h-12 w-12 text-purple-400"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+							/>
+						</svg>
+						<h3 class="mb-2 text-xl font-semibold text-white">Форма на сайте</h3>
+						<p class="mb-4 text-sm text-gray-300">
+							Создайте проект через форму на сайте. Ваш секретный ключ подставится автоматически.
+							Куратор будет знать ваши данные.
+						</p>
+					</div>
+					<button
+						onclick={() => (isModalOpen = true)}
+						class="w-full rounded-lg bg-gradient-to-r from-purple-600 via-purple-400 to-blue-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:opacity-90"
+					>
+						<span class="flex items-center justify-center gap-2">
+							<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 4v16m8-8H4"
+								/>
+							</svg>
+							Открыть форму
+						</span>
+					</button>
+				</div>
+
+				<!-- Telegram Bot Button -->
+				<div class="rounded-lg bg-white/5 p-6 backdrop-blur-sm">
+					<div class="mb-4 text-center">
+						<svg
+							class="mx-auto mb-3 h-12 w-12 text-blue-400"
+							fill="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"
+							/>
+						</svg>
+						<h3 class="mb-2 text-xl font-semibold text-white">Анонимная форма в Telegram</h3>
+						<p class="mb-4 text-sm text-gray-300">
+							Отправьте данные через анонимный Telegram бот. Скопируйте заранее ваш секретный ключ в
+							профиле. Никто не узнают от кого заявка.
+						</p>
+					</div>
+					<a
+						href="https://t.me/mytestbot_2025_v1_bot"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="block w-full rounded-lg bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 px-6 py-3 text-center font-bold text-white shadow-lg transition-all hover:scale-105 hover:opacity-90"
+					>
+						<span class="flex items-center justify-center gap-2">
+							<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+								<path
+									d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"
+								/>
+							</svg>
+							Открыть в Telegram
+						</span>
+					</a>
+				</div>
+			</div>
 		</div>
 
 		<!-- Quick Stats -->
