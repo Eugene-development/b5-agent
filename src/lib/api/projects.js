@@ -82,6 +82,7 @@ const PROJECTS_QUERIES = {
 				region
 				description
 				is_active
+				is_incognito
 				contract_name
 				contract_date
 				contract_amount

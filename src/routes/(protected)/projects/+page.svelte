@@ -141,6 +141,17 @@
 		});
 	}
 
+	function formatDateTime(dateString) {
+		if (!dateString) return 'Не указано';
+		return new Date(dateString).toLocaleString('ru-RU', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit'
+		});
+	}
+
 	function formatCurrency(amount) {
 		if (!amount) return 'Не указано';
 		return new Intl.NumberFormat('ru-RU', {
@@ -155,12 +166,12 @@
 		if (!status) {
 			return 'bg-gray-700 text-gray-300 border-gray-500';
 		}
-		
+
 		// Если есть цвет в статусе, используем его
 		if (status.color) {
 			return `border-[${status.color}]`;
 		}
-		
+
 		// Иначе используем цвет по умолчанию в зависимости от активности
 		return status.is_active
 			? 'bg-green-800 text-green-200 border-green-600'
@@ -172,7 +183,7 @@
 		if (project.status?.value) {
 			return project.status.value;
 		}
-		
+
 		// Иначе используем старую логику на основе is_active
 		return project.is_active ? 'Активный' : 'Неактивный';
 	}
@@ -235,6 +246,28 @@
 			<div class="grid grid-cols-2 gap-2 sm:gap-4">
 				<button
 					type="button"
+					onclick={toggleFilters}
+					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+					aria-label="Открыть фильтры проектов"
+				>
+					<svg
+						class="mr-2 h-4 w-4"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+						/>
+					</svg>
+					Фильтры
+				</button>
+				<button
+					type="button"
 					onclick={refreshData}
 					disabled={isRefreshing}
 					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 disabled:cursor-not-allowed disabled:opacity-50"
@@ -271,28 +304,6 @@
 						{/if}
 					</svg>
 					{isRefreshing ? 'Обновляю...' : 'Обновить данные'}
-				</button>
-				<button
-					type="button"
-					onclick={toggleFilters}
-					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
-					aria-label="Открыть фильтры проектов"
-				>
-					<svg
-						class="mr-2 h-4 w-4"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-						/>
-					</svg>
-					Фильтры
 				</button>
 			</div>
 		</div>
@@ -454,7 +465,7 @@
 										type="text"
 										bind:value={searchTerm}
 										placeholder="Поиск по названию, городу, описанию или агенту..."
-										class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 pr-3 pl-10 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+										class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 pl-10 pr-3 text-white placeholder-gray-400 focus:border-blue-500 focus:placeholder-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
 									/>
 								</div>
 							</div>
@@ -467,7 +478,7 @@
 								<select
 									id="status-filter"
 									bind:value={statusFilter}
-									class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+									class="px- block h-10 w-full rounded-md border border-gray-600 bg-gray-700 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
 								>
 									<option value="">Все статусы</option>
 									<option value="active">В обработке</option>
@@ -481,7 +492,7 @@
 							<div class="flex items-end">
 								<button
 									onclick={clearFilters}
-									class="h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+									class="h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 								>
 									Очистить фильтры
 								</button>
@@ -500,12 +511,12 @@
 							<thead class="bg-gray-700">
 								<tr>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
+										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 										№
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('value')}
 									>
 										<div class="flex items-center space-x-1">
@@ -528,7 +539,7 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600"
+										class="w-2/5 cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('region')}
 									>
 										<div class="flex items-center space-x-1">
@@ -551,32 +562,14 @@
 										</div>
 									</th>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase"
+										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 										Статус
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-300 uppercase hover:bg-gray-600 sm:table-cell"
-										onclick={() => handleSort('created_at')}
+										class="w-32 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
-										<div class="flex items-center space-x-1">
-											<span>Создан</span>
-											{#if sortBy === 'created_at'}
-												<svg
-													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M19 9l-7 7-7-7"
-													/>
-												</svg>
-											{/if}
-										</div>
+										Инкогнито
 									</th>
 								</tr>
 							</thead>
@@ -594,11 +587,14 @@
 											}
 										}}
 									>
-										<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-white">
+										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
 											{sortedProjects().length - index}
 										</td>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div class="text-sm font-medium text-white">
+										<td class="whitespace-nowrap px-6 py-4">
+											<div
+												class="text-sm font-medium text-white"
+												title="Создан: {formatDateTime(project.created_at)}"
+											>
 												{project.value || 'Не указано'}
 											</div>
 											{#if project.description}
@@ -610,23 +606,45 @@
 												</div>
 											{/if}
 										</td>
-										<td class="px-6 py-4 text-sm text-white">
-											<div class="max-w-[280px] truncate">
+										<td class="w-2/5 px-6 py-4 text-sm text-white">
+											<div class="truncate">
 												{project.region || 'Не указано'}
 											</div>
 										</td>
-										<td class="px-6 py-4 whitespace-nowrap">
+										<td class="whitespace-nowrap px-6 py-4">
 											<span
 												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
 													project.status
 												)}"
-												style={project.status?.color ? `background-color: ${project.status.color}20; color: ${project.status.color}; border-color: ${project.status.color}` : ''}
+												style={project.status?.color
+													? `background-color: ${project.status.color}20; color: ${project.status.color}; border-color: ${project.status.color}`
+													: ''}
+												title={project.status?.value !== 'Новый проект'
+													? `Обновлён: ${formatDateTime(project.updated_at)}`
+													: ''}
 											>
 												{getStatusText(project)}
 											</span>
 										</td>
-										<td class="px-6 py-4 text-sm whitespace-nowrap text-white sm:table-cell">
-											{formatDate(project.created_at)}
+										<td class="w-32 whitespace-nowrap px-6 py-4 text-center">
+											{#if project.is_incognito}
+												<svg
+													class="mx-auto h-5 w-5 text-green-500"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M5 13l4 4L19 7"
+													/>
+												</svg>
+											{:else}
+												<span class="text-gray-500">—</span>
+											{/if}
 										</td>
 									</tr>
 								{:else}
