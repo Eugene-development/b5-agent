@@ -456,3 +456,4 @@
 - Кнопки/CTA: `zoomIn`, `bounce`
 - Изображения: `zoomIn`, `fadeIn`
 - Списки: `slideInUp`, `fadeInUp`
+

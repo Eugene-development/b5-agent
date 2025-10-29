@@ -228,3 +228,4 @@ Intersection Observer API поддерживается во всех совре�
 - [Intersection Observer API MDN](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 - [tailwindcss-animated GitHub](https://github.com/jamiebuilds/tailwindcss-animate)
 - [Svelte Actions Documentation](https://svelte.dev/docs/svelte-action)
+
