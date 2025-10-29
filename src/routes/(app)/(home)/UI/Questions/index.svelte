@@ -1,4 +1,6 @@
 <script>
+	import { scrollAnimation, animations } from '$lib/actions/scrollAnimation.js';
+
 	let openIndex = $state(null);
 
 	function toggleQuestion(index) {
@@ -42,7 +44,7 @@
 <div class="relative min-h-screen bg-gray-950">
 	<!-- Background decoration -->
 	<div
-		class="absolute top-0 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl"
+		class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 transform-gpu blur-3xl"
 		aria-hidden="true"
 	>
 		<div
@@ -55,6 +57,7 @@
 		<div class="mb-16 text-center">
 			<div
 				class="mb-6 inline-flex items-center justify-center rounded-full bg-indigo-500/20 p-2 ring-1 ring-indigo-500/30"
+				use:scrollAnimation={{ animation: animations.zoomIn, delay: 100 }}
 			>
 				<svg class="h-6 w-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path
@@ -76,9 +79,10 @@
 			{#each questions as { question, answer }, index}
 				<div
 					class="group rounded-2xl border border-slate-700/50 bg-white/5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/50 hover:bg-white/10 hover:shadow-xl"
+					use:scrollAnimation={{ animation: animations.slideInUp, delay: 100 + index * 100 }}
 				>
 					<button
-						class="w-full rounded-2xl px-6 py-6 text-left transition-all duration-200 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 focus:outline-none"
+						class="w-full rounded-2xl px-6 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950"
 						onclick={() => toggleQuestion(index)}
 					>
 						<div class="flex items-center justify-between">

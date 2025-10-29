@@ -1,4 +1,6 @@
 <script>
+	import { scrollAnimation, animations } from '$lib/actions/scrollAnimation.js';
+
 	// Data for the advantage cards
 	const advantages = [
 		{
@@ -90,7 +92,7 @@
 
 	<div class="mx-auto mb-12 max-w-3xl text-center">
 		<p
-			class="mt-2 text-4xl font-bold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl"
+			class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
 		>
 			Преимущества
 		</p>
@@ -110,8 +112,12 @@
 					: index === 4
 						? 'sm:rounded-bl-lg'
 						: index === 5
-							? 'rounded-br-lg rounded-bl-lg sm:rounded-bl-none'
-							: ''} group relative border-gray-700/50 p-6 transition-all duration-300 hover:bg-white/10 sm:odd:not-nth-last-2:border-b sm:even:border-l sm:even:not-last:border-b"
+							? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
+							: ''} sm:odd:not-nth-last-2:border-b sm:even:not-last:border-b group relative border-gray-700/50 p-6 transition-all duration-300 hover:bg-white/10 sm:even:border-l"
+				use:scrollAnimation={{
+					animation: index % 2 === 0 ? animations.fadeInLeft : animations.fadeInRight,
+					delay: 200 + index * 100
+				}}
 			>
 				<div>
 					<span

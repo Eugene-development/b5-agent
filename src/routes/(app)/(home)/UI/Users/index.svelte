@@ -1,3 +1,7 @@
+<script>
+	import { scrollAnimation, animations } from '$lib/actions/scrollAnimation.js';
+</script>
+
 <section class="relative overflow-hidden bg-gray-950 py-20 sm:py-32">
 	<!-- Background decoration -->
 	<div
@@ -13,7 +17,7 @@
 		<!-- Header section -->
 		<div class="mx-auto max-w-3xl text-center">
 			<p
-				class="mt-2 text-4xl font-bold tracking-tight text-balance text-white sm:text-5xl lg:text-6xl"
+				class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
 			>
 				Для кого сервис
 			</p>
@@ -28,6 +32,7 @@
 			<!-- Managers card -->
 			<div
 				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-blue-500/20"
+				use:scrollAnimation={{ animation: animations.slideInLeft, delay: 200 }}
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -54,6 +59,7 @@
 			<!-- Repair teams card -->
 			<div
 				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-green-500/20"
+				use:scrollAnimation={{ animation: animations.slideInRight, delay: 300 }}
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -86,6 +92,7 @@
 			<!-- Designers card -->
 			<div
 				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-purple-500/20"
+				use:scrollAnimation={{ animation: animations.slideInLeft, delay: 400 }}
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -117,6 +124,7 @@
 			<!-- Freelancers card -->
 			<div
 				class="group relative rounded-2xl border border-slate-700/50 bg-white/5 p-8 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-500/50 hover:bg-white/10 hover:shadow-xl hover:shadow-orange-500/20"
+				use:scrollAnimation={{ animation: animations.slideInRight, delay: 500 }}
 			>
 				<div
 					class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"

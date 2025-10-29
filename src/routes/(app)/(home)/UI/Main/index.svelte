@@ -1,6 +1,7 @@
 <script>
 	import bonusImage from './img/Gemini_Generated_Image_iowmgviowmgviowm.png';
 	import { onMount } from 'svelte';
+	import { scrollAnimation, animations } from '$lib/actions/scrollAnimation.js';
 
 	let imageLoaded = false;
 
@@ -23,7 +24,7 @@
 					class="absolute inset-y-0 left-0 -z-10 w-full overflow-hidden ring-1 ring-white/5 lg:w-1/2"
 				>
 					<svg
-						class="absolute inset-0 size-full [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] stroke-indigo-500/30"
+						class="absolute inset-0 size-full stroke-indigo-500/30 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
 						aria-hidden="true"
 					>
 						<defs>
@@ -49,7 +50,7 @@
 						/>
 					</svg>
 					<div
-						class="absolute top-[calc(100%-13rem)] -left-56 transform-gpu blur-3xl lg:top-[calc(50%-7rem)] lg:left-[max(-14rem,calc(100%-59rem))]"
+						class="absolute -left-56 top-[calc(100%-13rem)] transform-gpu blur-3xl lg:left-[max(-14rem,calc(100%-59rem))] lg:top-[calc(50%-7rem)]"
 						aria-hidden="true"
 					>
 						<div
@@ -70,7 +71,7 @@
 					></div> -->
 				</div>
 
-				<p class="mt-8 text-xl leading-relaxed font-medium text-gray-100">
+				<p class="mt-8 text-xl font-medium leading-relaxed text-gray-100">
 					Бонус 5 — это сервис тайного маркетинга, который позволяет получать до <span
 						class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-2xl font-black text-transparent"
 					>
@@ -82,6 +83,7 @@
 				<dl class="mt-12 space-y-4">
 					<div
 						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+						use:scrollAnimation={{ animation: animations.slideInLeft, delay: 600 }}
 					>
 						<dt class="flex-none">
 							<div
@@ -110,6 +112,7 @@
 
 					<div
 						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+						use:scrollAnimation={{ animation: animations.slideInLeft, delay: 700 }}
 					>
 						<dt class="flex-none">
 							<div
@@ -138,6 +141,7 @@
 
 					<div
 						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+						use:scrollAnimation={{ animation: animations.slideInLeft, delay: 800 }}
 					>
 						<dt class="flex-none">
 							<div
@@ -166,6 +170,7 @@
 
 					<div
 						class="group flex gap-x-4 rounded-xl bg-white/5 p-4 backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/10"
+						use:scrollAnimation={{ animation: animations.slideInLeft, delay: 900 }}
 					>
 						<dt class="flex-none">
 							<div
@@ -201,7 +206,7 @@
 			</div>
 		</div>
 
-		<div class="relative hidden justify-center px-6 pt-20 pb-12 lg:flex lg:px-8 lg:pt-32">
+		<div class="relative hidden justify-center px-6 pb-12 pt-20 lg:flex lg:px-8 lg:pt-32">
 			<div class="relative mx-auto flex w-full max-w-xl items-center justify-center lg:max-w-2xl">
 				<div
 					class="absolute -inset-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 opacity-20 blur-2xl"
@@ -210,7 +215,7 @@
 					src={bonusImage}
 					alt="Бонусная программа"
 					class="relative h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10 {imageLoaded
-						? 'animate-fade-in'
+						? ''
 						: 'opacity-0'}"
 				/>
 			</div>
