@@ -74,7 +74,7 @@
 					<div class="space-y-2 py-6">
 						<button
 							onclick={() => navigate('/')}
-							class="relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+							class="active:scale-98 relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 {isActive(
 								'/'
 							)
 								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
@@ -89,46 +89,46 @@
 						</button>
 						<button
 							onclick={() => navigate('/about')}
-							class="relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+							class="active:scale-98 relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-purple-400/30 hover:bg-purple-500/15 hover:text-purple-300 {isActive(
 								'/about'
 							)
-								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+								? 'border-purple-400/40 bg-gradient-to-br from-purple-500/25 to-purple-600/25 text-purple-400 shadow-md shadow-purple-500/30'
 								: ''}"
 						>
 							О проекте
 							{#if isActive('/about')}
 								<span
-									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-purple-400 to-transparent"
 								></span>
 							{/if}
 						</button>
 						<button
 							onclick={() => navigate('/payments')}
-							class="relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+							class="active:scale-98 relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-emerald-400/30 hover:bg-emerald-500/15 hover:text-emerald-300 {isActive(
 								'/payments'
 							)
-								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+								? 'border-emerald-400/40 bg-gradient-to-br from-emerald-500/25 to-emerald-600/25 text-emerald-400 shadow-md shadow-emerald-500/30'
 								: ''}"
 						>
 							Выплаты
 							{#if isActive('/payments')}
 								<span
-									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
 								></span>
 							{/if}
 						</button>
 						<button
-							onclick={() => navigate('/152fz')}
-							class="relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
-								'/152fz'
+							onclick={() => navigate('/promotions')}
+							class="active:scale-98 relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-amber-400/30 hover:bg-amber-500/15 hover:text-amber-300 {isActive(
+								'/promotions'
 							)
-								? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+								? 'border-amber-400/40 bg-gradient-to-br from-amber-500/25 to-amber-600/25 text-amber-400 shadow-md shadow-amber-500/30'
 								: ''}"
 						>
-							152 ФЗ
-							{#if isActive('/152fz')}
+							Акции
+							{#if isActive('/promotions')}
 								<span
-									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-amber-400 to-transparent"
 								></span>
 							{/if}
 						</button>
@@ -137,7 +137,7 @@
 						{#if authState.isAuthenticated}
 							<button
 								onclick={() => navigate('/dashboard')}
-								class="mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+								class="active:scale-98 mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 {isActive(
 									'/dashboard'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
@@ -167,7 +167,7 @@
 
 							<button
 								onclick={() => navigate('/profile')}
-								class="mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+								class="active:scale-98 mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 {isActive(
 									'/profile'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
@@ -191,7 +191,7 @@
 
 							<button
 								onclick={() => navigate('/projects')}
-								class="mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+								class="active:scale-98 mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 {isActive(
 									'/projects'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
@@ -215,7 +215,7 @@
 
 							<button
 								onclick={() => navigate('/statistics')}
-								class="mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 active:scale-98 {isActive(
+								class="active:scale-98 mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 {isActive(
 									'/statistics'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
@@ -242,7 +242,7 @@
 									await logout({ redirectTo: '/' });
 									closeMobileMenu();
 								}}
-								class="mt-4 flex w-full items-center rounded-xl border border-red-500/30 bg-red-500/15 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/25 hover:text-red-300 active:scale-98"
+								class="active:scale-98 mt-4 flex w-full items-center rounded-xl border border-red-500/30 bg-red-500/15 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/25 hover:text-red-300"
 							>
 								<svg
 									class="mr-3 h-5 w-5 text-red-400"
@@ -262,7 +262,7 @@
 						{:else}
 							<button
 								onclick={() => navigate('/login')}
-								class="mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/20 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-indigo-300 active:scale-98 {isActive(
+								class="active:scale-98 mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/20 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-indigo-300 {isActive(
 									'/login'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
@@ -285,7 +285,7 @@
 							</button>
 							<button
 								onclick={() => navigate('/registration')}
-								class="flex w-full items-center overflow-hidden rounded-xl border border-slate-400/20 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-indigo-300 active:scale-98 {isActive(
+								class="active:scale-98 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/20 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-indigo-300 {isActive(
 									'/registration'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'

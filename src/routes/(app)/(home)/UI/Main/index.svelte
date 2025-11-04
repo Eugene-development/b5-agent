@@ -15,9 +15,9 @@
 </script>
 
 <div
-	class="relative isolate overflow-x-hidden overflow-y-visible bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
+	class=" relative isolate overflow-x-hidden overflow-y-visible bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950"
 >
-	<div class="-mt-4 grid grid-cols-1 lg:grid-cols-2">
+	<div class=" grid grid-cols-1 lg:grid-cols-2">
 		<div class="relative flex px-6 py-16 sm:py-20 lg:static lg:px-8 lg:pt-32">
 			<div class="mx-auto w-full max-w-xl lg:max-w-lg">
 				<div
@@ -106,7 +106,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Честно</strong>
-							<span class="text-sm text-gray-400">Выплата через 5 дней после закрытия сделки</span>
+							<span class="text-sm text-gray-400">Выплата бонуса после закрытия сделки</span>
 						</dd>
 					</div>
 
@@ -135,7 +135,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Выгодно</strong>
-							<span class="text-sm text-gray-400">Дополнительный доход или экономия клиентам</span>
+							<span class="text-sm text-gray-400">Ваш хороший дополнительный доход</span>
 						</dd>
 					</div>
 
@@ -164,7 +164,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Секретно</strong>
-							<span class="text-sm text-gray-400">Полная конфиденциальность ваших данных</span>
+							<span class="text-sm text-gray-400">Конфиденциальность ваших данных</span>
 						</dd>
 					</div>
 
@@ -193,7 +193,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Надёжно</strong>
-							<span class="text-sm text-gray-400">Только проверенные поставщики и подрядчики</span>
+							<span class="text-sm text-gray-400">Проверенные поставщики и подрядчики</span>
 						</dd>
 					</div>
 				</dl>

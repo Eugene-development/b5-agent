@@ -41,13 +41,19 @@
 
 {#if !isMobileMenuOpen}
 	<nav
-		class="fixed top-0 right-0 left-0 z-50 border-b border-slate-400/10 bg-gray-950 shadow-lg shadow-black/20 transition-transform duration-300 {isVisible
+		class="fixed left-0 right-0 top-0 z-50 border-b border-slate-400/10 bg-gray-950 shadow-lg shadow-black/20 transition-transform duration-300 {isVisible
 			? 'translate-y-0'
 			: '-translate-y-full'}"
 		aria-label="Global"
 	>
 		<div class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-			<div class="flex lg:hidden">
+			<div class="flex w-full items-center justify-between lg:hidden">
+				<a
+					href="/"
+					class="bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-xl font-bold tracking-tight text-transparent"
+				>
+					Bonus 5
+				</a>
 				<button
 					onclick={openMobileMenu}
 					type="button"
@@ -78,61 +84,61 @@
 					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20 {isActive(
 						'/'
 					)
-						? 'border-indigo-400/40 bg-linear-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+						? 'bg-linear-to-br border-indigo-400/40 from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 						: ''}"
 				>
 					Главная
 					{#if isActive('/')}
 						<span
-							class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-linear-to-r from-transparent via-indigo-400 to-transparent"
+							class="bg-linear-to-r absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 from-transparent via-indigo-400 to-transparent"
 						></span>
 					{/if}
 				</a>
 
 				<a
 					href="/about"
-					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20 {isActive(
+					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-purple-400/30 hover:bg-purple-500/15 hover:text-purple-300 hover:shadow-lg hover:shadow-purple-500/20 {isActive(
 						'/about'
 					)
-						? 'border-indigo-400/40 bg-linear-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+						? 'bg-linear-to-br border-purple-400/40 from-purple-500/25 to-purple-600/25 text-purple-400 shadow-md shadow-purple-500/30'
 						: ''}"
 				>
 					О проекте
 					{#if isActive('/about')}
 						<span
-							class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-linear-to-r from-transparent via-indigo-400 to-transparent"
+							class="bg-linear-to-r absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 from-transparent via-purple-400 to-transparent"
 						></span>
 					{/if}
 				</a>
 
 				<a
 					href="/payments"
-					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20 {isActive(
+					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-emerald-400/30 hover:bg-emerald-500/15 hover:text-emerald-300 hover:shadow-lg hover:shadow-emerald-500/20 {isActive(
 						'/payments'
 					)
-						? 'border-indigo-400/40 bg-linear-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+						? 'bg-linear-to-br border-emerald-400/40 from-emerald-500/25 to-emerald-600/25 text-emerald-400 shadow-md shadow-emerald-500/30'
 						: ''}"
 				>
 					Выплаты
 					{#if isActive('/payments')}
 						<span
-							class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-linear-to-r from-transparent via-indigo-400 to-transparent"
+							class="bg-linear-to-r absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 from-transparent via-emerald-400 to-transparent"
 						></span>
 					{/if}
 				</a>
 
 				<a
-					href="/152fz"
-					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20 {isActive(
-						'/152fz'
+					href="/promotions"
+					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-amber-400/30 hover:bg-amber-500/15 hover:text-amber-300 hover:shadow-lg hover:shadow-amber-500/20 {isActive(
+						'/promotions'
 					)
-						? 'border-indigo-400/40 bg-linear-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
+						? 'bg-linear-to-br border-amber-400/40 from-amber-500/25 to-amber-600/25 text-amber-400 shadow-md shadow-amber-500/30'
 						: ''}"
 				>
-					152 ФЗ
-					{#if isActive('/152fz')}
+					Акции
+					{#if isActive('/promotions')}
 						<span
-							class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-linear-to-r from-transparent via-indigo-400 to-transparent"
+							class="bg-linear-to-r absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 from-transparent via-amber-400 to-transparent"
 						></span>
 					{/if}
 				</a>
@@ -142,7 +148,7 @@
 				{#if authState.isAuthenticated}
 					<a
 						href="/dashboard"
-						class="rounded-xl border border-emerald-500/50 bg-linear-to-br from-emerald-700 to-emerald-800 px-5 py-2 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:from-emerald-700 hover:to-emerald-800 hover:shadow-lg hover:shadow-emerald-500/40"
+						class="bg-linear-to-br rounded-xl border border-emerald-500/50 from-emerald-700 to-emerald-800 px-5 py-2 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:from-emerald-700 hover:to-emerald-800 hover:shadow-lg hover:shadow-emerald-500/40"
 					>
 						Личный кабинет
 					</a>
@@ -163,7 +169,7 @@
 					</a>
 					<a
 						href="/registration"
-						class="relative overflow-hidden rounded-xl border border-indigo-400/40 bg-linear-to-br from-indigo-500/25 to-indigo-600/25 px-5 py-2 text-sm font-medium tracking-wide text-indigo-400 shadow-md shadow-indigo-500/30 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20"
+						class="bg-linear-to-br relative overflow-hidden rounded-xl border border-indigo-400/40 from-indigo-500/25 to-indigo-600/25 px-5 py-2 text-sm font-medium tracking-wide text-indigo-400 shadow-md shadow-indigo-500/30 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20"
 					>
 						Регистрация
 					</a>

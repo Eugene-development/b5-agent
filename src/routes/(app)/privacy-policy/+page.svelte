@@ -1,11 +1,23 @@
+<svelte:head>
+	<title>Политика конфиденциальности | BONUS5</title>
+	<meta
+		name="description"
+		content="Политика конфиденциальности BONUS5. Информация о соблюдении Федерального закона №152-ФЗ «О персональных данных»."
+	/>
+	<meta
+		name="keywords"
+		content="политика конфиденциальности, 152-ФЗ, персональные данные, BONUS5"
+	/>
+</svelte:head>
+
 <div class="relative isolate bg-gray-950 py-24 sm:py-32">
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:mx-0">
-			<h2 class="text-4xl font-semibold tracking-widest text-pretty text-white sm:text-6xl">
-				152-ФЗ
+			<h2 class="text-pretty text-4xl font-semibold tracking-widest text-white sm:text-6xl">
+				Политика конфиденциальности
 			</h2>
 			<p class="mt-6 text-lg/8 text-gray-300">
-				Информация о соблюдении Федерального закона «О персональных данных»
+				Информация о соблюдении Федерального закона «О персональных данных» (152-ФЗ)
 			</p>
 		</div>
 		<div class="mx-auto mt-16 max-w-2xl lg:mx-0 lg:max-w-none">

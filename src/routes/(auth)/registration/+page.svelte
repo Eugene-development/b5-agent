@@ -523,7 +523,7 @@
 							>
 								Согласен с
 								<a
-									href="/152fz"
+									href="/privacy-policy"
 									class="font-semibold text-indigo-400 transition-colors hover:text-indigo-300"
 									>политикой конфиденциальности</a
 								>
