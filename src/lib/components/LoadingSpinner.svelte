@@ -42,12 +42,7 @@
 </script>
 
 <div class="loading-container" role="status" aria-live="polite">
-	<div class={spinnerClasses()}>
-		<div class="spinner-circle"></div>
-		<div class="spinner-circle"></div>
-		<div class="spinner-circle"></div>
-		<div class="spinner-circle"></div>
-	</div>
+	<div class={spinnerClasses()}></div>
 
 	{#if showMessage && message}
 		<div class="loading-message">
@@ -69,94 +64,60 @@
 	.loading-spinner {
 		position: relative;
 		display: inline-block;
+		border-radius: 50%;
+		border: 2px solid transparent;
+		animation: spin 1s linear infinite;
 	}
 
 	.loading-spinner--small {
 		width: 1.5rem;
 		height: 1.5rem;
+		border-width: 2px;
 	}
 
 	.loading-spinner--medium {
 		width: 2.5rem;
 		height: 2.5rem;
+		border-width: 2px;
 	}
 
 	.loading-spinner--large {
 		width: 4rem;
 		height: 4rem;
+		border-width: 3px;
 	}
 
 	.spinner-circle {
-		position: absolute;
-		border-radius: 50%;
-		animation: loading-spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	}
-
-	.loading-spinner--small .spinner-circle {
-		width: 0.25rem;
-		height: 0.25rem;
-		margin: 0.125rem;
-	}
-
-	.loading-spinner--medium .spinner-circle {
-		width: 0.5rem;
-		height: 0.5rem;
-		margin: 0.25rem;
-	}
-
-	.loading-spinner--large .spinner-circle {
-		width: 0.75rem;
-		height: 0.75rem;
-		margin: 0.375rem;
+		display: none;
 	}
 
 	/* Primary color theme */
-	.loading-spinner--primary .spinner-circle {
-		background-color: #3b82f6;
+	.loading-spinner--primary {
+		border-top-color: #a78bfa;
+		border-right-color: #c084fc;
+		border-bottom-color: #e879f9;
 	}
 
 	/* Secondary color theme */
-	.loading-spinner--secondary .spinner-circle {
-		background-color: #6b7280;
+	.loading-spinner--secondary {
+		border-top-color: #6b7280;
+		border-right-color: #9ca3af;
+		border-bottom-color: #d1d5db;
 	}
 
 	/* White color theme */
-	.loading-spinner--white .spinner-circle {
-		background-color: #ffffff;
+	.loading-spinner--white {
+		border-top-color: #ffffff;
+		border-right-color: rgba(255, 255, 255, 0.7);
+		border-bottom-color: rgba(255, 255, 255, 0.5);
 	}
 
-	.spinner-circle:nth-child(1) {
-		top: 0;
-		left: 0;
-		animation-delay: -0.036s;
-	}
-
-	.spinner-circle:nth-child(2) {
-		top: 0;
-		right: 0;
-		animation-delay: -0.072s;
-	}
-
-	.spinner-circle:nth-child(3) {
-		bottom: 0;
-		right: 0;
-		animation-delay: -0.108s;
-	}
-
-	.spinner-circle:nth-child(4) {
-		bottom: 0;
-		left: 0;
-		animation-delay: -0.144s;
-	}
-
-	@keyframes loading-spinner {
-		0%,
-		80%,
-		100% {
-			transform: scale(0);
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
 		}
-		40% {
-			transform: scale(1);
+		100% {
+			transform: rotate(360deg);
 		}
 	}
 
@@ -180,20 +141,9 @@
 
 	/* Accessibility improvements */
 	@media (prefers-reduced-motion: reduce) {
-		.spinner-circle {
+		.loading-spinner {
 			animation: none;
-		}
-
-		.loading-spinner::after {
-			content: '';
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 50%;
-			height: 50%;
-			background-color: currentColor;
-			border-radius: 50%;
-			transform: translate(-50%, -50%);
+			border-color: #a78bfa;
 		}
 	}
 </style>

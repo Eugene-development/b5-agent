@@ -69,7 +69,15 @@
 							rel="noopener noreferrer"
 							class="text-sm text-gray-400 transition-colors duration-200 hover:text-indigo-400"
 						>
-							SRM система
+							CSRM система
+						</a>
+					</li>
+					<li>
+						<a
+							href="/vacancies"
+							class="text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
+						>
+							Вакансии
 						</a>
 					</li>
 				</ul>

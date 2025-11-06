@@ -1,7 +1,7 @@
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div
-		class="absolute inset-x-0 top-0 -z-10 h-[600px] bg-linear-to-b from-amber-500/10 via-orange-500/5 to-transparent"
+		class="bg-linear-to-b absolute inset-x-0 top-0 -z-10 h-[600px] from-amber-500/10 via-orange-500/5 to-transparent"
 	></div>
 
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@
 			</div>
 
 			<h1
-				class="mt-8 bg-linear-to-r from-white via-amber-200 to-orange-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
+				class="bg-linear-to-r mt-8 from-white via-amber-200 to-orange-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
 			>
 				Акции
 			</h1>
@@ -152,7 +152,9 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Статус премиум-агента на 2026 год</p>
+							<p class="text-sm text-gray-400">
+								Статус премиум-агента на 2026 год с повышенным бонусом
+							</p>
 						</div>
 						<div class="flex items-start gap-2">
 							<svg
@@ -210,7 +212,7 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Автоматическое начисление бонуса</p>
+							<p class="text-sm text-gray-400">Автоматическое начисление дополнительного бонуса</p>
 						</div>
 						<div class="flex items-start gap-2">
 							<svg
@@ -258,15 +260,21 @@
 				</p>
 
 				<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-					<div class="rounded-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-6 ring-1 ring-white/10">
+					<div
+						class="rounded-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-6 ring-1 ring-white/10"
+					>
 						<div class="text-3xl font-bold text-indigo-400">1</div>
 						<p class="mt-2 text-sm text-gray-300">Зарегистрируйтесь на платформе</p>
 					</div>
-					<div class="rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 ring-1 ring-white/10">
+					<div
+						class="rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 ring-1 ring-white/10"
+					>
 						<div class="text-3xl font-bold text-purple-400">2</div>
 						<p class="mt-2 text-sm text-gray-300">Регистрируйте новых клиентов</p>
 					</div>
-					<div class="rounded-xl bg-gradient-to-br from-pink-500/10 to-rose-500/10 p-6 ring-1 ring-white/10">
+					<div
+						class="rounded-xl bg-gradient-to-br from-pink-500/10 to-rose-500/10 p-6 ring-1 ring-white/10"
+					>
 						<div class="text-3xl font-bold text-pink-400">3</div>
 						<p class="mt-2 text-sm text-gray-300">Получайте повышенные бонусы</p>
 					</div>
