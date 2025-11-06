@@ -103,6 +103,21 @@
 							{/if}
 						</button>
 						<button
+							onclick={() => navigate('/cities')}
+							class="active:scale-98 relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-500/15 hover:text-cyan-300 {isActive(
+								'/cities'
+							)
+								? 'border-cyan-400/40 bg-gradient-to-br from-cyan-500/25 to-cyan-600/25 text-cyan-400 shadow-md shadow-cyan-500/30'
+								: ''}"
+						>
+							Города
+							{#if isActive('/cities')}
+								<span
+									class="absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+								></span>
+							{/if}
+						</button>
+						<button
 							onclick={() => navigate('/payments')}
 							class="active:scale-98 relative block w-full overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-emerald-400/30 hover:bg-emerald-500/15 hover:text-emerald-300 {isActive(
 								'/payments'

@@ -112,6 +112,22 @@
 				</a>
 
 				<a
+					href="/cities"
+					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-cyan-400/30 hover:bg-cyan-500/15 hover:text-cyan-300 hover:shadow-lg hover:shadow-cyan-500/20 {isActive(
+						'/cities'
+					)
+						? 'bg-linear-to-br border-cyan-400/40 from-cyan-500/25 to-cyan-600/25 text-cyan-400 shadow-md shadow-cyan-500/30'
+						: ''}"
+				>
+					Города
+					{#if isActive('/cities')}
+						<span
+							class="bg-linear-to-r absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 from-transparent via-cyan-400 to-transparent"
+						></span>
+					{/if}
+				</a>
+
+				<a
 					href="/payments"
 					class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-6 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:border-emerald-400/30 hover:bg-emerald-500/15 hover:text-emerald-300 hover:shadow-lg hover:shadow-emerald-500/20 {isActive(
 						'/payments'
