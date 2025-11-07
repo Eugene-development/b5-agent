@@ -1,6 +1,6 @@
 <script>
 	import { login, authState } from '$lib/auth/auth.svelte.js';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
 
@@ -82,17 +82,26 @@
 			});
 
 			if (success) {
+				console.log('✅ Login successful, cookies set by Auth API');
+
 				// Check if email is verified
 				if (authState.user && !authState.user.email_verified_at) {
 					// Email not verified - redirect to email verification page
+					console.log('📧 Email not verified, redirecting to verification page');
 					goto('/email-verify');
 				} else {
 					// Email verified - proceed to intended destination
-					// Increased delay for state synchronization
-					await new Promise((resolve) => setTimeout(resolve, 300));
+					console.log('🚀 Full page reload to:', redirectTo);
 
-					// Use replace instead of push to avoid adding to history
-					goto(redirectTo, { replaceState: true });
+					// IMPORTANT: Use window.location for full page reload
+					// This is necessary for cross-domain cookie authentication
+					// After login, cookies are set for auth.bonus5.ru domain
+					// Full page reload ensures proper cookie handling across domains
+					if (browser) {
+						window.location.href = redirectTo;
+					} else {
+						goto(redirectTo, { replaceState: true });
+					}
 				}
 			} else {
 				errors.general =

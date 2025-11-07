@@ -6,7 +6,7 @@
 
 import { goto } from '$app/navigation';
 import { browser } from '$app/environment';
-import { API_BASE_URL, AUTH_API_URL } from '$lib/config/api.js';
+import { API_BASE_URL, AUTH_API_URL, getAuthApiUrl } from '$lib/config/api.js';
 
 /**
  * Get CSRF token from cookie
@@ -32,7 +32,9 @@ function getCsrfToken() {
  */
 export async function initCsrf(fetchFn = globalThis.fetch) {
 	try {
-		await fetchFn(`${AUTH_API_URL}/sanctum/csrf-cookie`, {
+		// Use proxy URL if cross-domain
+		const authUrl = getAuthApiUrl();
+		await fetchFn(`${authUrl}/sanctum/csrf-cookie`, {
 			method: 'GET',
 			credentials: 'include',
 			headers: {
@@ -52,7 +54,10 @@ export async function initCsrf(fetchFn = globalThis.fetch) {
  */
 export class HttpClient {
 	constructor(options = {}) {
-		this.baseURL = options.baseURL || AUTH_API_URL;
+		// Use proxy URL for auth requests if cross-domain
+		const baseURL = options.baseURL || AUTH_API_URL;
+		this.baseURL =
+			baseURL === AUTH_API_URL && options.useProxy !== false ? getAuthApiUrl() : baseURL;
 		this.fetch = options.fetch || globalThis.fetch;
 		this.defaultHeaders = {
 			Accept: 'application/json',

@@ -61,4 +61,29 @@ function getApiConfig() {
 export const config = getApiConfig();
 export const { API_BASE_URL, AUTH_API_URL, FRONTEND_URL } = config;
 
+/**
+ * Get Auth API URL for client-side requests
+ * Uses proxy in production to avoid cross-domain cookie issues
+ * @param {boolean} useProxy - Force use of proxy (default: auto-detect based on domain)
+ * @returns {string} Auth API URL
+ */
+export function getAuthApiUrl(useProxy = null) {
+	// Auto-detect: use proxy if AUTH_API_URL is on different domain than current page
+	if (useProxy === null && browser) {
+		const currentDomain = window.location.hostname;
+		const authDomain = new URL(AUTH_API_URL).hostname;
+
+		// Use proxy if domains are different
+		useProxy = currentDomain !== authDomain;
+	}
+
+	// If proxy is requested and we're in browser, use relative URL
+	if (useProxy && browser) {
+		return '/api/auth';
+	}
+
+	// Otherwise use direct URL
+	return AUTH_API_URL;
+}
+
 // Debug logging removed for production

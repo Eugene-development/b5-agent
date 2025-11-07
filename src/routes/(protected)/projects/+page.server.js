@@ -1,6 +1,6 @@
 /**
- * Universal load function for projects page
- * Handles data loading and error handling on the client side
+ * Server-side load function for projects page
+ * Handles data loading and error handling on the server side (SSR)
  */
 
 import { error } from '@sveltejs/kit';
@@ -153,7 +153,7 @@ function calculateProjectStats(projects) {
 	return stats;
 }
 
-/** @type {import('./$types').PageLoad} */
+/** @type {import('./$types').PageServerLoad} */
 export async function load({ fetch, parent, url }) {
 	const startTime = Date.now();
 
