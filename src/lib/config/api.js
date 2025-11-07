@@ -61,18 +61,4 @@ function getApiConfig() {
 export const config = getApiConfig();
 export const { API_BASE_URL, AUTH_API_URL, FRONTEND_URL } = config;
 
-// Debug logging in development
-if (dev || (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production')) {
-	console.log('🔧 API Config Debug (b5-agent):', {
-		browser,
-		dev,
-		NODE_ENV: typeof process !== 'undefined' ? process.env.NODE_ENV : 'undefined',
-		viteEnvVars: {
-			API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
-			AUTH_API_URL: import.meta.env.VITE_AUTH_API_URL,
-			FRONTEND_URL: import.meta.env.VITE_FRONTEND_URL
-		},
-		hasGlobalAppEnv: typeof globalThis !== 'undefined' && !!globalThis.__APP_ENV__,
-		config
-	});
-}
+// Debug logging removed for production

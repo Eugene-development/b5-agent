@@ -37,11 +37,9 @@
 			// Check if email is verified
 			if (!authState.user?.email_verified_at) {
 				// Email not verified - redirect to email verification page
-				console.log('📧 User authenticated but email not verified, redirecting to email-verify');
 				goto('/email-verify');
 			} else {
 				// Email verified - redirect to dashboard
-				console.log('👤 User already authenticated, redirecting to dashboard');
 				goto('/dashboard');
 			}
 		}
@@ -120,8 +118,6 @@
 		try {
 			isLoading = true;
 
-			console.log('📝 Starting registration...');
-
 			// Use the b5-agent auth system to register
 			const result = await register(
 				formData.firstName,
@@ -133,7 +129,6 @@
 			);
 
 			if (result) {
-				console.log('✅ Registration successful');
 				showSuccess = true;
 
 				// Auto-hide notification after 3 seconds
@@ -144,7 +139,6 @@
 				// Redirect to email verification page immediately
 				goto('/email-verify?from_registration=true');
 			} else {
-				console.log('❌ Registration failed');
 				errors.general =
 					authState.errors?.auth?.[0] || authState.errors?.general?.[0] || 'Ошибка регистрации';
 			}

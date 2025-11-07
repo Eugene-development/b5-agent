@@ -64,39 +64,12 @@ export async function load({ fetch, parent }) {
 		// Create projects API client
 		const projectsApi = createProjectsApi(fetch);
 
-		console.log('🔍 Dashboard: Fetching projects for user:', userId);
-
 		try {
 			// Fetch projects for current user
 			const userProjects = await projectsApi.getByAgent(userId);
 
-			console.log('📊 Dashboard: Projects fetched:', {
-				userId,
-				totalProjects: userProjects?.length || 0,
-				isArray: Array.isArray(userProjects)
-			});
-
-			// Log project details for debugging
-			if (Array.isArray(userProjects) && userProjects.length > 0) {
-				console.log('📋 Dashboard: Project details:', {
-					projects: userProjects.map((p) => ({
-						id: p.id,
-						value: p.value,
-						is_active: p.is_active,
-						is_active_type: typeof p.is_active
-					}))
-				});
-			}
-
 			// Calculate statistics
 			const stats = calculateProjectStats(userProjects);
-
-			console.log('✅ Dashboard: Stats calculated:', {
-				activeProjects: stats.activeProjects,
-				completedProjects: stats.completedProjects,
-				totalProjects: userProjects?.length || 0,
-				loadTime: Date.now() - startTime
-			});
 
 			return {
 				user,

@@ -182,28 +182,6 @@ export async function load({ fetch, parent, url }) {
 		// Create projects API client with fetch function
 		const projectsApi = createProjectsApi(fetch);
 
-		// Log API configuration for debugging
-		console.log('🔧 Projects API Configuration:', {
-			timestamp: new Date().toISOString(),
-			user: user?.name || user?.email || 'Unknown',
-			userId: userId,
-			userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Server'
-		});
-
-		// Import API config to log actual URLs and test connections
-		import('$lib/config/api.js').then(({ API_BASE_URL, AUTH_API_URL }) => {
-			console.log('🌐 API URLs:', {
-				graphqlEndpoint: `${API_BASE_URL}/graphql`,
-				authEndpoint: `${AUTH_API_URL}/api`,
-				timestamp: new Date().toISOString()
-			});
-		});
-
-		// Test API connectivity
-		import('$lib/utils/api-test.js').then(({ testAllConnections }) => {
-			testAllConnections();
-		});
-
 		try {
 			// Add timeout to prevent hanging requests
 			const timeoutPromise = new Promise((_, reject) => {
@@ -231,9 +209,6 @@ export async function load({ fetch, parent, url }) {
 				perPage: projects.length,
 				hasMorePages: false
 			};
-
-			const loadTime = Date.now() - startTime;
-			console.log(`Projects data loaded successfully in ${loadTime}ms`);
 
 			return {
 				projects,

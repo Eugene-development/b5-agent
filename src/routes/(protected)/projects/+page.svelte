@@ -226,7 +226,6 @@
 	// Subscribe to projects refresh events
 	onMount(() => {
 		const unsubscribe = projectsRefresh.subscribe(() => {
-			console.log('Projects refresh triggered, reloading data...');
 			refreshData();
 		});
 

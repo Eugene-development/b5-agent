@@ -198,24 +198,10 @@ export class ProjectsApi {
 	async getAll(options = {}) {
 		const { first = 50, page = 1 } = options;
 
-		console.log('📡 Making GraphQL request for projects:', {
-			query: 'GET_ALL_PROJECTS',
-			variables: { first, page },
-			timestamp: new Date().toISOString()
-		});
-
 		try {
 			const response = await this.apiClients.data.graphql(PROJECTS_QUERIES.GET_ALL_PROJECTS, {
 				first,
 				page
-			});
-
-			console.log('📡 GraphQL response received:', {
-				hasData: !!response.data,
-				hasErrors: !!response.errors,
-				dataKeys: response.data ? Object.keys(response.data) : [],
-				errorCount: response.errors ? response.errors.length : 0,
-				timestamp: new Date().toISOString()
 			});
 
 			if (response.errors) {
@@ -230,13 +216,6 @@ export class ProjectsApi {
 				total: 0,
 				perPage: first,
 				hasMorePages: false
-			};
-
-			console.log('✅ Projects data processed:', {
-				projectCount: projectsData.length,
-				totalProjects: paginatorInfo.total,
-				currentPage: paginatorInfo.currentPage,
-				timestamp: new Date().toISOString()
 			});
 
 			return {

@@ -33,14 +33,12 @@
 	async function handleResendEmail() {
 		if (cooldownTime > 0 || isResending) return;
 
-		console.log('📧 Starting resend email process...');
 		isResending = true;
 
 		try {
 			const response = await api.post('/api/email/verification-notification');
 
 			if (response.success) {
-				console.log('✅ Resend email successful');
 				startCooldown();
 				showSuccess = true;
 				setTimeout(() => (showSuccess = false), 3000);
@@ -67,15 +65,11 @@
 
 		if (id && hash && !showSuccess) {
 			// Don't verify again if already successful
-			console.log('📧 Email verification parameters found in URL');
-
 			try {
 				const { verifyEmailWithParams } = await import('$lib/api/auth.js');
 				const result = await verifyEmailWithParams(id, hash);
-				console.log('📧 Email verification result:', result);
 
 				if (result.success) {
-					console.log('✅ Email verification successful');
 					showSuccess = true;
 					errorMessage = 'Email успешно подтвержден!';
 
@@ -87,7 +81,6 @@
 
 					// Update auth state with verified user data
 					if (result.user) {
-						console.log('📧 Updating auth state with verified user data:', result.user);
 						// Update auth state without page reload - just set a flag for success
 					}
 
@@ -125,11 +118,6 @@
 		// Check for registration flag from URL
 		const urlParams = new URLSearchParams($page.url.search);
 		const fromRegistration = urlParams.get('from_registration') === 'true';
-
-		console.log('📄 Email-verify page loaded');
-		console.log('🔐 Auth state:', authState.isAuthenticated);
-		console.log('👤 User:', authState.user);
-		console.log('📍 From registration:', fromRegistration);
 
 		// If not authenticated, redirect to login
 		if (!authState.isAuthenticated) {

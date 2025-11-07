@@ -7,7 +7,6 @@
 	// Get redirectTo parameter from URL
 	let redirectTo = $derived.by(() => {
 		const redirect = page.url.searchParams.get('returnTo') || '/dashboard';
-		console.log('🎯 RedirectTo calculated:', redirect);
 		return redirect;
 	});
 
@@ -41,7 +40,6 @@
 	// Redirect if already authenticated
 	$effect(() => {
 		if (authState.isAuthenticated) {
-			console.log('👤 User already authenticated, redirecting to dashboard');
 			goto('/dashboard');
 		}
 	});
@@ -74,8 +72,6 @@
 		isLoading = true;
 
 		try {
-			console.log('🚀 Submitting login form...');
-
 			// Save "Remember Me" preference to localStorage
 			if (browser) {
 				localStorage.setItem('rememberMe', formData.rememberMe.toString());
@@ -86,36 +82,19 @@
 			});
 
 			if (success) {
-				console.log('✅ Login successful');
-				console.log('🔄 Auth state after login:', {
-					isAuthenticated: authState.isAuthenticated,
-					user: authState.user
-				});
-
 				// Check if email is verified
 				if (authState.user && !authState.user.email_verified_at) {
 					// Email not verified - redirect to email verification page
-					console.log('📧 Email not verified, redirecting to email-verify');
 					goto('/email-verify');
 				} else {
 					// Email verified - proceed to intended destination
 					// Increased delay for state synchronization
 					await new Promise((resolve) => setTimeout(resolve, 300));
 
-					console.log('🔄 Final auth state before redirect:', {
-						isAuthenticated: authState.isAuthenticated,
-						redirectTo: redirectTo
-					});
-
-					// Manually redirect after successful login
-					console.log('✅ Login completed, initiating redirect');
-
 					// Use replace instead of push to avoid adding to history
-					console.log('🎯 Redirecting to:', redirectTo);
 					goto(redirectTo, { replaceState: true });
 				}
 			} else {
-				console.log('❌ Login failed:', authState.errors);
 				errors.general =
 					authState.errors?.auth?.[0] || authState.errors?.general?.[0] || 'Ошибка авторизации';
 			}

@@ -255,12 +255,6 @@ export class HttpClient {
 	async graphql(query, variables = {}, options = {}) {
 		const graphqlEndpoint = `${API_BASE_URL}/graphql`;
 
-		console.log('🔧 GraphQL request details:', {
-			endpoint: graphqlEndpoint,
-			hasCredentials: options.credentials !== 'omit',
-			timestamp: new Date().toISOString()
-		});
-
 		// Temporarily remove credentials for GraphQL requests to avoid CORS issues
 		return this.requestJson(graphqlEndpoint, {
 			method: 'POST',

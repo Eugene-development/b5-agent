@@ -32,25 +32,12 @@ export async function load({ fetch, parent }) {
 		// Create projects API client
 		const projectsApi = createProjectsApi(fetch);
 
-		console.log('🔍 Statistics: Fetching projects for user:', userId);
-
 		try {
 			// Fetch projects for current user
 			const userProjects = await projectsApi.getByAgent(userId);
 
-			console.log('📊 Statistics: Projects fetched:', {
-				userId,
-				totalProjects: userProjects?.length || 0,
-				isArray: Array.isArray(userProjects)
-			});
-
 			// Calculate total projects count
 			const totalProjects = Array.isArray(userProjects) ? userProjects.length : 0;
-
-			console.log('✅ Statistics: Total projects calculated:', {
-				totalProjects,
-				loadTime: Date.now() - startTime
-			});
 
 			return {
 				user,

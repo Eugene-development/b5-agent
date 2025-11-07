@@ -11,25 +11,15 @@ import { AUTH_API_URL } from '$lib/config/api.js';
  */
 export async function load({ fetch, cookies, request }) {
 	try {
-		console.log('🔍 Layout server load - checking authentication');
-
 		// Get all cookies
 		const allCookies = cookies.getAll();
-		console.log(
-			'🍪 Available cookies:',
-			allCookies.map((c) => c.name)
-		);
 
 		// Get session cookie from request
 		const sessionCookie = cookies.get('b5_auth_2_session');
 		const xsrfToken = cookies.get('XSRF-TOKEN');
 
-		console.log('🔑 Session cookie:', sessionCookie ? 'present' : 'missing');
-		console.log('🔑 XSRF token:', xsrfToken ? 'present' : 'missing');
-
 		// If no session cookie, user is not authenticated
 		if (!sessionCookie) {
-			console.log('🔒 No session cookie found - user not authenticated');
 			return {
 				user: null,
 				isAuthenticated: false
@@ -38,8 +28,6 @@ export async function load({ fetch, cookies, request }) {
 
 		// Build cookie header from all cookies
 		const cookieHeader = allCookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; ');
-
-		console.log('📤 Making request to:', `${AUTH_API_URL}/api/user`);
 
 		// Try to get current user data from API using session cookie
 		const response = await fetch(`${AUTH_API_URL}/api/user`, {
@@ -54,21 +42,15 @@ export async function load({ fetch, cookies, request }) {
 			}
 		});
 
-		console.log('📥 Response status:', response.status);
-
 		if (response.ok) {
 			const data = await response.json();
 			const user = data.user || data;
-
-			console.log('✅ User authenticated via session cookie:', user?.email);
 
 			return {
 				user,
 				isAuthenticated: true
 			};
 		} else {
-			const errorText = await response.text();
-			console.log('❌ Session invalid or expired:', response.status, errorText);
 			return {
 				user: null,
 				isAuthenticated: false

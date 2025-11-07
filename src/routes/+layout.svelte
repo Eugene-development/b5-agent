@@ -9,7 +9,6 @@
 	import Footer from './layout/footer/index.svelte';
 
 	let { children, data } = $props();
-	console.log('data%', data);
 
 	// Track if initial auth check is complete
 	let authInitialized = $state(false);
@@ -17,7 +16,6 @@
 	// Initialize authentication from server data
 	$effect(() => {
 		// Always use server data (whether authenticated or not)
-		console.log('🔄 Using server data for auth');
 		initAuthFromServer(data);
 		authInitialized = true;
 	});

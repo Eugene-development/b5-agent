@@ -24,7 +24,6 @@
 
 	// Handle project creation success
 	async function handleProjectCreated() {
-		console.log('Project created, refreshing dashboard stats...');
 		// Invalidate dashboard data to reload stats
 		await invalidate('/dashboard');
 	}
@@ -48,7 +47,6 @@
 
 		// Subscribe to projects refresh events
 		const unsubscribe = projectsRefresh.subscribe(() => {
-			console.log('Projects refresh triggered on dashboard, reloading stats...');
 			handleProjectCreated();
 		});
 

@@ -12,8 +12,6 @@ import { AUTH_API_URL } from '../config/api.js';
  */
 export async function verifyEmailWithParams(id, hash) {
 	try {
-		console.log('📧 Verifying email with parameters...', { id, hash });
-
 		const verificationUrl = `${AUTH_API_URL}/api/email/verify/${id}/${hash}`;
 
 		const response = await fetch(verificationUrl, {
@@ -25,7 +23,6 @@ export async function verifyEmailWithParams(id, hash) {
 		});
 
 		const result = await response.json();
-		console.log('📧 Email verification result:', result);
 
 		return {
 			success: result.success || false,
@@ -47,8 +44,6 @@ export async function verifyEmailWithParams(id, hash) {
  */
 export async function resendEmailVerification() {
 	try {
-		console.log('📧 Resending email verification...');
-
 		const response = await fetch(`${AUTH_API_URL}/api/email/verification-notification`, {
 			method: 'POST',
 			headers: {
@@ -58,7 +53,6 @@ export async function resendEmailVerification() {
 		});
 
 		const result = await response.json();
-		console.log('📧 Resend email verification result:', result);
 
 		return {
 			success: response.ok && result.success,
