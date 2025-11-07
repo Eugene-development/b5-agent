@@ -216,7 +216,7 @@ export class ProjectsApi {
 				total: 0,
 				perPage: first,
 				hasMorePages: false
-			});
+			};
 
 			return {
 				data: projectsData,

@@ -1,7 +1,6 @@
 /**
- * Client-side load function for projects page
+ * Universal load function for projects page
  * Handles data loading and error handling on the client side
- * Requirements: 3.1, 3.2, 5.3
  */
 
 import { error } from '@sveltejs/kit';
@@ -209,6 +208,8 @@ export async function load({ fetch, parent, url }) {
 				perPage: projects.length,
 				hasMorePages: false
 			};
+
+			const loadTime = Date.now() - startTime;
 
 			return {
 				projects,
