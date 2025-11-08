@@ -28,14 +28,15 @@
 	let isLoading = $state(false);
 
 	// Restore "Remember Me" preference from localStorage
-	$effect(() => {
-		if (browser) {
-			const savedRememberMe = localStorage.getItem('rememberMe');
-			if (savedRememberMe === 'true') {
-				formData.rememberMe = true;
-			}
-		}
-	});
+	// Временно отключено: чекбокс "Запомнить меня" скрыт
+	// $effect(() => {
+	// 	if (browser) {
+	// 		const savedRememberMe = localStorage.getItem('rememberMe');
+	// 		if (savedRememberMe === 'true') {
+	// 			formData.rememberMe = true;
+	// 		}
+	// 	}
+	// });
 
 	// Note: Server-side redirect is handled by +layout.server.js
 	// No need for client-side redirect check here to avoid redirect loops
@@ -69,9 +70,10 @@
 
 		try {
 			// Save "Remember Me" preference to localStorage
-			if (browser) {
-				localStorage.setItem('rememberMe', formData.rememberMe.toString());
-			}
+			// Временно отключено: чекбокс "Запомнить меня" скрыт
+			// if (browser) {
+			// 	localStorage.setItem('rememberMe', formData.rememberMe.toString());
+			// }
 
 			const success = await login(formData.email, formData.password, {
 				remember: formData.rememberMe
@@ -253,6 +255,8 @@
 
 					<!-- Remember Me & Forgot Password -->
 					<div class="flex items-center justify-between">
+						<!-- Временно скрыто: чекбокс "Запомнить меня" -->
+						<!--
 						<div class="flex items-center gap-2">
 							<input
 								id="remember-me"
@@ -264,6 +268,7 @@
 							/>
 							<label for="remember-me" class="text-sm text-gray-300">Запомнить меня</label>
 						</div>
+						-->
 						<a
 							href="/forgot-password"
 							class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
