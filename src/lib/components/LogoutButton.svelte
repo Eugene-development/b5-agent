@@ -5,6 +5,7 @@
 -->
 <script>
 	import { logout } from '$lib/auth/auth.svelte.js';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	// State
 	let isLoading = $state(false);
@@ -15,9 +16,29 @@
 
 		isLoading = true;
 		try {
-			await logout({ redirectTo: '/' });
+			console.log('🚪 Logging out...');
+			await logout();
+			console.log('✅ Logout successful');
+
+			// Invalidate all server load functions to reload auth state
+			await invalidateAll();
+			console.log('🔄 Server data invalidated');
+
+			// Small delay to ensure cookies are cleared and server state is updated
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			// Navigate to home page
+			await goto('/', { replaceState: true });
+			console.log('🏠 Redirected to home');
 		} catch (error) {
-			console.error('Logout error:', error);
+			console.error('❌ Logout error:', error);
+			// Still try to invalidate and redirect on error
+			try {
+				await invalidateAll();
+				await goto('/', { replaceState: true });
+			} catch (navError) {
+				console.error('Navigation error:', navError);
+			}
 		} finally {
 			isLoading = false;
 		}

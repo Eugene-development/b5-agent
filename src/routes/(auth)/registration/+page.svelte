@@ -1,6 +1,6 @@
 <script>
 	import { register, authState } from '$lib/auth/auth.svelte.js';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	// Form state using Svelte 5 runes
 	let formData = $state({
@@ -32,18 +32,8 @@
 	let isLoading = $state(false);
 
 	// Redirect if already authenticated and email is verified
-	$effect(() => {
-		if (authState.isAuthenticated) {
-			// Check if email is verified
-			if (!authState.user?.email_verified_at) {
-				// Email not verified - redirect to email verification page
-				goto('/email-verify');
-			} else {
-				// Email verified - redirect to dashboard
-				goto('/dashboard');
-			}
-		}
-	});
+	// Note: Server-side redirect is handled by +layout.server.js
+	// No need for client-side redirect check here to avoid redirect loops
 
 	/**
 	 * Form submission handler using API instead of form action
@@ -136,8 +126,11 @@
 					showSuccess = false;
 				}, 3000);
 
-				// Redirect to email verification page immediately
-				goto('/email-verify?from_registration=true');
+				// Invalidate server data and redirect to email verification
+				console.log('✅ Registration successful, invalidating server data');
+				await invalidateAll();
+				console.log('🔄 Server data invalidated, redirecting to email verification');
+				await goto('/email-verify?from_registration=true', { replaceState: true });
 			} else {
 				errors.general =
 					authState.errors?.auth?.[0] || authState.errors?.general?.[0] || 'Ошибка регистрации';

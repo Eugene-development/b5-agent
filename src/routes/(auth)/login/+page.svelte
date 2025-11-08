@@ -37,12 +37,8 @@
 		}
 	});
 
-	// Redirect if already authenticated
-	$effect(() => {
-		if (authState.isAuthenticated) {
-			goto('/dashboard');
-		}
-	});
+	// Note: Server-side redirect is handled by +layout.server.js
+	// No need for client-side redirect check here to avoid redirect loops
 
 	/**
 	 * Handle form submission
@@ -82,26 +78,21 @@
 			});
 
 			if (success) {
-				console.log('✅ Login successful, cookies set by Auth API');
+				console.log('✅ Login successful, invalidating server data');
+
+				// Invalidate all server load functions to reload auth state
+				await invalidateAll();
+				console.log('🔄 Server data invalidated');
 
 				// Check if email is verified
 				if (authState.user && !authState.user.email_verified_at) {
 					// Email not verified - redirect to email verification page
 					console.log('📧 Email not verified, redirecting to verification page');
-					goto('/email-verify');
+					await goto('/email-verify', { replaceState: true });
 				} else {
 					// Email verified - proceed to intended destination
-					console.log('🚀 Full page reload to:', redirectTo);
-
-					// IMPORTANT: Use window.location for full page reload
-					// This is necessary for cross-domain cookie authentication
-					// After login, cookies are set for auth.bonus5.ru domain
-					// Full page reload ensures proper cookie handling across domains
-					if (browser) {
-						window.location.href = redirectTo;
-					} else {
-						goto(redirectTo, { replaceState: true });
-					}
+					console.log('🚀 Redirecting to:', redirectTo);
+					await goto(redirectTo, { replaceState: true });
 				}
 			} else {
 				errors.general =

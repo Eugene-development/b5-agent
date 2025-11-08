@@ -199,10 +199,13 @@
 	async function refreshData() {
 		isRefreshing = true;
 		try {
-			// Invalidate all data to trigger reload
-			await invalidate(() => true);
+			console.log('🔄 Refreshing projects data...');
+			// Invalidate the projects page data using registered dependency
+			// This will trigger the server load function to re-run
+			await invalidate('app:projects');
+			console.log('✅ Projects data refreshed');
 		} catch (error) {
-			console.error('Failed to refresh data:', error);
+			console.error('❌ Failed to refresh data:', error);
 		} finally {
 			isRefreshing = false;
 		}
@@ -510,9 +513,27 @@
 							<thead class="bg-gray-700">
 								<tr>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										onclick={() => handleSort('created_at')}
 									>
-										№
+										<div class="flex items-center space-x-1">
+											<span>№</span>
+											{#if sortBy === 'created_at'}
+												<svg
+													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+												>
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M19 9l-7 7-7-7"
+													/>
+												</svg>
+											{/if}
+										</div>
 									</th>
 									<th
 										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
@@ -587,7 +608,7 @@
 										}}
 									>
 										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
-											{sortedProjects().length - index}
+											{sortBy === 'created_at' && sortOrder === 'asc' ? sortedProjects().length - index : index + 1}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4">
 											<div

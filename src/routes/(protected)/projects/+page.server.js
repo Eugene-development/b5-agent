@@ -154,7 +154,10 @@ function calculateProjectStats(projects) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ fetch, parent, url }) {
+export async function load({ fetch, parent, url, depends }) {
+	// Register dependency for manual invalidation
+	depends('app:projects');
+
 	const startTime = Date.now();
 
 	try {
