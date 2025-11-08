@@ -198,7 +198,18 @@ export async function load({ fetch, parent, url, depends }) {
 				throw new Error('Invalid data format received from API');
 			}
 
-			const projects = projectsData;
+			// Sort projects by created_at in descending order (newest first) to assign numbers
+			const sortedProjectsData = [...projectsData].sort((a, b) => {
+				const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+				const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
+				return dateB - dateA; // Descending order (newest first)
+			});
+
+			// Add sequential number to each project (starting from 1 for the newest)
+			const projects = sortedProjectsData.map((project, index) => ({
+				...project,
+				sequentialNumber: index + 1
+			}));
 
 			// Calculate statistics with error handling
 			const stats = calculateProjectStats(projects);

@@ -71,7 +71,7 @@
 			) {
 				aVal = aVal ? new Date(aVal) : new Date(0);
 				bVal = bVal ? new Date(bVal) : new Date(0);
-			} else if (sortBy === 'contract_amount') {
+			} else if (sortBy === 'contract_amount' || sortBy === 'sequentialNumber') {
 				aVal = aVal || 0;
 				bVal = bVal || 0;
 			} else if (typeof aVal === 'string') {
@@ -514,11 +514,11 @@
 								<tr>
 									<th
 										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
-										onclick={() => handleSort('created_at')}
+										onclick={() => handleSort('sequentialNumber')}
 									>
 										<div class="flex items-center space-x-1">
 											<span>№</span>
-											{#if sortBy === 'created_at'}
+											{#if sortBy === 'sequentialNumber'}
 												<svg
 													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
 													fill="none"
@@ -608,7 +608,7 @@
 										}}
 									>
 										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
-											{sortBy === 'created_at' && sortOrder === 'asc' ? sortedProjects().length - index : index + 1}
+											{project.sequentialNumber}
 										</td>
 										<td class="whitespace-nowrap px-6 py-4">
 											<div
