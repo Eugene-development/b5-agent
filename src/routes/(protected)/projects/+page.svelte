@@ -589,7 +589,45 @@
 									<th
 										class="w-32 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
-										Инкогнито
+										<div
+											style="display: flex; align-items: center; justify-content: center; gap: 6px; position: relative;"
+										>
+											Инкогнито
+											<svg
+												style="width: 16px; height: 16px; color: #9ca3af; cursor: none; flex-shrink: 0;"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+												xmlns="http://www.w3.org/2000/svg"
+												onmouseenter={(e) => {
+													const tooltip = e.target.nextElementSibling;
+													if (tooltip) tooltip.style.display = 'block';
+												}}
+												onmouseleave={(e) => {
+													const tooltip = e.target.nextElementSibling;
+													if (tooltip) tooltip.style.display = 'none';
+												}}
+											>
+												<path
+													fill-rule="evenodd"
+													d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+													clip-rule="evenodd"
+												/>
+											</svg>
+											<div
+												style="display: none; position: fixed; bottom: auto; left: auto; transform: none; margin-bottom: 0; padding: 8px 12px; background-color: #374151; color: white; font-size: 10px; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); white-space: nowrap; z-index: 9999; pointer-events: none;"
+												onmouseenter={(e) => {
+													const svg = e.target.previousElementSibling;
+													if (svg) {
+														const rect = svg.getBoundingClientRect();
+														e.target.style.left =
+															rect.left + rect.width / 2 - e.target.offsetWidth / 2 + 'px';
+														e.target.style.top = rect.top - e.target.offsetHeight - 8 + 'px';
+													}
+												}}
+											>
+												Галочкой обозначены<br />ваши<br />секретные проекты
+											</div>
+										</div>
 									</th>
 								</tr>
 							</thead>
