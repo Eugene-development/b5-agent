@@ -175,6 +175,27 @@ const PROJECTS_QUERIES = {
 				}
 			}
 		}
+	`,
+
+	/**
+	 * Get all project statuses
+	 */
+	GET_PROJECT_STATUSES: `
+		query GetProjectStatuses {
+			projectStatuses {
+				id
+				value
+				slug
+				description
+				color
+				icon
+				sort_order
+				is_default
+				is_active
+				created_at
+				updated_at
+			}
+		}
 	`
 };
 
@@ -403,6 +424,27 @@ export class ProjectsApi {
 			throw new Error(`Failed to get project statistics: ${error.message}`);
 		}
 	}
+
+	/**
+	 * Get all project statuses from database
+	 * @returns {Promise<Array>} List of project statuses
+	 * @throws {Error} API error
+	 */
+	async getStatuses() {
+		try {
+			const response = await this.apiClients.data.graphql(PROJECTS_QUERIES.GET_PROJECT_STATUSES);
+
+			if (response.errors) {
+				console.error('GraphQL errors:', response.errors);
+				throw new Error(response.errors[0]?.message || 'GraphQL query failed');
+			}
+
+			return response.data?.projectStatuses || [];
+		} catch (error) {
+			console.error('Failed to fetch project statuses:', error);
+			throw new Error(`Failed to fetch project statuses: ${error.message}`);
+		}
+	}
 }
 
 /**
@@ -500,5 +542,15 @@ export const projects = {
 	getStats: (fetchFn) => {
 		const api = fetchFn ? createProjectsApi(fetchFn) : projectsApi;
 		return api.getStats();
+	},
+
+	/**
+	 * Get all project statuses
+	 * @param {typeof fetch} [fetchFn] - Optional fetch function for server-side usage
+	 * @returns {Promise<Array>} List of project statuses
+	 */
+	getStatuses: (fetchFn) => {
+		const api = fetchFn ? createProjectsApi(fetchFn) : projectsApi;
+		return api.getStatuses();
 	}
 };

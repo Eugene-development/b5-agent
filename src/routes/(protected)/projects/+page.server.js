@@ -89,6 +89,7 @@ function createProjectsFallbackData() {
 			perPage: 100,
 			hasMorePages: false
 		},
+		statuses: [],
 		error: null,
 		errorType: null,
 		canRetry: false,
@@ -190,8 +191,11 @@ export async function load({ fetch, parent, url, depends }) {
 				setTimeout(() => reject(new Error('Request timeout')), 30000); // 30 seconds
 			});
 
-			// Load projects data for current user with timeout
-			const projectsData = await Promise.race([projectsApi.getByAgent(userId), timeoutPromise]);
+			// Load projects data and statuses in parallel for current user with timeout
+			const [projectsData, statusesData] = await Promise.race([
+				Promise.all([projectsApi.getByAgent(userId), projectsApi.getStatuses()]),
+				timeoutPromise
+			]);
 
 			// Validate data structure - getByAgent returns array directly
 			if (!Array.isArray(projectsData)) {
@@ -225,10 +229,16 @@ export async function load({ fetch, parent, url, depends }) {
 
 			const loadTime = Date.now() - startTime;
 
+			// Filter only active statuses for the dropdown
+			const activeStatuses = Array.isArray(statusesData)
+				? statusesData.filter((status) => status.is_active)
+				: [];
+
 			return {
 				projects,
 				stats,
 				pagination,
+				statuses: activeStatuses,
 				error: null,
 				errorType: null,
 				canRetry: false,

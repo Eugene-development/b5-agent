@@ -45,8 +45,9 @@
 
 			// Status filter - optimized with early return
 			if (statusFilter !== 'all') {
-				if (statusFilter === 'active' && !project.is_active) return false;
-				if (statusFilter === 'inactive' && project.is_active) return false;
+				// Filter by status slug from database
+				const projectStatusSlug = project.status?.slug;
+				if (projectStatusSlug !== statusFilter) return false;
 			}
 
 			return true;
@@ -482,11 +483,12 @@
 									bind:value={statusFilter}
 									class="px- block h-10 w-full rounded-md border border-gray-600 bg-gray-700 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
 								>
-									<option value="">Все статусы</option>
-									<option value="active">В обработке</option>
-									<option value="active">Активный</option>
-									<option value="paused">Выполнен</option>
-									<option value="completed">Завершен</option>
+									<option value="all">Все статусы</option>
+									{#if data.statuses && data.statuses.length > 0}
+										{#each data.statuses as status (status.id)}
+											<option value={status.slug}>{status.value}</option>
+										{/each}
+									{/if}
 								</select>
 							</div>
 
@@ -742,7 +744,7 @@
 
 			<!-- Results Summary -->
 			{#if sortedProjects().length > 0}
-				<div class="mt-6 text-center text-sm text-gray-300">
+				<div class="mt-6 mb-8 text-center text-sm text-gray-300">
 					Показано {sortedProjects().length} из {data.stats.total} проектов
 					{#if searchTerm || statusFilter !== 'all'}
 						(отфильтровано)
@@ -752,7 +754,9 @@
 		</DataState>
 
 		<!-- Navigation Cards -->
-		<NavigationCards currentPage="projects" />
+		<div class="mt-8">
+			<NavigationCards currentPage="projects" />
+		</div>
 
 		<!-- Action Buttons -->
 		<div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
