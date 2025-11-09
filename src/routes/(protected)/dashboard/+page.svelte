@@ -6,14 +6,12 @@
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import NavigationCards from '$lib/components/NavigationCards.svelte';
 	import ProjectSubmitModal from '$lib/components/ProjectSubmitModal.svelte';
+	import StatsCardSkeleton from '$lib/components/StatsCardSkeleton.svelte';
 	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
 	// console.log(data);
-
-	// Extract data directly from server load function
-	const { stats } = data;
 
 	// Email verification success message
 	let showSuccessMessage = $state(false);
@@ -234,29 +232,58 @@
 			</div>
 		</div>
 
-		<!-- Quick Stats -->
-		<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-			<h2 class="mb-6 text-center text-2xl font-semibold tracking-wide text-white">
-				Быстрая статистика
-			</h2>
+		<!-- Quick Stats - Streamed Data -->
+		{#await data.stats}
+			<!-- Loading state: Show skeleton -->
+			<StatsCardSkeleton />
+		{:then stats}
+			<!-- Success state: Show data -->
+			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
+				<h2 class="mb-6 text-center text-2xl font-semibold tracking-wide text-white">
+					Быстрая статистика
+				</h2>
 
-			<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-				<div class="text-center">
-					<div class="mb-2 text-3xl font-bold text-indigo-400">{stats?.activeProjects || 0}</div>
-					<div class="text-gray-300">Активных проектов</div>
-				</div>
+				{#if stats.error}
+					<!-- Error message if stats failed to load -->
+					<div class="mb-4 rounded-lg border border-red-500/30 bg-red-500/20 p-4 text-center">
+						<p class="text-sm text-red-300">{stats.error}</p>
+					</div>
+				{/if}
 
-				<div class="text-center">
-					<div class="mb-2 text-3xl font-bold text-green-400">{stats?.completedProjects || 0}</div>
-					<div class="text-gray-300">Закрытых проектов</div>
-				</div>
+				<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+					<div class="text-center">
+						<div class="mb-2 text-3xl font-bold text-indigo-400">
+							{stats?.activeProjects || 0}
+						</div>
+						<div class="text-gray-300">Активных проектов</div>
+					</div>
 
-				<div class="text-center">
-					<div class="mb-2 text-3xl font-bold text-yellow-400">{stats?.totalPayouts || 0}</div>
-					<div class="text-gray-300">Выплат получено</div>
+					<div class="text-center">
+						<div class="mb-2 text-3xl font-bold text-green-400">
+							{stats?.completedProjects || 0}
+						</div>
+						<div class="text-gray-300">Закрытых проектов</div>
+					</div>
+
+					<div class="text-center">
+						<div class="mb-2 text-3xl font-bold text-yellow-400">
+							{stats?.totalPayouts || 0}
+						</div>
+						<div class="text-gray-300">Выплат получено</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		{:catch error}
+			<!-- Critical error state (should not happen due to error handling in loadStats) -->
+			<div class="mb-8 rounded-lg border border-red-500/30 bg-red-500/20 p-8 backdrop-blur-sm">
+				<h2 class="mb-4 text-center text-2xl font-semibold tracking-wide text-white">
+					Ошибка загрузки статистики
+				</h2>
+				<p class="text-center text-red-300">
+					Не удалось загрузить статистику. Попробуйте обновить страницу.
+				</p>
+			</div>
+		{/await}
 
 		<!-- Dashboard Actions -->
 		<NavigationCards currentPage="dashboard" />

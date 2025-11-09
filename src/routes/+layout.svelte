@@ -2,8 +2,8 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { initAuthFromServer, authState } from '$lib/auth/auth.svelte.js';
-	import { LoadingOverlay, PageTransition } from '$lib';
-	import { navigating, page } from '$app/stores';
+	import { PageTransition } from '$lib';
+	import { page } from '$app/stores';
 
 	import Menu from './layout/header/UI/Menu/index.svelte';
 	import Footer from './layout/footer/index.svelte';
@@ -51,11 +51,3 @@
 		</footer>
 	</div>
 {/if}
-
-<!-- Global loading overlay during navigation -->
-<LoadingOverlay
-	show={$navigating !== null}
-	message="Загрузка данных..."
-	spinnerSize="large"
-	spinnerColor="white"
-/>

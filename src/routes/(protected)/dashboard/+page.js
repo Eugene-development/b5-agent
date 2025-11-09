@@ -38,12 +38,39 @@ function calculateProjectStats(projects) {
 	return stats;
 }
 
+/**
+ * Load statistics asynchronously for streaming
+ * @param {Object} projectsApi - Projects API client
+ * @param {string} userId - User ID
+ * @returns {Promise<Object>} Statistics object
+ */
+async function loadStats(projectsApi, userId) {
+	try {
+		const userProjects = await projectsApi.getByAgent(userId);
+		const stats = calculateProjectStats(userProjects);
+		return {
+			...stats,
+			error: null
+		};
+	} catch (apiError) {
+		console.error('❌ Dashboard: Failed to load projects:', {
+			error: apiError.message,
+			stack: apiError.stack
+		});
+
+		return {
+			activeProjects: 0,
+			completedProjects: 0,
+			totalPayouts: 0,
+			error: 'Не удалось загрузить статистику проектов'
+		};
+	}
+}
+
 /** @type {import('./$types').PageLoad} */
 export async function load({ fetch, parent }) {
-	const startTime = Date.now();
-
 	try {
-		// Get authentication data from parent layout
+		// Get authentication data from parent layout (await this - it's fast)
 		const { user, isAuthenticated } = await parent();
 
 		// Check authentication
@@ -64,37 +91,14 @@ export async function load({ fetch, parent }) {
 		// Create projects API client
 		const projectsApi = createProjectsApi(fetch);
 
-		try {
-			// Fetch projects for current user
-			const userProjects = await projectsApi.getByAgent(userId);
-
-			// Calculate statistics
-			const stats = calculateProjectStats(userProjects);
-
-			return {
-				user,
-				stats,
-				isAuthenticated: true,
-				error: null
-			};
-		} catch (apiError) {
-			console.error('❌ Dashboard: Failed to load projects:', {
-				error: apiError.message,
-				stack: apiError.stack
-			});
-
-			// Return error state with default stats
-			return {
-				user,
-				stats: {
-					activeProjects: 0,
-					completedProjects: 0,
-					totalPayouts: 0
-				},
-				isAuthenticated: true,
-				error: 'Не удалось загрузить статистику проектов'
-			};
-		}
+		// Return immediately with streamed stats Promise
+		// SvelteKit will render the page and stream the stats when ready
+		return {
+			user,
+			isAuthenticated: true,
+			// Don't await - return Promise for streaming!
+			stats: loadStats(projectsApi, userId)
+		};
 	} catch (err) {
 		// Handle authentication errors
 		if (err.status === 401) {
