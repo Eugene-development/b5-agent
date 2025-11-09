@@ -7,10 +7,10 @@
 -->
 <script>
 	import { onMount } from 'svelte';
-	import DataState from '$lib/components/DataState.svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import NavigationCards from '$lib/components/NavigationCards.svelte';
 	import ProjectDetailsModal from '$lib/components/ProjectDetailsModal.svelte';
+	import ProjectsTableSkeleton from '$lib/components/ProjectsTableSkeleton.svelte';
 	import { goto, invalidate } from '$app/navigation';
 	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
 
@@ -73,10 +73,11 @@
 	});
 
 	// Computed filtered projects list (separated from sorting for better performance)
-	let filteredProjects = $derived(() => {
-		if (!data.projects) return [];
+	// This will be used inside {#await} block with resolved projectsData
+	function getFilteredProjects(projects) {
+		if (!projects) return [];
 
-		return data.projects.filter((project) => {
+		return projects.filter((project) => {
 			// Search filter - optimized with early return and normalized search term
 			if (normalizedSearchTerm) {
 				const matchesSearch =
@@ -108,11 +109,11 @@
 
 			return true;
 		});
-	});
+	}
 
 	// Computed sorted projects list (separate from filtering for better performance)
-	let sortedProjects = $derived(() => {
-		const filtered = filteredProjects();
+	function getSortedProjects(projects) {
+		const filtered = getFilteredProjects(projects);
 		if (filtered.length === 0) return filtered;
 
 		// Create a copy to avoid mutating the original array
@@ -144,11 +145,11 @@
 			if (aVal > bVal) return 1 * modifier;
 			return 0;
 		});
-	});
+	}
 
 	// Optimized statistics computation using single pass
-	let filteredStats = $derived(() => {
-		const filtered = filteredProjects();
+	function getFilteredStats(projects) {
+		const filtered = getFilteredProjects(projects);
 		let active = 0;
 		let inactive = 0;
 		let totalAmount = 0;
@@ -170,7 +171,7 @@
 			totalContractAmount: totalAmount,
 			averageContractAmount: filtered.length > 0 ? totalAmount / filtered.length : 0
 		};
-	});
+	}
 
 	// Functions for handling user interactions
 	function handleSort(column) {
@@ -260,9 +261,9 @@
 		isRefreshing = true;
 		try {
 			console.log('🔄 Refreshing projects data...');
-			// Invalidate the projects page data using registered dependency
-			// This will trigger the server load function to re-run
-			await invalidate('app:projects');
+			// Invalidate the projects page data
+			// This will trigger the load function to re-run
+			await invalidate(() => true); // Invalidate all data
 			console.log('✅ Projects data refreshed');
 		} catch (error) {
 			console.error('❌ Failed to refresh data:', error);
@@ -370,22 +371,34 @@
 			</div>
 		</div>
 
-		<!-- Data State Management -->
-		<DataState
-			isLoading={data.isLoading || false}
-			error={data.error}
-			errorType={data.errorType || 'unknown'}
-			canRetry={data.canRetry || false}
-			onRetry={handleRetry}
-			data={data.projects}
-			emptyMessage="В системе пока нет проектов"
-			emptyIcon="📋"
-			loadingType="table"
-			loadingMessage="Загрузка данных проектов..."
-			skeletonRows={5}
-			minHeight="400px"
-		>
-			<!-- Content when data is successfully loaded -->
+		<!-- Streamed Projects Data -->
+		{#await data.projectsData}
+			<!-- Loading state: Show skeleton -->
+			<ProjectsTableSkeleton />
+		{:then projectsData}
+			<!-- Success state: Show data -->
+			{#if projectsData.error}
+				<!-- Error state -->
+				<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
+					<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>
+					<p class="mb-4 text-red-300">{projectsData.error}</p>
+					{#if projectsData.canRetry}
+						<button
+							onclick={handleRetry}
+							class="rounded-lg bg-red-600 px-6 py-2 font-semibold text-white hover:bg-red-700"
+						>
+							Попробовать снова
+						</button>
+					{/if}
+				</div>
+			{:else if !projectsData.projects || projectsData.projects.length === 0}
+				<!-- Empty state -->
+				<div class="rounded-lg bg-gray-800 p-12 text-center">
+					<div class="text-6xl">📋</div>
+					<h3 class="mt-4 text-xl font-semibold text-white">В системе пока нет ваших проектов</h3>
+				</div>
+			{:else}
+				<!-- Content when data is successfully loaded -->
 
 			<!-- Statistics Cards -->
 			<!-- <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
@@ -498,7 +511,7 @@
 
 			<!-- Filters and Search -->
 			{#if showFilters}
-				<div class="mb-6 rounded-lg bg-gray-800 shadow">
+				<div class="mb-6 rounded-lg border border-gray-300/30 bg-transparent backdrop-blur-sm">
 					<div class="p-4 sm:p-6">
 						<!-- First row: Search on left half, Filters on right half -->
 						<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -546,8 +559,8 @@
 										class="px- block h-10 w-full rounded-md border border-gray-600 bg-gray-700 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
 									>
 										<option value="all">Все статусы</option>
-										{#if data.statuses && data.statuses.length > 0}
-											{#each data.statuses as status (status.id)}
+										{#if projectsData.statuses && projectsData.statuses.length > 0}
+											{#each projectsData.statuses as status (status.id)}
 												<option value={status.slug}>{status.value}</option>
 											{/each}
 										{/if}
@@ -765,10 +778,14 @@
 											</div>
 										</div>
 									</th>
+									<th
+										class="w-16 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
+									>
+									</th>
 								</tr>
 							</thead>
 							<tbody class="divide-y divide-gray-700 bg-gray-800">
-								{#each sortedProjects() as project, index (project.id)}
+								{#each getSortedProjects(projectsData.projects) as project, index (project.id)}
 									<tr
 										class="group cursor-pointer transition-colors hover:bg-gray-700"
 										onclick={() => openProjectDetails(project)}
@@ -840,10 +857,26 @@
 												<span class="text-gray-500">—</span>
 											{/if}
 										</td>
+										<td class="w-16 whitespace-nowrap px-6 py-4 text-center">
+											<svg
+												class="mx-auto h-5 w-5 text-gray-400 transition-colors group-hover:text-cyan-400"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+												/>
+											</svg>
+										</td>
 									</tr>
 								{:else}
 									<tr>
-										<td colspan="5" class="px-6 py-12 text-center">
+										<td colspan="6" class="px-6 py-12 text-center">
 											<div class="flex flex-col items-center">
 												<svg
 													class="w-12 h-12 text-gray-400 mb-4"
@@ -863,7 +896,7 @@
 													{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
 														Попробуйте изменить параметры поиска или очистить фильтры.
 													{:else}
-														В системе пока нет проектов.
+														В системе пока нет ваших проектов.
 													{/if}
 												</p>
 											</div>
@@ -876,16 +909,25 @@
 				</div>
 			</div>
 
-			<!-- Results Summary -->
-			{#if sortedProjects().length > 0}
-				<div class="mt-6 mb-8 text-center text-sm text-gray-300">
-					Показано {sortedProjects().length} из {data.stats.total} проектов
-					{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
-						(отфильтровано)
-					{/if}
-				</div>
+				<!-- Results Summary -->
+				{#if getSortedProjects(projectsData.projects).length > 0}
+					<div class="mb-8 mt-6 text-center text-sm text-gray-300">
+						Показано {getSortedProjects(projectsData.projects).length} из {projectsData.stats.total} проектов
+						{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
+							(отфильтровано)
+						{/if}
+					</div>
+				{/if}
 			{/if}
-		</DataState>
+		{:catch error}
+			<!-- Critical error state -->
+			<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
+				<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>
+				<p class="text-red-300">
+					Не удалось загрузить проекты. Попробуйте обновить страницу.
+				</p>
+			</div>
+		{/await}
 
 		<!-- Navigation Cards -->
 		<div class="mt-8">

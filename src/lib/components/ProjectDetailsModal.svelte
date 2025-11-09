@@ -55,9 +55,19 @@
 		>
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b border-gray-700 bg-gray-800 px-6 py-4 rounded-t-lg">
-				<h2 id="modal-title" class="text-2xl font-bold text-white">
-					{project.value || 'Проект'}
-				</h2>
+				<div class="flex flex-col gap-2">
+					{#if project.status}
+						<span
+							id="modal-title"
+							class="inline-flex w-fit rounded-full border px-3 py-1 text-sm font-semibold"
+							style={project.status?.color
+								? `background-color: ${project.status.color}20; color: ${project.status.color}; border-color: ${project.status.color}`
+								: 'background-color: #374151; color: #D1D5DB; border-color: #6B7280'}
+						>
+							{project.status.value}
+						</span>
+					{/if}
+				</div>
 				<button
 					onclick={onClose}
 					class="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-700 hover:text-white"
@@ -76,23 +86,9 @@
 
 			<!-- Content -->
 			<div class="p-6">
-				<!-- Status Badge -->
-				{#if project.status}
-					<div class="mb-6">
-						<span
-							class="inline-flex rounded-full border px-3 py-1 text-sm font-semibold"
-							style={project.status?.color
-								? `background-color: ${project.status.color}20; color: ${project.status.color}; border-color: ${project.status.color}`
-								: 'background-color: #374151; color: #D1D5DB; border-color: #6B7280'}
-						>
-							{project.status.value}
-						</span>
-					</div>
-				{/if}
-
 				<!-- Main Information -->
 				<div class="mb-6">
-					<h3 class="mb-4 text-lg font-semibold text-white">Основная информация</h3>
+					<h3 class="mb-4 text-lg font-semibold text-amber-500">Основная информация</h3>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						<div>
 							<p class="text-sm text-gray-400">Название проекта</p>
@@ -103,15 +99,6 @@
 							<p class="text-sm text-gray-400">Адрес объекта</p>
 							<p class="text-base font-medium text-white">{project.region || 'Не указано'}</p>
 						</div>
-
-						{#if project.agent}
-							<div>
-								<p class="text-sm text-gray-400">Агент</p>
-								<p class="text-base font-medium text-white">
-									{project.agent.name || project.agent.email || 'Не указано'}
-								</p>
-							</div>
-						{/if}
 
 						<div>
 							<p class="text-sm text-gray-400">Активность</p>
@@ -132,7 +119,7 @@
 
 				<!-- Contract Information -->
 				<div class="mb-6">
-					<h3 class="mb-4 text-lg font-semibold text-white">Информация о договоре</h3>
+					<h3 class="mb-4 text-lg font-semibold text-amber-500">Информация о договоре</h3>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						{#if project.contract_name}
 							<div>
@@ -171,7 +158,7 @@
 
 				<!-- Timestamps -->
 				<div class="border-t border-gray-700 pt-6">
-					<h3 class="mb-4 text-lg font-semibold text-white">Системная информация</h3>
+					<h3 class="mb-4 text-lg font-semibold text-amber-500">Системная информация</h3>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						<div>
 							<p class="text-sm text-gray-400">Дата создания</p>
@@ -181,11 +168,6 @@
 						<div>
 							<p class="text-sm text-gray-400">Последнее обновление</p>
 							<p class="text-base font-medium text-white">{formatDate(project.updated_at)}</p>
-						</div>
-
-						<div>
-							<p class="text-sm text-gray-400">ID проекта</p>
-							<p class="font-mono text-sm text-gray-300">{project.id}</p>
 						</div>
 					</div>
 				</div>
