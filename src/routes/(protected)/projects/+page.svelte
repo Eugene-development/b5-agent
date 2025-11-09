@@ -20,6 +20,9 @@
 	// Reactive state for filtering and search using Svelte 5 runes
 	let searchTerm = $state('');
 	let statusFilter = $state('all');
+	let dateFilter = $state('all'); // all, day, week, month, quarter, half-year, year, custom
+	let dateFrom = $state('');
+	let dateTo = $state('');
 	let sortBy = $state('created_at');
 	let sortOrder = $state('desc');
 	let showFilters = $state(false);
@@ -27,6 +30,47 @@
 
 	// Optimized search term for case-insensitive comparison
 	let normalizedSearchTerm = $derived(searchTerm.toLowerCase().trim());
+
+	// Calculate date range based on selected period
+	let dateRange = $derived(() => {
+		const now = new Date();
+		const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+		switch (dateFilter) {
+			case 'day':
+				return {
+					from: today,
+					to: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
+				};
+			case 'week':
+				const weekAgo = new Date(today);
+				weekAgo.setDate(weekAgo.getDate() - 7);
+				return { from: weekAgo, to: now };
+			case 'month':
+				const monthAgo = new Date(today);
+				monthAgo.setMonth(monthAgo.getMonth() - 1);
+				return { from: monthAgo, to: now };
+			case 'quarter':
+				const quarterAgo = new Date(today);
+				quarterAgo.setMonth(quarterAgo.getMonth() - 3);
+				return { from: quarterAgo, to: now };
+			case 'half-year':
+				const halfYearAgo = new Date(today);
+				halfYearAgo.setMonth(halfYearAgo.getMonth() - 6);
+				return { from: halfYearAgo, to: now };
+			case 'year':
+				const yearAgo = new Date(today);
+				yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+				return { from: yearAgo, to: now };
+			case 'custom':
+				return {
+					from: dateFrom ? new Date(dateFrom) : null,
+					to: dateTo ? new Date(dateTo + 'T23:59:59') : null
+				};
+			default:
+				return { from: null, to: null };
+		}
+	});
 
 	// Computed filtered projects list (separated from sorting for better performance)
 	let filteredProjects = $derived(() => {
@@ -48,6 +92,18 @@
 				// Filter by status slug from database
 				const projectStatusSlug = project.status?.slug;
 				if (projectStatusSlug !== statusFilter) return false;
+			}
+
+			// Date filter - filter by created_at date
+			if (dateFilter !== 'all') {
+				const range = dateRange();
+				if (range.from || range.to) {
+					const projectDate = project.created_at ? new Date(project.created_at) : null;
+					if (!projectDate) return false;
+
+					if (range.from && projectDate < range.from) return false;
+					if (range.to && projectDate > range.to) return false;
+				}
 			}
 
 			return true;
@@ -129,6 +185,9 @@
 	function clearFilters() {
 		searchTerm = '';
 		statusFilter = 'all';
+		dateFilter = 'all';
+		dateFrom = '';
+		dateTo = '';
 		sortBy = 'created_at';
 		sortOrder = 'desc';
 	}
@@ -441,9 +500,10 @@
 			{#if showFilters}
 				<div class="mb-6 rounded-lg bg-gray-800 shadow">
 					<div class="p-4 sm:p-6">
-						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-							<!-- Search Input -->
-							<div class="sm:col-span-2 lg:col-span-2">
+						<!-- First row: Search on left half, Filters on right half -->
+						<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+							<!-- Left half: Search Input -->
+							<div>
 								<label for="search" class="mb-2 block text-sm font-medium text-gray-300">
 									Поиск проектов
 								</label>
@@ -473,35 +533,105 @@
 								</div>
 							</div>
 
-							<!-- Status Filter -->
-							<div>
-								<label for="status-filter" class="mb-2 block text-sm font-medium text-gray-300">
-									Статус
-								</label>
-								<select
-									id="status-filter"
-									bind:value={statusFilter}
-									class="px- block h-10 w-full rounded-md border border-gray-600 bg-gray-700 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-								>
-									<option value="all">Все статусы</option>
-									{#if data.statuses && data.statuses.length > 0}
-										{#each data.statuses as status (status.id)}
-											<option value={status.slug}>{status.value}</option>
-										{/each}
-									{/if}
-								</select>
-							</div>
+							<!-- Right half: Status, Date Period and Clear Button -->
+							<div class="flex gap-4">
+								<!-- Status Filter -->
+								<div class="flex-1">
+									<label for="status-filter" class="mb-2 block text-sm font-medium text-gray-300">
+										Статус
+									</label>
+									<select
+										id="status-filter"
+										bind:value={statusFilter}
+										class="px- block h-10 w-full rounded-md border border-gray-600 bg-gray-700 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+									>
+										<option value="all">Все статусы</option>
+										{#if data.statuses && data.statuses.length > 0}
+											{#each data.statuses as status (status.id)}
+												<option value={status.slug}>{status.value}</option>
+											{/each}
+										{/if}
+									</select>
+								</div>
 
-							<!-- Clear Filters Button -->
-							<div class="flex items-end">
-								<button
-									onclick={clearFilters}
-									class="h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-gray-300 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-								>
-									Очистить фильтры
-								</button>
+								<!-- Date Period Filter -->
+								<div class="flex-1">
+									<label for="date-filter" class="mb-2 block text-sm font-medium text-gray-300">
+										Период
+									</label>
+									<select
+										id="date-filter"
+										bind:value={dateFilter}
+										class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+									>
+										<option value="all">Все время</option>
+										<option value="day">За день</option>
+										<option value="week">За неделю</option>
+										<option value="month">За месяц</option>
+										<option value="quarter">За квартал</option>
+										<option value="half-year">За полугодие</option>
+										<option value="year">За год</option>
+										<option value="custom">Выбрать период</option>
+									</select>
+								</div>
+
+								<!-- Clear Filters Icon Button -->
+								<div class="flex items-end">
+									<button
+										onclick={clearFilters}
+										class="flex h-10 w-10 items-center justify-center rounded-md border border-gray-600 bg-gray-700 text-gray-300 shadow-sm transition-colors hover:bg-gray-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+										aria-label="Очистить фильтры"
+										title="Очистить фильтры"
+									>
+										<svg
+											class="h-5 w-5"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"
+											/>
+										</svg>
+									</button>
+								</div>
 							</div>
 						</div>
+
+						<!-- Second row: Custom date range (shown only when 'custom' is selected) -->
+						{#if dateFilter === 'custom'}
+							<div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+								<!-- Date From -->
+								<div>
+									<label for="date-from" class="mb-2 block text-sm font-medium text-gray-300">
+										Дата от
+									</label>
+									<input
+										id="date-from"
+										type="date"
+										bind:value={dateFrom}
+										class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+									/>
+								</div>
+
+								<!-- Date To -->
+								<div>
+									<label for="date-to" class="mb-2 block text-sm font-medium text-gray-300">
+										Дата до
+									</label>
+									<input
+										id="date-to"
+										type="date"
+										bind:value={dateTo}
+										class="block h-10 w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+									/>
+								</div>
+							</div>
+						{/if}
 					</div>
 				</div>
 			{/if}
@@ -596,7 +726,9 @@
 										>
 											Инкогнито
 											<svg
-												style="width: 16px; height: 16px; color: #9ca3af; cursor: none; flex-shrink: 0;"
+												role="img"
+												aria-label="Информация об инкогнито режиме"
+												style="width: 16px; height: 16px; color: #9ca3af; cursor: pointer; flex-shrink: 0;"
 												fill="currentColor"
 												viewBox="0 0 20 20"
 												xmlns="http://www.w3.org/2000/svg"
@@ -616,6 +748,8 @@
 												/>
 											</svg>
 											<div
+												role="tooltip"
+												aria-hidden="true"
 												style="display: none; position: fixed; bottom: auto; left: auto; transform: none; margin-bottom: 0; padding: 8px 12px; background-color: #374151; color: white; font-size: 10px; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); white-space: nowrap; z-index: 9999; pointer-events: none;"
 												onmouseenter={(e) => {
 													const svg = e.target.previousElementSibling;
@@ -726,7 +860,7 @@
 												</svg>
 												<h3 class="text-lg font-medium text-white mb-2">Проекты не найдены</h3>
 												<p class="text-gray-400">
-													{#if searchTerm || statusFilter !== 'all'}
+													{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
 														Попробуйте изменить параметры поиска или очистить фильтры.
 													{:else}
 														В системе пока нет проектов.
@@ -746,7 +880,7 @@
 			{#if sortedProjects().length > 0}
 				<div class="mt-6 mb-8 text-center text-sm text-gray-300">
 					Показано {sortedProjects().length} из {data.stats.total} проектов
-					{#if searchTerm || statusFilter !== 'all'}
+					{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
 						(отфильтровано)
 					{/if}
 				</div>
