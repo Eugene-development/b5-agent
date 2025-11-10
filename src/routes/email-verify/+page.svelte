@@ -1,6 +1,6 @@
 <script>
 	import { authState } from '$lib/auth/auth.svelte.js';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { api } from '$lib/utils/http-client.js';
@@ -81,8 +81,12 @@
 
 					// Update auth state with verified user data
 					if (result.user) {
-						// Update auth state without page reload - just set a flag for success
+						const { setUser } = await import('$lib/auth/auth.svelte.js');
+						setUser(result.user);
 					}
+
+					// Invalidate all data to reload user from server
+					await invalidateAll();
 
 					// Redirect to dashboard after success
 					setTimeout(() => {

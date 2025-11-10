@@ -2,3 +2,11 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @plugin 'tailwindcss-animated';
+
+/* Prevent white flash on page load */
+html,
+body {
+	background-color: #030712; /* gray-950 */
+	margin: 0;
+	padding: 0;
+}

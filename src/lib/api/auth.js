@@ -19,7 +19,8 @@ export async function verifyEmailWithParams(id, hash) {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json'
-			}
+			},
+			credentials: 'include' // Include cookies for authentication
 		});
 
 		const result = await response.json();
@@ -27,7 +28,7 @@ export async function verifyEmailWithParams(id, hash) {
 		return {
 			success: result.success || false,
 			message: result.message || 'Ошибка верификации email',
-			user: result.data?.user || null
+			user: result.data?.user || result.user || null
 		};
 	} catch (error) {
 		console.error('❌ Email verification error:', error);
@@ -49,7 +50,8 @@ export async function resendEmailVerification() {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json'
-			}
+			},
+			credentials: 'include' // Include cookies for authentication
 		});
 
 		const result = await response.json();

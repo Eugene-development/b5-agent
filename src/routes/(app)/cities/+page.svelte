@@ -50,6 +50,17 @@
 				<div
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-indigo-500/20"
 				>
+					<span
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+					>
+						<span class="relative flex size-2">
+							<span
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+						</span>
+						Активно
+					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-indigo-500/20 p-3 ring-1 ring-indigo-500/30">
 						<svg
 							class="size-8 text-indigo-400"
@@ -72,25 +83,23 @@
 					</div>
 					<h3 class="text-2xl font-bold text-white">Москва</h3>
 					<p class="mt-2 text-sm text-gray-400">Столица России</p>
-					<div class="mt-4 flex items-center gap-2">
-						<span
-							class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
-						>
-							<span class="relative flex size-2">
-								<span
-									class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-								></span>
-								<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-							</span>
-							Активно
-						</span>
-					</div>
 				</div>
 
 				<!-- Санкт-Петербург -->
 				<div
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20"
 				>
+					<span
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+					>
+						<span class="relative flex size-2">
+							<span
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+						</span>
+						Активно
+					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-purple-500/20 p-3 ring-1 ring-purple-500/30">
 						<svg
 							class="size-8 text-purple-400"
@@ -113,25 +122,23 @@
 					</div>
 					<h3 class="text-2xl font-bold text-white">Санкт-Петербург</h3>
 					<p class="mt-2 text-sm text-gray-400">Северная столица</p>
-					<div class="mt-4 flex items-center gap-2">
-						<span
-							class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
-						>
-							<span class="relative flex size-2">
-								<span
-									class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-								></span>
-								<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-							</span>
-							Активно
-						</span>
-					</div>
 				</div>
 
 				<!-- Новосибирск -->
 				<div
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-pink-500/20"
 				>
+					<span
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+					>
+						<span class="relative flex size-2">
+							<span
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+						</span>
+						Активно
+					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-pink-500/20 p-3 ring-1 ring-pink-500/30">
 						<svg
 							class="size-8 text-pink-400"
@@ -154,25 +161,23 @@
 					</div>
 					<h3 class="text-2xl font-bold text-white">Новосибирск</h3>
 					<p class="mt-2 text-sm text-gray-400">Столица Сибири</p>
-					<div class="mt-4 flex items-center gap-2">
-						<span
-							class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
-						>
-							<span class="relative flex size-2">
-								<span
-									class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-								></span>
-								<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-							</span>
-							Активно
-						</span>
-					</div>
 				</div>
 
 				<!-- Екатеринбург -->
 				<div
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-amber-500/20"
 				>
+					<span
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+					>
+						<span class="relative flex size-2">
+							<span
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+						</span>
+						Активно
+					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-amber-500/20 p-3 ring-1 ring-amber-500/30">
 						<svg
 							class="size-8 text-amber-400"
@@ -195,25 +200,23 @@
 					</div>
 					<h3 class="text-2xl font-bold text-white">Екатеринбург</h3>
 					<p class="mt-2 text-sm text-gray-400">Столица Урала</p>
-					<div class="mt-4 flex items-center gap-2">
-						<span
-							class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
-						>
-							<span class="relative flex size-2">
-								<span
-									class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-								></span>
-								<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-							</span>
-							Активно
-						</span>
-					</div>
 				</div>
 
 				<!-- Казань -->
 				<div
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20"
 				>
+					<span
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+					>
+						<span class="relative flex size-2">
+							<span
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+						</span>
+						Активно
+					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-cyan-500/20 p-3 ring-1 ring-cyan-500/30">
 						<svg
 							class="size-8 text-cyan-400"
@@ -236,25 +239,23 @@
 					</div>
 					<h3 class="text-2xl font-bold text-white">Казань</h3>
 					<p class="mt-2 text-sm text-gray-400">Столица Татарстана</p>
-					<div class="mt-4 flex items-center gap-2">
-						<span
-							class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
-						>
-							<span class="relative flex size-2">
-								<span
-									class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-								></span>
-								<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-							</span>
-							Активно
-						</span>
-					</div>
 				</div>
 
 				<!-- Нижний Новгород -->
 				<div
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-rose-500/20"
 				>
+					<span
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+					>
+						<span class="relative flex size-2">
+							<span
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+						</span>
+						Активно
+					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-rose-500/20 p-3 ring-1 ring-rose-500/30">
 						<svg
 							class="size-8 text-rose-400"
@@ -277,19 +278,6 @@
 					</div>
 					<h3 class="text-2xl font-bold text-white">Нижний Новгород</h3>
 					<p class="mt-2 text-sm text-gray-400">Столица Поволжья</p>
-					<div class="mt-4 flex items-center gap-2">
-						<span
-							class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
-						>
-							<span class="relative flex size-2">
-								<span
-									class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-								></span>
-								<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-							</span>
-							Активно
-						</span>
-					</div>
 				</div>
 			</div>
 		</div>

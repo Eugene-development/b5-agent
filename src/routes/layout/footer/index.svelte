@@ -97,7 +97,7 @@
 					</li>
 					<li>
 						<a
-							href="/register"
+							href="/registration"
 							class="text-sm text-gray-400 transition-colors duration-200 hover:text-green-400"
 						>
 							Регистрация

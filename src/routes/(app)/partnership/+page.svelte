@@ -471,7 +471,9 @@
 				</p>
 				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
-						href="/registration"
+						href="https://rubonus.pro/register"
+						target="_blank"
+						rel="noopener noreferrer"
 						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
 					>
 						Стать партнёром

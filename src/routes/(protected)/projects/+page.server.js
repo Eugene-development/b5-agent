@@ -1,6 +1,7 @@
 /**
- * Client-side load function for projects page with streaming
- * Allows instant page navigation with data loading in background
+ * Server-side load function for projects page with SSR
+ * Data is rendered on the server for SEO and better performance
+ * Uses streaming to show skeleton while data loads
  */
 
 import { error } from '@sveltejs/kit';
@@ -202,7 +203,7 @@ async function loadProjectsData(projectsApi, userId) {
 	}
 }
 
-/** @type {import('./$types').PageLoad} */
+/** @type {import('./$types').PageServerLoad} */
 export async function load({ fetch, parent }) {
 	try {
 		// Get authentication data from parent layout (fast)
