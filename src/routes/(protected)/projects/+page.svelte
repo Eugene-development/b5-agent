@@ -704,6 +704,11 @@
 										</div>
 									</th>
 									<th
+										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+									>
+										Имя клиента
+									</th>
+									<th
 										class="w-2/5 cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('region')}
 									>
@@ -816,6 +821,9 @@
 													{project.description}
 												</div>
 											{/if}
+										</td>
+										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
+											{project.client?.name || 'Не указано'}
 										</td>
 										<td class="w-2/5 px-6 py-4 text-sm text-white">
 											<div class="truncate">

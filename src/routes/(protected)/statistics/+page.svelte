@@ -338,7 +338,7 @@
 							{#each topProjects as project}
 								<tr class="hover:bg-gray-700/50">
 									<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-white">
-										{project.name}
+										{project.value}
 									</td>
 									<td class="px-6 py-4 text-sm whitespace-nowrap text-gray-300">
 										{project.region}

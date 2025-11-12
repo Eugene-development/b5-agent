@@ -20,11 +20,16 @@ const PROJECTS_QUERIES = {
 					id
 					value
 					user_id
+					client_id
 					status_id
 					agent {
 						id
 						name
 						email
+					}
+					client {
+						id
+						name
 					}
 					status {
 						id
@@ -65,11 +70,16 @@ const PROJECTS_QUERIES = {
 				id
 				value
 				user_id
+				client_id
 				status_id
 				agent {
 					id
 					name
 					email
+				}
+				client {
+					id
+					name
 				}
 				status {
 					id
@@ -103,11 +113,16 @@ const PROJECTS_QUERIES = {
 				id
 				value
 				user_id
+				client_id
 				status_id
 				agent {
 					id
 					name
 					email
+				}
+				client {
+					id
+					name
 				}
 				status {
 					id
@@ -141,11 +156,16 @@ const PROJECTS_QUERIES = {
 					id
 					value
 					user_id
+					client_id
 					status_id
 					agent {
 						id
 						name
 						email
+					}
+					client {
+						id
+						name
 					}
 					status {
 						id
