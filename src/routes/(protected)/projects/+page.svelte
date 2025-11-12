@@ -261,9 +261,9 @@
 		isRefreshing = true;
 		try {
 			console.log('🔄 Refreshing projects data...');
-			// Invalidate the projects page data
+			// Invalidate the projects page data using the dependency identifier
 			// This will trigger the load function to re-run
-			await invalidate(() => true); // Invalidate all data
+			await invalidate('projects');
 			console.log('✅ Projects data refreshed');
 		} catch (error) {
 			console.error('❌ Failed to refresh data:', error);
@@ -706,7 +706,7 @@
 									<th
 										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
-										Имя клиента
+										Имя
 									</th>
 									<th
 										class="w-2/5 cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"

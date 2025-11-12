@@ -204,7 +204,10 @@ async function loadProjectsData(projectsApi, userId) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ fetch, parent }) {
+export async function load({ fetch, parent, depends }) {
+	// Mark this load function as dependent on 'projects' invalidation
+	depends('projects');
+	
 	try {
 		// Get authentication data from parent layout (fast)
 		const { user, isAuthenticated } = await parent();
