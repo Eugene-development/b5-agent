@@ -1,3 +1,9 @@
+<svelte:head>
+	<title>Создание нового пароля BONUS5 – Установка пароля</title>
+	<meta name="description" content="Создайте новый пароль для доступа к личному кабинету BONUS5. Безопасная процедура смены пароля агента." />
+	<meta name="keywords" content="новый пароль, смена пароля, установка пароля, BONUS5" />
+</svelte:head>
+
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
@@ -114,10 +120,6 @@
 		}
 	}
 </script>
-
-<svelte:head>
-	<title>Сброс пароля - B5 Agent</title>
-</svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">
 	<!-- Animated gradient background -->

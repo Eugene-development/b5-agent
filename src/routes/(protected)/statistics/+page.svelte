@@ -59,7 +59,9 @@
 </script>
 
 <svelte:head>
-	<title>Статистика - B5 Agent</title>
+	<title>Статистика BONUS5 – Аналитика работы агента</title>
+	<meta name="description" content="Статистика работы агента BONUS5: количество проектов, доход по месяцам, распределение по регионам, топ проектов. Детальная аналитика вашей деятельности." />
+	<meta name="keywords" content="статистика BONUS5, аналитика агента, доход агента, отчеты по проектам, метрики" />
 </svelte:head>
 
 <div class="relative isolate bg-gray-950 py-2 sm:py-8">

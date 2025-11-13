@@ -1,3 +1,9 @@
+<svelte:head>
+	<title>О проекте BONUS5 – Партнерская программа для агентов</title>
+	<meta name="description" content="BONUS5 – партнерская программа с вознаграждением до 5% от суммы сделки. Узнайте, как работает система, преимущества сотрудничества и условия участия." />
+	<meta name="keywords" content="о проекте BONUS5, как работает партнерская программа, преимущества сотрудничества, условия участия" />
+</svelte:head>
+
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div

@@ -1,3 +1,9 @@
+<svelte:head>
+	<title>Вакансии BONUS5 – Работа в команде партнерской программы</title>
+	<meta name="description" content="Открытые вакансии в BONUS5: куратор проектов, менеджер по работе с агентами. Удаленная работа, гибкий график, конкурентная зарплата." />
+	<meta name="keywords" content="вакансии BONUS5, работа в BONUS5, куратор проектов, удаленная работа, карьера" />
+</svelte:head>
+
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div

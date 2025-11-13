@@ -150,7 +150,9 @@
 </script>
 
 <svelte:head>
-	<title>Подтверждение Email - B5 Agent</title>
+	<title>Подтверждение Email BONUS5 – Верификация почты агента</title>
+	<meta name="description" content="Подтвердите ваш email адрес для полного доступа к функциям BONUS5. Верификация почты агента для безопасности аккаунта." />
+	<meta name="keywords" content="подтверждение email, верификация почты, активация аккаунта, BONUS5" />
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">

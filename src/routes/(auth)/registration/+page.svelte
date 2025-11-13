@@ -31,6 +31,10 @@
 	// Loading state
 	let isLoading = $state(false);
 
+	// Password visibility states
+	let showPassword = $state(false);
+	let showPasswordConfirm = $state(false);
+
 	// Redirect if already authenticated and email is verified
 	// Note: Server-side redirect is handled by +layout.server.js
 	// No need for client-side redirect check here to avoid redirect loops
@@ -147,8 +151,9 @@
 </script>
 
 <svelte:head>
-	<title>Регистрация - B5 Agent</title>
-	<meta name="description" content="Create a new account for B5 Agent" />
+	<title>Регистрация в BONUS5 – Стать агентом партнерской программы</title>
+	<meta name="description" content="Зарегистрируйтесь в BONUS5 и начните зарабатывать до 5% с каждой сделки. Быстрая регистрация, бесплатное участие, доступ к личному кабинету агента." />
+	<meta name="keywords" content="регистрация BONUS5, стать агентом, создать аккаунт, партнерская программа, регистрация агента" />
 </svelte:head>
 
 <!-- Success Notification -->
@@ -432,17 +437,34 @@
 									</svg>
 								</div>
 								<input
-									type="password"
+									type={showPassword ? 'text' : 'password'}
 									name="password"
 									id="password"
 									autocomplete="new-password"
 									bind:value={formData.password}
 									disabled={isLoading}
 									placeholder="••••••••"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.password
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-10 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.password
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
+								<button
+									type="button"
+									onclick={() => showPassword = !showPassword}
+									class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-300 transition-colors"
+									aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+								>
+									{#if showPassword}
+										<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+										</svg>
+									{:else}
+										<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+										</svg>
+									{/if}
+								</button>
 							</div>
 							{#if errors.password}
 								<p class="mt-2 text-sm text-red-400">{errors.password}</p>
@@ -471,17 +493,34 @@
 									</svg>
 								</div>
 								<input
-									type="password"
+									type={showPasswordConfirm ? 'text' : 'password'}
 									name="password-confirm"
 									id="password-confirm"
 									autocomplete="new-password"
 									bind:value={formData.passwordConfirm}
 									disabled={isLoading}
 									placeholder="••••••••"
-									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.passwordConfirm
+									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-10 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.passwordConfirm
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"
 								/>
+								<button
+									type="button"
+									onclick={() => showPasswordConfirm = !showPasswordConfirm}
+									class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-300 transition-colors"
+									aria-label={showPasswordConfirm ? 'Скрыть пароль' : 'Показать пароль'}
+								>
+									{#if showPasswordConfirm}
+										<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+										</svg>
+									{:else}
+										<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+										</svg>
+									{/if}
+								</button>
 							</div>
 							{#if errors.passwordConfirm}
 								<p class="mt-2 text-sm text-red-400">{errors.passwordConfirm}</p>

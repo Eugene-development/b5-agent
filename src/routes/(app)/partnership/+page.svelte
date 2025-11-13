@@ -1,3 +1,9 @@
+<svelte:head>
+	<title>Партнерство с BONUS5 – Получайте клиентов для вашего бизнеса</title>
+	<meta name="description" content="Станьте партнером BONUS5 и получайте готовых клиентов для производства мебели, поставки техники и фурнитуры. Оплата только за результат, качественные лиды." />
+	<meta name="keywords" content="партнерство BONUS5, производители мебели, поставщики техники, поставщики фурнитуры, новые клиенты" />
+</svelte:head>
+
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div

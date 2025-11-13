@@ -169,7 +169,9 @@
 </script>
 
 <svelte:head>
-	<title>Профиль - B5 Agent</title>
+	<title>Профиль агента BONUS5 – Личные данные и настройки</title>
+	<meta name="description" content="Профиль агента BONUS5: просмотр и редактирование личных данных, секретный ключ, контактная информация, статус верификации email." />
+	<meta name="keywords" content="профиль агента, личные данные, секретный ключ, настройки аккаунта, BONUS5" />
 </svelte:head>
 
 <!-- Main content -->

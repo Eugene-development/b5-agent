@@ -1,3 +1,9 @@
+<svelte:head>
+	<title>География работы BONUS5 – Города присутствия партнерской программы</title>
+	<meta name="description" content="BONUS5 работает в крупнейших городах России: Москва, Санкт-Петербург, Новосибирск, Екатеринбург, Казань, Нижний Новгород. Найдите партнеров в вашем регионе." />
+	<meta name="keywords" content="BONUS5 города, география работы, партнеры в регионах, Москва, Санкт-Петербург, Новосибирск" />
+</svelte:head>
+
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div

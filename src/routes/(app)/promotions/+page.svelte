@@ -1,3 +1,9 @@
+<svelte:head>
+	<title>Акции BONUS5 – Специальные предложения для агентов</title>
+	<meta name="description" content="Актуальные акции и специальные предложения BONUS5: реферальная программа, бонусы для ТОП агентов, сезонные акции. Увеличьте свой доход с нашими акциями." />
+	<meta name="keywords" content="акции BONUS5, специальные предложения, реферальная программа, бонусы для агентов, ТОП агенты" />
+</svelte:head>
+
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div

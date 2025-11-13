@@ -91,8 +91,13 @@
 					<h3 class="mb-4 text-lg font-semibold text-amber-500">Основная информация</h3>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						<div>
-							<p class="text-sm text-gray-400">Название проекта</p>
+							<p class="text-sm text-gray-400">Проект</p>
 							<p class="text-base font-medium text-white">{project.value || 'Не указано'}</p>
+						</div>
+
+						<div>
+							<p class="text-sm text-gray-400">Имя</p>
+							<p class="text-base font-medium text-white">{project.client?.name || 'Не указано'}</p>
 						</div>
 
 						<div>

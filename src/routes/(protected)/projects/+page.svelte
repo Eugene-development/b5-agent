@@ -5,6 +5,12 @@
   Enhanced with comprehensive error handling and loading states
   Requirements: 2.2, 3.2, 5.2, 6.1, 7.2, 7.3
 -->
+<svelte:head>
+	<title>Мои проекты BONUS5 – Управление клиентами и сделками</title>
+	<meta name="description" content="Управление проектами в BONUS5: список клиентов, статусы сделок, история взаимодействий, фильтрация и поиск проектов. Полный контроль над вашими клиентами." />
+	<meta name="keywords" content="проекты BONUS5, управление клиентами, список сделок, статусы проектов, CRM агента" />
+</svelte:head>
+
 <script>
 	import { onMount } from 'svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
@@ -27,6 +33,10 @@
 	let sortOrder = $state('desc');
 	let showFilters = $state(false);
 	let selectedProject = $state(null);
+	
+	// Pagination state
+	let currentPage = $state(1);
+	const itemsPerPage = 7;
 
 	// Optimized search term for case-insensitive comparison
 	let normalizedSearchTerm = $derived(searchTerm.toLowerCase().trim());
@@ -132,6 +142,14 @@
 			} else if (sortBy === 'contract_amount' || sortBy === 'sequentialNumber') {
 				aVal = aVal || 0;
 				bVal = bVal || 0;
+			} else if (sortBy === 'is_incognito') {
+				// Sort by incognito status (boolean)
+				aVal = a.is_incognito ? 1 : 0;
+				bVal = b.is_incognito ? 1 : 0;
+			} else if (sortBy === 'status') {
+				// Sort by status value (text)
+				aVal = a.status?.value ? a.status.value.toLowerCase() : (a.is_active ? 'активный' : 'неактивный');
+				bVal = b.status?.value ? b.status.value.toLowerCase() : (b.is_active ? 'активный' : 'неактивный');
 			} else if (typeof aVal === 'string') {
 				aVal = (aVal || '').toLowerCase();
 				bVal = (bVal || '').toLowerCase();
@@ -145,6 +163,40 @@
 			if (aVal > bVal) return 1 * modifier;
 			return 0;
 		});
+	}
+
+	// Get paginated projects
+	function getPaginatedProjects(projects) {
+		const sorted = getSortedProjects(projects);
+		const startIndex = (currentPage - 1) * itemsPerPage;
+		const endIndex = startIndex + itemsPerPage;
+		return sorted.slice(startIndex, endIndex);
+	}
+
+	// Calculate total pages
+	function getTotalPages(projects) {
+		const sorted = getSortedProjects(projects);
+		return Math.ceil(sorted.length / itemsPerPage);
+	}
+
+	// Pagination controls
+	function goToPage(page) {
+		currentPage = page;
+		// Scroll to top of table
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	function nextPage(projects) {
+		const totalPages = getTotalPages(projects);
+		if (currentPage < totalPages) {
+			goToPage(currentPage + 1);
+		}
+	}
+
+	function prevPage() {
+		if (currentPage > 1) {
+			goToPage(currentPage - 1);
+		}
 	}
 
 	// Optimized statistics computation using single pass
@@ -191,6 +243,7 @@
 		dateTo = '';
 		sortBy = 'created_at';
 		sortOrder = 'desc';
+		currentPage = 1; // Reset to first page when clearing filters
 	}
 
 	function formatDate(dateString) {
@@ -296,10 +349,25 @@
 		// Cleanup on component unmount
 		return unsubscribe;
 	});
+
+	// Reset to first page when filters change
+	$effect(() => {
+		// Watch for changes in filters
+		searchTerm;
+		statusFilter;
+		dateFilter;
+		dateFrom;
+		dateTo;
+		sortBy;
+		sortOrder;
+		
+		// Reset to first page
+		currentPage = 1;
+	});
 </script>
 
 <div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">
-	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+	<div class="mx-auto max-w-7xl px-4 sm:px-0">
 		<!-- Page Header -->
 		<div class="mb-8">
 			<div class="mb-4">
@@ -732,17 +800,51 @@
 										</div>
 									</th>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										onclick={() => handleSort('status')}
 									>
-										Статус
+										<div class="flex items-center space-x-1">
+											<span>Статус</span>
+											{#if sortBy === 'status'}
+												<svg
+													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+												>
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M19 9l-7 7-7-7"
+													/>
+												</svg>
+											{/if}
+										</div>
 									</th>
 									<th
-										class="w-32 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="w-32 cursor-pointer px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										onclick={() => handleSort('is_incognito')}
 									>
 										<div
 											style="display: flex; align-items: center; justify-content: center; gap: 6px; position: relative;"
 										>
-											Инкогнито
+											<span>Инкогнито</span>
+											{#if sortBy === 'is_incognito'}
+												<svg
+													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+												>
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M19 9l-7 7-7-7"
+													/>
+												</svg>
+											{/if}
 											<svg
 												role="img"
 												aria-label="Информация об инкогнито режиме"
@@ -790,7 +892,7 @@
 								</tr>
 							</thead>
 							<tbody class="divide-y divide-gray-700 bg-gray-800">
-								{#each getSortedProjects(projectsData.projects) as project, index (project.id)}
+								{#each getPaginatedProjects(projectsData.projects) as project, index (project.id)}
 									<tr
 										class="group cursor-pointer transition-colors hover:bg-gray-700"
 										onclick={() => openProjectDetails(project)}
@@ -917,12 +1019,72 @@
 				</div>
 			</div>
 
-				<!-- Results Summary -->
+				<!-- Pagination Controls -->
 				{#if getSortedProjects(projectsData.projects).length > 0}
-					<div class="mb-8 mt-6 text-center text-sm text-gray-300">
-						Показано {getSortedProjects(projectsData.projects).length} из {projectsData.stats.total} проектов
-						{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
-							(отфильтровано)
+					{@const totalPages = getTotalPages(projectsData.projects)}
+					{@const totalFiltered = getSortedProjects(projectsData.projects).length}
+					{@const startItem = (currentPage - 1) * itemsPerPage + 1}
+					{@const endItem = Math.min(currentPage * itemsPerPage, totalFiltered)}
+					
+					<div class="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
+						<!-- Results Summary -->
+						<div class="text-sm text-gray-300">
+							Показано {startItem}–{endItem} из {totalFiltered}
+							{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
+								(отфильтровано из {projectsData.stats.total})
+							{:else}
+								проектов
+							{/if}
+						</div>
+
+						<!-- Pagination Buttons -->
+						{#if totalPages > 1}
+							<div class="flex items-center gap-2">
+								<!-- Previous Button -->
+								<button
+									onclick={prevPage}
+									disabled={currentPage === 1}
+									class="rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
+									aria-label="Предыдущая страница"
+								>
+									<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+									</svg>
+								</button>
+
+								<!-- Page Numbers -->
+								<div class="flex items-center gap-1">
+									{#each Array(totalPages) as _, i}
+										{@const pageNum = i + 1}
+										{#if pageNum === 1 || pageNum === totalPages || (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)}
+											<button
+												onclick={() => goToPage(pageNum)}
+												class="min-w-[40px] rounded-md border px-3 py-2 text-sm font-medium transition-colors {currentPage === pageNum
+													? 'border-cyan-500 bg-cyan-600 text-white'
+													: 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600'}"
+												aria-label="Страница {pageNum}"
+												aria-current={currentPage === pageNum ? 'page' : undefined}
+											>
+												{pageNum}
+											</button>
+										{:else if pageNum === currentPage - 2 || pageNum === currentPage + 2}
+											<span class="px-2 text-gray-400">...</span>
+										{/if}
+									{/each}
+								</div>
+
+								<!-- Next Button -->
+								<button
+									onclick={() => nextPage(projectsData.projects)}
+									disabled={currentPage === totalPages}
+									class="rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
+									aria-label="Следующая страница"
+								>
+									<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+									</svg>
+								</button>
+							</div>
 						{/if}
 					</div>
 				{/if}
