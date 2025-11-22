@@ -5,7 +5,7 @@
 
 import { redirect } from '@sveltejs/kit';
 import { browser } from '$app/environment';
-import { authState, getUser, clearAuthState } from './auth.svelte.js';
+import { authState, getUser, clearAuthStatePublic as clearAuthState } from './auth.svelte.js';
 
 /**
  * Initialize authentication state on app startup

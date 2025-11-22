@@ -86,7 +86,7 @@ export class HttpClient {
 
 	/**
 	 * Prepare headers for API request
-	 * Automatically includes CSRF token if available
+	 * Automatically includes CSRF token and JWT Bearer token if available
 	 * Requirements: 5.2, 5.4
 	 * @param {Object} customHeaders - Additional headers to include
 	 * @returns {Object} Complete headers object
@@ -97,7 +97,23 @@ export class HttpClient {
 			...customHeaders
 		};
 
-		// Add CSRF token if available
+		// Add JWT Bearer token if available (from localStorage)
+		if (browser && typeof window !== 'undefined' && window.localStorage) {
+			const token = window.localStorage.getItem('b5_auth_token');
+			if (token) {
+				// Try to extract token if it's stored as JSON
+				try {
+					const parsed = JSON.parse(token);
+					const actualToken = parsed.access_token || parsed.token || token;
+					headers['Authorization'] = `Bearer ${actualToken}`;
+				} catch {
+					// If parsing fails, it's a plain string token
+					headers['Authorization'] = `Bearer ${token}`;
+				}
+			}
+		}
+
+		// Add CSRF token if available (for backward compatibility with cookie-based auth)
 		const csrfToken = getCsrfToken();
 		if (csrfToken) {
 			headers['X-XSRF-TOKEN'] = csrfToken;

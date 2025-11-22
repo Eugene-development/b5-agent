@@ -40,7 +40,7 @@
 	// No need for client-side redirect check here to avoid redirect loops
 
 	/**
-	 * Form submission handler using API instead of form action
+	 * Form submission handler using JWT API
 	 * @param {SubmitEvent & { currentTarget: EventTarget & HTMLFormElement}} event
 	 */
 	async function handleRegistration(event) {
@@ -108,21 +108,31 @@
 			return false;
 		}
 
-		// Call registration API
+		// Call registration API with JWT
 		try {
 			isLoading = true;
 
-			// Use the b5-agent auth system to register
-			const result = await register(
-				formData.firstName,
-				formData.email,
-				formData.password,
-				formData.passwordConfirm,
-				formData.region,
-				formData.phone
-			);
+			// Prepare registration data for JWT API
+			const registrationData = {
+				name: formData.firstName,
+				email: formData.email,
+				password: formData.password,
+				password_confirmation: formData.passwordConfirm
+			};
 
-			if (result) {
+			// Add optional fields if provided
+			if (formData.region && formData.region.trim()) {
+				registrationData.region = formData.region.trim();
+			}
+
+			if (formData.phone && formData.phone.trim()) {
+				registrationData.phone = formData.phone.trim();
+			}
+
+			// Use JWT register function
+			const success = await register(registrationData);
+
+			if (success) {
 				showSuccess = true;
 
 				// Auto-hide notification after 3 seconds
@@ -136,8 +146,18 @@
 				console.log('🔄 Server data invalidated, redirecting to email verification');
 				await goto('/email-verify?from_registration=true', { replaceState: true });
 			} else {
-				errors.general =
-					authState.errors?.auth?.[0] || authState.errors?.general?.[0] || 'Ошибка регистрации';
+				// Handle registration errors
+				if (authState.errors && Object.keys(authState.errors).length > 0) {
+					// Map server errors to form errors
+					if (authState.errors.name) errors.firstName = authState.errors.name[0];
+					if (authState.errors.email) errors.email = authState.errors.email[0];
+					if (authState.errors.region) errors.region = authState.errors.region[0];
+					if (authState.errors.phone) errors.phone = authState.errors.phone[0];
+					if (authState.errors.password) errors.password = authState.errors.password[0];
+					if (authState.errors.password_confirmation)
+						errors.passwordConfirm = authState.errors.password_confirmation[0];
+				}
+				errors.general = authState.error || 'Ошибка регистрации';
 			}
 		} catch (error) {
 			console.error('💥 Registration error:', error);

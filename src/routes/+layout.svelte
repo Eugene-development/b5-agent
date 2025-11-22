@@ -1,7 +1,7 @@
 <script>
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { initAuthFromServer, authState } from '$lib/auth/auth.svelte.js';
+	import { initializeAuth, authState } from '$lib/auth/auth.svelte.js';
 	import { PageTransition } from '$lib';
 	import { page } from '$app/stores';
 
@@ -13,11 +13,19 @@
 	// Track if initial auth check is complete
 	let authInitialized = $state(false);
 
-	// Initialize authentication from server data
+	// Initialize authentication from localStorage (JWT mode)
 	$effect(() => {
-		// Always use server data (whether authenticated or not)
-		initAuthFromServer(data);
-		authInitialized = true;
+		// In JWT mode, ignore server data and use localStorage
+		if (data?.jwtMode) {
+			// Initialize from localStorage (JWT tokens)
+			initializeAuth().then(() => {
+				authInitialized = true;
+			});
+		} else {
+			// Fallback: cookie-based auth (for backward compatibility)
+			// This branch shouldn't be used anymore with JWT
+			authInitialized = true;
+		}
 	});
 </script>
 

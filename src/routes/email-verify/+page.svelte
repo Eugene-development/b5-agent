@@ -1,9 +1,8 @@
 <script>
-	import { authState } from '$lib/auth/auth.svelte.js';
+	import { authState, resendEmailVerificationNotification } from '$lib/auth/auth.svelte.js';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { api } from '$lib/utils/http-client.js';
 
 	let cooldownTime = $state(0);
 	let isResending = $state(false);
@@ -29,26 +28,26 @@
 		}, 1000);
 	}
 
-	// Handle resend email
+	// Handle resend email using JWT
 	async function handleResendEmail() {
 		if (cooldownTime > 0 || isResending) return;
 
 		isResending = true;
 
 		try {
-			const response = await api.post('/api/email/verification-notification');
+			const success = await resendEmailVerificationNotification();
 
-			if (response.success) {
+			if (success) {
 				startCooldown();
 				showSuccess = true;
 				setTimeout(() => (showSuccess = false), 3000);
 			} else {
-				throw new Error(response.message || 'Failed to resend email');
+				throw new Error(authState.emailVerificationError || 'Failed to resend email');
 			}
 		} catch (error) {
 			console.error('❌ Resend email failed:', error);
 			showError = true;
-			errorMessage = 'Не удалось переотправить письмо. Попробуйте еще раз.';
+			errorMessage = authState.emailVerificationError || 'Не удалось переотправить письмо. Попробуйте еще раз.';
 			setTimeout(() => (showError = false), 3000);
 		} finally {
 			isResending = false;

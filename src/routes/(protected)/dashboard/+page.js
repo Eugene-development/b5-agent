@@ -68,16 +68,30 @@ async function loadStats(projectsApi, userId) {
 }
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ fetch, parent }) {
+export async function load({ fetch }) {
 	try {
-		// Get authentication data from parent layout (await this - it's fast)
-		const { user, isAuthenticated } = await parent();
+		// In JWT mode, authentication is handled on client side
+		// We can't reliably check it here because authState might not be ready
+		// The protected layout will handle redirects if not authenticated
 
-		// Check authentication
-		if (!isAuthenticated || !user) {
-			throw error(401, {
-				message: 'Необходима авторизация для просмотра dashboard'
-			});
+		// Import authState dynamically to get user data
+		const { authState } = await import('$lib/auth/auth.svelte.js');
+
+		// Get user from authState (it should be initialized by the layout)
+		const user = authState.user;
+
+		// If no user yet, return empty data - the layout will redirect
+		if (!user) {
+			return {
+				user: null,
+				isAuthenticated: false,
+				stats: Promise.resolve({
+					activeProjects: 0,
+					completedProjects: 0,
+					totalPayouts: 0,
+					error: null
+				})
+			};
 		}
 
 		// Get user ID
@@ -100,11 +114,6 @@ export async function load({ fetch, parent }) {
 			stats: loadStats(projectsApi, userId)
 		};
 	} catch (err) {
-		// Handle authentication errors
-		if (err.status === 401) {
-			throw err;
-		}
-
 		console.error('❌ Dashboard: Client load error:', {
 			error: err.message,
 			stack: err.stack

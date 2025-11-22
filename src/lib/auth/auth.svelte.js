@@ -1,289 +1,252 @@
 /**
- * Authentication state management module using Svelte 5 runes
- * Provides reactive state for user authentication, loading states, and error handling
+ * Authentication State Store for B5-Agent
+ * Centralized state management using Svelte 5 runes
+ * Integrates with JWT authentication
  */
 
-// Reactive state using Svelte 5 runes
-let user = $state(null);
-let errors = $state({});
-let isLoading = $state(false);
-
-/**
- * Authentication state object with getters for reactive access
- */
-export const authState = {
-	/**
-	 * Get current user data
-	 * @returns {Object|null} Current user object or null if not authenticated
-	 */
-	get user() {
-		return user;
-	},
-
-	/**
-	 * Check if user is authenticated
-	 * @returns {boolean} True if user is authenticated, false otherwise
-	 */
-	get isAuthenticated() {
-		return !!user;
-	},
-
-	/**
-	 * Get current loading state
-	 * @returns {boolean} True if any authentication operation is in progress
-	 */
-	get isLoading() {
-		return isLoading;
-	},
-
-	/**
-	 * Get current errors
-	 * @returns {Object} Object containing error messages by field
-	 */
-	get errors() {
-		return errors;
-	}
-};
-
-/**
- * Set the current user
- * @param {Object|null} newUser - User object or null to clear user
- */
-export function setUser(newUser) {
-	user = newUser;
-}
-
-/**
- * Set error messages
- * @param {Object} newErrors - Object containing error messages by field
- */
-export function setErrors(newErrors) {
-	errors = newErrors || {};
-}
-
-/**
- * Set loading state
- * @param {boolean} loading - Loading state
- */
-export function setLoading(loading) {
-	isLoading = !!loading;
-}
-
-/**
- * Clear all error messages
- */
-export function clearErrors() {
-	errors = {};
-}
-
-/**
- * Clear all authentication state (user, errors, loading)
- */
-export function clearAuthState() {
-	user = null;
-	errors = {};
-	isLoading = false;
-}
-
-/**
- * Clear specific error fields
- * Requirements: 6.1
- * @param {string|string[]} fields - Field name(s) to clear
- */
-export function clearErrorFields(fields) {
-	errors = clearFields(errors, fields);
-}
-
-/**
- * Check if there are any errors in the current state
- * Requirements: 6.1, 6.2, 6.3, 6.4
- * @returns {boolean} True if there are any errors
- */
-export function hasAuthErrors() {
-	return hasErrors(errors);
-}
-
-/**
- * Get the first error message from current errors
- * @returns {string|null} First error message or null
- */
-export function getFirstAuthError() {
-	return getFirstErrorMessage(errors);
-}
-
-import { api, createHttpClient } from '../utils/http-client.js';
+import {
+	loginUser,
+	registerUser,
+	logoutUser,
+	getCurrentUser,
+	sendEmailVerification,
+	resendEmailVerification,
+	verifyEmail
+} from '../api/auth.js';
+import {
+	getAuthToken,
+	setAuthToken,
+	removeAuthToken,
+	getUserData,
+	setUserData,
+	hasAuthToken
+} from '../api/config.js';
 import { goto } from '$app/navigation';
 
 /**
- * Create HTTP client with custom unauthorized handler for auth module
+ * Authentication state using Svelte 5 runes
  */
-const authHttpClient = createHttpClient({
-	onUnauthorized: async () => {
-		// Clear authentication state when unauthorized
-		clearAuthState();
+export const authState = $state({
+	// User data
+	user: null,
 
-		// Set auth error only if we're not on a public page
-		const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-		const isPublicPage = ['/', '/login', '/register'].includes(currentPath);
+	// Authentication status
+	isAuthenticated: false,
 
-		if (!isPublicPage) {
-			const authError = { auth: ['Session expired. Please log in again.'] };
-			setErrors(authError);
+	// Email verification status
+	emailVerified: false,
 
-			// Redirect to login page only if not on public page
-			if (typeof window !== 'undefined') {
-				await goto('/login');
-			}
-		}
-	}
+	// Loading states
+	loading: false,
+	loginLoading: false,
+	registerLoading: false,
+	logoutLoading: false,
+	emailVerificationLoading: false,
+
+	// Error states
+	error: null,
+	errors: {},
+	loginError: null,
+	registerError: null,
+	emailVerificationError: null,
+
+	// Token data
+	token: null,
+
+	// Initialization status
+	initialized: false
 });
 
 /**
- * Initialize authentication state from server data
- * @param {Object} serverData - Data from server load function
+ * Normalize user data to ensure consistent structure
+ * Converts user.status to user.userStatus for compatibility
  */
-export function initAuthFromServer(serverData) {
-	if (serverData?.user && serverData?.isAuthenticated) {
-		user = serverData.user;
-		clearErrors();
-	} else {
-		// Clear user state if not authenticated
-		user = null;
-		clearErrors();
+function normalizeUserData(user) {
+	if (!user) return null;
+
+	// If status exists but userStatus doesn't, map status to userStatus
+	if (user.status && !user.userStatus) {
+		user.userStatus = user.status;
 	}
+
+	return user;
 }
 
 /**
- * Initialize CSRF protection by fetching CSRF cookie
- * Requirements: 5.1, 5.2, 5.4
- * @returns {Promise<void>}
+ * Initialize authentication state from localStorage
+ * Should be called when the app starts
  */
-export async function initCsrf() {
-	return api.initCsrf();
-}
+export async function initializeAuth() {
+	if (authState.initialized) {
+		return;
+	}
 
-import {
-	handleApiError as centralizedHandleApiError,
-	clearErrorFields as clearFields,
-	hasErrors,
-	getFirstErrorMessage
-} from '../utils/errorHandler.svelte.js';
+	// Immediately restore from localStorage if available (before setting loading state)
+	const hasToken = hasAuthToken();
+	const token = getAuthToken();
+	const storedUser = normalizeUserData(getUserData());
 
-/**
- * Handle API errors and update state accordingly
- * Uses centralized error handler for consistent error processing
- * @param {Error} error - API error
- * @returns {Object} Error object with formatted messages
- */
-function handleApiError(error) {
-	setLoading(false);
+	// Restore state immediately from localStorage if we have both token and user data
+	if (hasToken && storedUser) {
+		authState.user = storedUser;
+		authState.isAuthenticated = true;
+		authState.emailVerified = storedUser.email_verified || false;
+		authState.token = token;
+		authState.initialized = true; // Mark as initialized early to prevent flicker
+	} else if (!hasToken) {
+		// No token, clear state immediately
+		clearAuthState();
+		authState.initialized = true;
+		return;
+	}
 
-	// Use centralized error handler with auth-specific options
-	const formattedErrors = centralizedHandleApiError(error, {
-		redirectOnAuth: false // Don't redirect here, let the HTTP client handle it
-	});
+	// Now set loading for background API verification (if we have a token)
+	if (hasToken) {
+		authState.loading = true;
+		authState.error = null;
 
-	setErrors(formattedErrors);
-	return formattedErrors;
+		try {
+			// Try to get fresh data from API to verify token and update user data
+			try {
+				const result = await getCurrentUser();
+
+				if (result.success && result.user) {
+					// Update with fresh data
+					const normalizedUser = normalizeUserData(result.user);
+					authState.user = normalizedUser;
+					authState.isAuthenticated = true;
+					authState.emailVerified = normalizedUser.email_verified || false;
+					authState.token = getAuthToken();
+
+					// Update stored user data
+					setUserData(normalizedUser);
+				} else if (result.status === 401 || result.status === 403) {
+					// Token is invalid, clear it
+					removeAuthToken();
+					clearAuthState();
+				} else if (result.status === 0) {
+					// Network error, keep the restored state if we have it
+					// State already restored from localStorage above, no need to do anything
+				}
+				// For other errors, keep the restored state
+			} catch (apiError) {
+				// State already restored from localStorage above, no need to do anything
+			}
+		} catch (error) {
+			console.error('Error during API verification:', error);
+			// Keep the state already restored from localStorage
+		} finally {
+			authState.loading = false;
+		}
+	}
+
+	authState.initialized = true;
 }
 
 /**
  * Login user with email and password
  * @param {string} email - User email
  * @param {string} password - User password
- * @param {Object} options - Login options
- * @param {boolean} options.remember - Remember user session
- * @param {string} options.redirectTo - Path to redirect after successful login
- * @returns {Promise<Object>} User data on success
- * @throws {Error} Login error
+ * @param {boolean} remember - Whether to remember the user
+ * @returns {Promise<boolean>} Success status
  */
-export async function login(email, password, options = {}) {
-	setLoading(true);
-	clearErrors();
+export async function login(email, password, remember = false) {
+	authState.loginLoading = true;
+	authState.loginError = null;
+	authState.error = null;
 
 	try {
-		// Initialize CSRF protection first
-		await initCsrf();
+		const result = await loginUser(email, password, remember);
 
-		const data = await authHttpClient.post('/api/login', {
-			email,
-			password,
-			remember: options.remember || false
-		});
+		if (result.success) {
+			// Update auth state - add safety checks and normalize user data
+			const normalizedUser = normalizeUserData(result.user);
+			authState.user = normalizedUser || null;
+			authState.isAuthenticated = !!normalizedUser;
+			authState.emailVerified = normalizedUser?.email_verified || false;
+			// Handle JWT token - it comes as a string in result.token
+			authState.token =
+				typeof result.token === 'string'
+					? result.token
+					: result.token?.access_token || result.token || null;
 
-		if (data.success && data.user) {
-			setUser(data.user);
-			setLoading(false);
-
-			// Handle post-login redirect if in browser
-			if (typeof window !== 'undefined' && options.redirectTo) {
-				await goto(options.redirectTo);
+			// Store token and user data
+			if (result.token) {
+				setAuthToken(result.token);
+			}
+			if (normalizedUser) {
+				setUserData(normalizedUser);
 			}
 
-			return data.user;
+			return true;
 		} else {
-			throw new Error(data.message || 'Login failed');
+			// Login failed
+			authState.loginError = result.message;
+			authState.error = result.message;
+			authState.errors = result.errors || {};
+			return false;
 		}
 	} catch (error) {
-		handleApiError(error);
-		throw error;
+		console.error('Login error:', error);
+		authState.loginError = error.message || 'Произошла ошибка при входе в систему';
+		authState.error = authState.loginError;
+		return false;
+	} finally {
+		authState.loginLoading = false;
 	}
 }
 
 /**
  * Register new user
- * @param {string} name - User name
- * @param {string} email - User email
- * @param {string} password - User password
- * @param {string} passwordConfirmation - Password confirmation
- * @param {string} region - User region (optional)
- * @param {string} phone - User phone (optional)
- * @param {Object} options - Registration options
- * @param {string} options.redirectTo - Path to redirect after successful registration
- * @returns {Promise<Object>} User data on success
- * @throws {Error} Registration error
+ * @param {Object} userData - User registration data
+ * @param {string} userData.name - User name
+ * @param {string} userData.email - User email
+ * @param {string} userData.phone - User phone (optional)
+ * @param {string} userData.password - User password
+ * @param {string} userData.password_confirmation - Password confirmation
+ * @param {string} userData.region - User region
+ * @returns {Promise<boolean>} Success status
  */
-export async function register(
-	name,
-	email,
-	password,
-	passwordConfirmation,
-	region = '',
-	phone = '',
-	options = {}
-) {
-	setLoading(true);
-	clearErrors();
+export async function register(userData) {
+	authState.registerLoading = true;
+	authState.registerError = null;
+	authState.error = null;
 
 	try {
-		// Initialize CSRF protection first
-		await initCsrf();
+		const result = await registerUser(userData);
 
-		const data = await authHttpClient.post('/api/register', {
-			name,
-			email,
-			region,
-			phone,
-			password,
-			password_confirmation: passwordConfirmation
-		});
+		if (result.success) {
+			// Update auth state and normalize user data
+			const normalizedUser = normalizeUserData(result.user);
+			authState.user = normalizedUser;
+			authState.isAuthenticated = true;
+			authState.emailVerified = normalizedUser?.email_verified || false;
+			authState.token = result.token?.access_token || result.token || null;
 
-		if (data.success && data.user) {
-			setUser(data.user);
-			setLoading(false);
-
-			// Handle post-registration redirect if in browser
-			if (typeof window !== 'undefined' && options.redirectTo) {
-				await goto(options.redirectTo);
+			// Store token and user data
+			if (result.token) {
+				setAuthToken(result.token);
+			}
+			if (normalizedUser) {
+				setUserData(normalizedUser);
 			}
 
-			return data.user;
+			return true;
 		} else {
-			throw new Error(data.message || 'Registration failed');
+			// Registration failed
+			authState.registerError = result.message;
+			authState.error = result.message;
+			authState.errors = result.errors || {};
+			return false;
 		}
 	} catch (error) {
-		handleApiError(error);
-		throw error;
+		console.error('Registration error:', error);
+		authState.registerError = error.message || 'Произошла ошибка при регистрации';
+		authState.error = authState.registerError;
+		authState.errors = error.errors || {};
+		return false;
+	} finally {
+		authState.registerLoading = false;
 	}
 }
 
@@ -291,104 +254,371 @@ export async function register(
  * Logout current user
  * @param {Object} options - Logout options
  * @param {string} options.redirectTo - Path to redirect after logout
- * @returns {Promise<void>}
- * @throws {Error} Logout error
+ * @returns {Promise<boolean>} Success status
  */
 export async function logout(options = {}) {
-	setLoading(true);
-	clearErrors();
+	authState.logoutLoading = true;
+	authState.error = null;
 
 	try {
-		await authHttpClient.post('/api/logout');
+		// Call logout API (even if it fails, we'll clear local state)
+		await logoutUser();
 
-		// Clear authentication state regardless of response
+		// Clear authentication state
 		clearAuthState();
+		removeAuthToken();
 
 		// Handle post-logout redirect if in browser
 		if (typeof window !== 'undefined' && options.redirectTo) {
 			await goto(options.redirectTo);
 		}
+
+		return true;
 	} catch (error) {
-		// Clear state even if logout request fails
+		console.error('Logout error:', error);
+		// Even if API call fails, clear local state
 		clearAuthState();
+		removeAuthToken();
 
 		// Handle post-logout redirect even on error
 		if (typeof window !== 'undefined' && options.redirectTo) {
 			await goto(options.redirectTo);
 		}
 
-		// Only throw error if it's not a 401 (already logged out)
-		if (error.status !== 401) {
-			handleApiError(error);
-			throw error;
-		}
+		return true; // We consider logout successful even if API fails
+	} finally {
+		authState.logoutLoading = false;
 	}
 }
 
 /**
- * Get current authenticated user data from auth state
- * User data is now loaded from server in +layout.server.js
- * @returns {Promise<Object|null>} User data or null if not authenticated
- */
-export async function getUser() {
-	// Return current user from auth state
-	// No longer makes fetch requests - data comes from server
-	return authState.user;
-}
-
-/**
- * Get current user data from API
- * @returns {Promise<Object>} API response with user data
- */
-export async function getCurrentUser() {
-	try {
-		const data = await authHttpClient.get('/api/user');
-		return {
-			success: true,
-			user: data.user || data, // Handle different response formats
-			status: 200
-		};
-	} catch (error) {
-		console.error('getCurrentUser error:', error);
-		return {
-			success: false,
-			user: null,
-			status: error.status || 0,
-			message: error.message || 'Failed to get user data'
-		};
-	}
-}
-
-/**
- * Check authentication status and update user data
+ * Check authentication status and refresh user data
  * @returns {Promise<boolean>} Authentication status
  */
 export async function checkAuth() {
+	if (!hasAuthToken()) {
+		clearAuthState();
+		return false;
+	}
+
+	// If we don't have user data in state but have token, restore from localStorage first
+	if (!authState.user && hasAuthToken()) {
+		const storedUser = normalizeUserData(getUserData());
+		if (storedUser) {
+			authState.user = storedUser;
+			authState.isAuthenticated = true;
+			authState.emailVerified = storedUser.email_verified || false;
+		}
+	}
+
+	authState.loading = true;
+	authState.error = null;
+
 	try {
 		const result = await getCurrentUser();
 
 		if (result.success && result.user) {
-			setUser(result.user);
+			// Update user data and normalize
+			const normalizedUser = normalizeUserData(result.user);
+			authState.user = normalizedUser;
+			authState.isAuthenticated = true;
+			authState.emailVerified = normalizedUser.email_verified || false;
+
+			// Update stored user data
+			setUserData(normalizedUser);
+
 			return true;
-		} else if (result.status === 401) {
+		} else if (result.status === 0) {
+			// Network error, keep current/stored state if present
+			return authState.isAuthenticated;
+		} else if (result.status === 401 || result.status === 403) {
 			// Token is invalid
 			clearAuthState();
+			removeAuthToken();
 			return false;
 		} else {
-			// Network or other errors, keep current state
+			// Other errors, keep current state
 			return authState.isAuthenticated;
 		}
 	} catch (error) {
 		console.error('Check auth error:', error);
-		// On error, check if we still have user data
-		return authState.isAuthenticated;
+		// If network error, try to keep stored state
+		const storedUser = normalizeUserData(getUserData());
+		if (storedUser && hasAuthToken()) {
+			authState.user = storedUser;
+			authState.isAuthenticated = true;
+			authState.emailVerified = storedUser.email_verified || false;
+			return true;
+		}
+		// Token is likely invalid
+		clearAuthState();
+		removeAuthToken();
+		return false;
+	} finally {
+		authState.loading = false;
 	}
 }
 
 /**
- * Get current user data for display (with fallback to localStorage if needed)
- * @returns {Object|null} User data or null
+ * Send email verification notification
+ * @returns {Promise<boolean>} Success status
+ */
+export async function sendEmailVerificationNotification() {
+	authState.emailVerificationLoading = true;
+	authState.emailVerificationError = null;
+	authState.error = null;
+
+	try {
+		const result = await sendEmailVerification();
+
+		if (result.success) {
+			return true;
+		} else {
+			authState.emailVerificationError = result.message;
+			authState.error = result.message;
+			return false;
+		}
+	} catch (error) {
+		console.error('Send email verification error:', error);
+		authState.emailVerificationError =
+			error.message || 'Произошла ошибка при отправке письма подтверждения';
+		authState.error = authState.emailVerificationError;
+		return false;
+	} finally {
+		authState.emailVerificationLoading = false;
+	}
+}
+
+/**
+ * Resend email verification notification
+ * @returns {Promise<boolean>} Success status
+ */
+export async function resendEmailVerificationNotification() {
+	authState.emailVerificationLoading = true;
+	authState.emailVerificationError = null;
+	authState.error = null;
+
+	try {
+		const result = await resendEmailVerification();
+
+		if (result.success) {
+			return true;
+		} else {
+			authState.emailVerificationError = result.message;
+			authState.error = result.message;
+			return false;
+		}
+	} catch (error) {
+		console.error('Resend email verification error:', error);
+		authState.emailVerificationError =
+			error.message || 'Произошла ошибка при повторной отправке письма подтверждения';
+		authState.error = authState.emailVerificationError;
+		return false;
+	} finally {
+		authState.emailVerificationLoading = false;
+	}
+}
+
+/**
+ * Verify email address using verification link parameters
+ * @param {string} id - User ID from verification link
+ * @param {string} hash - Hash from verification link
+ * @returns {Promise<boolean>} Success status
+ */
+export async function verifyEmailAddress(id, hash) {
+	authState.emailVerificationLoading = true;
+	authState.emailVerificationError = null;
+	authState.error = null;
+
+	try {
+		const result = await verifyEmail(id, hash);
+
+		if (result.success) {
+			// Mark email as verified
+			markEmailAsVerified();
+			return true;
+		} else {
+			authState.emailVerificationError = result.message;
+			authState.error = result.message;
+			return false;
+		}
+	} catch (error) {
+		console.error('Email verification error:', error);
+		authState.emailVerificationError = error.message || 'Произошла ошибка при подтверждении email';
+		authState.error = authState.emailVerificationError;
+		return false;
+	} finally {
+		authState.emailVerificationLoading = false;
+	}
+}
+
+/**
+ * Mark email as verified (called after successful email verification)
+ */
+export function markEmailAsVerified() {
+	if (authState.user) {
+		authState.user.email_verified = true;
+		authState.user.email_verified_at = new Date().toISOString();
+		authState.emailVerified = true;
+
+		// Update stored user data
+		setUserData(authState.user);
+	}
+}
+
+/**
+ * Clear all error states
+ */
+export function clearError() {
+	authState.error = null;
+	authState.errors = {};
+	authState.loginError = null;
+	authState.registerError = null;
+	authState.emailVerificationError = null;
+}
+
+/**
+ * Clear authentication state (internal helper)
+ */
+function clearAuthState() {
+	authState.user = null;
+	authState.isAuthenticated = false;
+	authState.emailVerified = false;
+	authState.token = null;
+	authState.error = null;
+	authState.errors = {};
+	authState.loginError = null;
+	authState.registerError = null;
+	authState.emailVerificationError = null;
+}
+
+/**
+ * Clear authentication state (exported for backward compatibility)
+ */
+export function clearAuthStatePublic() {
+	clearAuthState();
+	removeAuthToken();
+}
+
+/**
+ * Update authentication state from server data
+ * Safe to call from $effect blocks
+ * @param {Object} serverData - Server data containing user and authentication status
+ */
+export function updateAuthStateFromServer(serverData) {
+	if (serverData?.user && serverData?.isAuthenticated) {
+		const normalizedUser = normalizeUserData(serverData.user);
+		authState.user = normalizedUser;
+		authState.isAuthenticated = true;
+		authState.emailVerified = normalizedUser?.email_verified || false;
+		authState.initialized = true;
+
+		// Store user data in localStorage for offline access
+		if (typeof window !== 'undefined') {
+			setUserData(normalizedUser);
+		}
+	} else {
+		// No server data - user is not authenticated
+		authState.user = null;
+		authState.isAuthenticated = false;
+		authState.emailVerified = false;
+		authState.initialized = true;
+
+		// Clear localStorage
+		if (typeof window !== 'undefined') {
+			removeAuthToken();
+		}
+	}
+}
+
+/**
+ * Set the current user (for backward compatibility)
+ * @param {Object|null} newUser - User object or null to clear user
+ */
+export function setUser(newUser) {
+	const normalizedUser = normalizeUserData(newUser);
+	authState.user = normalizedUser;
+	authState.isAuthenticated = !!normalizedUser;
+	authState.emailVerified = normalizedUser?.email_verified || false;
+
+	if (normalizedUser) {
+		setUserData(normalizedUser);
+	}
+}
+
+/**
+ * Set error messages (for backward compatibility)
+ * @param {Object} newErrors - Object containing error messages by field
+ */
+export function setErrors(newErrors) {
+	authState.errors = newErrors || {};
+}
+
+/**
+ * Get current authentication status
+ * @returns {boolean} Whether user is authenticated
+ */
+export function isAuthenticated() {
+	return authState.isAuthenticated;
+}
+
+/**
+ * Get current user data
+ * @returns {Object|null} Current user data or null
  */
 export function getCurrentUserData() {
 	return authState.user;
+}
+
+/**
+ * Check if current user's email is verified
+ * @returns {boolean} Email verification status
+ */
+export function isEmailVerified() {
+	return authState.emailVerified;
+}
+
+/**
+ * Check if any authentication operation is in progress
+ * @returns {boolean} Loading status
+ */
+export function isLoading() {
+	return (
+		authState.loading ||
+		authState.loginLoading ||
+		authState.registerLoading ||
+		authState.logoutLoading ||
+		authState.emailVerificationLoading
+	);
+}
+
+/**
+ * Get current error message
+ * @returns {string|null} Current error message
+ */
+export function getError() {
+	return authState.error;
+}
+
+/**
+ * Get user data (alias for getCurrentUserData for backward compatibility)
+ * @returns {Object|null} User data or null
+ */
+export async function getUser() {
+	return getCurrentUserData();
+}
+
+/**
+ * Get current user from API (for backward compatibility)
+ * @returns {Promise<Object>} API response with user data
+ */
+export { getCurrentUser } from '../api/auth.js';
+
+/**
+ * Initialize authentication from server data (for backward compatibility)
+ * Alias for updateAuthStateFromServer
+ * @param {Object} serverData - Server data containing user and authentication status
+ */
+export function initAuthFromServer(serverData) {
+	updateAuthStateFromServer(serverData);
 }

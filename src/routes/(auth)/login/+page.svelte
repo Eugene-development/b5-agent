@@ -78,9 +78,7 @@
 			// 	localStorage.setItem('rememberMe', formData.rememberMe.toString());
 			// }
 
-			const success = await login(formData.email, formData.password, {
-				remember: formData.rememberMe
-			});
+			const success = await login(formData.email, formData.password, formData.rememberMe);
 
 			if (success) {
 				console.log('✅ Login successful, invalidating server data');
@@ -100,8 +98,8 @@
 					await goto(redirectTo, { replaceState: true });
 				}
 			} else {
-				errors.general =
-					authState.errors?.auth?.[0] || authState.errors?.general?.[0] || 'Ошибка авторизации';
+				// Show error from auth state
+				errors.general = authState.error || authState.loginError || 'Ошибка авторизации';
 			}
 		} catch (error) {
 			console.error('💥 Login error:', error);
