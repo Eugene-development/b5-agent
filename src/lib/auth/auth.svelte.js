@@ -6,6 +6,7 @@
 
 import {
 	loginUser,
+	loginUserWithCookie,
 	registerUser,
 	logoutUser,
 	getCurrentUser,
@@ -188,6 +189,50 @@ export async function login(email, password, remember = false) {
 		}
 	} catch (error) {
 		console.error('Login error:', error);
+		authState.loginError = error.message || 'Произошла ошибка при входе в систему';
+		authState.error = authState.loginError;
+		return false;
+	} finally {
+		authState.loginLoading = false;
+	}
+}
+
+/**
+ * Login user with httpOnly cookie (for SSR pages)
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @param {boolean} remember - Whether to remember the user
+ * @returns {Promise<boolean>} Success status
+ */
+export async function loginWithCookie(email, password, remember = false) {
+	authState.loginLoading = true;
+	authState.loginError = null;
+	authState.error = null;
+
+	try {
+		const result = await loginUserWithCookie(email, password, remember);
+
+		if (result.success) {
+			// Update auth state - no token in response (it's in httpOnly cookie)
+			const normalizedUser = normalizeUserData(result.user);
+			authState.user = normalizedUser || null;
+			authState.isAuthenticated = !!normalizedUser;
+			authState.emailVerified = normalizedUser?.email_verified || false;
+
+			// Store user data (no token needed, it's in httpOnly cookie)
+			if (normalizedUser) {
+				setUserData(normalizedUser);
+			}
+
+			return true;
+		} else {
+			// Login failed
+			authState.loginError = result.message;
+			authState.error = result.message;
+			return false;
+		}
+	} catch (error) {
+		console.error('Login with cookie error:', error);
 		authState.loginError = error.message || 'Произошла ошибка при входе в систему';
 		authState.error = authState.loginError;
 		return false;
@@ -499,6 +544,9 @@ export function clearAuthStatePublic() {
 	clearAuthState();
 	removeAuthToken();
 }
+
+// Export as clearAuthState for hooks.client.js compatibility
+export { clearAuthStatePublic as clearAuthState };
 
 /**
  * Update authentication state from server data

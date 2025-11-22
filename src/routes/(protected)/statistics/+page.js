@@ -1,13 +1,20 @@
 /**
  * Client-side load function for statistics page
- * Handles data loading and statistics calculation on the client side
+ * Handles data loading when server-side auth is not available (localStorage JWT)
  */
 
 import { error } from '@sveltejs/kit';
 import { createProjectsApi } from '$lib/api/projects.js';
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ fetch }) {
+export async function load({ fetch, data }) {
+	// If server already loaded data successfully, use it
+	if (data && !data.needsClientLoad && data.isAuthenticated) {
+		console.log('📊 Statistics: Using server-loaded data');
+		return data;
+	}
+
+	// Otherwise, load data on client side
 	try {
 		console.log('📊 Statistics: Client-side page load started');
 

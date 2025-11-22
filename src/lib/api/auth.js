@@ -7,7 +7,7 @@ import { post, get } from './client.js';
 import { API_CONFIG } from './config.js';
 
 /**
- * Login user with email and password
+ * Login user with email and password (localStorage JWT mode)
  * @param {string} email - User email
  * @param {string} password - User password
  * @param {boolean} remember - Whether to remember the user (long-term token)
@@ -28,6 +28,65 @@ export async function loginUser(email, password, remember = false) {
 			user: response.user || response.data?.user || null,
 			token: response.token || response.data?.token || null,
 			message: response.message || response.data?.message || 'Login successful'
+		};
+	} catch (error) {
+		// Handle specific authentication errors
+		let message = 'Login failed';
+
+		if (error.status === 401) {
+			message = 'Неверный email или пароль';
+		} else if (error.status === 422) {
+			message = 'Проверьте правильность введенных данных';
+		} else if (error.status === 429) {
+			message = 'Слишком много попыток входа. Попробуйте позже';
+		} else if (error.status === 0) {
+			message = error.message; // Network error message
+		}
+
+		return {
+			success: false,
+			message: error.message || message,
+			errors: error.data?.errors || {}
+		};
+	}
+}
+
+/**
+ * Login user with email and password (httpOnly cookie mode for SSR)
+ * Calls server endpoint that sets httpOnly cookie
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @param {boolean} remember - Whether to remember the user (long-term token)
+ * @returns {Promise<Object>} Login response with user data
+ */
+export async function loginUserWithCookie(email, password, remember = false) {
+	try {
+		console.log('🔐 Login JWT Cookie API request:', { email, remember });
+
+		const response = await fetch('/api/auth/login-jwt', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ email, password, remember }),
+			credentials: 'include' // Important for cookies
+		});
+
+		const data = await response.json();
+
+		console.log('🔐 Login JWT Cookie API response:', { success: data.success, hasUser: !!data.user });
+
+		if (!response.ok || !data.success) {
+			throw {
+				status: response.status,
+				message: data.message || 'Login failed'
+			};
+		}
+
+		return {
+			success: true,
+			user: data.user,
+			message: data.message || 'Login successful'
 		};
 	} catch (error) {
 		// Handle specific authentication errors
