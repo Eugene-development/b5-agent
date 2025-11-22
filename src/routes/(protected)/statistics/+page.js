@@ -7,18 +7,25 @@ import { error } from '@sveltejs/kit';
 import { createProjectsApi } from '$lib/api/projects.js';
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ fetch, parent }) {
-	const startTime = Date.now();
-
+export async function load({ fetch }) {
 	try {
-		// Get authentication data from parent layout
-		const { user, isAuthenticated } = await parent();
+		console.log('📊 Statistics: Client-side page load started');
 
-		// Check authentication
-		if (!isAuthenticated || !user) {
-			throw error(401, {
-				message: 'Необходима авторизация для просмотра статистики'
-			});
+		// Import authState dynamically to get user data
+		const { authState } = await import('$lib/auth/auth.svelte.js');
+
+		// Get user from authState (it should be initialized by the layout)
+		const user = authState.user;
+
+		// If no user yet, return empty data - the layout will redirect
+		if (!user) {
+			console.log('⚠️ Statistics: No user found, returning empty data');
+			return {
+				user: null,
+				totalProjects: 0,
+				isAuthenticated: false,
+				error: null
+			};
 		}
 
 		// Get user ID
@@ -29,6 +36,8 @@ export async function load({ fetch, parent }) {
 			});
 		}
 
+		console.log('👤 Statistics: Loading data for user ID:', userId);
+
 		// Create projects API client
 		const projectsApi = createProjectsApi(fetch);
 
@@ -38,6 +47,8 @@ export async function load({ fetch, parent }) {
 
 			// Calculate total projects count
 			const totalProjects = Array.isArray(userProjects) ? userProjects.length : 0;
+
+			console.log(`✅ Statistics: Loaded ${totalProjects} projects`);
 
 			return {
 				user,
@@ -60,11 +71,6 @@ export async function load({ fetch, parent }) {
 			};
 		}
 	} catch (err) {
-		// Handle authentication errors
-		if (err.status === 401) {
-			throw err;
-		}
-
 		console.error('❌ Statistics: Client load error:', {
 			error: err.message,
 			stack: err.stack

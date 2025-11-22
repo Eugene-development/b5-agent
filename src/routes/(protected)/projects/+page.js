@@ -1,7 +1,7 @@
 /**
- * Server-side load function for projects page with SSR
- * Data is rendered on the server for SEO and better performance
- * Uses streaming to show skeleton while data loads
+ * Client-side load function for projects page
+ * Handles data loading and statistics calculation on the client side
+ * Requirements: 2.2, 3.2, 5.2, 6.1, 7.2, 7.3
  */
 
 import { error } from '@sveltejs/kit';
@@ -108,9 +108,14 @@ function calculateProjectStats(projects) {
 
 /**
  * Load projects data asynchronously for streaming
+ * @param {Object} projectsApi - Projects API client
+ * @param {string} userId - User ID
+ * @returns {Promise<Object>} Projects data object
  */
 async function loadProjectsData(projectsApi, userId) {
 	try {
+		console.log('📊 Projects: Loading projects data for user:', userId);
+
 		// Add timeout to prevent hanging requests
 		const timeoutPromise = new Promise((_, reject) => {
 			setTimeout(() => reject(new Error('Request timeout')), 30000);
@@ -126,6 +131,8 @@ async function loadProjectsData(projectsApi, userId) {
 		if (!Array.isArray(projectsData)) {
 			throw new Error('Invalid data format received from API');
 		}
+
+		console.log(`✅ Projects: Loaded ${projectsData.length} projects`);
 
 		// Sort projects by created_at descending (newest first)
 		const sortedProjectsData = [...projectsData].sort((a, b) => {
@@ -171,7 +178,7 @@ async function loadProjectsData(projectsApi, userId) {
 		const errorType = categorizeError(apiError);
 		const userMessage = getUserFriendlyErrorMessage(errorType, apiError.message);
 
-		console.error('Failed to load projects data:', {
+		console.error('❌ Projects: Failed to load projects data:', {
 			error: apiError.message,
 			type: errorType,
 			stack: apiError.stack
@@ -203,53 +210,70 @@ async function loadProjectsData(projectsApi, userId) {
 	}
 }
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load({ fetch, depends, cookies }) {
+/** @type {import('./$types').PageLoad} */
+export async function load({ fetch, depends }) {
 	// Mark this load function as dependent on 'projects' invalidation
 	depends('projects');
 
 	try {
-		// In JWT mode, we can't check authentication on server
-		// Authentication is handled by client-side layout guard
-		// Try to get user ID from JWT token in cookie (if available)
+		console.log('📄 Projects: Client-side page load started');
 
-		// For now, we'll just return a promise that will be resolved on client
-		// The client will have access to authState and user data
+		// Import authState dynamically to get user data
+		const { authState } = await import('$lib/auth/auth.svelte.js');
 
-		// Get JWT token from cookie/header to extract user ID
-		// Note: In pure JWT mode, we might not have user ID on server
-		// So we return a function that will be called on client with user data
+		// Get user from authState (it should be initialized by the layout)
+		const user = authState.user;
 
-		// For server-side, we'll return empty data
-		// Client-side code will need to handle the actual data loading
+		// If no user yet, return empty data - the layout will redirect
+		if (!user) {
+			console.log('⚠️ Projects: No user found, returning empty data');
+			return {
+				projectsData: Promise.resolve({
+					projects: [],
+					stats: {
+						total: 0,
+						active: 0,
+						inactive: 0,
+						totalContractAmount: 0,
+						averageContractAmount: 0
+					},
+					pagination: {
+						currentPage: 1,
+						lastPage: 1,
+						total: 0,
+						perPage: 100,
+						hasMorePages: false
+					},
+					statuses: [],
+					error: null,
+					errorType: null,
+					canRetry: false,
+					isLoading: true
+				})
+			};
+		}
+
+		// Get user ID
+		const userId = user?.id;
+		if (!userId) {
+			throw error(400, {
+				message: 'Не удалось получить идентификатор пользователя'
+			});
+		}
+
+		console.log('👤 Projects: Loading data for user ID:', userId);
+
+		// Create projects API client
+		const projectsApi = createProjectsApi(fetch);
+
+		// Return immediately with streamed projects Promise
+		// SvelteKit will render the page and stream the data when ready
 		return {
-			// Return null - client will handle loading
-			projectsData: Promise.resolve({
-				projects: [],
-				stats: {
-					total: 0,
-					active: 0,
-					inactive: 0,
-					totalContractAmount: 0,
-					averageContractAmount: 0
-				},
-				pagination: {
-					currentPage: 1,
-					lastPage: 1,
-					total: 0,
-					perPage: 100,
-					hasMorePages: false
-				},
-				statuses: [],
-				error: null,
-				errorType: null,
-				canRetry: false,
-				isLoading: true,
-				needsClientLoad: true // Flag to indicate client should load data
-			})
+			// Don't await - return Promise for streaming!
+			projectsData: loadProjectsData(projectsApi, userId)
 		};
 	} catch (err) {
-		console.error('Server load error for projects page:', {
+		console.error('❌ Projects: Client load error:', {
 			error: err.message,
 			stack: err.stack
 		});
