@@ -135,15 +135,15 @@
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-pink-500/20"
 				>
 					<span
-						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400 ring-1 ring-amber-500/20"
 					>
 						<span class="relative flex size-2">
 							<span
-								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
 							></span>
-							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+							<span class="relative inline-flex size-2 rounded-full bg-amber-500"></span>
 						</span>
-						Активно
+						Скоро
 					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-pink-500/20 p-3 ring-1 ring-pink-500/30">
 						<svg
@@ -174,15 +174,15 @@
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-amber-500/20"
 				>
 					<span
-						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400 ring-1 ring-amber-500/20"
 					>
 						<span class="relative flex size-2">
 							<span
-								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
 							></span>
-							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+							<span class="relative inline-flex size-2 rounded-full bg-amber-500"></span>
 						</span>
-						Активно
+						Скоро
 					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-amber-500/20 p-3 ring-1 ring-amber-500/30">
 						<svg
@@ -213,15 +213,15 @@
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20"
 				>
 					<span
-						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400 ring-1 ring-amber-500/20"
 					>
 						<span class="relative flex size-2">
 							<span
-								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
 							></span>
-							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+							<span class="relative inline-flex size-2 rounded-full bg-amber-500"></span>
 						</span>
-						Активно
+						Скоро
 					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-cyan-500/20 p-3 ring-1 ring-cyan-500/30">
 						<svg
@@ -252,15 +252,15 @@
 					class="group relative overflow-hidden rounded-2xl bg-white/5 p-8 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-rose-500/20"
 				>
 					<span
-						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 ring-1 ring-emerald-500/20"
+						class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400 ring-1 ring-amber-500/20"
 					>
 						<span class="relative flex size-2">
 							<span
-								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+								class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"
 							></span>
-							<span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+							<span class="relative inline-flex size-2 rounded-full bg-amber-500"></span>
 						</span>
-						Активно
+						Скоро
 					</span>
 					<div class="mb-4 inline-flex rounded-xl bg-rose-500/20 p-3 ring-1 ring-rose-500/30">
 						<svg

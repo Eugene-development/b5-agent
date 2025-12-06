@@ -1,7 +1,13 @@
 <svelte:head>
 	<title>Акции BONUS5 – Специальные предложения для агентов</title>
-	<meta name="description" content="Актуальные акции и специальные предложения BONUS5: реферальная программа, бонусы для ТОП агентов, сезонные акции. Увеличьте свой доход с нашими акциями." />
-	<meta name="keywords" content="акции BONUS5, специальные предложения, реферальная программа, бонусы для агентов, ТОП агенты" />
+	<meta
+		name="description"
+		content="Актуальные акции и специальные предложения BONUS5: реферальная программа, бонусы для ТОП агентов, сезонные акции. Увеличьте свой доход с нашими акциями."
+	/>
+	<meta
+		name="keywords"
+		content="акции BONUS5, специальные предложения, реферальная программа, бонусы для агентов, ТОП агенты"
+	/>
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
@@ -201,9 +207,9 @@
 						</svg>
 					</div>
 
-					<h3 class="text-2xl font-bold text-white">Ноябрьский бонус</h3>
+					<h3 class="text-2xl font-bold text-white">Новогодний бонус</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						До конца ноября действует повышенный бонус
+						До конца января действует повышенный бонус
 						<span class="font-bold text-emerald-400">+0.2%</span> к каждой сделке
 					</p>
 
@@ -242,7 +248,7 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Ограниченное предложение до 30.11.2025</p>
+							<p class="text-sm text-gray-400">Ограниченное предложение до 31.01.2026</p>
 						</div>
 					</div>
 

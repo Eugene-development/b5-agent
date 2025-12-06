@@ -6,6 +6,7 @@
 	import { authState } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import DashboardMenu from '$lib/components/DashboardMenu.svelte';
 
 	let { children } = $props();
 
@@ -25,5 +26,11 @@
 		}
 	});
 </script>
+
+<div class="pt-24">
+	<div class="mx-auto max-w-7xl px-6 lg:px-8">
+		<DashboardMenu />
+	</div>
+</div>
 
 {@render children?.()}

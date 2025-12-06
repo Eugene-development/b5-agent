@@ -14,7 +14,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import NavigationCards from '$lib/components/NavigationCards.svelte';
+	
 	import ProjectDetailsModal from '$lib/components/ProjectDetailsModal.svelte';
 	import ProjectsTableSkeleton from '$lib/components/ProjectsTableSkeleton.svelte';
 	import { goto, invalidate } from '$app/navigation';
@@ -1098,11 +1098,6 @@
 				</p>
 			</div>
 		{/await}
-
-		<!-- Navigation Cards -->
-		<div class="mt-8">
-			<NavigationCards currentPage="projects" />
-		</div>
 
 		<!-- Action Buttons -->
 		<div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">

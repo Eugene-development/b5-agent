@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import NavigationCards from '$lib/components/NavigationCards.svelte';
+	
 	import { formatPhone } from '$lib/utils/formatters.js';
 	import {
 		authState,
@@ -393,9 +393,6 @@
 
 	<!-- Page footer content wrapped to container -->
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
-		<!-- Navigation Actions -->
-		<NavigationCards currentPage="profile" />
-
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
 			<LogoutButton />

@@ -1,6 +1,6 @@
 <script>
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import NavigationCards from '$lib/components/NavigationCards.svelte';
+	
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
@@ -370,9 +370,6 @@
 				</div>
 			</div>
 		</div> -->
-
-		<!-- Navigation Cards -->
-		<NavigationCards currentPage="statistics" />
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">

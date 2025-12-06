@@ -4,7 +4,7 @@
 	import { authState } from '$lib/auth/auth.svelte.js';
 	import { goto, invalidate } from '$app/navigation';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import NavigationCards from '$lib/components/NavigationCards.svelte';
+	
 	import ProjectSubmitModal from '$lib/components/ProjectSubmitModal.svelte';
 	import StatsCardSkeleton from '$lib/components/StatsCardSkeleton.svelte';
 	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
@@ -286,9 +286,6 @@
 				</p>
 			</div>
 		{/await}
-
-		<!-- Dashboard Actions -->
-		<NavigationCards currentPage="dashboard" />
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">
