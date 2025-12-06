@@ -27,7 +27,7 @@
 	});
 </script>
 
-<div class="pt-24">
+<div class="pt-8 lg:pt-10">
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<DashboardMenu />
 	</div>

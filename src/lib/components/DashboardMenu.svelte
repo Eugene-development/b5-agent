@@ -61,18 +61,22 @@
 	}
 </script>
 
-<nav class="mb-8 flex flex-wrap justify-center gap-2 sm:gap-3">
-	{#each menuItems as item (item.href)}
-		<a
-			href={item.href}
-			class="relative overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950/50 px-4 py-2 text-sm font-medium tracking-wide text-slate-200/90 shadow-sm backdrop-blur-sm transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-lg sm:px-6 {getHoverClasses(item.color)} {isActive(item.href) ? getActiveClasses(item.color) : ''}"
-		>
-			{item.label}
-			{#if isActive(item.href)}
-				<span
-					class="bg-linear-to-r absolute inset-x-0 bottom-0 mx-auto h-0.5 w-3/5 from-transparent {getIndicatorColor(item.color)} to-transparent"
-				></span>
-			{/if}
-		</a>
-	{/each}
-</nav>
+<div class="mb-8 flex justify-end">
+	<div class="border-b border-slate-400/10">
+		<nav class="flex flex-wrap gap-2 sm:gap-3 pb-4">
+			{#each menuItems as item (item.href)}
+				<a
+					href={item.href}
+					class="relative px-4 py-2 text-sm font-medium tracking-wide text-slate-200/90 transition-all duration-300 ease-in-out hover:text-slate-100 sm:px-6 {isActive(item.href) ? 'text-white' : ''}"
+				>
+					{item.label}
+					{#if isActive(item.href)}
+						<span
+							class="bg-linear-to-r absolute inset-x-0 bottom-0 h-1 from-transparent {getIndicatorColor(item.color)} to-transparent"
+						></span>
+					{/if}
+				</a>
+			{/each}
+		</nav>
+	</div>
+</div>
