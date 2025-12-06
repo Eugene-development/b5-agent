@@ -61,8 +61,7 @@
 	}
 </script>
 
-<div class="mb-8 flex justify-end">
-	<div class="border-b border-slate-400/10">
+<div class="mb-2 flex justify-end">
 		<nav class="flex flex-wrap gap-2 sm:gap-3 pb-4">
 			{#each menuItems as item (item.href)}
 				<a
@@ -78,5 +77,4 @@
 				</a>
 			{/each}
 		</nav>
-	</div>
 </div>
