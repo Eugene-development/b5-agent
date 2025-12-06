@@ -2,8 +2,6 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { initializeAuth, authState } from '$lib/auth/auth.svelte.js';
-	import { PageTransition } from '$lib';
-	import { page } from '$app/stores';
 
 	import Menu from './layout/header/UI/Menu/index.svelte';
 	import Footer from './layout/footer/index.svelte';
@@ -45,11 +43,7 @@
 		<!-- Main content -->
 		<main class="flex-1 pt-20">
 			<div class="relative">
-				{#key $page.url.pathname}
-					<PageTransition type="fade" duration={400}>
-						{@render children?.()}
-					</PageTransition>
-				{/key}
+				{@render children?.()}
 			</div>
 		</main>
 
