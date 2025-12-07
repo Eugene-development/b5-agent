@@ -145,7 +145,7 @@
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mx-auto mb-16 text-center">
-			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Личный кабинет</h1>
+			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Дашборд</h1>
 			<!-- <p class="mt-6 text-lg/8 text-gray-300">
 				Добро пожаловать, {user?.name || 'пользователь'}!
 			</p> -->
