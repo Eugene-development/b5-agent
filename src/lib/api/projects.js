@@ -98,6 +98,32 @@ const PROJECTS_QUERIES = {
 				contract_amount
 				agent_percentage
 				planned_completion_date
+				totalAgentBonus
+				totalCuratorBonus
+				bonusDetails {
+					totalAgentBonus
+					totalCuratorBonus
+					contracts {
+						id
+						contract_number
+						contract_amount
+						agent_percentage
+						curator_percentage
+						agent_bonus
+						curator_bonus
+						is_active
+					}
+					orders {
+						id
+						order_number
+						order_amount
+						agent_percentage
+						curator_percentage
+						agent_bonus
+						curator_bonus
+						is_active
+					}
+				}
 				created_at
 				updated_at
 			}
@@ -140,6 +166,32 @@ const PROJECTS_QUERIES = {
 				contract_amount
 				agent_percentage
 				planned_completion_date
+				totalAgentBonus
+				totalCuratorBonus
+				bonusDetails {
+					totalAgentBonus
+					totalCuratorBonus
+					contracts {
+						id
+						contract_number
+						contract_amount
+						agent_percentage
+						curator_percentage
+						agent_bonus
+						curator_bonus
+						is_active
+					}
+					orders {
+						id
+						order_number
+						order_amount
+						agent_percentage
+						curator_percentage
+						agent_bonus
+						curator_bonus
+						is_active
+					}
+				}
 				created_at
 				updated_at
 			}

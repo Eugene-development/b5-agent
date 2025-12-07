@@ -3,6 +3,8 @@
   Displays full project information for agents
 -->
 <script>
+	import BonusDetailsSection from './BonusDetailsSection.svelte';
+
 	let { project = $bindable(null), onClose } = $props();
 
 	function formatDate(dateString) {
@@ -122,44 +124,37 @@
 					</div>
 				{/if}
 
-				<!-- Contract Information -->
-				<div class="mb-6">
-					<h3 class="mb-4 text-lg font-semibold text-amber-500">Информация о договоре</h3>
-					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-						{#if project.contract_name}
-							<div>
-								<p class="text-sm text-gray-400">Номер договора</p>
-								<p class="text-base font-medium text-white">{project.contract_name}</p>
+				<!-- Bonus Details -->
+				{#if project.bonusDetails}
+					<div class="mb-6">
+						<h3 class="mb-4 text-lg font-semibold text-amber-500">Информация о бонусах</h3>
+						<BonusDetailsSection 
+							bonusDetails={project.bonusDetails} 
+							isActive={project.is_active} 
+						/>
+					</div>
+				{:else if project.totalAgentBonus !== undefined || project.totalCuratorBonus !== undefined}
+					<!-- Fallback for simple bonus display -->
+					<div class="mb-6">
+						<h3 class="mb-4 text-lg font-semibold text-amber-500">Информация о бонусах</h3>
+						<div class="rounded-lg bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 p-4">
+							<div class="grid grid-cols-2 gap-4">
+								<div>
+									<p class="text-xs text-gray-400">Бонус агента</p>
+									<p class="text-xl font-bold text-emerald-400">
+										{formatCurrency(project.totalAgentBonus)}
+									</p>
+								</div>
+								<div>
+									<p class="text-xs text-gray-400">Бонус куратора</p>
+									<p class="text-xl font-bold text-cyan-400">
+										{formatCurrency(project.totalCuratorBonus)}
+									</p>
+								</div>
 							</div>
-						{/if}
-
-						<div>
-							<p class="text-sm text-gray-400">Дата договора</p>
-							<p class="text-base font-medium text-white">{formatDate(project.contract_date)}</p>
-						</div>
-
-						<div>
-							<p class="text-sm text-gray-400">Сумма договора</p>
-							<p class="text-base font-medium text-white">
-								{formatCurrency(project.contract_amount)}
-							</p>
-						</div>
-
-						{#if project.agent_percentage}
-							<div>
-								<p class="text-sm text-gray-400">Процент агента</p>
-								<p class="text-base font-medium text-white">{project.agent_percentage}%</p>
-							</div>
-						{/if}
-
-						<div>
-							<p class="text-sm text-gray-400">Плановая дата завершения</p>
-							<p class="text-base font-medium text-white">
-								{formatDate(project.planned_completion_date)}
-							</p>
 						</div>
 					</div>
-				</div>
+				{/if}
 
 				<!-- Timestamps -->
 				<div class="border-t border-gray-700 pt-6">
