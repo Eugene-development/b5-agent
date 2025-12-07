@@ -31,7 +31,7 @@
 		{
 			id: 'statistics',
 			href: '/statistics',
-			title: 'Статистика',
+			title: 'Отчёты',
 			icon: 'statistics',
 			color: 'green'
 		}

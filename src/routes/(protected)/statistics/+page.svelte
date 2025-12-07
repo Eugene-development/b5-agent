@@ -59,9 +59,9 @@
 </script>
 
 <svelte:head>
-	<title>Статистика BONUS5 – Аналитика работы агента</title>
-	<meta name="description" content="Статистика работы агента BONUS5: количество проектов, доход по месяцам, распределение по регионам, топ проектов. Детальная аналитика вашей деятельности." />
-	<meta name="keywords" content="статистика BONUS5, аналитика агента, доход агента, отчеты по проектам, метрики" />
+	<title>Отчёты BONUS5 – Аналитика работы агента</title>
+	<meta name="description" content="Отчёты работы агента BONUS5: количество проектов, доход по месяцам, распределение по регионам, топ проектов. Детальная аналитика вашей деятельности." />
+	<meta name="keywords" content="отчёты BONUS5, аналитика агента, доход агента, отчеты по проектам, метрики" />
 </svelte:head>
 
 <div class="relative isolate bg-gray-950 py-2 sm:py-8">
@@ -69,7 +69,7 @@
 		<!-- Page Header -->
 		<div class="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
 			<div>
-				<h1 class="mb-2 text-3xl font-bold text-white">Статистика</h1>
+				<h1 class="mb-2 text-3xl font-bold text-white">Отчёты</h1>
 			</div>
 		</div>
 
