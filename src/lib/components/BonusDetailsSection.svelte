@@ -6,7 +6,9 @@
 	let { bonusDetails = null, isActive = true } = $props();
 
 	function formatCurrency(amount) {
-		if (amount === null || amount === undefined) return '0 ₽';
+		if (amount === null || amount === undefined || amount === 0) {
+			return '0 ₽';
+		}
 		return new Intl.NumberFormat('ru-RU', {
 			style: 'currency',
 			currency: 'RUB',
@@ -29,10 +31,11 @@
 					</p>
 				</div>
 				<div>
-					<p class="text-xs text-gray-400">Бонус куратора</p>
-					<p class="text-xl font-bold text-cyan-400">
-						{formatCurrency(bonusDetails.totalCuratorBonus)}
+					<p class="text-xs text-gray-400">Премия агенту</p>
+					<p class="text-xl font-bold text-gray-500">
+						0 ₽
 					</p>
+					<p class="text-xs text-gray-600">(будет реализовано позже)</p>
 				</div>
 			</div>
 		</div>
@@ -56,12 +59,17 @@
 							</div>
 							<div class="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
 								<div>
-									<p class="text-gray-500">Сумма</p>
+									<p class="text-gray-500">Сумма договора</p>
 									<p class="text-gray-300">{formatCurrency(contract.contract_amount)}</p>
 								</div>
 								<div>
 									<p class="text-gray-500">% агента</p>
-									<p class="text-gray-300">{contract.agent_percentage}%</p>
+									<p class="text-gray-300">
+										{contract.agent_percentage ?? 3}%
+										{#if !contract.agent_percentage}
+											<span class="text-xs text-gray-500">(по умолчанию)</span>
+										{/if}
+									</p>
 								</div>
 								<div>
 									<p class="text-gray-500">Бонус агента</p>
@@ -70,10 +78,8 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Бонус куратора</p>
-									<p class="font-medium {contract.is_active ? 'text-cyan-400' : 'text-gray-500'}">
-										{formatCurrency(contract.curator_bonus)}
-									</p>
+									<p class="text-gray-500">Премия агенту</p>
+									<p class="font-medium text-gray-500">0%</p>
 								</div>
 							</div>
 						</div>
@@ -101,12 +107,17 @@
 							</div>
 							<div class="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
 								<div>
-									<p class="text-gray-500">Сумма</p>
+									<p class="text-gray-500">Сумма закупки</p>
 									<p class="text-gray-300">{formatCurrency(order.order_amount)}</p>
 								</div>
 								<div>
 									<p class="text-gray-500">% агента</p>
-									<p class="text-gray-300">{order.agent_percentage}%</p>
+									<p class="text-gray-300">
+										{order.agent_percentage ?? 5}%
+										{#if !order.agent_percentage}
+											<span class="text-xs text-gray-500">(по умолчанию)</span>
+										{/if}
+									</p>
 								</div>
 								<div>
 									<p class="text-gray-500">Бонус агента</p>
@@ -115,10 +126,8 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Бонус куратора</p>
-									<p class="font-medium {order.is_active ? 'text-cyan-400' : 'text-gray-500'}">
-										{formatCurrency(order.curator_bonus)}
-									</p>
+									<p class="text-gray-500">Премия агенту</p>
+									<p class="font-medium text-gray-500">0%</p>
 								</div>
 							</div>
 						</div>

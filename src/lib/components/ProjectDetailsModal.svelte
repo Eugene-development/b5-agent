@@ -146,7 +146,7 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-xs text-gray-400">Бонус куратора</p>
+									<p class="text-xs text-gray-400">Премия агенту</p>
 									<p class="text-xl font-bold text-cyan-400">
 										{formatCurrency(project.totalCuratorBonus)}
 									</p>
