@@ -14,11 +14,6 @@
 			color: 'blue'
 		},
 		{
-			href: '/profile',
-			label: 'Профиль',
-			color: 'indigo'
-		},
-		{
 			href: '/projects',
 			label: 'Проекты',
 			color: 'purple'
@@ -27,6 +22,11 @@
 			href: '/statistics',
 			label: 'Отчёты',
 			color: 'emerald'
+		},
+		{
+			href: '/profile',
+			label: 'Профиль',
+			color: 'indigo'
 		}
 	];
 
