@@ -80,6 +80,11 @@ const PROJECTS_QUERIES = {
 				client {
 					id
 					name
+					phones {
+						id
+						value
+						is_primary
+					}
 				}
 				status {
 					id

@@ -772,34 +772,6 @@
 										</div>
 									</th>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
-									>
-										Имя
-									</th>
-									<th
-										class="w-2/5 cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
-										onclick={() => handleSort('region')}
-									>
-										<div class="flex items-center space-x-1">
-											<span>Адрес объекта</span>
-											{#if sortBy === 'region'}
-												<svg
-													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M19 9l-7 7-7-7"
-													/>
-												</svg>
-											{/if}
-										</div>
-									</th>
-									<th
 										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('status')}
 									>
@@ -821,6 +793,16 @@
 												</svg>
 											{/if}
 										</div>
+									</th>
+									<th
+										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+									>
+										Имя
+									</th>
+									<th
+										class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-300"
+									>
+										Бонус
 									</th>
 									<th
 										class="w-32 cursor-pointer px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
@@ -924,14 +906,6 @@
 												</div>
 											{/if}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
-											{project.client?.name || 'Не указано'}
-										</td>
-										<td class="px-6 py-4 text-sm text-white">
-											<div class="max-w-xs truncate" title={project.region || 'Не указано'}>
-												{project.region || 'Не указано'}
-											</div>
-										</td>
 										<td class="whitespace-nowrap px-6 py-4">
 											<span
 												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
@@ -946,6 +920,12 @@
 											>
 												{getStatusText(project)}
 											</span>
+										</td>
+										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
+											{project.client?.name || 'Не указано'}
+										</td>
+										<td class="whitespace-nowrap px-6 py-4 text-right text-sm font-semibold text-white">
+											{formatCurrency(project.totalAgentBonus || 0)}
 										</td>
 										<td class="w-32 whitespace-nowrap px-6 py-4 text-center">
 											{#if project.is_incognito}

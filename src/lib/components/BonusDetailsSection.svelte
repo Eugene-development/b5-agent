@@ -9,12 +9,13 @@
 		if (amount === null || amount === undefined || amount === 0) {
 			return '0 ₽';
 		}
+		// Округляем до целых рублей (без копеек)
 		return new Intl.NumberFormat('ru-RU', {
 			style: 'currency',
 			currency: 'RUB',
 			minimumFractionDigits: 0,
-			maximumFractionDigits: 2
-		}).format(amount);
+			maximumFractionDigits: 0
+		}).format(Math.round(amount));
 	}
 </script>
 
@@ -22,20 +23,18 @@
 	<div class="space-y-4">
 		<!-- Summary -->
 		<div class="rounded-lg bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 p-4">
-			<h4 class="mb-3 text-sm font-semibold text-emerald-400">Итого бонусов</h4>
 			<div class="grid grid-cols-2 gap-4">
 				<div>
 					<p class="text-xs text-gray-400">Бонус агента</p>
-					<p class="text-xl font-bold text-emerald-400">
+					<p class="text-3xl font-bold text-emerald-400">
 						{formatCurrency(bonusDetails.totalAgentBonus)}
 					</p>
 				</div>
 				<div>
 					<p class="text-xs text-gray-400">Премия агенту</p>
-					<p class="text-xl font-bold text-gray-500">
+					<p class="text-3xl font-bold text-gray-500">
 						0 ₽
 					</p>
-					<p class="text-xs text-gray-600">(будет реализовано позже)</p>
 				</div>
 			</div>
 		</div>

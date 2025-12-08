@@ -26,6 +26,23 @@
 		}).format(amount);
 	}
 
+	function formatPhone(phoneNumber) {
+		if (!phoneNumber) return phoneNumber;
+		
+		// Убираем все нецифровые символы
+		const cleaned = phoneNumber.replace(/\D/g, '');
+		
+		// Форматируем в +7 915 400-00-20
+		if (cleaned.length === 11 && cleaned.startsWith('7')) {
+			return `+7 ${cleaned.slice(1, 4)} ${cleaned.slice(4, 7)}-${cleaned.slice(7, 9)}-${cleaned.slice(9, 11)}`;
+		} else if (cleaned.length === 10) {
+			return `+7 ${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)}-${cleaned.slice(6, 8)}-${cleaned.slice(8, 10)}`;
+		}
+		
+		// Если формат не подходит, возвращаем как есть
+		return phoneNumber;
+	}
+
 	function handleBackdropClick(event) {
 		if (event.target === event.currentTarget) {
 			onClose?.();
@@ -103,15 +120,36 @@
 						</div>
 
 						<div>
-							<p class="text-sm text-gray-400">Адрес объекта</p>
-							<p class="text-base font-medium text-white">{project.region || 'Не указано'}</p>
+							<p class="text-sm text-gray-400">Телефон клиента</p>
+							{#if project.client?.phones && project.client.phones.length > 0}
+								<div class="flex flex-col gap-1">
+									{#each project.client.phones as phone}
+										<div class="flex items-center gap-2">
+											<a 
+												href="tel:{phone.value}" 
+												class="inline-flex items-center gap-1 text-base font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+											>
+												<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+												</svg>
+												{formatPhone(phone.value)}
+											</a>
+											{#if phone.is_primary}
+												<span class="rounded-full bg-emerald-900/30 px-2 py-0.5 text-xs text-emerald-400 border border-emerald-700">
+													основной
+												</span>
+											{/if}
+										</div>
+									{/each}
+								</div>
+							{:else}
+								<p class="text-base font-medium text-white">Не указано</p>
+							{/if}
 						</div>
 
 						<div>
-							<p class="text-sm text-gray-400">Активность</p>
-							<p class="text-base font-medium text-white">
-								{project.is_active ? 'Активный' : 'Неактивный'}
-							</p>
+							<p class="text-sm text-gray-400">Адрес объекта</p>
+							<p class="text-base font-medium text-white">{project.region || 'Не указано'}</p>
 						</div>
 					</div>
 				</div>
