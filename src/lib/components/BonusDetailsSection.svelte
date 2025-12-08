@@ -45,11 +45,11 @@
 			<div>
 				<h4 class="mb-2 text-sm font-semibold text-amber-500">Бонусы по договорам</h4>
 				<div class="space-y-2">
-					{#each bonusDetails.contracts as contract}
+					{#each bonusDetails.contracts as contract, index}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
-									{contract.contract_number || 'Договор без номера'}
+									Договор {index + 1}
 								</span>
 								{#if !contract.is_active}
 									<span class="rounded-full bg-gray-700 px-2 py-0.5 text-xs text-gray-400">
@@ -93,11 +93,11 @@
 			<div>
 				<h4 class="mb-2 text-sm font-semibold text-amber-500">Бонусы по закупкам</h4>
 				<div class="space-y-2">
-					{#each bonusDetails.orders as order}
+					{#each bonusDetails.orders as order, index}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
-									{order.order_number || 'Закупка без номера'}
+									Закупка {index + 1}
 								</span>
 								{#if !order.is_active}
 									<span class="rounded-full bg-gray-700 px-2 py-0.5 text-xs text-gray-400">
