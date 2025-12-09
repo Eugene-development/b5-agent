@@ -1,71 +1,108 @@
 /**
  * Server-side load function for projects page with SSR
- * Data is rendered on the server for SEO and better performance
- * Uses streaming to show skeleton while data loads
+ * Data is rendered on the server using JWT token from httpOnly cookies
+ * Requirements: 2.2, 3.2, 5.2, 6.1
  */
 
-import { error } from '@sveltejs/kit';
-import { createProjectsApi } from '$lib/api/projects.js';
+import { makeServerGraphQLRequest, categorizeError, getUserFriendlyErrorMessage } from '$lib/api/server.js';
 
 /**
- * Error types for better error categorization
+ * GraphQL query to fetch projects by agent
  */
-const ERROR_TYPES = {
-	NETWORK: 'network',
-	API: 'api',
-	AUTH: 'auth',
-	TIMEOUT: 'timeout',
-	VALIDATION: 'validation',
-	UNKNOWN: 'unknown'
-};
+const PROJECTS_BY_AGENT_QUERY = `
+	query GetProjectsByAgent($user_id: ID!) {
+		projectsByAgent(user_id: $user_id) {
+			id
+			value
+			user_id
+			client_id
+			status_id
+			agent {
+				id
+				name
+				email
+			}
+			client {
+				id
+				name
+				phones {
+					id
+					value
+					is_primary
+				}
+			}
+			status {
+				id
+				value
+				slug
+				color
+				icon
+				is_active
+			}
+			region
+			description
+			is_active
+			is_incognito
+			contract_name
+			contract_date
+			contract_amount
+			agent_percentage
+			planned_completion_date
+			totalAgentBonus
+			totalCuratorBonus
+			bonusDetails {
+				totalAgentBonus
+				totalCuratorBonus
+				contracts {
+					id
+					contract_number
+					contract_amount
+					agent_percentage
+					curator_percentage
+					agent_bonus
+					curator_bonus
+					is_active
+				}
+				orders {
+					id
+					order_number
+					order_amount
+					agent_percentage
+					curator_percentage
+					agent_bonus
+					curator_bonus
+					is_active
+				}
+			}
+			created_at
+			updated_at
+		}
+	}
+`;
 
 /**
- * Categorize error based on error message and properties
+ * GraphQL query to fetch project statuses
  */
-function categorizeError(err) {
-	const message = err.message?.toLowerCase() || '';
-
-	if (message.includes('network') || message.includes('fetch')) {
-		return ERROR_TYPES.NETWORK;
+const PROJECT_STATUSES_QUERY = `
+	query GetProjectStatuses {
+		projectStatuses {
+			id
+			value
+			slug
+			description
+			color
+			icon
+			sort_order
+			is_default
+			is_active
+			created_at
+			updated_at
+		}
 	}
-	if (message.includes('timeout') || message.includes('aborted')) {
-		return ERROR_TYPES.TIMEOUT;
-	}
-	if (message.includes('unauthorized') || message.includes('forbidden')) {
-		return ERROR_TYPES.AUTH;
-	}
-	if (message.includes('validation') || message.includes('invalid')) {
-		return ERROR_TYPES.VALIDATION;
-	}
-	if (message.includes('graphql') || message.includes('api')) {
-		return ERROR_TYPES.API;
-	}
-
-	return ERROR_TYPES.UNKNOWN;
-}
+`;
 
 /**
- * Get user-friendly error message based on error type
- */
-function getUserFriendlyErrorMessage(errorType, originalMessage) {
-	switch (errorType) {
-		case ERROR_TYPES.NETWORK:
-			return 'Проблема с подключением к серверу. Проверьте интернет-соединение.';
-		case ERROR_TYPES.TIMEOUT:
-			return 'Превышено время ожидания ответа от сервера. Попробуйте еще раз.';
-		case ERROR_TYPES.AUTH:
-			return 'Ошибка авторизации. Пожалуйста, войдите в систему заново.';
-		case ERROR_TYPES.API:
-			return 'Ошибка при получении данных с сервера. Попробуйте обновить страницу.';
-		case ERROR_TYPES.VALIDATION:
-			return 'Получены некорректные данные с сервера. Обратитесь к администратору.';
-		default:
-			return `Произошла неожиданная ошибка: ${originalMessage}`;
-	}
-}
-
-/**
- * Safely calculate project statistics
+ * Calculate project statistics
  */
 function calculateProjectStats(projects) {
 	if (!Array.isArray(projects)) {
@@ -92,7 +129,6 @@ function calculateProjectStats(projects) {
 		} else {
 			stats.inactive++;
 		}
-
 		const contractAmount = Number(project?.contract_amount) || 0;
 		if (contractAmount > 0) {
 			stats.totalContractAmount += contractAmount;
@@ -107,86 +143,76 @@ function calculateProjectStats(projects) {
 }
 
 /**
- * Load projects data asynchronously for streaming
+ * Load projects data from GraphQL API
  */
-async function loadProjectsData(projectsApi, userId) {
-	try {
-		// Add timeout to prevent hanging requests
-		const timeoutPromise = new Promise((_, reject) => {
-			setTimeout(() => reject(new Error('Request timeout')), 30000);
-		});
+async function loadProjectsData(token, userId, fetch) {
+	const startTime = Date.now();
 
-		// Load projects data and statuses in parallel with timeout
-		const [projectsData, statusesData] = await Promise.race([
-			Promise.all([projectsApi.getByAgent(userId), projectsApi.getStatuses()]),
-			timeoutPromise
+	try {
+		console.log('📊 Projects SSR: Starting data load for user:', userId);
+
+		// Load projects and statuses in parallel
+		const [projectsData, statusesData] = await Promise.all([
+			makeServerGraphQLRequest(token, PROJECTS_BY_AGENT_QUERY, { user_id: String(userId) }, fetch),
+			makeServerGraphQLRequest(token, PROJECT_STATUSES_QUERY, {}, fetch)
 		]);
 
-		// Validate data structure
-		if (!Array.isArray(projectsData)) {
-			throw new Error('Invalid data format received from API');
-		}
+		const rawProjects = projectsData?.projectsByAgent || [];
 
 		// Sort projects by created_at descending (newest first)
-		const sortedProjectsData = [...projectsData].sort((a, b) => {
+		const sortedProjects = [...rawProjects].sort((a, b) => {
 			const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
 			const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
 			return dateB - dateA;
 		});
 
-		// Add sequential number to each project
-		const projects = sortedProjectsData.map((project, index) => ({
+		// Add sequential numbers
+		const projects = sortedProjects.map((project, index) => ({
 			...project,
 			sequentialNumber: index + 1
 		}));
 
-		// Calculate statistics
+		// Calculate stats
 		const stats = calculateProjectStats(projects);
 
-		// Create pagination info
-		const pagination = {
-			currentPage: 1,
-			lastPage: 1,
-			total: projects.length,
-			perPage: projects.length,
-			hasMorePages: false
-		};
-
 		// Filter only active statuses
-		const activeStatuses = Array.isArray(statusesData)
-			? statusesData.filter((status) => status.is_active)
+		const statuses = Array.isArray(statusesData?.projectStatuses)
+			? statusesData.projectStatuses.filter((status) => status.is_active)
 			: [];
+
+		const loadTime = Date.now() - startTime;
+		console.log(`✅ Projects SSR: Loaded ${projects.length} projects in ${loadTime}ms`);
 
 		return {
 			projects,
 			stats,
-			pagination,
-			statuses: activeStatuses,
+			statuses,
+			pagination: {
+				currentPage: 1,
+				lastPage: 1,
+				total: projects.length,
+				perPage: projects.length,
+				hasMorePages: false
+			},
 			error: null,
 			errorType: null,
 			canRetry: false,
 			isLoading: false
 		};
-	} catch (apiError) {
-		const errorType = categorizeError(apiError);
-		const userMessage = getUserFriendlyErrorMessage(errorType, apiError.message);
+	} catch (error) {
+		const errorType = categorizeError(error);
+		const userMessage = getUserFriendlyErrorMessage(errorType, error.message);
 
-		console.error('Failed to load projects data:', {
-			error: apiError.message,
+		console.error('❌ Projects SSR: Failed to load data:', {
+			error: error.message,
 			type: errorType,
-			stack: apiError.stack
+			loadTime: Date.now() - startTime
 		});
 
-		// Return error state
 		return {
 			projects: [],
-			stats: {
-				total: 0,
-				active: 0,
-				inactive: 0,
-				totalContractAmount: 0,
-				averageContractAmount: 0
-			},
+			stats: { total: 0, active: 0, inactive: 0, totalContractAmount: 0, averageContractAmount: 0 },
+			statuses: [],
 			pagination: {
 				currentPage: 1,
 				lastPage: 1,
@@ -194,45 +220,68 @@ async function loadProjectsData(projectsApi, userId) {
 				perPage: 100,
 				hasMorePages: false
 			},
-			statuses: [],
 			error: userMessage,
 			errorType,
-			canRetry: errorType !== ERROR_TYPES.AUTH,
+			canRetry: errorType !== 'auth',
 			isLoading: false
 		};
 	}
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ fetch, depends, cookies }) {
+export async function load({ locals, fetch, depends }) {
 	// Mark this load function as dependent on 'projects' invalidation
 	depends('projects');
 
 	try {
-		// In JWT mode, we can't check authentication on server
-		// Authentication is handled by client-side layout guard
-		// Try to get user ID from JWT token in cookie (if available)
+		console.log('🚀 Projects SSR: Starting server-side load', {
+			hasLocals: !!locals,
+			hasUser: !!locals?.user,
+			hasToken: !!locals?.token
+		});
 
-		// For now, we'll just return a promise that will be resolved on client
-		// The client will have access to authState and user data
+		// Check if user is authenticated via httpOnly cookie
+		if (!locals?.user || !locals?.token) {
+			console.log('⚠️ Projects SSR: No authentication token found in httpOnly cookie');
+			return {
+				projectsData: {
+					projects: [],
+					stats: { total: 0, active: 0, inactive: 0, totalContractAmount: 0, averageContractAmount: 0 },
+					statuses: [],
+					pagination: {
+						currentPage: 1,
+						lastPage: 1,
+						total: 0,
+						perPage: 100,
+						hasMorePages: false
+					},
+					error: null,
+					errorType: null,
+					canRetry: false,
+					isLoading: false,
+					needsClientLoad: true
+				}
+			};
+		}
 
-		// Get JWT token from cookie/header to extract user ID
-		// Note: In pure JWT mode, we might not have user ID on server
-		// So we return a function that will be called on client with user data
+		console.log('👤 Projects SSR: Loading data for user:', locals.user.email);
 
-		// For server-side, we'll return empty data
-		// Client-side code will need to handle the actual data loading
+		// Return Promise for streaming - page renders immediately with skeleton
+		// Data streams in when ready
 		return {
-			// Return null - client will handle loading
-			projectsData: Promise.resolve({
+			projectsData: loadProjectsData(locals.token, locals.user.id, fetch)
+		};
+	} catch (err) {
+		console.error('❌ Projects SSR: Server load error:', {
+			error: err.message,
+			stack: err.stack
+		});
+
+		return {
+			projectsData: {
 				projects: [],
-				stats: {
-					total: 0,
-					active: 0,
-					inactive: 0,
-					totalContractAmount: 0,
-					averageContractAmount: 0
-				},
+				stats: { total: 0, active: 0, inactive: 0, totalContractAmount: 0, averageContractAmount: 0 },
+				statuses: [],
 				pagination: {
 					currentPage: 1,
 					lastPage: 1,
@@ -240,22 +289,11 @@ export async function load({ fetch, depends, cookies }) {
 					perPage: 100,
 					hasMorePages: false
 				},
-				statuses: [],
-				error: null,
-				errorType: null,
-				canRetry: false,
-				isLoading: true,
-				needsClientLoad: true // Flag to indicate client should load data
-			})
+				error: 'Внутренняя ошибка при загрузке данных проектов',
+				errorType: 'unknown',
+				canRetry: true,
+				isLoading: false
+			}
 		};
-	} catch (err) {
-		console.error('Server load error for projects page:', {
-			error: err.message,
-			stack: err.stack
-		});
-
-		throw error(500, {
-			message: 'Внутренняя ошибка при загрузке страницы проектов'
-		});
 	}
 }

@@ -86,6 +86,7 @@ export async function loginUserWithCookie(email, password, remember = false) {
 		return {
 			success: true,
 			user: data.user,
+			token: data.token,
 			message: data.message || 'Login successful'
 		};
 	} catch (error) {

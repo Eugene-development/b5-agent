@@ -1,5 +1,5 @@
 <script>
-	import { login, authState } from '$lib/auth/auth.svelte.js';
+	import { loginWithCookie, authState } from '$lib/auth/auth.svelte.js';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
@@ -78,7 +78,7 @@
 			// 	localStorage.setItem('rememberMe', formData.rememberMe.toString());
 			// }
 
-			const success = await login(formData.email, formData.password, formData.rememberMe);
+			const success = await loginWithCookie(formData.email, formData.password, formData.rememberMe);
 
 			if (success) {
 				console.log('✅ Login successful, invalidating server data');

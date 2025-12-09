@@ -213,13 +213,20 @@ export async function loginWithCookie(email, password, remember = false) {
 		const result = await loginUserWithCookie(email, password, remember);
 
 		if (result.success) {
-			// Update auth state - no token in response (it's in httpOnly cookie)
+			// Update auth state
 			const normalizedUser = normalizeUserData(result.user);
 			authState.user = normalizedUser || null;
 			authState.isAuthenticated = !!normalizedUser;
 			authState.emailVerified = normalizedUser?.email_verified || false;
+			// Store token for client-side API requests
+			authState.token = result.token || null;
 
-			// Store user data (no token needed, it's in httpOnly cookie)
+			// Store token in localStorage for client-side API requests
+			if (result.token) {
+				setAuthToken(result.token);
+			}
+
+			// Store user data
 			if (normalizedUser) {
 				setUserData(normalizedUser);
 			}

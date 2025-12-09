@@ -80,10 +80,12 @@ export async function POST({ request, cookies }) {
 			});
 		}
 
-		// Return success response with user data
+		// Return success response with user data and token
+		// Token is also returned so client can store it in localStorage for API requests
 		return json({
 			success: true,
 			user: data.user,
+			token: token,
 			message: 'Login successful'
 		});
 	} catch (err) {
