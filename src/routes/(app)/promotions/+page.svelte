@@ -68,7 +68,7 @@
 					<h3 class="text-2xl font-bold text-white">Завербуй агента</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
 						Приведи нового агента в BONUS5 и получай дополнительно
-						<span class="font-bold text-amber-400">0.5%</span> с каждой его сделки
+						<span class="font-bold text-amber-400">0.5%</span> с каждого его проекта
 					</p>
 
 					<div class="mt-6 space-y-3">
@@ -137,7 +137,7 @@
 
 					<h3 class="text-2xl font-bold text-white">ТОП 10 агентов</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						Войди в десятку лучших агентов по итогам 2025 года и получи
+						Войди в десятку лучших агентов по итогам 2026 года и получи
 						<span class="font-bold text-purple-400">специальный бонус</span>
 					</p>
 
@@ -165,7 +165,7 @@
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
 							<p class="text-sm text-gray-400">
-								Статус премиум-агента на 2026 год с повышенным бонусом
+								Статус премиум-агента на 2027 год с повышенным бонусом
 							</p>
 						</div>
 						<div class="flex items-start gap-2">
@@ -210,7 +210,7 @@
 					<h3 class="text-2xl font-bold text-white">Новогодний бонус</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
 						До конца января действует повышенный бонус
-						<span class="font-bold text-emerald-400">+0.2%</span> к каждой сделке
+						<span class="font-bold text-emerald-400">+0.2%</span> к каждому вашему проекту
 					</p>
 
 					<div class="mt-6 space-y-3">
@@ -268,7 +268,7 @@
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
 					Все акции активируются автоматически для зарегистрированных агентов. Просто продолжайте
 					работать, регистрируйте клиентов и получайте повышенные вознаграждения. Следите за
-					обновлениями в личном кабинете, чтобы не пропустить новые специальные предложения.
+					обновлениями в личном кабинете, чтобы не пропустить новые специальные предложения и акции.
 				</p>
 
 				<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
