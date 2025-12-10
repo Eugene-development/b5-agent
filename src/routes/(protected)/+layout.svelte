@@ -3,26 +3,42 @@
   This layout wraps all routes that require authentication
 -->
 <script>
-	import { authState } from '$lib/auth/auth.svelte.js';
+	import { onMount } from 'svelte';
+	import { authState, checkAuth } from '$lib/auth/auth.svelte.js';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DashboardMenu from '$lib/components/DashboardMenu.svelte';
 
 	let { children } = $props();
 
-	// Client-side authentication guard for protected routes
+	// Check authentication on mount (like profile page does)
+	onMount(async () => {
+		// If not authenticated from localStorage, redirect immediately
+		if (!authState.isAuthenticated) {
+			const returnTo = $page.url.pathname + $page.url.search;
+			goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
+			return;
+		}
+
+		// Verify token with server (like profile page)
+		const isAuth = await checkAuth();
+		if (!isAuth) {
+			const returnTo = $page.url.pathname + $page.url.search;
+			goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
+			return;
+		}
+
+		// Check email verification
+		if (authState.user && !authState.user.email_verified_at) {
+			goto('/email-verify');
+		}
+	});
+
+	// Watch for logout
 	$effect(() => {
-		// Wait for auth to initialize
-		if (authState.initialized) {
-			// Check if user is authenticated
-			if (!authState.isAuthenticated) {
-				// Not authenticated - redirect to login
-				const returnTo = $page.url.pathname + $page.url.search;
-				goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
-			} else if (authState.user && !authState.user.email_verified_at) {
-				// Authenticated but email not verified - redirect to email verification
-				goto('/email-verify');
-			}
+		if (authState.initialized && !authState.isAuthenticated) {
+			const returnTo = $page.url.pathname + $page.url.search;
+			goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
 		}
 	});
 </script>
