@@ -77,8 +77,22 @@
 	}
 </script>
 
-<div class="mb-2 flex justify-center ">
-		<nav class="flex flex-wrap gap-2 sm:gap-3 pb-4">
+<div class="mb-2 flex justify-center">
+	<nav class="w-full">
+		<!-- Mobile: 3 columns grid -->
+		<div class="grid grid-cols-3 gap-2 sm:hidden pb-4">
+			{#each menuItems as item (item.href)}
+				<a
+					href={item.href}
+					class="relative flex items-center justify-center px-2 py-3 text-xs font-medium tracking-wide text-slate-200/90 transition-all duration-300 ease-in-out hover:text-slate-100 rounded-lg border border-slate-700/50 {isActive(item.href) ? 'text-white bg-slate-700/30 border-slate-600' : 'hover:border-slate-600/80 hover:bg-slate-800/20'}"
+				>
+					<span class="text-center">{item.label}</span>
+				</a>
+			{/each}
+		</div>
+
+		<!-- Desktop: Horizontal flex layout -->
+		<div class="hidden sm:flex flex-wrap gap-2 sm:gap-3 pb-4 justify-center">
 			{#each menuItems as item (item.href)}
 				<a
 					href={item.href}
@@ -92,5 +106,6 @@
 					{/if}
 				</a>
 			{/each}
-		</nav>
+		</div>
+	</nav>
 </div>
