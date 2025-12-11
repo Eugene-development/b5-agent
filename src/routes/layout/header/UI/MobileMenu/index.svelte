@@ -50,7 +50,18 @@
 			aria-label="Mobile navigation menu"
 			tabindex="0"
 		>
-			<div class="flex items-center justify-end">
+			<div class="flex items-center justify-between gap-3">
+				<button
+					type="button"
+					onclick={() => navigate('/')}
+					class="group flex items-center gap-3 rounded-xl px-1 py-1 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60"
+				>
+					<span
+						class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-2xl font-black leading-tight tracking-tight text-transparent transition-colors duration-300 group-hover:from-white group-hover:via-indigo-100 group-hover:to-cyan-300"
+					>
+						BONUS 5
+					</span>
+				</button>
 				<button
 					onclick={closeMobileMenu}
 					type="button"

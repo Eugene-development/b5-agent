@@ -50,9 +50,9 @@
 			<div class="flex w-full items-center justify-between lg:hidden">
 				<a
 					href="/"
-					class="bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-xl font-bold tracking-tight text-transparent"
+					class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-xl font-black tracking-tight text-transparent"
 				>
-					Bonus 5
+					BONUS 5
 				</a>
 				<button
 					onclick={openMobileMenu}
