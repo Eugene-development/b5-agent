@@ -175,7 +175,7 @@
 </svelte:head>
 
 <!-- Main content -->
-<div class="relative isolate bg-gray-950 py-16 sm:py-24">
+<div class="relative isolate bg-gray-950 py-16 sm:py-20">
 	<!-- Success Message -->
 	{#if showSuccessMessage}
 		<div class="fixed left-1/2 top-24 z-[9999] w-full max-w-md -translate-x-1/2 transform px-4">

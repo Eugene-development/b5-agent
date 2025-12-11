@@ -107,7 +107,7 @@
 </script>
 
 <svelte:head>
-	<title>Реферальный QR-код – BONUS5</title>
+	<title>QR – BONUS5</title>
 	<meta name="description" content="Ваш персональный QR-код для привлечения новых агентов в реферальную программу BONUS5" />
 </svelte:head>
 
@@ -126,14 +126,14 @@
 	</div>
 {/if}
 
-<div class="relative isolate bg-gray-950 py-16 sm:py-24">
+<div class="relative isolate bg-gray-950 py-16 sm:py-20">
 	<div class="mx-auto max-w-3xl px-6 lg:px-8">
 		<!-- Header -->
 		<div class="mb-12 text-center">
-			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-5xl">Реферальный QR-код</h1>
-			<p class="mt-4 text-lg text-gray-400">
+			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-5xl">Ваш QR</h1>
+			<!-- <p class="mt-4 text-lg text-gray-400">
 				Привлекайте новых агентов и получайте 0,5% с их сделок
-			</p>
+			</p> -->
 		</div>
 
 		<!-- Content -->
@@ -160,6 +160,19 @@
 						<img src={qrCodeDataUrl} alt="Реферальный QR-код" class="h-[300px] w-[300px]" />
 					</div>
 				</div>
+				<!-- Actions -->
+				<div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+					<button
+						onclick={downloadQR}
+						class="inline-flex items-center justify-center gap-2 rounded-lg bg-white/10 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/20"
+					>
+						<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+						</svg>
+						Скачать QR-код
+					</button>
+				</div>
+
 
 				<!-- Referral URL -->
 				<div class="mt-8">
@@ -174,24 +187,11 @@
 						/>
 						<button
 							onclick={copyUrl}
-							class="rounded-lg bg-cyan-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-cyan-500"
+							class="rounded-lg bg-cyan-600 px-2 py-3 text-sm font-medium text-white transition hover:bg-cyan-500"
 						>
 							Копировать
 						</button>
 					</div>
-				</div>
-
-				<!-- Actions -->
-				<div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-					<button
-						onclick={downloadQR}
-						class="inline-flex items-center justify-center gap-2 rounded-lg bg-white/10 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/20"
-					>
-						<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-						</svg>
-						Скачать QR-код
-					</button>
 				</div>
 
 				<!-- Info -->
@@ -200,7 +200,7 @@
 					<ul class="space-y-1 text-sm text-gray-400">
 						<li>• Поделитесь QR-кодом или ссылкой с потенциальными агентами</li>
 						<li>• Когда они зарегистрируются по вашей ссылке, они станут вашими рефералами</li>
-						<li>• В течении 2-х лет вы будете получать 0,5% от каждой сделки привлечённых агентов</li>
+						<li>• В течении 2-х лет вы будете получать 0,5% от проектов привлечённых агентов</li>
 					</ul>
 				</div>
 			</div>

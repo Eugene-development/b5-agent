@@ -60,7 +60,7 @@
 </svelte:head>
 
 <div
-	class="relative isolate min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-12 sm:py-24"
+	class="relative isolate min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-12 sm:py-20"
 >
 	<!-- Animated background elements -->
 	<!-- <div class="absolute inset-0 overflow-hidden">

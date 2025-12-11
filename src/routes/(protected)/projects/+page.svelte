@@ -367,7 +367,7 @@
 </script>
 
 <div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">
-	<div class="mx-auto max-w-7xl px-4 sm:px-0">
+	<div class="mx-auto max-w-7xl px-4 ">
 		<!-- Page Header -->
 		<div class="mb-8">
 			<div class="mb-4">
@@ -453,7 +453,7 @@
 					{#if projectsData.canRetry}
 						<button
 							onclick={handleRetry}
-							class="rounded-lg bg-red-600 px-6 py-2 font-semibold text-white hover:bg-red-700"
+							class="rounded-lg bg-red-600 px-5 py-2 font-semibold text-white hover:bg-red-700"
 						>
 							Попробовать снова
 						</button>
@@ -720,13 +720,13 @@
 			<!-- Projects Table -->
 			<div class="overflow-hidden rounded-lg bg-gray-800 shadow">
 				<!-- Mobile-friendly table wrapper with improved scrolling -->
-				<div class="-mx-4 overflow-x-auto sm:mx-0">
+				<div class="overflow-x-auto sm:px-0">
 					<div class="inline-block min-w-full align-middle">
 						<table class="min-w-full divide-y divide-gray-700">
 							<thead class="bg-gray-700">
 								<tr>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="cursor-pointer px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('sequentialNumber')}
 									>
 										<div class="flex items-center space-x-1">
@@ -749,7 +749,7 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="cursor-pointer px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('value')}
 									>
 										<div class="flex items-center space-x-1">
@@ -772,7 +772,7 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="cursor-pointer px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('status')}
 									>
 										<div class="flex items-center space-x-1">
@@ -795,17 +795,17 @@
 										</div>
 									</th>
 									<th
-										class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 										Имя
 									</th>
 									<th
-										class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="px-5 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 										Бонус
 									</th>
 									<th
-										class="w-32 cursor-pointer px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="w-32 cursor-pointer px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
 										onclick={() => handleSort('is_incognito')}
 									>
 										<div
@@ -868,7 +868,7 @@
 										</div>
 									</th>
 									<th
-										class="w-16 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="w-16 px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 									</th>
 								</tr>
@@ -887,10 +887,10 @@
 											}
 										}}
 									>
-										<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
+										<td class="whitespace-nowrap px-5 py-4 text-sm font-medium text-white">
 											{project.sequentialNumber}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4">
+										<td class="whitespace-nowrap px-5 py-4">
 											<div
 												class="text-sm font-medium text-white"
 												title="Создан: {formatDateTime(project.created_at)}"
@@ -906,7 +906,7 @@
 												</div>
 											{/if}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4">
+										<td class="whitespace-nowrap px-5 py-4">
 											<span
 												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
 													project.status
@@ -921,13 +921,13 @@
 												{getStatusText(project)}
 											</span>
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-sm text-white">
+										<td class="whitespace-nowrap px-5 py-4 text-sm text-white">
 											{project.client?.name || 'Не указано'}
 										</td>
-										<td class="whitespace-nowrap px-6 py-4 text-right text-sm font-semibold text-white">
+										<td class="whitespace-nowrap px-5 py-4 text-right text-sm font-semibold text-white">
 											{formatCurrency(project.totalAgentBonus || 0)}
 										</td>
-										<td class="w-32 whitespace-nowrap px-6 py-4 text-center">
+										<td class="w-32 whitespace-nowrap px-5 py-4 text-center">
 											{#if project.is_incognito}
 												<svg
 													class="mx-auto h-5 w-5 text-green-500"
@@ -947,7 +947,7 @@
 												<span class="text-gray-500">—</span>
 											{/if}
 										</td>
-										<td class="w-16 whitespace-nowrap px-6 py-4 text-center">
+										<td class="w-16 whitespace-nowrap px-5 py-4 text-center">
 											<svg
 												class="mx-auto h-5 w-5 text-gray-400 transition-colors group-hover:text-cyan-400"
 												fill="none"
@@ -972,7 +972,7 @@
 									</tr>
 								{:else}
 									<tr>
-										<td colspan="6" class="px-6 py-12 text-center">
+										<td colspan="6" class="px-5 py-12 text-center">
 											<div class="flex flex-col items-center">
 												<svg
 													class="w-12 h-12 text-gray-400 mb-4"
