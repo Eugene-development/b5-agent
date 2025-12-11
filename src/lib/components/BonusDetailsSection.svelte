@@ -48,7 +48,11 @@
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
-									Договор {index + 1}
+									{#if contract.contract_number}
+										{contract.contract_number}
+									{:else}
+										Без номера
+									{/if}
 								</span>
 								{#if !contract.is_active}
 									<span class="rounded-full bg-gray-700 px-2 py-0.5 text-xs text-gray-400">
@@ -96,7 +100,11 @@
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
-									Закупка {index + 1}
+									{#if order.order_number}
+										{order.order_number}
+									{:else}
+										Без номера
+									{/if}
 								</span>
 								{#if !order.is_active}
 									<span class="rounded-full bg-gray-700 px-2 py-0.5 text-xs text-gray-400">
