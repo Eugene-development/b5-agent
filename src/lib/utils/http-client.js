@@ -276,18 +276,14 @@ export class HttpClient {
 	async graphql(query, variables = {}, options = {}) {
 		const graphqlEndpoint = `${API_BASE_URL}/graphql`;
 
-		// Temporarily remove credentials for GraphQL requests to avoid CORS issues
+		// Use requestJson which automatically adds JWT token via prepareHeaders
 		return this.requestJson(graphqlEndpoint, {
 			method: 'POST',
-			credentials: 'omit', // Temporarily disable credentials
+			credentials: 'include', // Include credentials for authentication
 			body: JSON.stringify({
 				query,
 				variables
 			}),
-			headers: {
-				'Content-Type': 'application/json',
-				...options.headers
-			},
 			...options
 		});
 	}
