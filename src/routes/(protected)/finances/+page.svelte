@@ -11,6 +11,7 @@
 	import PaymentFilters from '$lib/components/finances/PaymentFilters.svelte';
 	import PaymentDetailModal from '$lib/components/finances/PaymentDetailModal.svelte';
 	import { createFinancesApi } from '$lib/api/finances.js';
+	import { invalidate } from '$app/navigation';
 
 	/** @type {{ data: any }} */
 	let { data } = $props();
@@ -21,6 +22,7 @@
 	let payments = $state(data.payments || []);
 	let stats = $state(data.stats || { total_accrued: 0, total_available: 0, total_paid: 0 });
 	let loading = $state(false);
+	let isRefreshing = $state(false);
 	let selectedPayment = $state(null);
 
 	// Filters
@@ -102,6 +104,21 @@
 	function closePaymentModal() {
 		selectedPayment = null;
 	}
+
+	// Refresh data from server
+	async function refreshData() {
+		isRefreshing = true;
+		try {
+			console.log('🔄 Refreshing finances data...');
+			// Invalidate the finances page data to trigger reload
+			await invalidate('finances');
+			console.log('✅ Finances data refreshed');
+		} catch (error) {
+			console.error('❌ Failed to refresh data:', error);
+		} finally {
+			isRefreshing = false;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -111,9 +128,51 @@
 <div class="min-h-screen bg-gray-950 py-8">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<!-- Header -->
-		<div class="mb-8">
-			<h1 class="text-2xl font-bold text-white">Финансы</h1>
-			<p class="mt-1 text-sm text-gray-400">Учёт начислений и выплат бонусов</p>
+		<div class="mb-8 flex items-start justify-between">
+			<div>
+				<h1 class="text-2xl font-bold text-white">Финансы</h1>
+				<p class="mt-1 text-sm text-gray-400">Учёт начислений и выплат бонусов</p>
+			</div>
+			<button
+				type="button"
+				onclick={refreshData}
+				disabled={isRefreshing}
+				class="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+				aria-label="Обновить данные финансов с сервера"
+			>
+				<div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+				<svg
+					class="relative z-10 h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					{#if isRefreshing}
+						<circle
+							class="opacity-25"
+							cx="12"
+							cy="12"
+							r="10"
+							stroke="currentColor"
+							stroke-width="4"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
+					{:else}
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+						/>
+					{/if}
+				</svg>
+				<span class="relative z-10">{isRefreshing ? 'Обновляю...' : 'Обновить'}</span>
+			</button>
 		</div>
 
 		<!-- Stats Cards -->

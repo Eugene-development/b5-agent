@@ -7,7 +7,10 @@ import { createFinancesApi } from '$lib/api/finances.js';
 import { authState } from '$lib/auth/auth.svelte.js';
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ fetch }) {
+export async function load({ fetch, depends }) {
+	// Register dependency for invalidation
+	depends('finances');
+
 	try {
 		const api = createFinancesApi(fetch);
 
