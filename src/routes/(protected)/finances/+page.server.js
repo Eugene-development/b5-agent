@@ -22,6 +22,14 @@ const GET_AGENT_BONUSES_QUERY = `
 				code
 				name
 			}
+			contract {
+				id
+				contract_number
+			}
+			order {
+				id
+				order_number
+			}
 			accrued_at
 			available_at
 			paid_at

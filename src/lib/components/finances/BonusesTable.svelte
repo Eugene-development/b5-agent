@@ -51,7 +51,19 @@
 	 * Получить название источника
 	 */
 	function getSourceName(bonus) {
-		return bonus.source_type === 'contract' ? 'Договор' : 'Закупка';
+		return bonus.source_type === 'contract' ? 'Договор' : 'Заказ';
+	}
+
+	/**
+	 * Получить номер договора или заказа
+	 */
+	function getSourceNumber(bonus) {
+		if (bonus.source_type === 'contract' && bonus.contract) {
+			return bonus.contract.contract_number || '—';
+		} else if (bonus.source_type === 'order' && bonus.order) {
+			return bonus.order.order_number || '—';
+		}
+		return '—';
 	}
 </script>
 
@@ -60,9 +72,10 @@
 		<thead class="bg-gray-800">
 			<tr>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Источник</th>
+				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Номер</th>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Проект</th>
 				<th class="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Сумма</th>
-				<th class="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Комиссия</th>
+				<th class="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Бонус</th>
 				<th class="px-4 py-3 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">Статус</th>
 				<th class="px-4 py-3 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">Начислено</th>
 				<th class="px-4 py-3 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">Доступно</th>
@@ -72,7 +85,7 @@
 		<tbody class="bg-gray-900 divide-y divide-gray-800">
 			{#if bonuses.length === 0}
 				<tr>
-					<td colspan="8" class="px-4 py-8 text-center text-gray-500">
+					<td colspan="9" class="px-4 py-8 text-center text-gray-500">
 						Нет данных о бонусах
 					</td>
 				</tr>
@@ -83,6 +96,9 @@
 							<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {bonus.source_type === 'contract' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-purple-500/10 text-purple-400'}">
 								{getSourceName(bonus)}
 							</span>
+						</td>
+						<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+							{getSourceNumber(bonus)}
 						</td>
 						<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
 							{bonus.project_name || '—'}

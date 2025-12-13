@@ -123,7 +123,7 @@
 							<div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
 								<div>
 									<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {bonus.source_type === 'contract' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-purple-500/10 text-purple-400'}">
-										{bonus.source_type === 'contract' ? 'Договор' : 'Закупка'}
+										{bonus.source_type === 'contract' ? 'Договор' : 'Заказ'}
 									</span>
 									<span class="ml-2 text-sm text-gray-300">{bonus.project_name || '—'}</span>
 								</div>

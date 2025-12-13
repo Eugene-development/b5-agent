@@ -26,6 +26,14 @@ const FINANCES_QUERIES = {
 					code
 					name
 				}
+				contract {
+					id
+					contract_number
+				}
+				order {
+					id
+					order_number
+				}
 				accrued_at
 				available_at
 				paid_at
