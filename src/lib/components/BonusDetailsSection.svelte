@@ -94,7 +94,7 @@
 		<!-- Orders Bonuses -->
 		{#if bonusDetails.orders && bonusDetails.orders.length > 0}
 			<div>
-				<h4 class="mb-2 text-sm font-semibold text-amber-500">Бонусы по закупкам</h4>
+				<h4 class="mb-2 text-sm font-semibold text-amber-500">Бонусы по заказам</h4>
 				<div class="space-y-2">
 					{#each bonusDetails.orders as order, index}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
@@ -114,7 +114,7 @@
 							</div>
 							<div class="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
 								<div>
-									<p class="text-gray-500">Сумма закупки</p>
+									<p class="text-gray-500">Сумма заказа</p>
 									<p class="text-gray-300">{formatCurrency(order.order_amount)}</p>
 								</div>
 								<div>
