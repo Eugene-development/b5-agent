@@ -10,6 +10,7 @@
 	import BonusFilters from '$lib/components/finances/BonusFilters.svelte';
 	import PaymentFilters from '$lib/components/finances/PaymentFilters.svelte';
 	import PaymentDetailModal from '$lib/components/finances/PaymentDetailModal.svelte';
+	import FinancesPageSkeleton from '$lib/components/finances/FinancesPageSkeleton.svelte';
 	import { createFinancesApi } from '$lib/api/finances.js';
 	import { invalidate } from '$app/navigation';
 
@@ -18,16 +19,90 @@
 
 	// State
 	let activeTab = $state('bonuses');
-	let bonuses = $state(data.bonuses || []);
-	let payments = $state(data.payments || []);
-	let stats = $state(data.stats || { total_accrued: 0, total_available: 0, total_paid: 0 });
+	let bonuses = $state([]);
+	let payments = $state([]);
+	let stats = $state({ total_accrued: 0, total_available: 0, total_paid: 0 });
 	let loading = $state(false);
 	let isRefreshing = $state(false);
+	let dataLoaded = $state(false);
 	let selectedPayment = $state(null);
+	let bonusStatuses = $state([]);
+	let paymentStatuses = $state([]);
+	let paymentMethods = $state([]);
 
 	// Filters
 	let bonusFilters = $state({ status_code: null, source_type: null, date_from: null, date_to: null });
 	let paymentFilters = $state({ status_code: null, date_from: null, date_to: null });
+
+	// Update local state when financesData resolves
+	$effect(() => {
+		// Reset dataLoaded when data changes (e.g., after refresh)
+		dataLoaded = false;
+		
+		// Handle financesData Promise or resolved data
+		if (data.financesData) {
+			if (data.financesData instanceof Promise) {
+				data.financesData.then(financesData => {
+					bonuses = financesData.bonuses || [];
+					payments = financesData.payments || [];
+					stats = financesData.stats || { total_accrued: 0, total_available: 0, total_paid: 0 };
+					bonusStatuses = financesData.bonusStatuses || [];
+					paymentStatuses = financesData.paymentStatuses || [];
+					paymentMethods = financesData.paymentMethods || [];
+					dataLoaded = true;
+					
+					// Check if we need client-side load
+					if (financesData.needsClientLoad) {
+						loadAllDataOnClient();
+					}
+				});
+			} else {
+				bonuses = data.financesData.bonuses || [];
+				payments = data.financesData.payments || [];
+				stats = data.financesData.stats || { total_accrued: 0, total_available: 0, total_paid: 0 };
+				bonusStatuses = data.financesData.bonusStatuses || [];
+				paymentStatuses = data.financesData.paymentStatuses || [];
+				paymentMethods = data.financesData.paymentMethods || [];
+				dataLoaded = true;
+				
+				// Check if we need client-side load
+				if (data.financesData.needsClientLoad) {
+					loadAllDataOnClient();
+				}
+			}
+		}
+	});
+
+	/**
+	 * Load all data from client-side API (fallback)
+	 */
+	async function loadAllDataOnClient() {
+		console.log('🔄 Finances: Loading data on client (no httpOnly cookie)');
+		loading = true;
+		try {
+			const api = createFinancesApi(fetch);
+			const [bonusesData, paymentsData, statsData, statusesData, paymentStatusesData, methodsData] = 
+				await Promise.all([
+					api.getBonuses(),
+					api.getPayments(),
+					api.getBonusStats(),
+					api.getBonusStatuses(),
+					api.getPaymentStatuses(),
+					api.getPaymentMethods()
+				]);
+
+			bonuses = bonusesData;
+			payments = paymentsData;
+			stats = statsData;
+			bonusStatuses = statusesData;
+			paymentStatuses = paymentStatusesData;
+			paymentMethods = methodsData;
+		} catch (error) {
+			console.error('Failed to load finances data:', error);
+		} finally {
+			loading = false;
+		}
+	}
 
 	/**
 	 * Load bonuses with filters
@@ -136,20 +211,20 @@
 			<button
 				type="button"
 				onclick={refreshData}
-				disabled={isRefreshing}
-				class="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+				disabled={!dataLoaded || isRefreshing}
+				class="group relative inline-flex w-36 items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 				aria-label="Обновить данные финансов с сервера"
 			>
 				<div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 				<svg
-					class="relative z-10 h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
+					class="relative z-10 h-4 w-4 flex-shrink-0 {!dataLoaded || isRefreshing ? 'animate-spin' : ''}"
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
 					stroke-width="2"
 				>
-					{#if isRefreshing}
+					{#if !dataLoaded || isRefreshing}
 						<circle
 							class="opacity-25"
 							cx="12"
@@ -171,7 +246,7 @@
 						/>
 					{/if}
 				</svg>
-				<span class="relative z-10">{isRefreshing ? 'Обновляю...' : 'Обновить'}</span>
+				<span class="relative z-10">{!dataLoaded || isRefreshing ? 'Обновляю...' : 'Обновить'}</span>
 			</button>
 		</div>
 
@@ -204,47 +279,60 @@
 
 
 		<!-- Content -->
-		{#if loading}
-			<div class="flex items-center justify-center py-12">
-				<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
-			</div>
-		{:else if data.error}
-			<div class="rounded-lg bg-red-500/10 border border-red-500/20 p-4">
-				<p class="text-red-400">{data.error}</p>
-			</div>
-		{:else}
-			{#if activeTab === 'bonuses'}
-				<!-- Bonuses Tab -->
-				<div class="space-y-6">
-					<div class="rounded-lg bg-gray-900 p-4 border border-gray-800">
-						<BonusFilters
-							filters={bonusFilters}
-							statuses={data.bonusStatuses}
-							onFilterChange={handleBonusFilterChange}
-							onClear={clearBonusFilters}
-						/>
-					</div>
-					<div class="rounded-lg bg-gray-900 border border-gray-800 overflow-hidden">
-						<BonusesTable {bonuses} />
-					</div>
+		{#await data.financesData}
+			<!-- Loading state: Show skeleton -->
+			<FinancesPageSkeleton />
+		{:then financesData}
+			<!-- Success state: Show data -->
+			{#if financesData?.error}
+				<!-- Error state -->
+				<div class="rounded-lg bg-red-500/10 border border-red-500/20 p-4">
+					<p class="text-red-400">{financesData.error}</p>
+				</div>
+			{:else if loading}
+				<!-- Loading filtered data -->
+				<div class="flex items-center justify-center py-12">
+					<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
 				</div>
 			{:else}
-				<!-- Payments Tab -->
-				<div class="space-y-6">
-					<div class="rounded-lg bg-gray-900 p-4 border border-gray-800">
-						<PaymentFilters
-							filters={paymentFilters}
-							statuses={data.paymentStatuses}
-							onFilterChange={handlePaymentFilterChange}
-							onClear={clearPaymentFilters}
-						/>
+				{#if activeTab === 'bonuses'}
+					<!-- Bonuses Tab -->
+					<div class="space-y-6">
+						<div class="rounded-lg bg-gray-900 p-4 border border-gray-800">
+							<BonusFilters
+								filters={bonusFilters}
+								statuses={bonusStatuses}
+								onFilterChange={handleBonusFilterChange}
+								onClear={clearBonusFilters}
+							/>
+						</div>
+						<div class="rounded-lg bg-gray-900 border border-gray-800 overflow-hidden">
+							<BonusesTable {bonuses} />
+						</div>
 					</div>
-					<div class="rounded-lg bg-gray-900 border border-gray-800 overflow-hidden">
-						<PaymentsTable {payments} onSelectPayment={selectPayment} />
+				{:else}
+					<!-- Payments Tab -->
+					<div class="space-y-6">
+						<div class="rounded-lg bg-gray-900 p-4 border border-gray-800">
+							<PaymentFilters
+								filters={paymentFilters}
+								statuses={paymentStatuses}
+								onFilterChange={handlePaymentFilterChange}
+								onClear={clearPaymentFilters}
+							/>
+						</div>
+						<div class="rounded-lg bg-gray-900 border border-gray-800 overflow-hidden">
+							<PaymentsTable {payments} onSelectPayment={selectPayment} />
+						</div>
 					</div>
-				</div>
+				{/if}
 			{/if}
-		{/if}
+		{:catch error}
+			<!-- Critical error state -->
+			<div class="rounded-lg bg-red-500/10 border border-red-500/20 p-4">
+				<p class="text-red-400">Не удалось загрузить данные финансов. Попробуйте обновить страницу.</p>
+			</div>
+		{/await}
 	</div>
 </div>
 
