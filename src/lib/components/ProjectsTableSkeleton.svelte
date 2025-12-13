@@ -1,49 +1,58 @@
 <!-- Loading skeleton for projects table -->
 <div class="overflow-hidden rounded-lg bg-gray-800 shadow">
-	<div class="-mx-4 overflow-x-auto sm:mx-0">
+	<div class="overflow-x-auto sm:px-0">
 		<div class="inline-block min-w-full align-middle">
 			<table class="min-w-full divide-y divide-gray-700">
 				<thead class="bg-gray-700">
 					<tr>
 						<th
-							class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+							class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 						>
 							№
 						</th>
 						<th
-							class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+							class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 						>
 							Проект
 						</th>
 						<th
-							class="w-2/5 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
-						>
-							Адрес объекта
-						</th>
-						<th
-							class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+							class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 						>
 							Статус
 						</th>
 						<th
-							class="w-32 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
+							class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+						>
+							Имя
+						</th>
+						<th
+							class="px-5 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-300"
+						>
+							Бонус
+						</th>
+						<th
+							class="w-32 px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
 						>
 							Инкогнито
+						</th>
+						<th
+							class="w-16 px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
+						>
 						</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-gray-700 bg-gray-800">
-					{#each Array(5) as _, index}
+					{#each Array(7) as _, index}
 						<tr class="transition-colors">
 							<!-- Number -->
-							<td class="whitespace-nowrap px-6 py-4">
+							<td class="whitespace-nowrap px-5 py-4">
 								<div
 									class="h-5 w-8 animate-pulse rounded bg-gray-700"
 									style="animation-delay: {index * 0.1}s;"
 								></div>
 							</td>
 							<!-- Project name -->
-							<td class="whitespace-nowrap px-6 py-4">
+							<td class="whitespace-nowrap px-5 py-4">
 								<div
 									class="mb-2 h-5 w-32 animate-pulse rounded bg-gray-700"
 									style="animation-delay: {index * 0.1}s;"
@@ -53,22 +62,38 @@
 									style="animation-delay: {index * 0.1 + 0.05}s;"
 								></div>
 							</td>
-							<!-- Address -->
-							<td class="w-2/5 px-6 py-4">
-								<div
-									class="h-5 w-full max-w-md animate-pulse rounded bg-gray-700"
-									style="animation-delay: {index * 0.1}s;"
-								></div>
-							</td>
 							<!-- Status -->
-							<td class="whitespace-nowrap px-6 py-4">
+							<td class="whitespace-nowrap px-5 py-4">
 								<div
 									class="inline-flex h-6 w-24 animate-pulse rounded-full bg-gray-700"
 									style="animation-delay: {index * 0.1}s;"
 								></div>
 							</td>
+							<!-- Client name -->
+							<td class="whitespace-nowrap px-5 py-4">
+								<div
+									class="h-5 w-28 animate-pulse rounded bg-gray-700"
+									style="animation-delay: {index * 0.1}s;"
+								></div>
+							</td>
+							<!-- Bonus -->
+							<td class="whitespace-nowrap px-5 py-4 text-right">
+								<div
+									class="ml-auto h-5 w-20 animate-pulse rounded bg-gray-700"
+									style="animation-delay: {index * 0.1}s;"
+								></div>
+							</td>
 							<!-- Incognito -->
-							<td class="w-32 whitespace-nowrap px-6 py-4 text-center">
+							<td class="w-32 whitespace-nowrap px-5 py-4 text-center">
+								<div class="flex justify-center">
+									<div
+										class="h-5 w-5 animate-pulse rounded bg-gray-700"
+										style="animation-delay: {index * 0.1}s;"
+									></div>
+								</div>
+							</td>
+							<!-- View icon -->
+							<td class="w-16 whitespace-nowrap px-5 py-4 text-center">
 								<div class="flex justify-center">
 									<div
 										class="h-5 w-5 animate-pulse rounded bg-gray-700"
