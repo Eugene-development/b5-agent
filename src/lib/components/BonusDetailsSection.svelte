@@ -25,7 +25,7 @@
 		<div class="rounded-lg bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 p-4">
 			<div class="grid grid-cols-2 gap-4">
 				<div>
-					<p class="text-xs text-gray-400">Бонус агента</p>
+					<p class="text-xs text-gray-400">Общий бонус проекта</p>
 					<p class="text-3xl font-bold text-emerald-400">
 						{formatCurrency(bonusDetails.totalAgentBonus)}
 					</p>
