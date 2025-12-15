@@ -23,6 +23,12 @@
 	// Get client-loaded data
 	let { data } = $props();
 
+	// Track initial load vs refresh
+	let isInitialLoad = $state(true);
+	
+	// Cache loaded data to prevent page disappearing during refresh
+	let cachedProjectsData = $state(null);
+
 	// Reactive state for filtering and search using Svelte 5 runes
 	let searchTerm = $state('');
 	let statusFilter = $state('all');
@@ -267,7 +273,7 @@
 	}
 
 	function formatCurrency(amount) {
-		if (!amount) return 'Не указано';
+		if (!amount) return '—';
 		return new Intl.NumberFormat('ru-RU', {
 			style: 'currency',
 			currency: 'RUB',
@@ -312,14 +318,15 @@
 	let isRefreshing = $state(false);
 	async function refreshData() {
 		isRefreshing = true;
+		isInitialLoad = false; // Mark that we're no longer in initial load
 		try {
-			console.log('🔄 Refreshing projects data...');
 			// Invalidate the projects page data using the dependency identifier
 			// This will trigger the load function to re-run
 			await invalidate('projects');
-			console.log('✅ Projects data refreshed');
+			// Wait for the new data to actually load
+			await data.projectsData;
 		} catch (error) {
-			console.error('❌ Failed to refresh data:', error);
+			console.error('Failed to refresh data:', error);
 		} finally {
 			isRefreshing = false;
 		}
@@ -350,6 +357,16 @@
 		return unsubscribe;
 	});
 
+	// Mark initial load as complete and cache data when loaded
+	$effect(() => {
+		if (data.projectsData) {
+			data.projectsData.then((resolvedData) => {
+				isInitialLoad = false;
+				cachedProjectsData = resolvedData;
+			});
+		}
+	});
+
 	// Reset to first page when filters change
 	$effect(() => {
 		// Watch for changes in filters
@@ -374,15 +391,16 @@
 				<h1 class="mb-2 text-3xl font-bold text-white">Проекты</h1>
 				<!-- <p class="text-gray-300">Управление проектами и просмотр их статистики</p> -->
 			</div>
-			<div class="grid grid-cols-2 gap-2 sm:gap-4">
+			<div class="grid grid-cols-2 gap-3 sm:gap-4">
 				<button
 					type="button"
 					onclick={toggleFilters}
-					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+					class="group relative inline-flex min-h-[44px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98]"
 					aria-label="Открыть фильтры проектов"
 				>
+					<div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 					<svg
-						class="mr-2 h-4 w-4"
+						class="relative mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -395,17 +413,18 @@
 							d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
 						/>
 					</svg>
-					Фильтры
+					<span class="relative">Фильтры</span>
 				</button>
 				<button
 					type="button"
 					onclick={refreshData}
 					disabled={isRefreshing}
-					class="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-md bg-cyan-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-150 ease-in-out hover:bg-cyan-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 disabled:cursor-not-allowed disabled:opacity-50"
+					class="group relative inline-flex min-h-[44px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:from-cyan-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
 					aria-label="Обновить данные проектов с сервера"
 				>
+					<div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 					<svg
-						class="mr-2 h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
+						class="relative mr-2 h-4 w-4 {isRefreshing ? 'animate-spin' : 'transition-transform duration-300 group-hover:rotate-180'}"
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -434,23 +453,28 @@
 							/>
 						{/if}
 					</svg>
-					{isRefreshing ? 'Обновляю...' : 'Обновить данные'}
+					<span class="relative">{isRefreshing ? 'Обновляю...' : 'Обновить данные'}</span>
 				</button>
 			</div>
 		</div>
 
 		<!-- Streamed Projects Data -->
-		{#await data.projectsData}
-			<!-- Loading state: Show skeleton -->
+		{#if isRefreshing}
+			<!-- Show skeleton during refresh -->
 			<ProjectsTableSkeleton />
-		{:then projectsData}
-			<!-- Success state: Show data -->
-			{#if projectsData.error}
+		{:else}
+			{#await data.projectsData}
+				<!-- Loading state: Show skeleton on initial load -->
+				<ProjectsTableSkeleton />
+			{:then projectsData}
+				<!-- Success state: Show data -->
+				{@const displayData = cachedProjectsData || projectsData}
+			{#if displayData.error}
 				<!-- Error state -->
 				<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
 					<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>
-					<p class="mb-4 text-red-300">{projectsData.error}</p>
-					{#if projectsData.canRetry}
+					<p class="mb-4 text-red-300">{displayData.error}</p>
+					{#if displayData.canRetry}
 						<button
 							onclick={handleRetry}
 							class="rounded-lg bg-red-600 px-5 py-2 font-semibold text-white hover:bg-red-700"
@@ -459,7 +483,7 @@
 						</button>
 					{/if}
 				</div>
-			{:else if !projectsData.projects || projectsData.projects.length === 0}
+			{:else if !displayData.projects || displayData.projects.length === 0}
 				<!-- Empty state -->
 				<div class="rounded-lg bg-gray-800 p-12 text-center">
 					<div class="text-6xl">📋</div>
@@ -627,8 +651,8 @@
 										class="px- block h-10 w-full rounded-md border border-gray-600 bg-gray-700 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
 									>
 										<option value="all">Все статусы</option>
-										{#if projectsData.statuses && projectsData.statuses.length > 0}
-											{#each projectsData.statuses as status (status.id)}
+										{#if displayData.statuses && displayData.statuses.length > 0}
+											{#each displayData.statuses as status (status.id)}
 												<option value={status.slug}>{status.value}</option>
 											{/each}
 										{/if}
@@ -718,15 +742,15 @@
 			{/if}
 
 			<!-- Projects Table -->
-			<div class="overflow-hidden rounded-lg bg-gray-800 shadow">
+			<div class="overflow-hidden rounded-lg border border-gray-800 bg-gray-900 shadow-xl">
 				<!-- Mobile-friendly table wrapper with improved scrolling -->
 				<div class="overflow-x-auto sm:px-0">
 					<div class="inline-block min-w-full align-middle">
-						<table class="min-w-full divide-y divide-gray-700">
-							<thead class="bg-gray-700">
+						<table class="min-w-full divide-y divide-gray-800">
+							<thead class="bg-gray-950">
 								<tr>
 									<th
-										class="cursor-pointer px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="cursor-pointer px-5 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-900"
 										onclick={() => handleSort('sequentialNumber')}
 									>
 										<div class="flex items-center space-x-1">
@@ -749,30 +773,17 @@
 										</div>
 									</th>
 									<th
-										class="cursor-pointer px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
-										onclick={() => handleSort('value')}
+										class="px-5 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
-										<div class="flex items-center space-x-1">
-											<span>Проект</span>
-											{#if sortBy === 'value'}
-												<svg
-													class="h-4 w-4 {sortOrder === 'asc' ? 'rotate-180 transform' : ''}"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M19 9l-7 7-7-7"
-													/>
-												</svg>
-											{/if}
-										</div>
+										Проект
 									</th>
 									<th
-										class="cursor-pointer px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="px-5 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
+									>
+										Имя
+									</th>
+									<th
+										class="cursor-pointer px-5 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-900"
 										onclick={() => handleSort('status')}
 									>
 										<div class="flex items-center space-x-1">
@@ -795,17 +806,12 @@
 										</div>
 									</th>
 									<th
-										class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300"
-									>
-										Имя
-									</th>
-									<th
-										class="px-5 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="px-5 py-4 text-right text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 										Бонус
 									</th>
 									<th
-										class="w-32 cursor-pointer px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-600"
+										class="w-32 cursor-pointer px-5 py-4 text-center text-xs font-medium uppercase tracking-wider text-gray-300 hover:bg-gray-900"
 										onclick={() => handleSort('is_incognito')}
 									>
 										<div
@@ -868,15 +874,15 @@
 										</div>
 									</th>
 									<th
-										class="w-16 px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
+										class="w-16 px-5 py-4 text-center text-xs font-medium uppercase tracking-wider text-gray-300"
 									>
 									</th>
 								</tr>
 							</thead>
-							<tbody class="divide-y divide-gray-700 bg-gray-800">
-								{#each getPaginatedProjects(projectsData.projects) as project, index (project.id)}
+							<tbody class="divide-y divide-gray-800 bg-gray-900">
+								{#each getPaginatedProjects(displayData.projects) as project, index (project.id)}
 									<tr
-										class="group cursor-pointer transition-colors hover:bg-gray-700"
+										class="group cursor-pointer transition-colors hover:bg-gray-800"
 										onclick={() => openProjectDetails(project)}
 										role="button"
 										tabindex="0"
@@ -906,6 +912,9 @@
 												</div>
 											{/if}
 										</td>
+										<td class="whitespace-nowrap px-5 py-4 text-sm text-white">
+											{project.client?.name || 'Не указано'}
+										</td>
 										<td class="whitespace-nowrap px-5 py-4">
 											<span
 												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
@@ -920,9 +929,6 @@
 											>
 												{getStatusText(project)}
 											</span>
-										</td>
-										<td class="whitespace-nowrap px-5 py-4 text-sm text-white">
-											{project.client?.name || 'Не указано'}
 										</td>
 										<td class="whitespace-nowrap px-5 py-4 text-right text-sm font-semibold text-white">
 											{formatCurrency(project.totalAgentBonus || 0)}
@@ -1006,9 +1012,9 @@
 			</div>
 
 				<!-- Pagination Controls -->
-				{#if getSortedProjects(projectsData.projects).length > 0}
-					{@const totalPages = getTotalPages(projectsData.projects)}
-					{@const totalFiltered = getSortedProjects(projectsData.projects).length}
+				{#if getSortedProjects(displayData.projects).length > 0}
+					{@const totalPages = getTotalPages(displayData.projects)}
+					{@const totalFiltered = getSortedProjects(displayData.projects).length}
 					{@const startItem = (currentPage - 1) * itemsPerPage + 1}
 					{@const endItem = Math.min(currentPage * itemsPerPage, totalFiltered)}
 					
@@ -1017,7 +1023,7 @@
 						<div class="text-sm text-gray-300">
 							Показано {startItem}–{endItem} из {totalFiltered}
 							{#if searchTerm || statusFilter !== 'all' || dateFilter !== 'all'}
-								(отфильтровано из {projectsData.stats.total})
+								(отфильтровано из {displayData.stats.total})
 							{:else}
 								проектов
 							{/if}
@@ -1061,7 +1067,7 @@
 
 								<!-- Next Button -->
 								<button
-									onclick={() => nextPage(projectsData.projects)}
+									onclick={() => nextPage(displayData.projects)}
 									disabled={currentPage === totalPages}
 									class="rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
 									aria-label="Следующая страница"
@@ -1075,15 +1081,16 @@
 					</div>
 				{/if}
 			{/if}
-		{:catch error}
-			<!-- Critical error state -->
-			<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
-				<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>
-				<p class="text-red-300">
-					Не удалось загрузить проекты. Попробуйте обновить страницу.
-				</p>
-			</div>
-		{/await}
+			{:catch error}
+				<!-- Critical error state -->
+				<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
+					<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>
+					<p class="text-red-300">
+						Не удалось загрузить проекты. Попробуйте обновить страницу.
+					</p>
+				</div>
+			{/await}
+		{/if}
 
 		<!-- Action Buttons -->
 		<div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">

@@ -25,7 +25,7 @@
 	}
 
 	function formatCurrency(amount) {
-		if (!amount) return 'Не указано';
+		if (!amount) return '—';
 		return new Intl.NumberFormat('ru-RU', {
 			style: 'currency',
 			currency: 'RUB',
