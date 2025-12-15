@@ -16,6 +16,14 @@
 		});
 	}
 
+	// Check if dates are different (comparing only date part, ignoring time)
+	function areDatesDifferent(date1, date2) {
+		if (!date1 || !date2) return false;
+		const d1 = new Date(date1).toDateString();
+		const d2 = new Date(date2).toDateString();
+		return d1 !== d2;
+	}
+
 	function formatCurrency(amount) {
 		if (!amount) return 'Не указано';
 		return new Intl.NumberFormat('ru-RU', {
@@ -197,16 +205,18 @@
 				<!-- Timestamps -->
 				<div class="border-t border-gray-700 pt-6">
 					<h3 class="mb-4 text-lg font-semibold text-amber-500">Системная информация</h3>
-					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+					<div class="grid grid-cols-1 gap-4 {areDatesDifferent(project.created_at, project.updated_at) ? 'md:grid-cols-2' : ''}">
 						<div>
 							<p class="text-sm text-gray-400">Дата создания</p>
 							<p class="text-base font-medium text-white">{formatDate(project.created_at)}</p>
 						</div>
 
-						<div>
-							<p class="text-sm text-gray-400">Последнее обновление</p>
-							<p class="text-base font-medium text-white">{formatDate(project.updated_at)}</p>
-						</div>
+						{#if areDatesDifferent(project.created_at, project.updated_at)}
+							<div>
+								<p class="text-sm text-gray-400">Последнее обновление</p>
+								<p class="text-base font-medium text-white">{formatDate(project.updated_at)}</p>
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>
