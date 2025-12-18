@@ -49,14 +49,23 @@ export async function handle({ event, resolve }) {
 				};
 				event.locals.token = actualToken;
 				event.locals.isAuthenticated = true;
+
+				console.log('🔐 Auth middleware: User authenticated', {
+					email: payload.email,
+					path: event.url.pathname
+				});
 			}
 		} catch (error) {
-			console.error('Failed to decode JWT token:', error);
+			console.error('❌ Auth middleware: Failed to decode JWT token:', error);
 			event.locals.user = null;
 			event.locals.token = null;
 			event.locals.isAuthenticated = false;
 		}
 	} else {
+		console.log('⚠️ Auth middleware: No token found in httpOnly cookie', {
+			path: event.url.pathname,
+			cookies: Object.keys(event.cookies.getAll())
+		});
 		event.locals.user = null;
 		event.locals.token = null;
 		event.locals.isAuthenticated = false;

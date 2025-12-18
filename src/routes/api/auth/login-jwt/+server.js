@@ -61,21 +61,29 @@ export async function POST({ request, cookies }) {
 		// Store the full token object as JSON
 		const cookieValue = typeof token === 'string' ? token : JSON.stringify(token);
 
+		// Determine cookie domain based on environment
+		const isProduction = process.env.NODE_ENV === 'production';
+		const cookieDomain = isProduction ? '.bonus5.ru' : undefined;
+
 		cookies.set('b5_auth_token', cookieValue, {
 			path: '/',
 			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
+			secure: isProduction,
 			sameSite: 'lax',
+			domain: cookieDomain,
 			maxAge: remember ? 60 * 60 * 24 * 30 : 60 * 60 * 24 // 30 days or 1 day
 		});
+
+		console.log('🍪 Cookie set with domain:', cookieDomain || 'default (current domain)');
 
 		// Also set user data cookie (not httpOnly so client can read it)
 		if (data.user) {
 			cookies.set('b5_auth_user', JSON.stringify(data.user), {
 				path: '/',
 				httpOnly: false,
-				secure: process.env.NODE_ENV === 'production',
+				secure: isProduction,
 				sameSite: 'lax',
+				domain: cookieDomain,
 				maxAge: remember ? 60 * 60 * 24 * 30 : 60 * 60 * 24
 			});
 		}
