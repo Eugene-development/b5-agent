@@ -137,17 +137,39 @@ async function loadFinancesData(token, fetch) {
 	const startTime = Date.now();
 
 	try {
-		console.log('💰 Finances SSR: Starting data load');
+		console.log('💰 Finances SSR: Starting data load', {
+			hasToken: !!token,
+			tokenLength: token?.length || 0,
+			tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
+		});
 
 		// Load all data in parallel
 		const [bonusesData, statsData, paymentsData, statusesData, paymentStatusesData, methodsData] = 
 			await Promise.all([
-				makeServerGraphQLRequest(token, GET_AGENT_BONUSES_QUERY, { filters: null }, fetch),
-				makeServerGraphQLRequest(token, GET_AGENT_BONUS_STATS_QUERY, { filters: null }, fetch),
-				makeServerGraphQLRequest(token, GET_AGENT_PAYMENTS_QUERY, { filters: null }, fetch),
-				makeServerGraphQLRequest(token, GET_BONUS_STATUSES_QUERY, {}, fetch),
-				makeServerGraphQLRequest(token, GET_PAYMENT_STATUSES_QUERY, {}, fetch),
-				makeServerGraphQLRequest(token, GET_PAYMENT_METHODS_QUERY, {}, fetch)
+				makeServerGraphQLRequest(token, GET_AGENT_BONUSES_QUERY, { filters: null }, fetch).catch(err => {
+					console.error('❌ Finances SSR: agentBonuses query failed:', err.message);
+					return { agentBonuses: [] };
+				}),
+				makeServerGraphQLRequest(token, GET_AGENT_BONUS_STATS_QUERY, { filters: null }, fetch).catch(err => {
+					console.error('❌ Finances SSR: agentBonusStats query failed:', err.message);
+					return { agentBonusStats: null };
+				}),
+				makeServerGraphQLRequest(token, GET_AGENT_PAYMENTS_QUERY, { filters: null }, fetch).catch(err => {
+					console.error('❌ Finances SSR: agentPayments query failed:', err.message);
+					return { agentPayments: [] };
+				}),
+				makeServerGraphQLRequest(token, GET_BONUS_STATUSES_QUERY, {}, fetch).catch(err => {
+					console.error('❌ Finances SSR: bonusStatuses query failed:', err.message);
+					return { bonusStatuses: [] };
+				}),
+				makeServerGraphQLRequest(token, GET_PAYMENT_STATUSES_QUERY, {}, fetch).catch(err => {
+					console.error('❌ Finances SSR: paymentStatuses query failed:', err.message);
+					return { paymentStatuses: [] };
+				}),
+				makeServerGraphQLRequest(token, GET_PAYMENT_METHODS_QUERY, {}, fetch).catch(err => {
+					console.error('❌ Finances SSR: paymentMethods query failed:', err.message);
+					return { paymentMethods: [] };
+				})
 			]);
 
 		const bonuses = bonusesData?.agentBonuses || [];

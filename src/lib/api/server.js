@@ -14,6 +14,15 @@ import { API_BASE_URL } from '../config/api.js';
  * @returns {Promise<Object>} GraphQL response data
  */
 export async function makeServerGraphQLRequest(token, query, variables = {}, fetch = globalThis.fetch) {
+	// Extract query name for logging
+	const queryMatch = query.match(/query\s+(\w+)/);
+	const queryName = queryMatch ? queryMatch[1] : 'UnknownQuery';
+
+	console.log(`📡 GraphQL SSR [${queryName}]: Making request to ${API_BASE_URL}/graphql`, {
+		hasToken: !!token,
+		variables: JSON.stringify(variables)
+	});
+
 	const response = await fetch(`${API_BASE_URL}/graphql`, {
 		method: 'POST',
 		headers: {
@@ -25,18 +34,26 @@ export async function makeServerGraphQLRequest(token, query, variables = {}, fet
 		credentials: 'include'
 	});
 
+	console.log(`📡 GraphQL SSR [${queryName}]: Response status ${response.status}`);
+
 	if (!response.ok) {
 		const errorText = await response.text();
+		console.error(`❌ GraphQL SSR [${queryName}]: Request failed`, {
+			status: response.status,
+			statusText: response.statusText,
+			error: errorText
+		});
 		throw new Error(`GraphQL request failed: ${response.status} ${response.statusText} - ${errorText}`);
 	}
 
 	const result = await response.json();
 
 	if (result.errors) {
-		console.error('GraphQL errors:', result.errors);
+		console.error(`❌ GraphQL SSR [${queryName}]: GraphQL errors`, result.errors);
 		throw new Error(result.errors[0]?.message || 'GraphQL query failed');
 	}
 
+	console.log(`✅ GraphQL SSR [${queryName}]: Success`);
 	return result.data;
 }
 
