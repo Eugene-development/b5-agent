@@ -26,6 +26,12 @@ export async function handle({ event, resolve }) {
 				// Token is already a string
 			}
 
+			console.log('🔐 Auth middleware: Processing token', {
+				tokenLength: actualToken.length,
+				tokenPreview: actualToken.substring(0, 30) + '...',
+				path: event.url.pathname
+			});
+
 			// Decode JWT to get user data (basic decode without verification)
 			// In production, you should verify the signature
 			const base64Url = actualToken.split('.')[1];
@@ -51,6 +57,7 @@ export async function handle({ event, resolve }) {
 				event.locals.isAuthenticated = true;
 
 				console.log('🔐 Auth middleware: User authenticated', {
+					userId: payload.sub,
 					email: payload.email,
 					path: event.url.pathname
 				});

@@ -133,109 +133,95 @@ const GET_PAYMENT_METHODS_QUERY = `
 /**
  * Load finances data from GraphQL API
  */
-async function loadFinancesData(token, fetch) {
+async function loadFinancesData(token, fetch, event) {
 	const startTime = Date.now();
 
-	try {
-		console.log('💰 Finances SSR: Starting data load', {
-			hasToken: !!token,
+	console.log('💰 Finances SSR: Starting data load', {
+		hasToken: !!token,
+		tokenLength: token?.length || 0,
+		tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
+	});
+
+	// Load all data in parallel
+	const [bonusesData, statsData, paymentsData, statusesData, paymentStatusesData, methodsData] = await Promise.all([
+		makeServerGraphQLRequest(token, GET_AGENT_BONUSES_QUERY, { filters: null }, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: agentBonuses query failed:', err.message);
+			return { agentBonuses: [] };
+		}),
+		makeServerGraphQLRequest(token, GET_AGENT_BONUS_STATS_QUERY, { filters: null }, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: agentBonusStats query failed:', err.message);
+			return { agentBonusStats: null };
+		}),
+		makeServerGraphQLRequest(token, GET_AGENT_PAYMENTS_QUERY, { filters: null }, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: agentPayments query failed:', err.message);
+			return { agentPayments: [] };
+		}),
+		makeServerGraphQLRequest(token, GET_BONUS_STATUSES_QUERY, {}, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: bonusStatuses query failed:', err.message);
+			return { bonusStatuses: [] };
+		}),
+		makeServerGraphQLRequest(token, GET_PAYMENT_STATUSES_QUERY, {}, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: paymentStatuses query failed:', err.message);
+			return { paymentStatuses: [] };
+		}),
+		makeServerGraphQLRequest(token, GET_PAYMENT_METHODS_QUERY, {}, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: paymentMethods query failed:', err.message);
+			return { paymentMethods: [] };
+		})
+	]);
+
+	const bonuses = bonusesData?.agentBonuses || [];
+	const stats = statsData?.agentBonusStats || { 
+		total_accrued: 0, 
+		total_available: 0, 
+		total_paid: 0 
+	};
+	const payments = paymentsData?.agentPayments || [];
+	const bonusStatuses = statusesData?.bonusStatuses || [];
+	const paymentStatuses = paymentStatusesData?.paymentStatuses || [];
+	const paymentMethods = methodsData?.paymentMethods || [];
+
+	const loadTime = Date.now() - startTime;
+	console.log(`✅ Finances SSR: Loaded data in ${loadTime}ms`, {
+		bonuses: bonuses.length,
+		payments: payments.length,
+		stats
+	});
+
+	return {
+		bonuses,
+		payments,
+		stats,
+		bonusStatuses,
+		paymentStatuses,
+		paymentMethods,
+		error: null,
+		errorType: null,
+		canRetry: false,
+		_debug: {
+			ssrSuccess: true,
 			tokenLength: token?.length || 0,
-			tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
-		});
-
-		// Load all data in parallel
-		const [bonusesData, statsData, paymentsData, statusesData, paymentStatusesData, methodsData] = 
-			await Promise.all([
-				makeServerGraphQLRequest(token, GET_AGENT_BONUSES_QUERY, { filters: null }, fetch).catch(err => {
-					console.error('❌ Finances SSR: agentBonuses query failed:', err.message);
-					return { agentBonuses: [] };
-				}),
-				makeServerGraphQLRequest(token, GET_AGENT_BONUS_STATS_QUERY, { filters: null }, fetch).catch(err => {
-					console.error('❌ Finances SSR: agentBonusStats query failed:', err.message);
-					return { agentBonusStats: null };
-				}),
-				makeServerGraphQLRequest(token, GET_AGENT_PAYMENTS_QUERY, { filters: null }, fetch).catch(err => {
-					console.error('❌ Finances SSR: agentPayments query failed:', err.message);
-					return { agentPayments: [] };
-				}),
-				makeServerGraphQLRequest(token, GET_BONUS_STATUSES_QUERY, {}, fetch).catch(err => {
-					console.error('❌ Finances SSR: bonusStatuses query failed:', err.message);
-					return { bonusStatuses: [] };
-				}),
-				makeServerGraphQLRequest(token, GET_PAYMENT_STATUSES_QUERY, {}, fetch).catch(err => {
-					console.error('❌ Finances SSR: paymentStatuses query failed:', err.message);
-					return { paymentStatuses: [] };
-				}),
-				makeServerGraphQLRequest(token, GET_PAYMENT_METHODS_QUERY, {}, fetch).catch(err => {
-					console.error('❌ Finances SSR: paymentMethods query failed:', err.message);
-					return { paymentMethods: [] };
-				})
-			]);
-
-		const bonuses = bonusesData?.agentBonuses || [];
-		const stats = statsData?.agentBonusStats || { 
-			total_accrued: 0, 
-			total_available: 0, 
-			total_paid: 0 
-		};
-		const payments = paymentsData?.agentPayments || [];
-		const bonusStatuses = statusesData?.bonusStatuses || [];
-		const paymentStatuses = paymentStatusesData?.paymentStatuses || [];
-		const paymentMethods = methodsData?.paymentMethods || [];
-
-		const loadTime = Date.now() - startTime;
-		console.log(`✅ Finances SSR: Loaded data in ${loadTime}ms`, {
-			bonuses: bonuses.length,
-			payments: payments.length,
-			stats
-		});
-
-		return {
-			bonuses,
-			payments,
-			stats,
-			bonusStatuses,
-			paymentStatuses,
-			paymentMethods,
-			error: null,
-			errorType: null,
-			canRetry: false
-		};
-	} catch (error) {
-		const errorType = categorizeError(error);
-		const userMessage = getUserFriendlyErrorMessage(errorType, error.message);
-
-		console.error('❌ Finances SSR: Failed to load data:', {
-			error: error.message,
-			type: errorType,
-			loadTime: Date.now() - startTime
-		});
-
-		return {
-			bonuses: [],
-			payments: [],
-			stats: { total_accrued: 0, total_available: 0, total_paid: 0 },
-			bonusStatuses: [],
-			paymentStatuses: [],
-			paymentMethods: [],
-			error: userMessage,
-			errorType,
-			canRetry: errorType !== 'auth'
-		};
-	}
+			loadTimeMs: Date.now() - startTime
+		}
+	};
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ locals, fetch, depends }) {
+export async function load({ locals, fetch, depends, event }) {
 	// Mark this load function as dependent on 'finances' invalidation
 	depends('finances');
 
 	try {
-		console.log('🚀 Finances SSR: Starting server-side load', {
+		const debugInfo = {
 			hasLocals: !!locals,
 			hasUser: !!locals?.user,
-			hasToken: !!locals?.token
-		});
+			hasToken: !!locals?.token,
+			userId: locals?.user?.id || null,
+			userEmail: locals?.user?.email || null,
+			tokenLength: locals?.token?.length || 0
+		};
+
+		console.log('🚀 Finances SSR: Starting server-side load', debugInfo);
 
 		// Check if user is authenticated via httpOnly cookie
 		if (!locals?.user || !locals?.token) {
@@ -251,7 +237,8 @@ export async function load({ locals, fetch, depends }) {
 					error: null,
 					errorType: null,
 					canRetry: false,
-					needsClientLoad: true
+					needsClientLoad: true,
+					_debug: { ...debugInfo, reason: 'no_token_in_cookie' }
 				}
 			};
 		}
@@ -261,7 +248,7 @@ export async function load({ locals, fetch, depends }) {
 		// Return Promise for streaming - page renders immediately with skeleton
 		// Data streams in when ready
 		return {
-			financesData: loadFinancesData(locals.token, fetch)
+			financesData: loadFinancesData(locals.token, fetch, event)
 		};
 	} catch (err) {
 		console.error('❌ Finances SSR: Server load error:', {

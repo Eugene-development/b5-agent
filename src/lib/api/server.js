@@ -13,25 +13,30 @@ import { API_BASE_URL } from '../config/api.js';
  * @param {Function} fetch - SvelteKit fetch function (optional, for SSR)
  * @returns {Promise<Object>} GraphQL response data
  */
-export async function makeServerGraphQLRequest(token, query, variables = {}, fetch = globalThis.fetch) {
+export async function makeServerGraphQLRequest(token, query, variables = {}, fetch = globalThis.fetch, event = null) {
 	// Extract query name for logging
 	const queryMatch = query.match(/query\s+(\w+)/);
 	const queryName = queryMatch ? queryMatch[1] : 'UnknownQuery';
 
+	const headers = {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json',
+		...(token && { Authorization: `Bearer ${token}` })
+	};
+
 	console.log(`📡 GraphQL SSR [${queryName}]: Making request to ${API_BASE_URL}/graphql`, {
 		hasToken: !!token,
+		tokenPreview: token ? `${token.substring(0, 30)}...` : 'none',
+		tokenLength: token?.length || 0,
+		hasAuthHeader: !!headers.Authorization,
+		apiUrl: API_BASE_URL,
 		variables: JSON.stringify(variables)
 	});
 
 	const response = await fetch(`${API_BASE_URL}/graphql`, {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json',
-			...(token && { Authorization: `Bearer ${token}` })
-		},
-		body: JSON.stringify({ query, variables }),
-		credentials: 'include'
+		headers,
+		body: JSON.stringify({ query, variables })
 	});
 
 	console.log(`📡 GraphQL SSR [${queryName}]: Response status ${response.status}`);
