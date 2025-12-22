@@ -7,12 +7,11 @@
 
 	function formatCurrency(amount) {
 		if (amount === null || amount === undefined || amount === 0) {
-			return '0 ₽';
+			return '0';
 		}
 		// Округляем до целых рублей (без копеек)
 		return new Intl.NumberFormat('ru-RU', {
-			style: 'currency',
-			currency: 'RUB',
+			style: 'decimal',
 			minimumFractionDigits: 0,
 			maximumFractionDigits: 0
 		}).format(Math.round(amount));
@@ -33,7 +32,7 @@
 				<div>
 					<p class="text-xs text-gray-400">Премия агенту</p>
 					<p class="text-3xl font-bold text-gray-500">
-						0 ₽
+						0
 					</p>
 				</div>
 			</div>
@@ -68,7 +67,7 @@
 									<p class="text-gray-300">{formatCurrency(contract.contract_amount)}</p>
 								</div>
 								<div>
-									<p class="text-gray-500">% агента</p>
+									<p class="text-gray-500">Ваш процент</p>
 									<p class="text-gray-300">
 										{contract.agent_percentage ?? 3}%
 										{#if !contract.agent_percentage}
@@ -94,13 +93,13 @@
 		{/if}
 
 		<!-- Orders Bonuses -->
-		{#if bonusDetails.orders && bonusDetails.orders.length > 0}
+		{#if bonusDetails.orders && bonusDetails.orders.filter(order => order.is_active).length > 0}
 			<div>
 				<h4 class="mb-2 text-sm font-semibold text-amber-500">
-					Бонусы по заказам ({bonusDetails.orders.length})
+					Бонусы по заказам ({bonusDetails.orders.filter(order => order.is_active).length})
 				</h4>
 				<div class="space-y-2">
-					{#each bonusDetails.orders as order}
+					{#each bonusDetails.orders.filter(order => order.is_active) as order}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
@@ -122,7 +121,7 @@
 									<p class="text-gray-300">{formatCurrency(order.order_amount)}</p>
 								</div>
 								<div>
-									<p class="text-gray-500">% агента</p>
+									<p class="text-gray-500">Ваш процент</p>
 									<p class="text-gray-300">
 										{order.agent_percentage ?? 5}%
 										{#if !order.agent_percentage}
