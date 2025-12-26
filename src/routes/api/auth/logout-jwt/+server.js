@@ -14,7 +14,7 @@ export async function POST({ cookies }) {
 
 	// Determine cookie domain based on environment
 	const isProduction = process.env.NODE_ENV === 'production';
-	const cookieDomain = isProduction ? '.bonus5.ru' : undefined;
+	const cookieDomain = isProduction ? '.rubonus.ru' : undefined;
 
 	// Clear httpOnly cookie
 	cookies.delete('b5_auth_token', { 

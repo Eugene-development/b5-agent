@@ -115,9 +115,9 @@
 </script>
 
 <svelte:head>
-	<title>Личный кабинет BONUS5 – Dashboard агента</title>
-	<meta name="description" content="Личный кабинет агента BONUS5: создание проектов, просмотр статистики, управление клиентами. Доступ к секретному ключу и инструментам работы." />
-	<meta name="keywords" content="личный кабинет BONUS5, dashboard агента, управление проектами, статистика агента" />
+	<title>Личный кабинет RUBONUS – Dashboard агента</title>
+	<meta name="description" content="Личный кабинет агента RUBONUS: создание проектов, просмотр статистики, управление клиентами. Доступ к секретному ключу и инструментам работы." />
+	<meta name="keywords" content="личный кабинет RUBONUS, dashboard агента, управление проектами, статистика агента" />
 </svelte:head>
 
 <div

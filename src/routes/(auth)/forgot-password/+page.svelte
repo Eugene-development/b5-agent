@@ -65,9 +65,9 @@
 </script>
 
 <svelte:head>
-	<title>Восстановление пароля BONUS5 – Сброс пароля личного кабинета</title>
-	<meta name="description" content="Забыли пароль от личного кабинета BONUS5? Восстановите доступ к аккаунту агента через email. Безопасный сброс пароля." />
-	<meta name="keywords" content="восстановление пароля, забыли пароль, сброс пароля, BONUS5" />
+	<title>Восстановление пароля RUBONUS – Сброс пароля личного кабинета</title>
+	<meta name="description" content="Забыли пароль от личного кабинета RUBONUS? Восстановите доступ к аккаунту агента через email. Безопасный сброс пароля." />
+	<meta name="keywords" content="восстановление пароля, забыли пароль, сброс пароля, RUBONUS" />
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">

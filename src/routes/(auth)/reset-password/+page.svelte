@@ -1,7 +1,7 @@
 <svelte:head>
-	<title>Создание нового пароля BONUS5 – Установка пароля</title>
-	<meta name="description" content="Создайте новый пароль для доступа к личному кабинету BONUS5. Безопасная процедура смены пароля агента." />
-	<meta name="keywords" content="новый пароль, смена пароля, установка пароля, BONUS5" />
+	<title>Создание нового пароля RUBONUS – Установка пароля</title>
+	<meta name="description" content="Создайте новый пароль для доступа к личному кабинету RUBONUS. Безопасная процедура смены пароля агента." />
+	<meta name="keywords" content="новый пароль, смена пароля, установка пароля, RUBONUS" />
 </svelte:head>
 
 <script>

@@ -14,7 +14,7 @@
 
 	// Generate referral URL with UTM
 	function generateReferralUrl(userId) {
-		const baseUrl = 'https://bonus5.ru';
+		const baseUrl = 'https://rubonus.ru';
 		const utmParams = new URLSearchParams({
 			utm_source: 'agent_referral',
 			utm_medium: 'qr_code',
@@ -66,7 +66,7 @@
 		if (!qrCodeDataUrl) return;
 
 		const link = document.createElement('a');
-		link.download = 'bonus5-referral-qr.png';
+		link.download = 'rubonus-referral-qr.png';
 		link.href = qrCodeDataUrl;
 		link.click();
 	}
@@ -107,8 +107,8 @@
 </script>
 
 <svelte:head>
-	<title>QR – BONUS5</title>
-	<meta name="description" content="Ваш персональный QR-код для привлечения новых агентов в реферальную программу BONUS5" />
+	<title>QR – RUBONUS</title>
+	<meta name="description" content="Ваш персональный QR-код для привлечения новых агентов в реферальную программу RUBONUS" />
 </svelte:head>
 
 

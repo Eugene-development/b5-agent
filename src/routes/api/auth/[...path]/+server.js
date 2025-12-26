@@ -1,6 +1,6 @@
 /**
  * Auth API Proxy
- * Proxies requests to Auth API (auth.bonus5.ru) through the same domain
+ * Proxies requests to Auth API (auth.rubonus.ru) through the same domain
  * This solves cross-domain cookie issues
  */
 

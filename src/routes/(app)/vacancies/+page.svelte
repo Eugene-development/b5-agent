@@ -1,7 +1,7 @@
 <svelte:head>
-	<title>Вакансии BONUS5 – Работа в команде партнерской программы</title>
-	<meta name="description" content="Открытые вакансии в BONUS5: куратор проектов, менеджер по работе с агентами. Удаленная работа, гибкий график, конкурентная зарплата." />
-	<meta name="keywords" content="вакансии BONUS5, работа в BONUS5, куратор проектов, удаленная работа, карьера" />
+	<title>Вакансии RUBONUS – Работа в команде партнерской программы</title>
+	<meta name="description" content="Открытые вакансии в RUBONUS: куратор проектов, менеджер по работе с агентами. Удаленная работа, гибкий график, конкурентная зарплата." />
+	<meta name="keywords" content="вакансии RUBONUS, работа в RUBONUS, куратор проектов, удаленная работа, карьера" />
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
@@ -32,7 +32,7 @@
 			</h1>
 
 			<p class="mt-6 text-lg leading-8 text-gray-400 sm:text-xl">
-				Ищем талантливых специалистов для развития проекта BONUS5
+				Ищем талантливых специалистов для развития проекта RUBONUS
 			</p>
 		</div>
 
@@ -78,7 +78,7 @@
 								<h3 class="text-lg font-semibold text-indigo-300">Описание</h3>
 								<p class="mt-2 text-base leading-7 text-gray-300">
 									Мы ищем ответственного и организованного куратора проектов для координации работы
-									по развитию партнерской программы BONUS5. Вы будете работать с агентами,
+									по развитию партнерской программы RUBONUS. Вы будете работать с агентами,
 									партнерами и клиентами, обеспечивая эффективное взаимодействие всех участников
 									процесса.
 								</p>
@@ -331,10 +331,10 @@
 					>
 						<h3 class="text-xl font-semibold text-white">Как откликнуться</h3>
 						<p class="mt-2 text-base leading-7 text-gray-300">
-							Отправьте свое резюме и сопроводительное письмо на электронную почту info@bonus5.ru:
+							Отправьте свое резюме и сопроводительное письмо на электронную почту info@rubonus.ru:
 						</p>
 						<a
-							href="mailto:info@bonus5.ru?subject=Отклик на вакансию: Куратор проектов"
+							href="mailto:info@rubonus.ru?subject=Отклик на вакансию: Куратор проектов"
 							class="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/50"
 						>
 							<svg class="size-5" fill="currentColor" viewBox="0 0 20 20">

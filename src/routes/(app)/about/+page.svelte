@@ -1,12 +1,12 @@
 <svelte:head>
-	<title>О проекте BONUS5 – Партнерская программа для агентов</title>
+	<title>О проекте RUBONUS – Партнерская программа для агентов</title>
 	<meta
 		name="description"
-		content="BONUS5 – партнерская программа с вознаграждением до 5% от суммы сделки. Узнайте, как работает система, преимущества сотрудничества и условия участия."
+		content="RUBONUS – партнерская программа с вознаграждением до 5% от суммы сделки. Узнайте, как работает система, преимущества сотрудничества и условия участия."
 	/>
 	<meta
 		name="keywords"
-		content="о проекте BONUS5, как работает партнерская программа, преимущества сотрудничества, условия участия"
+		content="о проекте RUBONUS, как работает партнерская программа, преимущества сотрудничества, условия участия"
 	/>
 </svelte:head>
 
@@ -34,7 +34,7 @@
 			<h1
 				class="bg-linear-to-r mt-8 from-white via-indigo-200 to-purple-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
 			>
-				Проект BONUS5
+				Проект RUBONUS
 			</h1>
 
 			<p class="mt-6 text-lg leading-8 text-gray-400 sm:text-xl">
@@ -50,7 +50,7 @@
 			>
 				<h2 class="text-2xl font-bold text-white sm:text-3xl">О проекте</h2>
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
-					BONUS5 — это партнерская программа, которая позволяет зарабатывать на рекомендациях. Мы
+					RUBONUS — это партнерская программа, которая позволяет зарабатывать на рекомендациях. Мы
 					предлагаем простой и прозрачный механизм: вы приводите клиентов, а вам партнёрами
 					выплачиваются вознаграждения в размере до 5% от суммы сделки.
 				</p>
@@ -249,7 +249,7 @@
 			<div
 				class="rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 p-8 ring-1 ring-white/10 backdrop-blur-sm sm:p-12"
 			>
-				<h2 class="text-2xl font-bold text-white sm:text-3xl">Присоединяйтесь к BONUS5</h2>
+				<h2 class="text-2xl font-bold text-white sm:text-3xl">Присоединяйтесь к RUBONUS</h2>
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
 					Начните зарабатывать с нами уже сегодня. Регистрация занимает всего несколько минут, а
 					потенциальный доход ограничен только вашими желаниями и возможностями.

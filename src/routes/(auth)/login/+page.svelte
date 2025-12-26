@@ -111,9 +111,9 @@
 </script>
 
 <svelte:head>
-	<title>Вход в личный кабинет BONUS5 – Авторизация агента</title>
-	<meta name="description" content="Войдите в личный кабинет BONUS5 для управления проектами, просмотра статистики и отслеживания выплат. Безопасная авторизация агентов." />
-	<meta name="keywords" content="вход BONUS5, авторизация агента, личный кабинет, вход в систему" />
+	<title>Вход в личный кабинет RUBONUS – Авторизация агента</title>
+	<meta name="description" content="Войдите в личный кабинет RUBONUS для управления проектами, просмотра статистики и отслеживания выплат. Безопасная авторизация агентов." />
+	<meta name="keywords" content="вход RUBONUS, авторизация агента, личный кабинет, вход в систему" />
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">

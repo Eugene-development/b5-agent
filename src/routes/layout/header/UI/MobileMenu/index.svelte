@@ -59,7 +59,7 @@
 					<span
 						class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-2xl font-black leading-tight tracking-tight text-transparent transition-colors duration-300 group-hover:from-white group-hover:via-indigo-100 group-hover:to-cyan-300"
 					>
-						BONUS 5
+						RUBONUS
 					</span>
 				</button>
 				<button

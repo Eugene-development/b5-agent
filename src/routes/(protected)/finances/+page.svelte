@@ -213,7 +213,7 @@
 </script>
 
 <svelte:head>
-	<title>Финансы | Bonus5</title>
+	<title>Финансы | Rubonus</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-950 py-8">

@@ -64,7 +64,7 @@
 					<h2
 						class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-6xl font-black tracking-tight text-transparent sm:text-7xl lg:text-8xl"
 					>
-						BONUS 5
+						RUBONUS
 					</h2>
 					<!-- <div
 						class="mt-2 h-1.5 w-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400"
@@ -72,7 +72,7 @@
 				</div>
 
 				<p class="mt-8 text-xl font-medium leading-relaxed text-gray-100">
-					Бонус 5 — это сервис тайного маркетинга, который позволяет получать до <span
+					Рубонус — это сервис тайного маркетинга, который позволяет получать до <span
 						class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-2xl font-black text-transparent"
 					>
 						5%
@@ -213,7 +213,7 @@
 				></div>
 				<img
 					src={bonusImage}
-					alt="Бонусная программа"
+					alt="Программа вознаграждений"
 					class="relative h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10 {imageLoaded
 						? ''
 						: 'opacity-0'}"

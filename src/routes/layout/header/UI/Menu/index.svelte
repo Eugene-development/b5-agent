@@ -52,7 +52,7 @@
 					href="/"
 					class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-xl font-black tracking-tight text-transparent"
 				>
-					BONUS 5
+					RUBONUS
 				</a>
 				<button
 					onclick={openMobileMenu}

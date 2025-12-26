@@ -10,7 +10,7 @@
 				<h3
 					class="mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-xl font-bold tracking-tight text-transparent"
 				>
-					BONUS5
+					RUBONUS
 				</h3>
 				<p class="text-sm leading-6 text-gray-400">
 					Партнерская программа для заработка на рекомендациях.
@@ -112,7 +112,7 @@
 				<ul class="space-y-3">
 					<li>
 						<a
-							href="mailto:info@bonus5.ru"
+							href="mailto:info@rubonus.ru"
 							class="flex items-center gap-2 text-sm text-gray-400 transition-colors duration-200 hover:text-indigo-400"
 						>
 							<svg
@@ -128,7 +128,7 @@
 									d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
 								/>
 							</svg>
-							info@bonus5.ru
+							info@rubonus.ru
 						</a>
 					</li>
 				</ul>
@@ -138,7 +138,7 @@
 		<!-- Разделитель -->
 		<div class="mt-12 border-t border-slate-800/50 pt-8">
 			<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-				<p class="text-sm text-gray-400">© {currentYear} BONUS5. Все права защищены.</p>
+				<p class="text-sm text-gray-400">© {currentYear} RUBONUS. Все права защищены.</p>
 				<div class="flex gap-6">
 					<a
 						href="/privacy-policy"

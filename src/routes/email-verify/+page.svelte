@@ -149,9 +149,9 @@
 </script>
 
 <svelte:head>
-	<title>Подтверждение Email BONUS5 – Верификация почты агента</title>
-	<meta name="description" content="Подтвердите ваш email адрес для полного доступа к функциям BONUS5. Верификация почты агента для безопасности аккаунта." />
-	<meta name="keywords" content="подтверждение email, верификация почты, активация аккаунта, BONUS5" />
+	<title>Подтверждение Email RUBONUS – Верификация почты агента</title>
+	<meta name="description" content="Подтвердите ваш email адрес для полного доступа к функциям RUBONUS. Верификация почты агента для безопасности аккаунта." />
+	<meta name="keywords" content="подтверждение email, верификация почты, активация аккаунта, RUBONUS" />
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-8 sm:py-20">
@@ -370,7 +370,7 @@
 							Проверить спам
 						</button>
 						<a
-							href="mailto:support@bonus5.com"
+							href="mailto:support@rubonus.ru"
 							class="flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-gray-300 transition-all hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-300"
 						>
 							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
