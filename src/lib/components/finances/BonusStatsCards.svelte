@@ -5,7 +5,7 @@
 	 * Requirements: 7.1
 	 */
 
-	/** @type {{ stats: { total_accrued: number, total_available: number, total_paid: number } }} */
+	/** @type {{ stats: { total_pending: number, total_paid: number } }} */
 	let { stats } = $props();
 
 	/**
@@ -34,8 +34,8 @@
 				</div>
 			</div>
 			<div class="ml-4">
-				<p class="text-sm font-medium text-gray-400">Всего начислено</p>
-				<p class="text-2xl font-semibold text-amber-500">{formatCurrency(stats.total_accrued)}</p>
+				<p class="text-sm font-medium text-gray-400">Ожидание</p>
+				<p class="text-2xl font-semibold text-amber-500">{formatCurrency(stats.total_pending)}</p>
 			</div>
 		</div>
 	</div>

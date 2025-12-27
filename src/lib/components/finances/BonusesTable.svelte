@@ -35,10 +35,8 @@
 	 */
 	function getStatusColor(statusCode) {
 		switch (statusCode) {
-			case 'accrued':
+			case 'pending':
 				return 'bg-amber-500/10 text-amber-500';
-			case 'available_for_payment':
-				return 'bg-green-500/10 text-green-500';
 			case 'paid':
 				return 'bg-cyan-500/10 text-cyan-500';
 			default:

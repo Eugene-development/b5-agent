@@ -14,8 +14,7 @@ export function createFinancesState() {
 	let bonuses = $state([]);
 	let payments = $state([]);
 	let stats = $state({
-		total_accrued: 0,
-		total_available: 0,
+		total_pending: 0,
 		total_paid: 0
 	});
 	let bonusStatuses = $state([]);
