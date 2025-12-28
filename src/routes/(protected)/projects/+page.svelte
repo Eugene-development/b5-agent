@@ -19,6 +19,8 @@
 	import ProjectsTableSkeleton from '$lib/components/ProjectsTableSkeleton.svelte';
 	import { goto, invalidate } from '$app/navigation';
 	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
+	import { createProjectsApi } from '$lib/api/projects.js';
+	import { getUserData } from '$lib/api/config.js';
 
 	// Get client-loaded data
 	let { data } = $props();
@@ -28,6 +30,10 @@
 	
 	// Cache loaded data to prevent page disappearing during refresh
 	let cachedProjectsData = $state(null);
+	
+	// Client-side loading state
+	let clientLoading = $state(false);
+	let clientLoadError = $state(null);
 
 	// Reactive state for filtering and search using Svelte 5 runes
 	let searchTerm = $state('');
@@ -356,12 +362,102 @@
 		return unsubscribe;
 	});
 
+	/**
+	 * Load projects data from client-side API (fallback when SSR has no token)
+	 */
+	async function loadProjectsOnClient() {
+		console.log('🔄 Projects: Loading data on client (no httpOnly cookie)');
+		clientLoading = true;
+		clientLoadError = null;
+		
+		try {
+			const api = createProjectsApi(fetch);
+			
+			// Get user ID from localStorage using the proper function
+			const userData = getUserData();
+			const userId = userData?.id;
+			
+			if (!userId) {
+				console.error('❌ Projects: No user ID available for client load', { userData });
+				clientLoadError = 'Не удалось определить пользователя';
+				return;
+			}
+			
+			console.log('🔄 Projects: Fetching projects for user:', userId);
+			
+			const [projectsData, statusesData] = await Promise.all([
+				api.getByAgent(userId).catch(e => { 
+					console.error('getByAgent failed:', e); 
+					return []; 
+				}),
+				api.getStatuses().catch(e => { 
+					console.error('getStatuses failed:', e); 
+					return []; 
+				})
+			]);
+			
+			// Sort projects by created_at descending
+			const sortedProjects = [...projectsData].sort((a, b) => {
+				const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+				const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
+				return dateB - dateA;
+			});
+			
+			// Add sequential numbers
+			const projects = sortedProjects.map((project, index) => ({
+				...project,
+				sequentialNumber: index + 1
+			}));
+			
+			// Filter only active statuses
+			const statuses = Array.isArray(statusesData)
+				? statusesData.filter((status) => status.is_active)
+				: [];
+			
+			console.log('✅ Projects: Client-side data loaded', {
+				projects: projects.length,
+				statuses: statuses.length
+			});
+			
+			// Update cached data
+			cachedProjectsData = {
+				projects,
+				statuses,
+				stats: {
+					total: projects.length,
+					active: projects.filter(p => p.is_active).length,
+					inactive: projects.filter(p => !p.is_active).length,
+					totalContractAmount: projects.reduce((sum, p) => sum + (p.contract_amount || 0), 0),
+					averageContractAmount: 0
+				},
+				error: null,
+				errorType: null,
+				canRetry: false,
+				isLoading: false
+			};
+			
+			isInitialLoad = false;
+		} catch (error) {
+			console.error('❌ Projects: Failed to load data on client:', error);
+			clientLoadError = error.message || 'Неизвестная ошибка';
+		} finally {
+			clientLoading = false;
+		}
+	}
+
 	// Mark initial load as complete and cache data when loaded
+	// Also handle needsClientLoad flag for client-side data fetching
 	$effect(() => {
 		if (data.projectsData) {
 			data.projectsData.then((resolvedData) => {
 				isInitialLoad = false;
 				cachedProjectsData = resolvedData;
+				
+				// Check if we need to load data on client (SSR had no token)
+				if (resolvedData.needsClientLoad) {
+					console.log('🔄 Projects: SSR indicated needsClientLoad, fetching on client...');
+					loadProjectsOnClient();
+				}
 			});
 		}
 	});
@@ -458,8 +554,8 @@
 		</div>
 
 		<!-- Streamed Projects Data -->
-		{#if isRefreshing}
-			<!-- Show skeleton during refresh -->
+		{#if isRefreshing || clientLoading}
+			<!-- Show skeleton during refresh or client-side loading -->
 			<ProjectsTableSkeleton />
 		{:else}
 			{#await data.projectsData}
@@ -468,7 +564,19 @@
 			{:then projectsData}
 				<!-- Success state: Show data -->
 				{@const displayData = cachedProjectsData || projectsData}
-			{#if displayData.error}
+			{#if clientLoadError}
+				<!-- Client load error state -->
+				<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
+					<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>
+					<p class="mb-4 text-red-300">{clientLoadError}</p>
+					<button
+						onclick={loadProjectsOnClient}
+						class="rounded-lg bg-red-600 px-5 py-2 font-semibold text-white hover:bg-red-700"
+					>
+						Попробовать снова
+					</button>
+				</div>
+			{:else if displayData.error}
 				<!-- Error state -->
 				<div class="rounded-lg border border-red-500/30 bg-red-500/20 p-8 text-center">
 					<h3 class="mb-4 text-xl font-semibold text-white">Ошибка загрузки проектов</h3>

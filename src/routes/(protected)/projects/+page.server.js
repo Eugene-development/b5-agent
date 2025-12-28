@@ -243,8 +243,9 @@ export async function load({ locals, fetch, depends }) {
 		// Check if user is authenticated via httpOnly cookie
 		if (!locals?.user || !locals?.token) {
 			console.log('⚠️ Projects SSR: No authentication token found in httpOnly cookie');
+			// Always return Promise for consistency with {#await} in template
 			return {
-				projectsData: {
+				projectsData: Promise.resolve({
 					projects: [],
 					stats: { total: 0, active: 0, inactive: 0, totalContractAmount: 0, averageContractAmount: 0 },
 					statuses: [],
@@ -260,7 +261,7 @@ export async function load({ locals, fetch, depends }) {
 					canRetry: false,
 					isLoading: false,
 					needsClientLoad: true
-				}
+				})
 			};
 		}
 
@@ -277,8 +278,9 @@ export async function load({ locals, fetch, depends }) {
 			stack: err.stack
 		});
 
+		// Always return Promise for consistency with {#await} in template
 		return {
-			projectsData: {
+			projectsData: Promise.resolve({
 				projects: [],
 				stats: { total: 0, active: 0, inactive: 0, totalContractAmount: 0, averageContractAmount: 0 },
 				statuses: [],
@@ -293,7 +295,7 @@ export async function load({ locals, fetch, depends }) {
 				errorType: 'unknown',
 				canRetry: true,
 				isLoading: false
-			}
+			})
 		};
 	}
 }
