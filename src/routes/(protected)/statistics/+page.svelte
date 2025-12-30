@@ -1,22 +1,102 @@
 <script>
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	
+	import { createProjectsApi } from '$lib/api/projects.js';
+	import { getUserData } from '$lib/api/config.js';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
 
-	// Extract data from server load function
-	const totalProjects = data?.totalProjects || 0;
+	// Reactive state for projects count
+	let totalProjects = $state(data?.totalProjects || 0);
+	let totalContracts = $state(0);
+	let totalOrders = $state(0);
+	let loading = $state(false);
+	let loadError = $state(null);
 
-	// Mock data for statistics
-	const stats = {
+	// Load projects on client side
+	async function loadProjects() {
+		if (!browser) return;
+		
+		// Get user ID from localStorage using the proper function (same as projects page)
+		const userData = getUserData();
+		const userId = userData?.id;
+		
+		if (!userId) {
+			console.log('⚠️ Statistics: No user ID available', { userData });
+			return;
+		}
+
+		loading = true;
+		loadError = null;
+
+		try {
+			console.log('📊 Statistics: Loading data for user:', userId);
+			
+			// Load projects with bonus details (includes contracts and orders)
+			const projectsApi = createProjectsApi(fetch);
+			const projects = await projectsApi.getByAgent(userId);
+			
+			totalProjects = Array.isArray(projects) ? projects.length : 0;
+			
+			// Debug: log first project structure
+			if (projects.length > 0) {
+				console.log('📊 Statistics: First project structure:', {
+					id: projects[0].id,
+					value: projects[0].value,
+					hasBonusDetails: !!projects[0].bonusDetails,
+					bonusDetails: projects[0].bonusDetails
+				});
+			}
+			
+			// Count total contracts and orders from all projects
+			let contractsCount = 0;
+			let ordersCount = 0;
+			
+			projects.forEach((project, index) => {
+				const projectContracts = project.bonusDetails?.contracts;
+				const projectOrders = project.bonusDetails?.orders;
+				
+				if (projectContracts && Array.isArray(projectContracts)) {
+					console.log(`📊 Project ${index + 1} (${project.value}): ${projectContracts.length} contracts`);
+					contractsCount += projectContracts.length;
+				}
+				if (projectOrders && Array.isArray(projectOrders)) {
+					console.log(`📊 Project ${index + 1} (${project.value}): ${projectOrders.length} orders`);
+					ordersCount += projectOrders.length;
+				}
+			});
+			
+			totalContracts = contractsCount;
+			totalOrders = ordersCount;
+			
+			console.log(`✅ Statistics: Loaded data - Projects: ${totalProjects}, Contracts: ${totalContracts}, Orders: ${totalOrders}`);
+		} catch (err) {
+			console.error('❌ Statistics: Failed to load data:', err);
+			loadError = 'Не удалось загрузить статистику';
+		} finally {
+			loading = false;
+		}
+	}
+
+	// Load on mount
+	onMount(() => {
+		// Always try to load on client if we don't have data
+		if (totalProjects === 0) {
+			loadProjects();
+		}
+	});
+
+	// Stats object
+	const stats = $derived({
 		totalProjects: totalProjects,
 		activeProjects: 18,
 		completedProjects: 6,
 		totalRevenue: 15750000,
 		monthlyRevenue: 2850000,
 		averageProjectValue: 656250
-	};
+	});
 
 	const monthlyData = [
 		{ month: 'Янв', projects: 2, revenue: 1200000 },
@@ -75,12 +155,14 @@
 
 		<!-- Key Metrics -->
 		<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-			<div class="rounded-lg bg-gray-800 p-6 shadow">
-				<div class="flex items-center">
+			<!-- Всего проектов -->
+			<div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 p-6 shadow-lg transition-all duration-300 hover:shadow-blue-500/20 hover:scale-[1.02] border border-blue-500/20">
+				<div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-16 -mt-16 transition-transform duration-300 group-hover:scale-110"></div>
+				<div class="relative flex items-center">
 					<div class="flex-shrink-0">
-						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/20">
+						<div class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/50">
 							<svg
-								class="h-6 w-6 text-blue-400"
+								class="h-7 w-7 text-white"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -94,19 +176,77 @@
 							</svg>
 						</div>
 					</div>
-					<div class="ml-4">
-						<p class="text-sm font-medium text-gray-400">Всего проектов</p>
-						<p class="text-2xl font-semibold text-white">{stats.totalProjects}</p>
+					<div class="ml-5">
+						<p class="text-sm font-medium text-blue-300">Всего проектов</p>
+						<p class="text-3xl font-bold text-white mt-1">{totalProjects}</p>
 					</div>
 				</div>
 			</div>
 
-			<div class="rounded-lg bg-gray-800 p-6 shadow">
-				<div class="flex items-center">
+			<!-- Всего договоров -->
+			<div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 p-6 shadow-lg transition-all duration-300 hover:shadow-emerald-500/20 hover:scale-[1.02] border border-emerald-500/20">
+				<div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full -mr-16 -mt-16 transition-transform duration-300 group-hover:scale-110"></div>
+				<div class="relative flex items-center">
 					<div class="flex-shrink-0">
-						<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-500/20">
+						<div class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/50">
 							<svg
-								class="h-6 w-6 text-gray-400"
+								class="h-7 w-7 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+								/>
+							</svg>
+						</div>
+					</div>
+					<div class="ml-5">
+						<p class="text-sm font-medium text-emerald-300">Всего договоров</p>
+						<p class="text-3xl font-bold text-white mt-1">{totalContracts}</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Всего заказов -->
+			<div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-600/5 p-6 shadow-lg transition-all duration-300 hover:shadow-purple-500/20 hover:scale-[1.02] border border-purple-500/20">
+				<div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full -mr-16 -mt-16 transition-transform duration-300 group-hover:scale-110"></div>
+				<div class="relative flex items-center">
+					<div class="flex-shrink-0">
+						<div class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-lg shadow-purple-500/50">
+							<svg
+								class="h-7 w-7 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+								/>
+							</svg>
+						</div>
+					</div>
+					<div class="ml-5">
+						<p class="text-sm font-medium text-purple-300">Всего заказов</p>
+						<p class="text-3xl font-bold text-white mt-1">{totalOrders}</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Новый отчёт (скоро) -->
+			<div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-600/10 to-gray-700/5 p-6 shadow-lg transition-all duration-300 hover:shadow-gray-500/10 hover:scale-[1.02] border border-gray-600/20">
+				<div class="absolute top-0 right-0 w-32 h-32 bg-gray-600/10 rounded-full -mr-16 -mt-16 transition-transform duration-300 group-hover:scale-110"></div>
+				<div class="relative flex items-center">
+					<div class="flex-shrink-0">
+						<div class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-gray-600 to-gray-700 shadow-lg shadow-gray-600/30">
+							<svg
+								class="h-7 w-7 text-white"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -120,11 +260,13 @@
 							</svg>
 						</div>
 					</div>
-					<div class="ml-4">
-						<p class="text-sm font-medium text-gray-400">Здесь будет новый модуль</p>
+					<div class="ml-5">
+						<p class="text-sm font-medium text-gray-400">Здесь скоро будет</p>
+						<p class="text-lg font-semibold text-gray-300 mt-1">новый отчёт</p>
 					</div>
 				</div>
 			</div>
+		</div>
 
 			<!-- <div class="rounded-lg bg-gray-800 p-6 shadow">
 				<div class="flex items-center">

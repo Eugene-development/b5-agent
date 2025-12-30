@@ -9,8 +9,8 @@
 
 	const sourceTypes = [
 		{ code: '', name: 'Все источники' },
-		{ code: 'contract', name: 'Договоры' },
-		{ code: 'order', name: 'Закупки' }
+		{ code: 'contract', name: 'Договора' },
+		{ code: 'order', name: 'Заказы' }
 	];
 </script>
 
