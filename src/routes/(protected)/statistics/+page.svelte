@@ -399,7 +399,6 @@
 					</div>
 				</div>
 			</div> -->
-		</div>
 
 		<!-- Charts Section -->
 		<!-- <div class="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
