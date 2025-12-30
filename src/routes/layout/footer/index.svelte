@@ -10,7 +10,7 @@
 				<h3
 					class="mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-xl font-bold tracking-tight text-transparent"
 				>
-					RUBONUS
+					RUBONUS<span class="text-sm">.pro</span>
 				</h3>
 				<p class="text-sm leading-6 text-gray-400">
 					Партнерская программа для заработка на рекомендациях.
@@ -138,7 +138,7 @@
 		<!-- Разделитель -->
 		<div class="mt-12 border-t border-slate-800/50 pt-8">
 			<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
-				<p class="text-sm text-gray-400">© {currentYear} RUBONUS. Все права защищены.</p>
+				<p class="text-sm text-gray-400">© {currentYear} RUBONUS. Все права защищены. Вся информация на сайте носит развлекательный характер.</p>
 				<div class="flex gap-6">
 					<a
 						href="/privacy-policy"

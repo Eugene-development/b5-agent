@@ -40,13 +40,13 @@ async function makeServerGraphQLRequest(token, query, variables = {}) {
 /**
  * Get projects for agent using GraphQL
  * @param {string} token - JWT access token
- * @param {string} agentId - Agent ID
+ * @param {string} userId - User/Agent ID
  * @returns {Promise<Array>} Projects array
  */
-async function getProjectsByAgent(token, agentId) {
+async function getProjectsByAgent(token, userId) {
 	const query = `
-		query GetProjectsByAgent($agentId: ID!) {
-			projectsByAgent(agentId: $agentId) {
+		query GetProjectsByAgent($user_id: ID!) {
+			projectsByAgent(user_id: $user_id) {
 				id
 				value
 				description
@@ -80,7 +80,7 @@ async function getProjectsByAgent(token, agentId) {
 		}
 	`;
 
-	const data = await makeServerGraphQLRequest(token, query, { agentId });
+	const data = await makeServerGraphQLRequest(token, query, { user_id: String(userId) });
 	return data.projectsByAgent || [];
 }
 
