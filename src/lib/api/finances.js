@@ -53,6 +53,7 @@ const FINANCES_QUERIES = {
 		query GetAgentBonusStats($filters: AgentBonusFilters) {
 			agentBonusStats(filters: $filters) {
 				total_pending
+				total_available
 				total_paid
 			}
 		}
@@ -182,6 +183,7 @@ export class FinancesApi {
 
 			return response.data?.agentBonusStats || {
 				total_pending: 0,
+				total_available: 0,
 				total_paid: 0
 			};
 		} catch (error) {

@@ -462,4 +462,22 @@
 	.animation-delay-4000 {
 		animation-delay: 4s;
 	}
+
+	/* Override @tailwindcss/forms plugin defaults for input fields */
+	:global(#phone),
+	:global(#address) {
+		background-color: rgb(30 41 59 / 0.5) !important;
+		color: white !important;
+	}
+
+	:global(#phone:focus),
+	:global(#address:focus) {
+		background-color: rgb(30 41 59) !important;
+		color: white !important;
+	}
+
+	:global(#phone::placeholder),
+	:global(#address::placeholder) {
+		color: rgb(148 163 184 / 1) !important;
+	}
 </style>

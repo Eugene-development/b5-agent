@@ -93,13 +93,13 @@
 		{/if}
 
 		<!-- Orders Bonuses -->
-		{#if bonusDetails.orders && bonusDetails.orders.filter(order => order.is_active).length > 0}
+		{#if bonusDetails.orders && bonusDetails.orders.length > 0}
 			<div>
 				<h4 class="mb-2 text-sm font-semibold text-amber-500">
-					Бонусы по заказам ({bonusDetails.orders.filter(order => order.is_active).length})
+					Бонусы по заказам ({bonusDetails.orders.length})
 				</h4>
 				<div class="space-y-2">
-					{#each bonusDetails.orders.filter(order => order.is_active) as order}
+					{#each bonusDetails.orders as order}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">

@@ -178,7 +178,7 @@
 							isActive={project.is_active} 
 						/>
 					</div>
-				{:else if project.totalAgentBonus !== undefined || project.totalCuratorBonus !== undefined}
+				{:else if project.totalAgentBonus !== undefined}
 					<!-- Fallback for simple bonus display -->
 					<div class="mb-6">
 						<h3 class="mb-4 text-lg font-semibold text-amber-500">Информация о бонусах</h3>
@@ -190,12 +190,19 @@
 										{formatCurrency(project.totalAgentBonus)}
 									</p>
 								</div>
-								<div>
-									<p class="text-xs text-gray-400">Премия агенту</p>
-									<p class="text-xl font-bold text-cyan-400">
-										{formatCurrency(project.totalCuratorBonus)}
-									</p>
-								</div>
+								{#if project.status?.value === 'Доставлен'}
+									<div>
+										<p class="text-xs text-gray-400 flex items-center gap-2">
+											Доступно к выплате
+											<svg class="h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+											</svg>
+										</p>
+										<p class="text-xl font-bold text-emerald-400">
+											{formatCurrency(project.totalAgentBonus)}
+										</p>
+									</div>
+								{/if}
 							</div>
 						</div>
 					</div>

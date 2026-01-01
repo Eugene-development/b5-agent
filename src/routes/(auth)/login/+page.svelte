@@ -385,4 +385,24 @@
 	.animate-shake {
 		animation: shake 0.5s ease-in-out;
 	}
+
+	/* Override @tailwindcss/forms plugin defaults for input fields */
+	:global(#email),
+	:global(#password) {
+		background-color: rgb(255 255 255 / 0.05) !important;
+		color: white !important;
+	}
+
+	:global(#email:hover),
+	:global(#password:hover),
+	:global(#email:focus),
+	:global(#password:focus) {
+		background-color: rgb(255 255 255 / 0.1) !important;
+		color: white !important;
+	}
+
+	:global(#email::placeholder),
+	:global(#password::placeholder) {
+		color: rgb(107 114 128) !important;
+	}
 </style>
