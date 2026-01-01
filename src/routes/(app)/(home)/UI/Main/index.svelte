@@ -64,7 +64,7 @@
 					<h1
 						class="bg-gradient-to-r from-white via-indigo-200 to-cyan-400 bg-clip-text text-6xl font-black tracking-tight text-transparent sm:text-7xl lg:text-8xl"
 					>
-						RUBONUS<span class="text-4xl sm:text-5xl lg:text-6xl">.pro</span>
+						RUBONUS
 					</h1>
 					<!-- <div
 						class="mt-2 h-1.5 w-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400"

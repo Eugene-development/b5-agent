@@ -1,13 +1,19 @@
 <svelte:head>
 	<title>Партнерство с RUBONUS – Получайте клиентов для вашего бизнеса</title>
-	<meta name="description" content="Станьте партнером RUBONUS и получайте готовых клиентов для производства мебели, поставки техники и фурнитуры. Оплата только за результат, качественные лиды." />
-	<meta name="keywords" content="партнерство RUBONUS, производители мебели, поставщики техники, поставщики фурнитуры, новые клиенты" />
+	<meta
+		name="description"
+		content="Станьте партнером RUBONUS и получайте готовых клиентов для производства мебели, поставки техники и фурнитуры. Оплата только за результат, качественные лиды."
+	/>
+	<meta
+		name="keywords"
+		content="партнерство RUBONUS, производители мебели, поставщики техники, поставщики фурнитуры, новые клиенты"
+	/>
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div
-		class="absolute inset-x-0 top-0 -z-10 h-[600px] bg-linear-to-b from-blue-500/10 via-cyan-500/5 to-transparent"
+		class="bg-linear-to-b absolute inset-x-0 top-0 -z-10 h-[600px] from-blue-500/10 via-cyan-500/5 to-transparent"
 	></div>
 
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,7 +39,7 @@
 			</div>
 
 			<h1
-				class="mt-8 bg-linear-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
+				class="bg-linear-to-r mt-8 from-white via-blue-200 to-cyan-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
 			>
 				Партнёрство
 			</h1>
@@ -128,7 +134,11 @@
 								stroke-linejoin="round"
 								d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
 							/>
-							<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+							/>
 						</svg>
 					</div>
 					<h3 class="text-lg font-semibold text-white">Поставщики фурнитуры</h3>
@@ -351,8 +361,8 @@
 				<h3 class="text-xl font-bold text-white sm:text-2xl">Качественные лиды</h3>
 				<p class="mt-4 text-base leading-7 text-gray-300">
 					Мы тщательно проверяем каждую заявку перед передачей партнёрам. Вы получаете только
-					реальных клиентов, заинтересованных в покупке мебели, техники или фурнитуры. Это
-					экономит ваше время и повышает конверсию в продажи.
+					реальных клиентов, заинтересованных в покупке мебели, техники или фурнитуры. Это экономит
+					ваше время и повышает конверсию в продажи.
 				</p>
 			</div>
 
@@ -372,7 +382,11 @@
 							stroke-linejoin="round"
 							d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"
 						/>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
+						/>
 					</svg>
 				</div>
 				<h3 class="text-xl font-bold text-white sm:text-2xl">Прозрачная аналитика</h3>
@@ -477,8 +491,7 @@
 				</p>
 				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
-						href="https://rubonus.pro/register"
-						target="_blank"
+						href="/registration"
 						rel="noopener noreferrer"
 						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
 					>
