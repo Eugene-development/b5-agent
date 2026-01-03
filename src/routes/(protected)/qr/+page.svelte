@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import QRCode from 'qrcode';
 	import { authState, checkAuth, getCurrentUserData } from '$lib/auth/auth.svelte.js';
+	import BusinessCard from '$lib/components/BusinessCard.svelte';
 
 	// State
 	let qrCodeDataUrl = $state('');
@@ -202,6 +203,11 @@
 						<li>• Когда они зарегистрируются по вашей ссылке, они станут вашими рефералами</li>
 						<li>• В течении 2-х лет вы будете получать 0,5% от проектов привлечённых агентов</li>
 					</ul>
+				</div>
+
+				<!-- Business Card -->
+				<div class="mt-12 flex justify-center border-t border-white/10 pt-12">
+					<BusinessCard qrCodeUrl={qrCodeDataUrl} />
 				</div>
 			</div>
 		{/if}
