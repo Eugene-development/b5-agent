@@ -175,8 +175,17 @@
 				</div>
 
 
+
+
+
+
+				<!-- Business Card -->
+				<div class="mt-12 flex justify-center border-t border-white/10 pt-12">
+					<BusinessCard qrCodeUrl={qrCodeDataUrl} />
+				</div>
+
 				<!-- Referral URL -->
-				<div class="mt-8">
+				<div class="mt-12">
 					<label for="referral-url" class="mb-2 block text-sm font-medium text-gray-400">Ваша реферальная ссылка</label>
 					<div class="flex gap-2">
 						<input
@@ -196,18 +205,13 @@
 				</div>
 
 				<!-- Info -->
-				<div class="mt-8 rounded-lg border border-cyan-500/20 bg-cyan-500/10 p-4">
+				<div class="mt-12 rounded-lg border border-cyan-500/20 bg-cyan-500/10 p-4">
 					<h3 class="mb-2 font-medium text-cyan-300">Как это работает?</h3>
 					<ul class="space-y-1 text-sm text-gray-400">
-						<li>• Поделитесь QR-кодом или ссылкой с потенциальными агентами</li>
+						<li>• Поделитесь QR-кодом, визиткой или ссылкой с потенциальными агентами</li>
 						<li>• Когда они зарегистрируются по вашей ссылке, они станут вашими рефералами</li>
-						<li>• В течении 2-х лет вы будете получать 0,5% от проектов привлечённых агентов</li>
+						<li>• В течении 2-х лет вы будете получать 0,5% от суммы проектов привлечённых агентов</li>
 					</ul>
-				</div>
-
-				<!-- Business Card -->
-				<div class="mt-12 flex justify-center border-t border-white/10 pt-12">
-					<BusinessCard qrCodeUrl={qrCodeDataUrl} />
 				</div>
 			</div>
 		{/if}
