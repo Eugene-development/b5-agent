@@ -29,12 +29,12 @@
 						{formatCurrency(bonusDetails.totalAgentBonus)}
 					</p>
 				</div>
-				<div>
-					<p class="text-xs text-gray-400">Премия агенту</p>
-					<p class="text-3xl font-bold text-gray-500">
-						0
-					</p>
-				</div>
+			<div>
+				<p class="text-xs text-gray-400">Доступно к выплате</p>
+				<p class="text-3xl font-bold {(bonusDetails.totalAvailableBonus || 0) > 0 ? 'text-green-400' : 'text-gray-500'}">
+					{formatCurrency(bonusDetails.totalAvailableBonus || 0)}
+				</p>
+			</div>
 			</div>
 		</div>
 

@@ -53,6 +53,7 @@ const PROJECTS_BY_AGENT_QUERY = `
 			bonusDetails {
 				totalAgentBonus
 				totalCuratorBonus
+				totalAvailableBonus
 				contracts {
 					id
 					contract_number
