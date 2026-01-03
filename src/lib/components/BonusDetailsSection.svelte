@@ -16,6 +16,9 @@
 			maximumFractionDigits: 0
 		}).format(Math.round(amount));
 	}
+
+	// Проверяем, доступен ли бонус к выплате
+	let isBonusAvailable = $derived(bonusDetails && (bonusDetails.totalAvailableBonus || 0) > 0);
 </script>
 
 {#if bonusDetails}
@@ -29,12 +32,20 @@
 						{formatCurrency(bonusDetails.totalAgentBonus)}
 					</p>
 				</div>
-			<div>
-				<p class="text-xs text-gray-400">Доступно к выплате</p>
-				<p class="text-3xl font-bold {(bonusDetails.totalAvailableBonus || 0) > 0 ? 'text-green-400' : 'text-gray-500'}">
-					{formatCurrency(bonusDetails.totalAvailableBonus || 0)}
-				</p>
-			</div>
+				<div>
+					<p class="text-xs text-gray-400">Доступно к выплате</p>
+					<div class="flex items-center gap-2">
+						{#if isBonusAvailable}
+							<span class="text-2xl text-green-400">✓</span>
+							<p class="text-xl font-bold text-green-400">
+								{formatCurrency(bonusDetails.totalAvailableBonus)}
+							</p>
+						{:else}
+							<span class="text-2xl text-gray-500">—</span>
+							<p class="text-xl font-bold text-gray-500">Недоступно</p>
+						{/if}
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -76,14 +87,18 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Бонус агента</p>
+									<p class="text-gray-500">Бонус</p>
 									<p class="font-medium {contract.is_active ? 'text-emerald-400' : 'text-gray-500'}">
 										{formatCurrency(contract.agent_bonus)}
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Премия агенту</p>
-									<p class="font-medium text-gray-500">0%</p>
+									<p class="text-gray-500">Доступно</p>
+									{#if contract.is_available}
+										<span class="text-lg text-green-400">✓</span>
+									{:else}
+										<span class="text-lg text-gray-500">—</span>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -130,14 +145,18 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Бонус агента</p>
+									<p class="text-gray-500">Бонус</p>
 									<p class="font-medium {order.is_active ? 'text-emerald-400' : 'text-gray-500'}">
 										{formatCurrency(order.agent_bonus)}
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Премия агенту</p>
-									<p class="font-medium text-gray-500">0%</p>
+									<p class="text-gray-500">Доступно</p>
+									{#if order.is_available}
+										<span class="text-lg text-green-400">✓</span>
+									{:else}
+										<span class="text-lg text-gray-500">—</span>
+									{/if}
 								</div>
 							</div>
 						</div>

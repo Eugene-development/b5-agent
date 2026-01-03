@@ -266,40 +266,6 @@
 			</button>
 		</div>
 
-		<!-- Debug Info (temporary - ALWAYS VISIBLE) -->
-		<div class="mb-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20 p-4 text-xs font-mono">
-			<p class="text-yellow-400 font-bold mb-2">🔍 Debug Info (v2):</p>
-			<p class="text-yellow-300">dataLoaded: {dataLoaded}</p>
-			<p class="text-yellow-300">loading: {loading}</p>
-			<p class="text-yellow-300">clientLoadAttempted: {clientLoadAttempted}</p>
-			<p class="text-yellow-300">bonuses count (state): {bonuses?.length || 0}</p>
-			<p class="text-yellow-300">payments count (state): {payments?.length || 0}</p>
-			{#if clientLoadError}
-				<p class="text-red-400">Client error: {clientLoadError}</p>
-			{/if}
-			{#await data.financesData then financesData}
-				<p class="text-cyan-300 mt-2">--- SSR Data ---</p>
-				<p class="text-cyan-300">SSR needsClientLoad: {financesData?.needsClientLoad || 'false'}</p>
-				<p class="text-cyan-300">SSR bonuses: {financesData?.bonuses?.length || 0}</p>
-				<p class="text-cyan-300">SSR payments: {financesData?.payments?.length || 0}</p>
-				<p class="text-cyan-300">SSR error: {financesData?.error || 'none'}</p>
-				{#if financesData?._debug}
-					<p class="text-green-300 mt-1">--- Debug from server ---</p>
-					<p class="text-green-300">ssrSuccess: {financesData._debug.ssrSuccess}</p>
-					<p class="text-green-300">tokenLength: {financesData._debug.tokenLength}</p>
-					<p class="text-green-300">loadTimeMs: {financesData._debug.loadTimeMs}</p>
-					{#if financesData._debug.hasToken !== undefined}
-						<p class="text-green-300">hasToken: {financesData._debug.hasToken}</p>
-						<p class="text-green-300">hasUser: {financesData._debug.hasUser}</p>
-						<p class="text-green-300">userId: {financesData._debug.userId}</p>
-						<p class="text-green-300">reason: {financesData._debug.reason}</p>
-					{/if}
-				{/if}
-			{:catch error}
-				<p class="text-red-400">SSR Promise error: {error.message}</p>
-			{/await}
-		</div>
-
 		<!-- Stats Cards -->
 		<div class="mb-8">
 			<BonusStatsCards {stats} />

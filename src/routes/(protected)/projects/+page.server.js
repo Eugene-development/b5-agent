@@ -63,6 +63,7 @@ const PROJECTS_BY_AGENT_QUERY = `
 					agent_bonus
 					curator_bonus
 					is_active
+					is_available
 				}
 				orders {
 					id
@@ -73,6 +74,7 @@ const PROJECTS_BY_AGENT_QUERY = `
 					agent_bonus
 					curator_bonus
 					is_active
+					is_available
 				}
 			}
 			created_at

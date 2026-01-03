@@ -118,6 +118,7 @@ const PROJECTS_QUERIES = {
 						agent_bonus
 						curator_bonus
 						is_active
+						is_available
 					}
 					orders {
 						id
@@ -128,6 +129,7 @@ const PROJECTS_QUERIES = {
 						agent_bonus
 						curator_bonus
 						is_active
+						is_available
 					}
 				}
 				created_at
@@ -187,6 +189,7 @@ const PROJECTS_QUERIES = {
 						agent_bonus
 						curator_bonus
 						is_active
+						is_available
 					}
 					orders {
 						id
@@ -197,6 +200,7 @@ const PROJECTS_QUERIES = {
 						agent_bonus
 						curator_bonus
 						is_active
+						is_available
 					}
 				}
 				created_at
