@@ -14,8 +14,8 @@ export function testRouteDetection() {
 
 	// Test protected routes
 	const protectedTests = [
-		{ path: '/dashboard', expected: true },
-		{ path: '/dashboard/settings', expected: true },
+		{ path: '/form', expected: true },
+		{ path: '/form/settings', expected: true },
 		{ path: '/profile', expected: true },
 		{ path: '/settings', expected: true },
 		{ path: '/admin', expected: true },
@@ -38,7 +38,7 @@ export function testRouteDetection() {
 		{ path: '/login', expected: true },
 		{ path: '/register', expected: true },
 		{ path: '/forgot-password', expected: true },
-		{ path: '/dashboard', expected: false },
+		{ path: '/form', expected: false },
 		{ path: '/', expected: false }
 	];
 
@@ -70,8 +70,8 @@ export function testRedirectUtilities() {
 		const searchParams1 = new URLSearchParams('returnTo=%2Fdashboard%3Fparam%3Dvalue');
 		const result1 = getPostLoginRedirect(searchParams1);
 		console.log(`getPostLoginRedirect with valid returnTo: ${result1}`);
-		if (result1 !== '/dashboard?param=value') {
-			throw new Error(`Expected '/dashboard?param=value', got '${result1}'`);
+		if (result1 !== '/form?param=value') {
+			throw new Error(`Expected '/form?param=value', got '${result1}'`);
 		}
 
 		// Test invalid returnTo parameter

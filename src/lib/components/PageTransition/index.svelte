@@ -21,7 +21,7 @@
 	};
 
 	// Get animation class based on type
-	const animationClass = animationClasses[type] || animationClasses['fade'];
+	const animationClass = $derived(animationClasses[type] || animationClasses['fade']);
 </script>
 
 <div class="{animationClass} animate-ease-in-out" style="animation-duration: {duration}ms;">

@@ -45,13 +45,13 @@ export function requireAuth(redirectTo = '/login') {
 
 /**
  * Require guest access (not authenticated)
- * Redirects authenticated users to dashboard
+ * Redirects authenticated users to form
  * Requirements: 2.5
- * @param {string} redirectTo - Path to redirect authenticated users (default: '/dashboard')
+ * @param {string} redirectTo - Path to redirect authenticated users (default: '/form')
  * @returns {void}
- * @throws {redirect} Redirects to dashboard if authenticated
+ * @throws {redirect} Redirects to form if authenticated
  */
-export function requireGuest(redirectTo = '/dashboard') {
+export function requireGuest(redirectTo = '/form') {
 	if (isAuthenticated()) {
 		throw redirect(302, redirectTo);
 	}
@@ -112,7 +112,7 @@ export function createAuthLoad(options = {}) {
  * @returns {Function} SvelteKit load function
  */
 export function createGuestLoad(options = {}) {
-	const { redirectTo = '/dashboard' } = options;
+	const { redirectTo = '/form' } = options;
 
 	return async ({ url, parent }) => {
 		// Wait for parent layout data (includes auth state from server)
@@ -145,7 +145,7 @@ export async function authMiddleware({ event, resolve }) {
 	const { url, route } = event;
 
 	// Define protected route patterns
-	const protectedRoutes = ['/dashboard', '/profile', '/settings'];
+	const protectedRoutes = ['/form', '/profile', '/settings'];
 
 	// Define guest-only routes (redirect authenticated users)
 	const guestRoutes = ['/login', '/register'];
@@ -197,7 +197,7 @@ export async function navigationGuard(pathname, options = {}) {
  * @returns {boolean} True if route requires authentication
  */
 export function isProtectedRoute(pathname) {
-	const protectedPatterns = ['/dashboard', '/profile', '/settings', '/admin'];
+	const protectedPatterns = ['/form', '/profile', '/settings', '/admin'];
 
 	return protectedPatterns.some((pattern) => pathname.startsWith(pattern));
 }
@@ -221,7 +221,7 @@ export function isGuestRoute(pathname) {
  * @param {string} defaultRedirect - Default redirect path
  * @returns {string} Redirect path
  */
-export function getPostLoginRedirect(searchParams, defaultRedirect = '/dashboard') {
+export function getPostLoginRedirect(searchParams, defaultRedirect = '/form') {
 	const returnTo = searchParams.get('returnTo');
 
 	// Validate returnTo parameter to prevent open redirect attacks

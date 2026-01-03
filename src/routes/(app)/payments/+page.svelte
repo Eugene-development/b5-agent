@@ -1,13 +1,19 @@
 <svelte:head>
 	<title>Выплаты RUBONUS – Условия и способы получения вознаграждения</title>
-	<meta name="description" content="Прозрачная система выплат RUBONUS: вознаграждение до 5% от суммы сделки, выплаты в течение 5 рабочих дней. Банковская карта, электронные кошельки, расчетный счет." />
-	<meta name="keywords" content="выплаты RUBONUS, вознаграждение агентам, способы получения денег, условия выплат, сроки выплат" />
+	<meta
+		name="description"
+		content="Прозрачная система выплат RUBONUS: вознаграждение до 5% от суммы сделки, выплаты в течение 5 рабочих дней. Банковская карта, электронные кошельки, расчетный счет."
+	/>
+	<meta
+		name="keywords"
+		content="выплаты RUBONUS, вознаграждение агентам, способы получения денег, условия выплат, сроки выплат"
+	/>
 </svelte:head>
 
 <div class="relative isolate min-h-screen bg-gray-950 py-16 sm:py-24">
 	<!-- Gradient background decoration -->
 	<div
-		class="absolute inset-x-0 top-0 -z-10 h-[600px] bg-linear-to-b from-emerald-500/10 via-teal-500/5 to-transparent"
+		class="bg-linear-to-b absolute inset-x-0 top-0 -z-10 h-[600px] from-emerald-500/10 via-teal-500/5 to-transparent"
 	></div>
 
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,7 +39,7 @@
 			</div>
 
 			<h1
-				class="mt-8 bg-linear-to-r from-white via-emerald-200 to-teal-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
+				class="bg-linear-to-r mt-8 from-white via-emerald-200 to-teal-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl"
 			>
 				Выплаты
 			</h1>
@@ -177,116 +183,120 @@
 			</div>
 		</div>
 
-		<!-- Payment Methods Section -->
-		<div class="mx-auto mt-20 max-w-6xl">
-			<h2 class="text-center text-2xl font-bold text-white sm:text-3xl">
-				Способы получения вознаграждения*
-			</h2>
-			<p class="mt-4 text-center text-base text-gray-400">Выберите удобный для вас способ</p>
+		{#if false}
+			<!-- Payment Methods Section -->
+			<div class="mx-auto mt-20 max-w-6xl">
+				<h2 class="text-center text-2xl font-bold text-white sm:text-3xl">
+					Способы получения вознаграждения*
+				</h2>
+				<p class="mt-4 text-center text-base text-gray-400">Выберите удобный для вас способ</p>
 
-			<div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-				<div
-					class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-emerald-500/20"
-				>
-					<div class="mb-4 inline-flex rounded-xl bg-emerald-500/20 p-3 ring-1 ring-emerald-500/30">
-						<svg
-							class="size-6 text-emerald-400"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="2"
-							stroke="currentColor"
+				<div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+					<div
+						class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-emerald-500/20"
+					>
+						<div
+							class="mb-4 inline-flex rounded-xl bg-emerald-500/20 p-3 ring-1 ring-emerald-500/30"
 						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
-							/>
-						</svg>
+							<svg
+								class="size-6 text-emerald-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
+								/>
+							</svg>
+						</div>
+						<h3 class="text-lg font-semibold text-white">Банковская карта</h3>
+						<p class="mt-2 text-sm leading-6 text-gray-400">
+							Выплата на вашу банковскую карту любого банка
+						</p>
 					</div>
-					<h3 class="text-lg font-semibold text-white">Банковская карта</h3>
-					<p class="mt-2 text-sm leading-6 text-gray-400">
-						Выплата на вашу банковскую карту любого банка
-					</p>
+
+					<div
+						class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-teal-500/20"
+					>
+						<div class="mb-4 inline-flex rounded-xl bg-teal-500/20 p-3 ring-1 ring-teal-500/30">
+							<svg
+								class="size-6 text-teal-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+						</div>
+						<h3 class="text-lg font-semibold text-white">Электронные кошельки</h3>
+						<p class="mt-2 text-sm leading-6 text-gray-400">
+							Прямые выплаты на популярные электронные кошельки
+						</p>
+					</div>
+
+					<div
+						class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20"
+					>
+						<div class="mb-4 inline-flex rounded-xl bg-cyan-500/20 p-3 ring-1 ring-cyan-500/30">
+							<svg
+								class="size-6 text-cyan-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
+								/>
+							</svg>
+						</div>
+						<h3 class="text-lg font-semibold text-white">Расчетный счет</h3>
+						<p class="mt-2 text-sm leading-6 text-gray-400">
+							Для юридических лиц и ИП — перевод на расчетный счет
+						</p>
+					</div>
+
+					<div
+						class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-sky-500/20"
+					>
+						<div class="mb-4 inline-flex rounded-xl bg-sky-500/20 p-3 ring-1 ring-sky-500/30">
+							<svg
+								class="size-6 text-sky-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
+								/>
+							</svg>
+						</div>
+						<h3 class="text-lg font-semibold text-white">Наличные</h3>
+						<p class="mt-2 text-sm leading-6 text-gray-400">
+							Получение вознаграждения наличными через курьера
+						</p>
+					</div>
 				</div>
 
-				<div
-					class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-teal-500/20"
-				>
-					<div class="mb-4 inline-flex rounded-xl bg-teal-500/20 p-3 ring-1 ring-teal-500/30">
-						<svg
-							class="size-6 text-teal-400"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="2"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-					</div>
-					<h3 class="text-lg font-semibold text-white">Электронные кошельки</h3>
-					<p class="mt-2 text-sm leading-6 text-gray-400">
-						Прямые выплаты на популярные электронные кошельки
-					</p>
-				</div>
-
-				<div
-					class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-cyan-500/20"
-				>
-					<div class="mb-4 inline-flex rounded-xl bg-cyan-500/20 p-3 ring-1 ring-cyan-500/30">
-						<svg
-							class="size-6 text-cyan-400"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="2"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
-							/>
-						</svg>
-					</div>
-					<h3 class="text-lg font-semibold text-white">Расчетный счет</h3>
-					<p class="mt-2 text-sm leading-6 text-gray-400">
-						Для юридических лиц и ИП — перевод на расчетный счет
-					</p>
-				</div>
-
-				<div
-					class="group relative overflow-hidden rounded-2xl bg-white/5 p-6 shadow-xl ring-1 ring-white/10 transition-all hover:-translate-y-1 hover:bg-white/10 hover:shadow-2xl hover:shadow-sky-500/20"
-				>
-					<div class="mb-4 inline-flex rounded-xl bg-sky-500/20 p-3 ring-1 ring-sky-500/30">
-						<svg
-							class="size-6 text-sky-400"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="2"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
-							/>
-						</svg>
-					</div>
-					<h3 class="text-lg font-semibold text-white">Наличные</h3>
-					<p class="mt-2 text-sm leading-6 text-gray-400">
-						Получение вознаграждения наличными через курьера
-					</p>
-				</div>
+				<p class="mx-auto mt-8 max-w-2xl text-center text-sm text-gray-400">
+					* Выплаты осуществляются в строгом соответствии с действующим налоговым законодательством
+					и только партнёрам со статусом Индивидуального предпринимателя
+				</p>
 			</div>
-
-			<p class="mt-8 mx-auto max-w-2xl text-center text-sm text-gray-400">
-				* Выплаты осуществляются в строгом соответствии с действующим налоговым
-				законодательством и только партнёрам со статусом Индивидуального предпринимателя
-			</p>
-		</div>
+		{/if}
 
 		<!-- Tax & Tracking Section -->
 		<div class="mx-auto mt-20 grid max-w-6xl gap-8 lg:grid-cols-2">
@@ -372,7 +382,7 @@
 				<div class="mt-8">
 					<a
 						href="/registration"
-						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-emerald-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
+						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-emerald-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
 					>
 						Зарегистрироваться
 						<svg

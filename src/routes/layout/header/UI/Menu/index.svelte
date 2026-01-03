@@ -163,7 +163,7 @@
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-3">
 				{#if authState.isAuthenticated}
 					<a
-						href="/dashboard"
+						href="/form"
 						class="bg-linear-to-br rounded-xl border border-emerald-500/50 from-emerald-700 to-emerald-800 px-5 py-2 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:from-emerald-700 hover:to-emerald-800 hover:shadow-lg hover:shadow-emerald-500/40"
 					>
 						Личный кабинет

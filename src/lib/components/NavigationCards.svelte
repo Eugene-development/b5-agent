@@ -8,9 +8,9 @@
 
 	const pages = [
 		{
-			id: 'dashboard',
-			href: '/dashboard',
-			title: 'Дашборд',
+			id: 'form',
+			href: '/form',
+			title: 'Форма',
 			icon: 'dashboard',
 			color: 'blue'
 		},

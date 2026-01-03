@@ -6,7 +6,7 @@
 
 	// Get redirectTo parameter from URL
 	let redirectTo = $derived.by(() => {
-		const redirect = page.url.searchParams.get('returnTo') || '/dashboard';
+		const redirect = page.url.searchParams.get('returnTo') || '/form';
 		return redirect;
 	});
 

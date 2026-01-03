@@ -13,7 +13,7 @@
 	// Redirect if already verified
 	$effect(() => {
 		if (authState.user?.email_verified_at) {
-			goto('/dashboard');
+			goto('/form');
 		}
 	});
 
@@ -87,9 +87,9 @@
 					// Invalidate all data to reload user from server
 					await invalidateAll();
 
-					// Redirect to dashboard after success
+					// Redirect to form after success
 					setTimeout(() => {
-						goto('/dashboard?verified=true');
+						goto('/form?verified=true');
 					}, 2000);
 				} else {
 					console.error('❌ Email verification failed:', result.message);

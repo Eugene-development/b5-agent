@@ -4,18 +4,12 @@
 	import { authState } from '$lib/auth/auth.svelte.js';
 	import { goto, invalidate } from '$app/navigation';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
-	import { createProjectsApi } from '$lib/api/projects.js';
 	
 	import ProjectSubmitModal from '$lib/components/ProjectSubmitModal.svelte';
-	import StatsCardSkeleton from '$lib/components/StatsCardSkeleton.svelte';
 	import { projectsRefresh } from '$lib/state/projectsRefresh.svelte.js';
 
 	/** @type {import('./$types').PageData} */
 	let { data } = $props();
-
-	// Local state for stats
-	let stats = $state(null);
-	let needsClientLoad = $state(data.needsClientLoad || false);
 
 	// Email verification success message
 	let showSuccessMessage = $state(false);
@@ -23,58 +17,6 @@
 
 	// Modal state
 	let isModalOpen = $state(false);
-
-	// Update stats when server data changes
-	$effect(() => {
-		if (data.stats) {
-			// Handle both Promise and resolved stats
-			if (data.stats instanceof Promise) {
-				data.stats.then(resolvedStats => {
-					stats = resolvedStats;
-				});
-			} else {
-				stats = data.stats;
-			}
-		}
-	});
-
-	// Client-side data loading fallback (if no httpOnly cookie)
-	async function loadStatsOnClient() {
-		if (!authState.user?.id) return;
-		
-		try {
-			console.log('🔄 Dashboard: Loading stats on client (no httpOnly cookie)');
-			const projectsApi = createProjectsApi(fetch);
-			const projects = await projectsApi.getByAgent(authState.user.id);
-			
-			// Calculate stats
-			const calculatedStats = {
-				activeProjects: 0,
-				completedProjects: 0,
-				totalPayouts: 0
-			};
-
-			for (const project of projects) {
-				if (project?.is_active) {
-					calculatedStats.activeProjects++;
-				} else {
-					calculatedStats.completedProjects++;
-				}
-				calculatedStats.totalPayouts += Number(project?.totalAgentBonus) || 0;
-			}
-
-			stats = calculatedStats;
-			needsClientLoad = false;
-		} catch (error) {
-			console.error('Failed to load dashboard stats:', error);
-			stats = {
-				activeProjects: 0,
-				completedProjects: 0,
-				totalPayouts: 0,
-				error: error.message
-			};
-		}
-	}
 
 	// Handle project creation success
 	async function handleProjectCreated() {
@@ -84,11 +26,6 @@
 
 	// Check for verification success message
 	onMount(() => {
-		// Load stats on client if needed
-		if (needsClientLoad) {
-			loadStatsOnClient();
-		}
-
 		const urlParams = new URLSearchParams(page.url.search);
 		const verified = urlParams.get('verified');
 
@@ -100,7 +37,7 @@
 			setTimeout(() => {
 				showSuccessMessage = false;
 				// Clear URL params
-				window.history.replaceState({}, '', '/dashboard');
+				window.history.replaceState({}, '', '/form');
 			}, 5000);
 		}
 
@@ -115,9 +52,9 @@
 </script>
 
 <svelte:head>
-	<title>Личный кабинет RUBONUS – Dashboard агента</title>
-	<meta name="description" content="Личный кабинет агента RUBONUS: создание проектов, просмотр статистики, управление клиентами. Доступ к секретному ключу и инструментам работы." />
-	<meta name="keywords" content="личный кабинет RUBONUS, dashboard агента, управление проектами, статистика агента" />
+	<title>Форма создания проекта RUBONUS</title>
+	<meta name="description" content="Форма создания проекта в RUBONUS: отправка данных через сайт или Telegram бот. Доступ к секретному ключу и инструментам работы." />
+	<meta name="keywords" content="форма RUBONUS, создание проекта, управление проектами, агент RUBONUS" />
 </svelte:head>
 
 <div
@@ -206,7 +143,7 @@
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mx-auto mb-16 text-center">
-			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Дашборд</h1>
+			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Форма</h1>
 			<!-- <p class="mt-6 text-lg/8 text-gray-300">
 				Добро пожаловать, {user?.name || 'пользователь'}!
 			</p> -->
@@ -295,48 +232,7 @@
 			</div>
 		</div>
 
-		<!-- Quick Stats - Streamed Data -->
-		{#if !stats}
-			<!-- Loading state: Show skeleton -->
-			<StatsCardSkeleton />
-		{:else}
-			<!-- Success state: Show data -->
-			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-				<h2 class="mb-6 text-center text-2xl font-semibold tracking-wide text-white">
-					Быстрая статистика
-				</h2>
 
-				{#if stats.error}
-					<!-- Error message if stats failed to load -->
-					<div class="mb-4 rounded-lg border border-red-500/30 bg-red-500/20 p-4 text-center">
-						<p class="text-sm text-red-300">{stats.error}</p>
-					</div>
-				{/if}
-
-				<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-					<div class="text-center">
-						<div class="mb-2 text-3xl font-bold text-indigo-400">
-							{stats?.activeProjects || 0}
-						</div>
-						<div class="text-gray-300">Активных проектов</div>
-					</div>
-
-					<div class="text-center">
-						<div class="mb-2 text-3xl font-bold text-green-400">
-							{stats?.completedProjects || 0}
-						</div>
-						<div class="text-gray-300">Закрытых проектов</div>
-					</div>
-
-					<div class="text-center">
-						<div class="mb-2 text-3xl font-bold text-yellow-400">
-							{stats?.totalPayouts || 0}
-						</div>
-						<div class="text-gray-300">Выплат получено</div>
-					</div>
-				</div>
-			</div>
-		{/if}
 
 		<!-- Action Buttons -->
 		<div class="flex flex-col justify-center gap-4 sm:flex-row">

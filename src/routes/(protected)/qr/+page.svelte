@@ -14,7 +14,7 @@
 
 	// Generate referral URL with UTM
 	function generateReferralUrl(userId) {
-		const baseUrl = 'https://rubonus.ru';
+		const baseUrl = 'https://rubonus.pro';
 		const utmParams = new URLSearchParams({
 			utm_source: 'agent_referral',
 			utm_medium: 'qr_code',

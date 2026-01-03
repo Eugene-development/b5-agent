@@ -14,8 +14,8 @@ export async function load({ parent, url }) {
 
 	// Redirect authenticated users to dashboard
 	if (isAuthenticated && user) {
-		console.log('🔒 User is authenticated, redirecting from auth page to dashboard');
-		throw redirect(302, '/dashboard');
+		console.log('🔒 User is authenticated, redirecting from auth page to form');
+		throw redirect(302, '/form');
 	}
 
 	// Allow access to auth pages for non-authenticated users

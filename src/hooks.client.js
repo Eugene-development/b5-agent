@@ -63,7 +63,7 @@ export async function beforeNavigate({ from, to, cancel }) {
 		if (!allowed) {
 			cancel();
 			const { goto } = await import('$app/navigation');
-			await goto('/dashboard');
+			await goto('/form');
 		}
 	}
 }

@@ -9,8 +9,8 @@
 
 	const menuItems = [
 		{
-			href: '/dashboard',
-			label: 'Дашборд',
+			href: '/form',
+			label: 'Форма',
 			color: 'blue'
 		},
 		{

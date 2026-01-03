@@ -162,9 +162,9 @@
 					<div class="space-y-2 py-6">
 						{#if authState.isAuthenticated}
 							<button
-								onclick={() => navigate('/dashboard')}
+								onclick={() => navigate('/form')}
 								class="active:scale-98 mb-2 flex w-full items-center overflow-hidden rounded-xl border border-slate-400/10 bg-gray-950 px-5 py-3.5 text-left text-base font-medium tracking-wide text-slate-200/90 shadow-sm transition-all duration-300 hover:border-indigo-400/30 hover:bg-indigo-500/15 hover:text-indigo-300 {isActive(
-									'/dashboard'
+									'/form'
 								)
 									? 'border-indigo-400/40 bg-gradient-to-br from-indigo-500/25 to-indigo-600/25 text-indigo-400 shadow-md shadow-indigo-500/30'
 									: ''}"
