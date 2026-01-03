@@ -40,6 +40,8 @@ const FINANCES_QUERIES = {
 				source_type
 				source_amount
 				project_name
+				is_contract_completed
+				is_partner_paid
 				created_at
 				updated_at
 			}

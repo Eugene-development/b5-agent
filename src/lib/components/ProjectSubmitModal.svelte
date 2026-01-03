@@ -11,6 +11,7 @@
 	let successMessage = $state('');
 	let errorMessage = $state('');
 	let showFullKey = $state(false);
+	let isIncognito = $state(false);
 
 	// Mask secret key showing only last 4 characters
 	function maskSecretKey(key) {
@@ -60,7 +61,8 @@
 					client_name: payload.clientName,
 					phone: payload.phone,
 					address: payload.address ?? null,
-					comment: payload.comment ?? null
+					comment: payload.comment ?? null,
+					is_incognito: payload.isIncognito ?? false
 				})
 			});
 
@@ -141,7 +143,8 @@
 			clientName: String(formData.get('client_name') || '').trim(),
 			phone: normalizedPhone,
 			address: String(formData.get('address') || '').trim() || null,
-			comment: String(formData.get('comment') || '').trim() || null
+			comment: String(formData.get('comment') || '').trim() || null,
+			isIncognito: isIncognito
 		};
 
 		const result = await publicSubmit(payload);
@@ -156,6 +159,7 @@
 			const commentInput = form.querySelector('#comment');
 			
 			if (clientNameInput) clientNameInput.value = '';
+			isIncognito = false;
 			if (phoneInput) phoneInput.value = '';
 			if (addressInput) addressInput.value = '';
 			if (commentInput) commentInput.value = '';
@@ -260,65 +264,87 @@
 				{/if}
 
 				<form onsubmit={handleSubmit} novalidate class="space-y-5">
-					<!-- Secret Key -->
-					<div class="group/field">
-						<label class="mb-2 flex items-center gap-2 text-sm font-medium text-slate-300" for="secret_key">
-							<svg class="h-4 w-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-							</svg>
-							Ключ агента
-							<span class="text-red-400">*</span>
-						</label>
-						<div class="relative">
-							<input
-								class="w-full rounded-xl border border-slate-600/50 bg-slate-800/50 px-4 py-3 pr-12 font-mono text-white placeholder-slate-500 opacity-75 transition-all duration-200 focus:border-purple-500/50 focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
-								type="text"
-								name="secret_key"
-								id="secret_key"
-								value={displayValue}
-								pattern="^[0-9A-HJKMNP-TV-Z]{26}$"
-								minlength="26"
-								maxlength="26"
-								inputmode="latin"
-								autocapitalize="characters"
-								autocomplete="off"
-								placeholder="01HZY8Y9G5F8M9B6W7K3NQ4Z8X"
-								readonly
-								required
-							/>
-							<button
-								type="button"
-								onclick={() => (showFullKey = !showFullKey)}
-								class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-white"
-								title={showFullKey ? 'Скрыть ключ' : 'Показать ключ'}
-							>
-								{#if showFullKey}
-									<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+					<!-- Secret Key and Incognito Row -->
+					<div class="flex gap-4 items-start">
+						<!-- Secret Key -->
+						<div class="group/field flex-1">
+							<label class="mb-2 flex items-center gap-2 text-sm font-medium text-slate-300" for="secret_key">
+								<svg class="h-4 w-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+								</svg>
+								Ключ агента
+								<span class="text-red-400">*</span>
+							</label>
+							<div class="relative">
+								<input
+									class="w-full rounded-xl border border-slate-600/50 bg-slate-800/50 px-4 py-3 pr-12 font-mono text-white placeholder-slate-500 opacity-75 transition-all duration-200 focus:border-purple-500/50 focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+									type="text"
+									name="secret_key"
+									id="secret_key"
+									value={displayValue}
+									pattern="^[0-9A-HJKMNP-TV-Z]{26}$"
+									minlength="26"
+									maxlength="26"
+									inputmode="latin"
+									autocapitalize="characters"
+									autocomplete="off"
+									placeholder="01HZY8Y9G5F8M9B6W7K3NQ4Z8X"
+									readonly
+									required
+								/>
+								<button
+									type="button"
+									onclick={() => (showFullKey = !showFullKey)}
+									class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-white"
+									title={showFullKey ? 'Скрыть ключ' : 'Показать ключ'}
+								>
+									{#if showFullKey}
+										<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+										</svg>
+									{:else}
+										<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+										</svg>
+									{/if}
+								</button>
+							</div>
+							{#if secretKeyInput}
+								<p class="mt-2 flex items-center gap-1 text-xs text-emerald-400">
+									<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 									</svg>
-								{:else}
-									<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+									Ваш секретный ключ подставлен автоматически
+								</p>
+							{:else}
+								<p class="mt-2 flex items-center gap-1 text-xs text-amber-400">
+									<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
 									</svg>
-								{/if}
-							</button>
+									Секретный ключ не найден. Проверьте профиль.
+								</p>
+							{/if}
 						</div>
-						{#if secretKeyInput}
-							<p class="mt-2 flex items-center gap-1 text-xs text-emerald-400">
-								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-								</svg>
-								Ваш секретный ключ подставлен автоматически
-							</p>
-						{:else}
-							<p class="mt-2 flex items-center gap-1 text-xs text-amber-400">
-								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-								</svg>
-								Секретный ключ не найден. Проверьте профиль.
-							</p>
-						{/if}
+
+						<!-- Incognito Checkbox -->
+						<div class="group/field shrink-0 pt-8">
+							<label class="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-600/50 bg-slate-800/50 px-4 py-3 transition-all duration-200 hover:border-slate-500/50 hover:bg-slate-800" for="is_incognito">
+								<input
+									class="h-5 w-5 cursor-pointer rounded border-slate-500 bg-slate-700 text-purple-500 transition-colors focus:ring-2 focus:ring-purple-500/20 focus:ring-offset-0"
+									type="checkbox"
+									name="is_incognito"
+									id="is_incognito"
+									bind:checked={isIncognito}
+								/>
+								<div class="flex items-center gap-2">
+									<svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+									</svg>
+									<span class="text-sm font-medium text-slate-300">Инкогнито</span>
+								</div>
+							</label>
+						</div>
 					</div>
 
 					<!-- Client Name -->
