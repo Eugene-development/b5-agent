@@ -53,7 +53,7 @@
 		"
 	>
 		<!-- Branding -->
-		<div class="z-10 mt-8 text-center">
+		<div class="z-10 mt-2 text-center">
 			<h2 class="font-mono text-4xl font-bold tracking-widest" style="color: #ffffff;">
 				RUBONUS<span class="tracking-wider text-3xl" style="color: #22d3ee;">.pro</span>
 			</h2>
