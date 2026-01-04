@@ -337,12 +337,7 @@
 									id="is_incognito"
 									bind:checked={isIncognito}
 								/>
-								<div class="flex items-center gap-2">
-									<svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-									</svg>
-									<span class="text-sm font-medium text-slate-300">Инкогнито</span>
-								</div>
+								<span class="text-sm font-medium text-slate-300">Инкогнито</span>
 							</label>
 						</div>
 					</div>
