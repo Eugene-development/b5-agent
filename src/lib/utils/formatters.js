@@ -3,6 +3,26 @@
  */
 
 /**
+ * Format currency value to Russian format with ₽ symbol
+ * @param {number} value - Value to format
+ * @param {boolean} showDecimals - Whether to show decimal places (default: true)
+ * @returns {string} Formatted currency string
+ */
+export function formatCurrency(value, showDecimals = true) {
+	if (value === null || value === undefined || isNaN(value)) {
+		return '0 ₽';
+	}
+
+	const num = Number(value);
+	const options = {
+		minimumFractionDigits: showDecimals ? 2 : 0,
+		maximumFractionDigits: showDecimals ? 2 : 0
+	};
+
+	return num.toLocaleString('ru-RU', options) + ' ₽';
+}
+
+/**
  * Format phone number to +7 (XXX) XXX-XX-XX format
  * @param {string|number} phone - Phone number to format
  * @returns {string} Formatted phone string

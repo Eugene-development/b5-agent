@@ -23,6 +23,7 @@ import {
 	hasAuthToken
 } from '../api/config.js';
 import { goto } from '$app/navigation';
+import { getReferralId, clearReferralId } from '../utils/referral.js';
 
 /**
  * Authentication state using Svelte 5 runes
@@ -265,9 +266,18 @@ export async function register(userData) {
 	authState.error = null;
 
 	try {
+		// Add referral ID if present in localStorage
+		const referralId = getReferralId();
+		if (referralId) {
+			userData.ref = referralId;
+		}
+
 		const result = await registerUser(userData);
 
 		if (result.success) {
+			// Clear referral ID after successful registration
+			clearReferralId();
+
 			// Update auth state and normalize user data
 			const normalizedUser = normalizeUserData(result.user);
 			authState.user = normalizedUser;

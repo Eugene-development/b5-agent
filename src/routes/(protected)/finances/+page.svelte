@@ -11,6 +11,7 @@
 	import PaymentFilters from '$lib/components/finances/PaymentFilters.svelte';
 	import PaymentDetailModal from '$lib/components/finances/PaymentDetailModal.svelte';
 	import FinancesPageSkeleton from '$lib/components/finances/FinancesPageSkeleton.svelte';
+	import ReferralBonusStats from '$lib/components/finances/ReferralBonusStats.svelte';
 	import { createFinancesApi } from '$lib/api/finances.js';
 	import { invalidate } from '$app/navigation';
 
@@ -22,6 +23,7 @@
 	let bonuses = $state([]);
 	let payments = $state([]);
 	let stats = $state({ total_pending: 0, total_available: 0, total_paid: 0 });
+	let referralStats = $state({ total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] });
 	let loading = $state(false);
 	let isRefreshing = $state(false);
 	let dataLoaded = $state(false);
@@ -89,20 +91,22 @@
 			const api = createFinancesApi(fetch);
 			console.log('🔄 Finances: Created API client, starting requests...');
 			
-			const [bonusesData, paymentsData, statsData, statusesData, paymentStatusesData, methodsData] = 
+			const [bonusesData, paymentsData, statsData, statusesData, paymentStatusesData, methodsData, referralStatsData] = 
 				await Promise.all([
 					api.getBonuses().catch(e => { console.error('getBonuses failed:', e); return []; }),
 					api.getPayments().catch(e => { console.error('getPayments failed:', e); return []; }),
 					api.getBonusStats().catch(e => { console.error('getBonusStats failed:', e); return { total_pending: 0, total_available: 0, total_paid: 0 }; }),
 					api.getBonusStatuses().catch(e => { console.error('getBonusStatuses failed:', e); return []; }),
 					api.getPaymentStatuses().catch(e => { console.error('getPaymentStatuses failed:', e); return []; }),
-					api.getPaymentMethods().catch(e => { console.error('getPaymentMethods failed:', e); return []; })
+					api.getPaymentMethods().catch(e => { console.error('getPaymentMethods failed:', e); return []; }),
+					api.getReferralBonusStats().catch(e => { console.error('getReferralBonusStats failed:', e); return { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] }; })
 				]);
 
 			console.log('✅ Finances: Client-side data loaded', {
 				bonuses: bonusesData?.length || 0,
 				payments: paymentsData?.length || 0,
-				stats: statsData
+				stats: statsData,
+				referralStats: referralStatsData
 			});
 
 			bonuses = bonusesData;
@@ -111,6 +115,7 @@
 			bonusStatuses = statusesData;
 			paymentStatuses = paymentStatusesData;
 			paymentMethods = methodsData;
+			referralStats = referralStatsData;
 			dataLoaded = true;
 		} catch (error) {
 			console.error('❌ Failed to load finances data:', error);
@@ -284,6 +289,13 @@
 					</button>
 					<button
 						type="button"
+						onclick={() => activeTab = 'referrals'}
+						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'referrals' ? 'border-purple-500 text-purple-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
+					>
+						Рефералы
+					</button>
+					<button
+						type="button"
 						onclick={() => activeTab = 'payments'}
 						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'payments' ? 'border-cyan-500 text-cyan-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
 					>
@@ -326,6 +338,9 @@
 							<BonusesTable {bonuses} />
 						</div>
 					</div>
+				{:else if activeTab === 'referrals'}
+					<!-- Referrals Tab -->
+					<ReferralBonusStats stats={referralStats} />
 				{:else}
 					<!-- Payments Tab -->
 					<div class="space-y-6">

@@ -135,6 +135,28 @@ const FINANCES_QUERIES = {
 				description
 			}
 		}
+	`,
+
+	/**
+	 * Get referral bonus statistics
+	 */
+	GET_REFERRAL_BONUS_STATS: `
+		query GetReferralBonusStats {
+			referralBonusStats {
+				total_pending
+				total_available
+				total_paid
+				total
+				referrals {
+					user_id
+					name
+					email
+					registered_at
+					is_active
+					total_bonus
+				}
+			}
+		}
 	`
 };
 
@@ -271,6 +293,31 @@ export class FinancesApi {
 		} catch (error) {
 			console.error('Failed to fetch payment methods:', error);
 			throw new Error(`Failed to fetch payment methods: ${error.message}`);
+		}
+	}
+
+	/**
+	 * Get referral bonus statistics
+	 * @returns {Promise<Object>} Referral bonus statistics with referrals list
+	 */
+	async getReferralBonusStats() {
+		try {
+			const response = await this.apiClients.data.graphql(FINANCES_QUERIES.GET_REFERRAL_BONUS_STATS);
+
+			if (response.errors) {
+				throw new Error(response.errors[0]?.message || 'GraphQL query failed');
+			}
+
+			return response.data?.referralBonusStats || {
+				total_pending: 0,
+				total_available: 0,
+				total_paid: 0,
+				total: 0,
+				referrals: []
+			};
+		} catch (error) {
+			console.error('Failed to fetch referral bonus stats:', error);
+			throw new Error(`Failed to fetch referral bonus stats: ${error.message}`);
 		}
 	}
 }

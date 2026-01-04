@@ -4,6 +4,7 @@
 	import { initializeAuth, authState } from '$lib/auth/auth.svelte.js';
 	import { PageTransition } from '$lib';
 	import { page } from '$app/stores';
+	import { captureReferralFromUrl } from '$lib/utils/referral.js';
 
 	import Menu from './layout/header/UI/Menu/index.svelte';
 	import Footer from './layout/footer/index.svelte';
@@ -12,6 +13,13 @@
 
 	// Track if initial auth check is complete
 	let authInitialized = $state(false);
+
+	// Capture referral ID from URL on page load
+	$effect(() => {
+		if (typeof window !== 'undefined') {
+			captureReferralFromUrl(new URL(window.location.href));
+		}
+	});
 
 	// Initialize authentication from localStorage (JWT mode)
 	$effect(() => {
