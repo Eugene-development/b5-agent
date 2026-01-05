@@ -65,27 +65,24 @@
 
 	/**
 	 * Проверить доступность бонуса к выплате
-	 * Бонус доступен, если установлена дата available_at и не выплачен
+	 * Для договоров: is_contract_completed И is_partner_paid должны быть true
+	 * Для заказов: проверяем available_at
+	 * В обоих случаях: бонус не должен быть выплачен (paid_at = null)
 	 */
 	function isBonusAvailable(bonus) {
-		// Проверяем, что available_at существует и не пустой
-		const hasAvailableAt = bonus.available_at !== null && bonus.available_at !== undefined && bonus.available_at !== '';
-		// Проверяем, что бонус ещё не выплачен
-		const notPaid = !bonus.paid_at;
-		
-		// Debug: выводим данные для отладки
-		if (bonus.contract?.contract_number === 'DOC-CPNS-2617') {
-			console.log('DEBUG DOC-CPNS-2617:', {
-				available_at: bonus.available_at,
-				paid_at: bonus.paid_at,
-				hasAvailableAt,
-				notPaid,
-				result: hasAvailableAt && notPaid,
-				fullBonus: bonus
-			});
+		// Бонус уже выплачен - не доступен
+		if (bonus.paid_at) {
+			return false;
 		}
 		
-		return hasAvailableAt && notPaid;
+		// Для договоров: проверяем оба условия
+		if (bonus.source_type === 'contract') {
+			return bonus.is_contract_completed === true && bonus.is_partner_paid === true;
+		}
+		
+		// Для заказов: проверяем available_at
+		const hasAvailableAt = bonus.available_at !== null && bonus.available_at !== undefined && bonus.available_at !== '';
+		return hasAvailableAt;
 	}
 </script>
 
