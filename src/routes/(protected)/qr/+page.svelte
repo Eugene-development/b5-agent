@@ -14,13 +14,13 @@
 	let copyState = $state({ show: false, message: '' });
 
 	// Generate referral URL with UTM
-	function generateReferralUrl(userId) {
+	function generateReferralUrl(userKey) {
 		const baseUrl = 'https://rubonus.pro';
 		const utmParams = new URLSearchParams({
 			utm_source: 'agent_referral',
 			utm_medium: 'qr_code',
 			utm_campaign: 'agent_program',
-			ref: userId.toString()
+			ref: userKey
 		});
 		return `${baseUrl}/?${utmParams.toString()}`;
 	}
@@ -89,7 +89,7 @@
 
 		// Get user data
 		const user = getCurrentUserData();
-		if (!user?.id) {
+		if (!user?.key) {
 			error = 'Не удалось получить данные пользователя';
 			isLoading = false;
 			return;
@@ -97,7 +97,7 @@
 
 		try {
 			// Generate referral URL and QR
-			referralUrl = generateReferralUrl(user.id);
+			referralUrl = generateReferralUrl(user.key);
 			qrCodeDataUrl = await generateQRCode(referralUrl);
 		} catch (err) {
 			error = err.message;

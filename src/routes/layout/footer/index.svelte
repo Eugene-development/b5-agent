@@ -64,16 +64,6 @@
 					</li>
 					<li>
 						<a
-							href="https://rubonus.info"
-							target="_blank"
-							rel="noopener noreferrer"
-							class="text-sm text-gray-400 transition-colors duration-200 hover:text-indigo-400"
-						>
-							CSRM система
-						</a>
-					</li>
-					<li>
-						<a
 							href="/vacancies"
 							class="text-sm text-gray-400 transition-colors duration-200 hover:text-purple-400"
 						>
