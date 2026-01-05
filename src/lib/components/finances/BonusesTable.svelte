@@ -65,15 +65,10 @@
 
 	/**
 	 * Проверить доступность бонуса к выплате
-	 * Для договоров: оба условия (is_contract_completed И is_partner_paid) должны быть true
-	 * Для заказов: проверяем available_at
+	 * Бонус доступен, если установлена дата available_at
 	 */
 	function isBonusAvailable(bonus) {
-		if (bonus.source_type === 'contract') {
-			return bonus.is_contract_completed === true && bonus.is_partner_paid === true;
-		}
-		// Для заказов - проверяем наличие available_at
-		return bonus.available_at !== null;
+		return bonus.available_at !== null && bonus.paid_at === null;
 	}
 </script>
 
