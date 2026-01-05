@@ -137,24 +137,11 @@
 
 					<h3 class="text-2xl font-bold text-white">ТОП 10 агентов</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						Войди в десятку лучших агентов по итогам 2026 года и получи
-						<span class="font-bold text-purple-400">специальный бонус</span>
+						Войди в десятку лучших агентов по итогам 2026 года и получи статус <span class="font-bold text-purple-400">премиум-агента</span> на 2027 год
 					</p>
 
 					<div class="mt-6 space-y-3">
-						<div class="flex items-start gap-2">
-							<svg
-								class="mt-1 size-5 shrink-0 text-purple-400"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="2"
-								stroke="currentColor"
-							>
-								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-							</svg>
-							<p class="text-sm text-gray-400">Денежный приз для победителей</p>
-						</div>
-						<div class="flex items-start gap-2">
+												<div class="flex items-start gap-2">
 							<svg
 								class="mt-1 size-5 shrink-0 text-purple-400"
 								fill="none"
@@ -165,8 +152,21 @@
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
 							<p class="text-sm text-gray-400">
-								Статус премиум-агента на 2027 год с повышенным бонусом
+								Плюсом подарок
 							</p>
+						</div>
+
+						<div class="flex items-start gap-2">
+							<svg
+								class="mt-1 size-5 shrink-0 text-purple-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="2"
+								stroke="currentColor"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+							</svg>
+							<p class="text-sm text-gray-400">Выплата бонусов со статусом "Ожидание"</p>
 						</div>
 						<div class="flex items-start gap-2">
 							<svg
@@ -178,7 +178,7 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Эксклюзивные условия сотрудничества</p>
+							<p class="text-sm text-gray-400">Повышенный бонус <span class="font-bold text-purple-400">+0.4%</span> к каждому вашему проекту</p>
 						</div>
 					</div>
 
