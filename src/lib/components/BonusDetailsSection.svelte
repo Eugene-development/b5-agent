@@ -41,8 +41,9 @@
 								{formatCurrency(bonusDetails.totalAvailableBonus)}
 							</p>
 						{:else}
-							<span class="text-2xl text-gray-500">—</span>
-							<p class="text-xl font-bold text-gray-500">Недоступно</p>
+							<p class="text-xl font-bold text-gray-400">
+								{formatCurrency(0)}
+							</p>
 						{/if}
 					</div>
 				</div>
