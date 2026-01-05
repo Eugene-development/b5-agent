@@ -268,8 +268,10 @@ export async function register(userData) {
 	try {
 		// Add referral ID if present in localStorage
 		const referralId = getReferralId();
+		console.log('[Referral] Registration - ref from localStorage:', referralId);
 		if (referralId) {
 			userData.ref = referralId;
+			console.log('[Referral] Adding ref to registration data:', userData.ref);
 		}
 
 		const result = await registerUser(userData);

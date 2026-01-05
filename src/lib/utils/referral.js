@@ -58,6 +58,10 @@ export function captureReferralFromUrl(urlOrParams) {
 	}
 
 	if (ref) {
+		console.log('[Referral] Capturing ref from URL:', ref);
 		saveReferralId(ref);
+		console.log('[Referral] Saved to localStorage:', localStorage.getItem(REFERRAL_STORAGE_KEY));
+	} else {
+		console.log('[Referral] No ref parameter found in URL');
 	}
 }

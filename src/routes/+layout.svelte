@@ -5,6 +5,8 @@
 	import { PageTransition } from '$lib';
 	import { page } from '$app/stores';
 	import { captureReferralFromUrl } from '$lib/utils/referral.js';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	import Menu from './layout/header/UI/Menu/index.svelte';
 	import Footer from './layout/footer/index.svelte';
@@ -14,10 +16,17 @@
 	// Track if initial auth check is complete
 	let authInitialized = $state(false);
 
-	// Capture referral ID from URL on page load
+	// Capture referral ID on mount and whenever URL changes
+	onMount(() => {
+		console.log('[Referral] onMount - Checking URL:', window.location.href);
+		captureReferralFromUrl(new URL(window.location.href));
+	});
+
+	// Also capture on URL changes during SPA navigation
 	$effect(() => {
-		if (typeof window !== 'undefined') {
-			captureReferralFromUrl(new URL(window.location.href));
+		if (browser && $page.url) {
+			console.log('[Referral] $effect - Checking URL for ref parameter:', $page.url.href);
+			captureReferralFromUrl($page.url);
 		}
 	});
 
