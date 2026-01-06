@@ -10,7 +10,7 @@
  */
 export function formatCurrency(value, showDecimals = true) {
 	if (value === null || value === undefined || isNaN(value)) {
-		return '0 ₽';
+		return '0';
 	}
 
 	const num = Number(value);
@@ -19,7 +19,7 @@ export function formatCurrency(value, showDecimals = true) {
 		maximumFractionDigits: showDecimals ? 2 : 0
 	};
 
-	return num.toLocaleString('ru-RU', options) + ' ₽';
+	return num.toLocaleString('ru-RU', options);
 }
 
 /**

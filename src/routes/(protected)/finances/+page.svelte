@@ -10,6 +10,7 @@
 	import BonusFilters from '$lib/components/finances/BonusFilters.svelte';
 	import PaymentFilters from '$lib/components/finances/PaymentFilters.svelte';
 	import PaymentDetailModal from '$lib/components/finances/PaymentDetailModal.svelte';
+	import PayoutRequestModal from '$lib/components/finances/PayoutRequestModal.svelte';
 	import FinancesPageSkeleton from '$lib/components/finances/FinancesPageSkeleton.svelte';
 	import ReferralBonusStats from '$lib/components/finances/ReferralBonusStats.svelte';
 	import { createFinancesApi } from '$lib/api/finances.js';
@@ -28,6 +29,7 @@
 	let isRefreshing = $state(false);
 	let dataLoaded = $state(false);
 	let selectedPayment = $state(null);
+	let showPayoutModal = $state(false);
 	let bonusStatuses = $state([]);
 	let paymentStatuses = $state([]);
 	let paymentMethods = $state([]);
@@ -201,6 +203,14 @@
 		selectedPayment = null;
 	}
 
+	function openPayoutModal() {
+		showPayoutModal = true;
+	}
+
+	function closePayoutModal() {
+		showPayoutModal = false;
+	}
+
 	// Refresh data from server
 	async function refreshData() {
 		isRefreshing = true;
@@ -273,7 +283,7 @@
 
 		<!-- Stats Cards -->
 		<div class="mb-8">
-			<BonusStatsCards {stats} />
+			<BonusStatsCards {stats} onRequestPayout={openPayoutModal} />
 		</div>
 
 		<!-- Tabs -->
@@ -370,4 +380,12 @@
 <!-- Payment Detail Modal -->
 {#if selectedPayment}
 	<PaymentDetailModal payment={selectedPayment} onClose={closePaymentModal} />
+{/if}
+
+<!-- Payout Request Modal -->
+{#if showPayoutModal}
+	<PayoutRequestModal 
+		availableAmount={stats.total_available} 
+		onClose={closePayoutModal} 
+	/>
 {/if}
