@@ -4,6 +4,8 @@
 	 * Requirements: 7.x - Заказ выплаты агенту
 	 */
 
+	import { bonusPaymentsApi } from '$lib/api/bonusPayments.js';
+
 	/** @type {{ availableAmount: number, onClose: () => void, onSubmit?: (data: any) => void }} */
 	let { availableAmount = 0, onClose, onSubmit } = $props();
 
@@ -14,6 +16,12 @@
 	let phoneNumber = $state('');
 	let contactInfo = $state('');
 	let comment = $state('');
+	
+	// Состояние отправки
+	let isSubmitting = $state(false);
+	
+	// Состояние уведомления
+	let notification = $state({ show: false, type: 'success', message: '' });
 
 	// Методы оплаты
 	const paymentMethods = [
@@ -35,11 +43,25 @@
 	}
 
 	/**
+	 * Показать уведомление
+	 * @param {'success' | 'error'} type
+	 * @param {string} message
+	 */
+	function showNotification(type, message) {
+		notification = { show: true, type, message };
+		setTimeout(() => {
+			notification = { show: false, type: 'success', message: '' };
+		}, 3000);
+	}
+
+	/**
 	 * Обработка отправки формы
 	 * @param {Event} event
 	 */
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
+		
+		if (isSubmitting) return;
 		
 		const formData = {
 			amount: parseFloat(amount) || 0,
@@ -50,9 +72,28 @@
 			comment
 		};
 
-		// TODO: Функционал отправки будет реализован позже
-		if (onSubmit) {
-			onSubmit(formData);
+		isSubmitting = true;
+		
+		try {
+			const result = await bonusPaymentsApi.createBonusPaymentRequest(formData);
+			
+			showNotification('success', 'Заявка на выплату успешно создана');
+			
+			// Вызываем callback если передан
+			if (onSubmit) {
+				onSubmit(result);
+			}
+			
+			// Закрываем модал через небольшую задержку для показа уведомления
+			setTimeout(() => {
+				onClose();
+				window.location.reload();
+			}, 1500);
+		} catch (error) {
+			console.error('Failed to create payment request:', error);
+			showNotification('error', error.message || 'Не удалось создать заявку на выплату');
+		} finally {
+			isSubmitting = false;
 		}
 	}
 
@@ -71,6 +112,27 @@
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
+
+<!-- Toast notification -->
+{#if notification.show}
+	<div class="fixed left-1/2 top-24 z-[9999] w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="rounded-lg border {notification.type === 'success' ? 'border-green-500/30 bg-green-500/20' : 'border-red-500/30 bg-red-500/20'} p-4 shadow-lg backdrop-blur-sm">
+			<div class="flex items-center justify-center">
+				{#if notification.type === 'success'}
+					<svg class="mr-2 h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+					</svg>
+					<p class="text-sm font-medium text-green-300">{notification.message}</p>
+				{:else}
+					<svg class="mr-2 h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+					<p class="text-sm font-medium text-red-300">{notification.message}</p>
+				{/if}
+			</div>
+		</div>
+	</div>
+{/if}
 
 <!-- Backdrop -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -96,7 +158,7 @@
 				</div>
 				<div>
 					<h3 class="text-lg font-semibold text-white">Заказать выплату</h3>
-					<p class="text-sm text-gray-400">Доступно: {formatCurrency(availableAmount)}</p>
+					<p class="text-sm text-gray-400">Доступно: <span class="text-green-400">{formatCurrency(availableAmount)}</span></p>
 				</div>
 			</div>
 			<button
@@ -136,9 +198,6 @@
 						MAX
 					</button>
 				</div>
-				<p class="mt-1.5 text-xs text-gray-500">
-					Максимальная сумма: {formatCurrency(availableAmount)}
-				</p>
 			</div>
 
 			<!-- Способ выплаты -->
@@ -146,27 +205,27 @@
 				<p class="block text-sm font-medium text-gray-300 mb-2">
 					Способ выплаты
 				</p>
-				<div class="grid grid-cols-2 gap-3">
+				<div class="grid grid-cols-3 gap-3">
 					{#each paymentMethods as method}
 						<button
 							type="button"
 							onclick={() => paymentMethod = method.id}
-							class="flex items-center gap-3 p-4 rounded-lg border-2 transition-all {
+							class="flex items-center gap-3 p-2 rounded-lg border-2 transition-all {
 								paymentMethod === method.id 
 									? 'border-green-500 bg-green-500/10' 
 									: 'border-gray-700 bg-gray-800 hover:border-gray-600'
 							}"
 						>
 							{#if method.icon === 'card'}
-								<svg class="w-5 h-5 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<svg class="w-5 h-5 flex-shrink-0 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
 								</svg>
 							{:else if method.icon === 'phone'}
-								<svg class="w-5 h-5 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<svg class="w-5 h-5 flex-shrink-0 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
 								</svg>
 							{:else}
-								<svg class="w-5 h-5 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<svg class="w-5 h-5 flex-shrink-0 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 								</svg>
 							{/if}
@@ -246,7 +305,6 @@
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
 					<div class="text-sm text-amber-200">
-						<p class="font-medium mb-1">Информация о выплатах</p>
 						<p class="text-amber-300/80">
 							Выплаты обрабатываются в течение 3-5 рабочих дней. Минимальная сумма выплаты — 1 000 ₽.
 						</p>
@@ -267,13 +325,21 @@
 			<button
 				type="submit"
 				onclick={handleSubmit}
-				disabled={!amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > Math.round(availableAmount)}
+				disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > Math.round(availableAmount)}
 				class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2"
 			>
-				<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-				</svg>
-				Заказать выплату
+				{#if isSubmitting}
+					<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+						<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+					</svg>
+					Отправка...
+				{:else}
+					<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+					</svg>
+					Заказать выплату
+				{/if}
 			</button>
 		</div>
 	</div>
