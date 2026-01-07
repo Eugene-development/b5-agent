@@ -12,12 +12,14 @@
 	let paymentMethod = $state('');
 	let cardNumber = $state('');
 	let phoneNumber = $state('');
+	let contactInfo = $state('');
 	let comment = $state('');
 
 	// Методы оплаты
 	const paymentMethods = [
-		{ id: 'card', name: 'На карту', icon: 'card' },
-		{ id: 'sbp', name: 'СБП (по номеру телефона)', icon: 'phone' }
+		{ id: 'card', name: 'КАРТА', icon: 'card' },
+		{ id: 'sbp', name: 'СБП', icon: 'phone' },
+		{ id: 'other', name: 'ДРУГОЕ', icon: 'other' }
 	];
 
 	/**
@@ -44,6 +46,7 @@
 			paymentMethod,
 			cardNumber: paymentMethod === 'card' ? cardNumber : null,
 			phoneNumber: paymentMethod === 'sbp' ? phoneNumber : null,
+			contactInfo: paymentMethod === 'other' ? contactInfo : null,
 			comment
 		};
 
@@ -57,7 +60,7 @@
 	 * Установить всю доступную сумму
 	 */
 	function setMaxAmount() {
-		amount = availableAmount.toString();
+		amount = Math.round(availableAmount).toString();
 	}
 
 	function handleKeydown(event) {
@@ -121,9 +124,9 @@
 						id="amount"
 						bind:value={amount}
 						min="1"
-						max={availableAmount}
+						max={Math.round(availableAmount)}
 						placeholder="0"
-						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
 					/>
 					<button
 						type="button"
@@ -158,9 +161,13 @@
 								<svg class="w-5 h-5 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
 								</svg>
-							{:else}
+							{:else if method.icon === 'phone'}
 								<svg class="w-5 h-5 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+								</svg>
+							{:else}
+								<svg class="w-5 h-5 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 								</svg>
 							{/if}
 							<span class="text-sm font-medium {paymentMethod === method.id ? 'text-green-400' : 'text-gray-300'}">
@@ -198,6 +205,21 @@
 						id="phoneNumber"
 						bind:value={phoneNumber}
 						placeholder="+7 (___) ___-__-__"
+						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+					/>
+				</div>
+			{/if}
+
+			{#if paymentMethod === 'other'}
+				<div class="mb-5">
+					<label for="contactInfo" class="block text-sm font-medium text-gray-300 mb-2">
+						Как с вами связаться?
+					</label>
+					<input
+						type="text"
+						id="contactInfo"
+						bind:value={contactInfo}
+						placeholder="Телефон, email или другой способ связи"
 						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 					/>
 				</div>
@@ -245,7 +267,7 @@
 			<button
 				type="submit"
 				onclick={handleSubmit}
-				disabled={!amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > availableAmount}
+				disabled={!amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > Math.round(availableAmount)}
 				class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2"
 			>
 				<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
