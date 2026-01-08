@@ -38,6 +38,13 @@ const GET_AGENT_BONUSES_QUERY = `
 			project_name
 			is_contract_completed
 			is_partner_paid
+			bonus_type
+			bonus_type_label
+			referral_user_id
+			referralUser {
+				id
+				name
+			}
 			created_at
 			updated_at
 		}
