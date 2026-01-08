@@ -67,30 +67,6 @@
 		</select>
 	</div>
 
-	<!-- Фильтр по дате от -->
-	<div class="flex-1 min-w-[150px]">
-		<label for="date-from" class="block text-sm font-medium text-gray-400 mb-1">Дата от</label>
-		<input
-			type="date"
-			id="date-from"
-			value={filters.date_from || ''}
-			onchange={(e) => onFilterChange('date_from', e.target.value)}
-			class="w-full rounded-md bg-gray-800 border-gray-700 text-gray-300 text-sm focus:ring-cyan-500 focus:border-cyan-500"
-		/>
-	</div>
-
-	<!-- Фильтр по дате до -->
-	<div class="flex-1 min-w-[150px]">
-		<label for="date-to" class="block text-sm font-medium text-gray-400 mb-1">Дата до</label>
-		<input
-			type="date"
-			id="date-to"
-			value={filters.date_to || ''}
-			onchange={(e) => onFilterChange('date_to', e.target.value)}
-			class="w-full rounded-md bg-gray-800 border-gray-700 text-gray-300 text-sm focus:ring-cyan-500 focus:border-cyan-500"
-		/>
-	</div>
-
 	<!-- Кнопка сброса -->
 	<div>
 		<button

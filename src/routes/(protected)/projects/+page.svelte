@@ -481,21 +481,19 @@
 <div class="projects-page min-h-screen bg-gray-950 py-2 sm:py-8">
 	<div class="mx-auto max-w-7xl px-4 ">
 		<!-- Page Header -->
-		<div class="mb-8">
-			<div class="mb-4">
-				<h1 class="mb-2 text-3xl font-bold text-white">Проекты</h1>
-				<!-- <p class="text-gray-300">Управление проектами и просмотр их статистики</p> -->
+		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<div>
+				<h1 class="text-3xl font-bold text-white">Проекты</h1>
 			</div>
-			<div class="grid grid-cols-2 gap-3 sm:gap-4">
+			<div class="flex gap-3">
 				<button
 					type="button"
 					onclick={toggleFilters}
-					class="group relative inline-flex min-h-[44px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:from-blue-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98]"
+					class="inline-flex items-center gap-2 rounded-lg border border-gray-600 bg-gray-800/50 px-4 py-2 text-sm font-medium text-gray-300 transition-all duration-200 hover:border-gray-500 hover:bg-gray-700/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-950"
 					aria-label="Открыть фильтры проектов"
 				>
-					<div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 					<svg
-						class="relative mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+						class="h-4 w-4"
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -508,18 +506,17 @@
 							d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
 						/>
 					</svg>
-					<span class="relative">Фильтры</span>
+					<span>Фильтры</span>
 				</button>
 				<button
 					type="button"
 					onclick={refreshData}
 					disabled={isRefreshing}
-					class="group relative inline-flex min-h-[44px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:from-cyan-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-950 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+					class="inline-flex items-center gap-2 rounded-lg border border-gray-600 bg-gray-800/50 px-4 py-2 text-sm font-medium text-gray-300 transition-all duration-200 hover:border-gray-500 hover:bg-gray-700/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-950 disabled:cursor-not-allowed disabled:opacity-50"
 					aria-label="Обновить данные проектов с сервера"
 				>
-					<div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 					<svg
-						class="relative mr-2 h-4 w-4 {isRefreshing ? 'animate-spin' : 'transition-transform duration-300 group-hover:rotate-180'}"
+						class="h-4 w-4 {isRefreshing ? 'animate-spin' : ''}"
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -548,7 +545,7 @@
 							/>
 						{/if}
 					</svg>
-					<span class="relative">{isRefreshing ? 'Обновляю...' : 'Обновить данные'}</span>
+					<span>{isRefreshing ? 'Обновляю...' : 'Обновить'}</span>
 				</button>
 			</div>
 		</div>
