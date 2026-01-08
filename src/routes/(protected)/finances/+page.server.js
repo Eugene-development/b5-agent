@@ -133,6 +133,32 @@ const GET_PAYMENT_METHODS_QUERY = `
 `;
 
 /**
+ * GraphQL query to fetch agent's bonus payment requests
+ */
+const GET_MY_BONUS_PAYMENT_REQUESTS_QUERY = `
+	query GetMyBonusPaymentRequests($filters: BonusPaymentRequestFilters) {
+		myBonusPaymentRequests(filters: $filters) {
+			id
+			amount
+			payment_method
+			card_number
+			phone_number
+			contact_info
+			comment
+			status {
+				id
+				code
+				name
+				color
+			}
+			payment_date
+			created_at
+			updated_at
+		}
+	}
+`;
+
+/**
  * GraphQL query to fetch referral bonus statistics
  */
 const GET_REFERRAL_BONUS_STATS_QUERY = `
@@ -167,7 +193,7 @@ async function loadFinancesData(token, fetch, event) {
 	});
 
 	// Load all data in parallel
-	const [bonusesData, statsData, paymentsData, statusesData, paymentStatusesData, methodsData, referralStatsData] = await Promise.all([
+	const [bonusesData, statsData, paymentsData, statusesData, paymentStatusesData, methodsData, referralStatsData, bonusPaymentRequestsData] = await Promise.all([
 		makeServerGraphQLRequest(token, GET_AGENT_BONUSES_QUERY, { filters: null }, fetch, event).catch(err => {
 			console.error('❌ Finances SSR: agentBonuses query failed:', err.message);
 			return { agentBonuses: [] };
@@ -195,6 +221,10 @@ async function loadFinancesData(token, fetch, event) {
 		makeServerGraphQLRequest(token, GET_REFERRAL_BONUS_STATS_QUERY, {}, fetch, event).catch(err => {
 			console.error('❌ Finances SSR: referralBonusStats query failed:', err.message);
 			return { referralBonusStats: null };
+		}),
+		makeServerGraphQLRequest(token, GET_MY_BONUS_PAYMENT_REQUESTS_QUERY, { filters: null }, fetch, event).catch(err => {
+			console.error('❌ Finances SSR: myBonusPaymentRequests query failed:', err.message);
+			return { myBonusPaymentRequests: [] };
 		})
 	]);
 
@@ -215,11 +245,13 @@ async function loadFinancesData(token, fetch, event) {
 		total: 0,
 		referrals: []
 	};
+	const bonusPaymentRequests = bonusPaymentRequestsData?.myBonusPaymentRequests || [];
 
 	const loadTime = Date.now() - startTime;
 	console.log(`✅ Finances SSR: Loaded data in ${loadTime}ms`, {
 		bonuses: bonuses.length,
 		payments: payments.length,
+		bonusPaymentRequests: bonusPaymentRequests.length,
 		stats,
 		referralsCount: referralStats.referrals?.length || 0
 	});
@@ -227,6 +259,7 @@ async function loadFinancesData(token, fetch, event) {
 	return {
 		bonuses,
 		payments,
+		bonusPaymentRequests,
 		stats,
 		bonusStatuses,
 		paymentStatuses,
@@ -267,6 +300,7 @@ export async function load({ locals, fetch, depends, event }) {
 				financesData: {
 					bonuses: [],
 					payments: [],
+					bonusPaymentRequests: [],
 					stats: { total_pending: 0, total_available: 0, total_paid: 0 },
 					bonusStatuses: [],
 					paymentStatuses: [],
@@ -298,6 +332,7 @@ export async function load({ locals, fetch, depends, event }) {
 			financesData: {
 				bonuses: [],
 				payments: [],
+				bonusPaymentRequests: [],
 				stats: { total_pending: 0, total_available: 0, total_paid: 0 },
 				bonusStatuses: [],
 				paymentStatuses: [],

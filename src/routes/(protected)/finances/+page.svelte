@@ -6,14 +6,13 @@
 
 	import BonusStatsCards from '$lib/components/finances/BonusStatsCards.svelte';
 	import BonusesTable from '$lib/components/finances/BonusesTable.svelte';
-	import PaymentsTable from '$lib/components/finances/PaymentsTable.svelte';
+	import BonusPaymentRequestsTable from '$lib/components/finances/BonusPaymentRequestsTable.svelte';
 	import BonusFilters from '$lib/components/finances/BonusFilters.svelte';
-	import PaymentFilters from '$lib/components/finances/PaymentFilters.svelte';
-	import PaymentDetailModal from '$lib/components/finances/PaymentDetailModal.svelte';
 	import PayoutRequestModal from '$lib/components/finances/PayoutRequestModal.svelte';
 	import FinancesPageSkeleton from '$lib/components/finances/FinancesPageSkeleton.svelte';
 	import ReferralBonusStats from '$lib/components/finances/ReferralBonusStats.svelte';
 	import { createFinancesApi } from '$lib/api/finances.js';
+	import { createBonusPaymentsApi } from '$lib/api/bonusPayments.js';
 	import { invalidate } from '$app/navigation';
 
 	/** @type {{ data: any }} */
@@ -23,20 +22,19 @@
 	let activeTab = $state('bonuses');
 	let bonuses = $state([]);
 	let payments = $state([]);
+	let bonusPaymentRequests = $state([]);
 	let stats = $state({ total_pending: 0, total_available: 0, total_paid: 0 });
 	let referralStats = $state({ total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] });
 	let loading = $state(false);
 	let isRefreshing = $state(false);
 	let dataLoaded = $state(false);
-	let selectedPayment = $state(null);
 	let showPayoutModal = $state(false);
 	let bonusStatuses = $state([]);
 	let paymentStatuses = $state([]);
 	let paymentMethods = $state([]);
 
 	// Filters
-	let bonusFilters = $state({ status_code: null, source_type: null, date_from: null, date_to: null });
-	let paymentFilters = $state({ status_code: null, date_from: null, date_to: null });
+	let bonusFilters = $state({ status_code: null, source_type: null, bonus_type: null, date_from: null, date_to: null });
 
 	// Update local state when financesData resolves
 	$effect(() => {
@@ -49,6 +47,7 @@
 				data.financesData.then(financesData => {
 					bonuses = financesData.bonuses || [];
 					payments = financesData.payments || [];
+					bonusPaymentRequests = financesData.bonusPaymentRequests || [];
 					stats = financesData.stats || { total_pending: 0, total_available: 0, total_paid: 0 };
 					bonusStatuses = financesData.bonusStatuses || [];
 					paymentStatuses = financesData.paymentStatuses || [];
@@ -64,6 +63,7 @@
 			} else {
 				bonuses = data.financesData.bonuses || [];
 				payments = data.financesData.payments || [];
+				bonusPaymentRequests = data.financesData.bonusPaymentRequests || [];
 				stats = data.financesData.stats || { total_pending: 0, total_available: 0, total_paid: 0 };
 				bonusStatuses = data.financesData.bonusStatuses || [];
 				paymentStatuses = data.financesData.paymentStatuses || [];
@@ -93,9 +93,10 @@
 		clientLoadError = null;
 		try {
 			const api = createFinancesApi(fetch);
+			const bonusPaymentsApi = createBonusPaymentsApi(fetch);
 			console.log('🔄 Finances: Created API client, starting requests...');
 			
-			const [bonusesData, paymentsData, statsData, statusesData, paymentStatusesData, methodsData, referralStatsData] = 
+			const [bonusesData, paymentsData, statsData, statusesData, paymentStatusesData, methodsData, referralStatsData, bonusPaymentRequestsData] = 
 				await Promise.all([
 					api.getBonuses().catch(e => { console.error('getBonuses failed:', e); return []; }),
 					api.getPayments().catch(e => { console.error('getPayments failed:', e); return []; }),
@@ -103,18 +104,21 @@
 					api.getBonusStatuses().catch(e => { console.error('getBonusStatuses failed:', e); return []; }),
 					api.getPaymentStatuses().catch(e => { console.error('getPaymentStatuses failed:', e); return []; }),
 					api.getPaymentMethods().catch(e => { console.error('getPaymentMethods failed:', e); return []; }),
-					api.getReferralBonusStats().catch(e => { console.error('getReferralBonusStats failed:', e); return { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] }; })
+					api.getReferralBonusStats().catch(e => { console.error('getReferralBonusStats failed:', e); return { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] }; }),
+					bonusPaymentsApi.getMyBonusPaymentRequests().catch(e => { console.error('getMyBonusPaymentRequests failed:', e); return []; })
 				]);
 
 			console.log('✅ Finances: Client-side data loaded', {
 				bonuses: bonusesData?.length || 0,
 				payments: paymentsData?.length || 0,
+				bonusPaymentRequests: bonusPaymentRequestsData?.length || 0,
 				stats: statsData,
 				referralStats: referralStatsData
 			});
 
 			bonuses = bonusesData;
 			payments = paymentsData;
+			bonusPaymentRequests = bonusPaymentRequestsData;
 			stats = statsData;
 			bonusStatuses = statusesData;
 			paymentStatuses = paymentStatusesData;
@@ -139,6 +143,7 @@
 			const filters = {};
 			if (bonusFilters.status_code) filters.status_code = bonusFilters.status_code;
 			if (bonusFilters.source_type) filters.source_type = bonusFilters.source_type;
+			if (bonusFilters.bonus_type) filters.bonus_type = bonusFilters.bonus_type;
 			if (bonusFilters.date_from) filters.date_from = bonusFilters.date_from;
 			if (bonusFilters.date_to) filters.date_to = bonusFilters.date_to;
 
@@ -156,53 +161,14 @@
 		}
 	}
 
-
-	/**
-	 * Load payments with filters
-	 */
-	async function loadPayments() {
-		loading = true;
-		try {
-			const api = createFinancesApi(fetch);
-			const filters = {};
-			if (paymentFilters.status_code) filters.status_code = paymentFilters.status_code;
-			if (paymentFilters.date_from) filters.date_from = paymentFilters.date_from;
-			if (paymentFilters.date_to) filters.date_to = paymentFilters.date_to;
-
-			payments = await api.getPayments(filters);
-		} catch (error) {
-			console.error('Failed to load payments:', error);
-		} finally {
-			loading = false;
-		}
-	}
-
 	function handleBonusFilterChange(key, value) {
 		bonusFilters = { ...bonusFilters, [key]: value || null };
 		loadBonuses();
 	}
 
-	function handlePaymentFilterChange(key, value) {
-		paymentFilters = { ...paymentFilters, [key]: value || null };
-		loadPayments();
-	}
-
 	function clearBonusFilters() {
-		bonusFilters = { status_code: null, source_type: null, date_from: null, date_to: null };
+		bonusFilters = { status_code: null, source_type: null, bonus_type: null, date_from: null, date_to: null };
 		loadBonuses();
-	}
-
-	function clearPaymentFilters() {
-		paymentFilters = { status_code: null, date_from: null, date_to: null };
-		loadPayments();
-	}
-
-	function selectPayment(payment) {
-		selectedPayment = payment;
-	}
-
-	function closePaymentModal() {
-		selectedPayment = null;
 	}
 
 	function openPayoutModal() {
@@ -354,18 +320,10 @@
 					<!-- Referrals Tab -->
 					<ReferralBonusStats stats={referralStats} />
 				{:else}
-					<!-- Payments Tab -->
+					<!-- Payments Tab - Заявки на выплату агента -->
 					<div class="space-y-6">
-						<div class="rounded-lg bg-gray-900 p-4 border border-gray-800">
-							<PaymentFilters
-								filters={paymentFilters}
-								statuses={paymentStatuses}
-								onFilterChange={handlePaymentFilterChange}
-								onClear={clearPaymentFilters}
-							/>
-						</div>
 						<div class="rounded-lg bg-gray-900 border border-gray-800 overflow-hidden">
-							<PaymentsTable {payments} onSelectPayment={selectPayment} />
+							<BonusPaymentRequestsTable requests={bonusPaymentRequests} />
 						</div>
 					</div>
 				{/if}
@@ -379,15 +337,14 @@
 	</div>
 </div>
 
-<!-- Payment Detail Modal -->
-{#if selectedPayment}
-	<PaymentDetailModal payment={selectedPayment} onClose={closePaymentModal} />
-{/if}
-
 <!-- Payout Request Modal -->
 {#if showPayoutModal}
 	<PayoutRequestModal 
 		availableAmount={stats.total_available} 
-		onClose={closePayoutModal} 
+		onClose={closePayoutModal}
+		onSubmit={async () => {
+			// Обновляем данные после создания заявки
+			await refreshData();
+		}}
 	/>
 {/if}

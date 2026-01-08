@@ -1,11 +1,23 @@
 <script>
 	/**
 	 * Таблица бонусов агента
+	 * Отображает как агентские бонусы (за собственные сделки),
+	 * так и реферальные бонусы (за сделки рефералов)
 	 * Requirements: 7.2, 7.5, 7.6
 	 */
 
 	/** @type {{ bonuses: Array<any> }} */
 	let { bonuses } = $props();
+
+	// Debug: проверяем что приходит с сервера
+	$effect(() => {
+		console.log('🔍 BonusesTable: Данные бонусов:', bonuses.map(b => ({ 
+			id: b.id, 
+			bonus_type: b.bonus_type, 
+			referralUser: b.referralUser,
+			commission_amount: b.commission_amount 
+		})));
+	});
 
 	/**
 	 * Форматирование суммы в рублях
@@ -64,6 +76,21 @@
 	}
 
 	/**
+	 * Проверить является ли бонус реферальным
+	 */
+	function isReferralBonus(bonus) {
+		return bonus.bonus_type === 'referral';
+	}
+
+	/**
+	 * Получить имя реферала для реферального бонуса
+	 */
+	function getReferralName(bonus) {
+		if (!isReferralBonus(bonus)) return null;
+		return bonus.referralUser?.name || 'Реферал';
+	}
+
+	/**
 	 * Проверить доступность бонуса к выплате
 	 * Для договоров: is_contract_completed И is_partner_paid должны быть true
 	 * Для заказов: проверяем available_at
@@ -90,6 +117,7 @@
 	<table class="min-w-full divide-y divide-gray-700">
 		<thead class="bg-gray-800">
 			<tr>
+				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Тип</th>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Источник</th>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Номер</th>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Проект</th>
@@ -101,7 +129,7 @@
 		<tbody class="bg-gray-900 divide-y divide-gray-800">
 			{#if bonuses.length === 0}
 				<tr>
-					<td colspan="6" class="px-4 py-8 text-center text-gray-500">
+					<td colspan="7" class="px-4 py-8 text-center text-gray-500">
 						Нет данных о бонусах
 					</td>
 				</tr>
@@ -109,9 +137,27 @@
 				{#each bonuses as bonus}
 					<tr class="hover:bg-gray-800/50 transition-colors">
 						<td class="px-4 py-3 whitespace-nowrap">
-							<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {bonus.source_type === 'contract' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-purple-500/10 text-purple-400'}">
-								{getSourceName(bonus)}
-							</span>
+							{#if isReferralBonus(bonus)}
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400" title="Бонус за сделку реферала">
+									Реферальный
+								</span>
+							{:else}
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400">
+									Агентский
+								</span>
+							{/if}
+						</td>
+						<td class="px-4 py-3 whitespace-nowrap">
+							<div class="flex flex-col gap-0.5">
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {bonus.source_type === 'contract' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-emerald-500/10 text-emerald-400'}">
+									{getSourceName(bonus)}
+								</span>
+								{#if isReferralBonus(bonus)}
+									<span class="text-xs text-gray-500" title="Сделка реферала">
+										от {getReferralName(bonus)}
+									</span>
+								{/if}
+							</div>
 						</td>
 						<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
 							{getSourceNumber(bonus)}
@@ -138,3 +184,4 @@
 		</tbody>
 	</table>
 </div>
+

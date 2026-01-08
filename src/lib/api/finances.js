@@ -12,6 +12,7 @@ import { createApiClients } from '$lib/utils/http-client.js';
 const FINANCES_QUERIES = {
 	/**
 	 * Get agent bonuses with filters
+	 * Includes both agent bonuses and referral bonuses
 	 */
 	GET_AGENT_BONUSES: `
 		query GetAgentBonuses($filters: AgentBonusFilters) {
@@ -42,6 +43,13 @@ const FINANCES_QUERIES = {
 				project_name
 				is_contract_completed
 				is_partner_paid
+				bonus_type
+				bonus_type_label
+				referral_user_id
+				referralUser {
+					id
+					name
+				}
 				created_at
 				updated_at
 			}

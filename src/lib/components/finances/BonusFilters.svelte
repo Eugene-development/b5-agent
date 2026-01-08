@@ -12,9 +12,30 @@
 		{ code: 'contract', name: 'Договора' },
 		{ code: 'order', name: 'Заказы' }
 	];
+
+	const bonusTypes = [
+		{ code: '', name: 'Все типы' },
+		{ code: 'agent', name: 'Агентские' },
+		{ code: 'referral', name: 'Реферальные' }
+	];
 </script>
 
 <div class="flex flex-wrap gap-4 items-end">
+	<!-- Фильтр по типу бонуса -->
+	<div class="flex-1 min-w-[150px]">
+		<label for="bonus-type-filter" class="block text-sm font-medium text-gray-400 mb-1">Тип бонуса</label>
+		<select
+			id="bonus-type-filter"
+			value={filters.bonus_type || ''}
+			onchange={(e) => onFilterChange('bonus_type', e.target.value)}
+			class="w-full rounded-md bg-gray-800 border-gray-700 text-gray-300 text-sm focus:ring-cyan-500 focus:border-cyan-500"
+		>
+			{#each bonusTypes as type}
+				<option value={type.code}>{type.name}</option>
+			{/each}
+		</select>
+	</div>
+
 	<!-- Фильтр по статусу -->
 	<div class="flex-1 min-w-[150px]">
 		<label for="status-filter" class="block text-sm font-medium text-gray-400 mb-1">Статус</label>
@@ -77,7 +98,8 @@
 			onclick={onClear}
 			class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white bg-gray-800 rounded-md border border-gray-700 hover:border-gray-600 transition-colors"
 		>
-			Сбросить
+		Сбросить
 		</button>
 	</div>
 </div>
+
