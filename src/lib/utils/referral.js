@@ -8,16 +8,20 @@
 const REFERRAL_STORAGE_KEY = 'referral_id';
 
 /**
- * Сохранить ID реферера в localStorage.
+ * Сохранить ключ реферера в localStorage.
  *
- * @param {string|number} referrerId - ID реферера
+ * @param {string|number} referrerKey - Ключ реферера (ULID или ID для обратной совместимости)
  */
-export function saveReferralId(referrerId) {
-	if (!referrerId) return;
+export function saveReferralId(referrerKey) {
+	if (!referrerKey) return;
 
-	const id = String(referrerId).trim();
-	if (id && /^\d+$/.test(id)) {
-		localStorage.setItem(REFERRAL_STORAGE_KEY, id);
+	const key = String(referrerKey).trim();
+	// Принимаем ULID (26 символов base32: 0-9A-Z) или числовой ID (для обратной совместимости)
+	if (key && (/^[0-9A-Z]{26}$/i.test(key) || /^\d+$/.test(key))) {
+		localStorage.setItem(REFERRAL_STORAGE_KEY, key);
+		console.log('[Referral] Saved referral key to localStorage:', key);
+	} else {
+		console.warn('[Referral] Invalid referral key format:', key);
 	}
 }
 

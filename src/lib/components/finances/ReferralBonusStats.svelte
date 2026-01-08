@@ -23,7 +23,7 @@
 				</div>
 				<div>
 					<p class="text-xs text-gray-400">Всего реферальных</p>
-					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total || 0)}</p>
+					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total || 0, false)}</p>
 				</div>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 				</div>
 				<div>
 					<p class="text-xs text-gray-400">Ожидание</p>
-					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total_pending || 0)}</p>
+					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total_pending || 0, false)}</p>
 				</div>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 				</div>
 				<div>
 					<p class="text-xs text-gray-400">Доступно</p>
-					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total_available || 0)}</p>
+					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total_available || 0, false)}</p>
 				</div>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 				</div>
 				<div>
 					<p class="text-xs text-gray-400">Выплачено</p>
-					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total_paid || 0)}</p>
+					<p class="text-lg font-semibold text-white">{formatCurrency(stats.total_paid || 0, false)}</p>
 				</div>
 			</div>
 		</div>
@@ -128,7 +128,7 @@
 									{/if}
 								</td>
 								<td class="px-4 py-3 whitespace-nowrap text-right">
-									<span class="text-sm font-medium text-white">{formatCurrency(referral.total_bonus || 0)}</span>
+									<span class="text-sm font-medium text-white">{formatCurrency(referral.total_bonus || 0, false)}</span>
 								</td>
 							</tr>
 						{/each}
