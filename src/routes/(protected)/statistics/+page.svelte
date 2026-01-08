@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import LogoutButton from '$lib/components/LogoutButton.svelte';
 	import { createProjectsApi } from '$lib/api/projects.js';
+	import { createFinancesApi } from '$lib/api/finances.js';
 	import { getUserData } from '$lib/api/config.js';
 
 	/** @type {import('./$types').PageData} */
@@ -12,6 +13,7 @@
 	let totalProjects = $state(data?.totalProjects || 0);
 	let totalContracts = $state(0);
 	let totalOrders = $state(0);
+	let totalReferrals = $state(0);
 	let loading = $state(false);
 	let loadError = $state(null);
 
@@ -71,7 +73,18 @@
 			totalContracts = contractsCount;
 			totalOrders = ordersCount;
 			
-			console.log(`✅ Statistics: Loaded data - Projects: ${totalProjects}, Contracts: ${totalContracts}, Orders: ${totalOrders}`);
+			// Load referral statistics
+			try {
+				const financesApi = createFinancesApi(fetch);
+				const referralStats = await financesApi.getReferralBonusStats();
+				totalReferrals = referralStats.referrals?.length || 0;
+				console.log(`📊 Statistics: Loaded referrals count: ${totalReferrals}`);
+			} catch (referralErr) {
+				console.warn('⚠️ Statistics: Failed to load referral stats:', referralErr);
+				// Not critical, continue with 0 referrals
+			}
+			
+			console.log(`✅ Statistics: Loaded data - Projects: ${totalProjects}, Contracts: ${totalContracts}, Orders: ${totalOrders}, Referrals: ${totalReferrals}`);
 		} catch (err) {
 			console.error('❌ Statistics: Failed to load data:', err);
 			loadError = 'Не удалось загрузить статистику';
@@ -234,6 +247,34 @@
 					<div class="ml-5">
 						<p class="text-sm font-medium text-purple-300">Всего заказов</p>
 						<p class="text-3xl font-bold text-white mt-1">{totalOrders}</p>
+					</div>
+				</div>
+			</div>
+
+				<!-- Всего рефералов -->
+			<div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/5 p-6 shadow-lg transition-all duration-300 hover:shadow-orange-500/20 hover:scale-[1.02] border border-orange-500/20">
+				<div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full -mr-16 -mt-16 transition-transform duration-300 group-hover:scale-110"></div>
+				<div class="relative flex items-center">
+					<div class="flex-shrink-0">
+						<div class="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/50">
+							<svg
+								class="h-7 w-7 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+								/>
+							</svg>
+						</div>
+					</div>
+					<div class="ml-5">
+						<p class="text-sm font-medium text-orange-300">Всего рефералов</p>
+						<p class="text-3xl font-bold text-white mt-1">{totalReferrals}</p>
 					</div>
 				</div>
 			</div>
