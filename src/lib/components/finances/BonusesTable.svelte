@@ -139,17 +139,17 @@
 						<td class="px-4 py-3 whitespace-nowrap">
 							{#if isReferralBonus(bonus)}
 								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400" title="Бонус за сделку реферала">
-									Реферальный
+									Реферал
 								</span>
 							{:else}
 								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400">
-									Агентский
+									Личный
 								</span>
 							{/if}
 						</td>
 						<td class="px-4 py-3 whitespace-nowrap">
 							<div class="flex flex-col gap-0.5">
-								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {bonus.source_type === 'contract' ? 'bg-indigo-500/10 text-indigo-400' : 'bg-emerald-500/10 text-emerald-400'}">
+								<span class="text-xs font-medium {bonus.source_type === 'contract' ? 'text-indigo-400' : 'text-emerald-400'}">
 									{getSourceName(bonus)}
 								</span>
 								{#if isReferralBonus(bonus)}
@@ -168,12 +168,8 @@
 						<td class="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-300">
 							{formatCurrency(bonus.source_amount)} / <span class="text-green-400 font-medium">{formatCurrency(bonus.commission_amount)}</span>
 						</td>
-						<td class="px-4 py-3 whitespace-nowrap text-sm text-center">
-							{#if isBonusAvailable(bonus)}
-								<span class="text-green-400 font-bold">✓</span>
-							{:else}
-								<span class="text-gray-500">—</span>
-							{/if}
+						<td class="px-4 py-3 whitespace-nowrap text-sm text-center text-gray-400">
+							{formatDate(bonus.available_at)}
 						</td>
 						<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-400 text-center">
 							{formatDate(bonus.paid_at)}

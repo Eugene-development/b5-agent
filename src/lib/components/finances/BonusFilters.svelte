@@ -15,7 +15,7 @@
 
 	const bonusTypes = [
 		{ code: '', name: 'Все типы' },
-		{ code: 'agent', name: 'Агентские' },
+		{ code: 'agent', name: 'Личные' },
 		{ code: 'referral', name: 'Реферальные' }
 	];
 </script>
