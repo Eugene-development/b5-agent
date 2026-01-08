@@ -95,7 +95,7 @@
 							<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
 								Статус
 							</th>
-							<th class="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">
+							<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
 								Бонусы
 							</th>
 						</tr>
@@ -127,7 +127,7 @@
 										</span>
 									{/if}
 								</td>
-								<td class="px-4 py-3 whitespace-nowrap text-right">
+								<td class="px-4 py-3 whitespace-nowrap text-left">
 									<span class="text-sm font-medium text-white">{formatCurrency(referral.total_bonus || 0, false)}</span>
 								</td>
 							</tr>
