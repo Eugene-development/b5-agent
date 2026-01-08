@@ -56,10 +56,8 @@
 
 	/**
 	 * Обработка отправки формы
-	 * @param {Event} event
 	 */
-	async function handleSubmit(event) {
-		event.preventDefault();
+	async function handleSubmit() {
 		
 		if (isSubmitting) return;
 		
@@ -87,7 +85,6 @@
 			// Закрываем модал через небольшую задержку для показа уведомления
 			setTimeout(() => {
 				onClose();
-				window.location.reload();
 			}, 1500);
 		} catch (error) {
 			console.error('Failed to create payment request:', error);
@@ -102,6 +99,103 @@
 	 */
 	function setMaxAmount() {
 		amount = Math.round(availableAmount).toString();
+	}
+
+	/**
+	 * Форматирование номера телефона в маску +7 (XXX) XXX-XX-XX
+	 * @param {string} value
+	 */
+	function formatPhoneNumber(value) {
+		// Удаляем все кроме цифр
+		let digits = value.replace(/\D/g, '');
+		
+		// Если начинается с 8, заменяем на 7
+		if (digits.startsWith('8')) {
+			digits = '7' + digits.slice(1);
+		}
+		
+		// Если не начинается с 7, добавляем 7
+		if (digits.length > 0 && !digits.startsWith('7')) {
+			digits = '7' + digits;
+		}
+		
+		// Ограничиваем до 11 цифр (7 + 10 цифр номера)
+		digits = digits.slice(0, 11);
+		
+		// Форматируем
+		if (digits.length === 0) return '';
+		if (digits.length <= 1) return '+7';
+		if (digits.length <= 4) return `+7 (${digits.slice(1)}`;
+		if (digits.length <= 7) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`;
+		if (digits.length <= 9) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+		return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9)}`;
+	}
+
+	/**
+	 * Обработчик ввода телефона
+	 * @param {Event} event
+	 */
+	function handlePhoneInput(event) {
+		const input = /** @type {HTMLInputElement} */ (event.target);
+		const formatted = formatPhoneNumber(input.value);
+		phoneNumber = formatted;
+		
+		// Устанавливаем курсор в конец
+		setTimeout(() => {
+			input.setSelectionRange(formatted.length, formatted.length);
+		}, 0);
+	}
+
+	/**
+	 * Форматирование номера карты: 0000 0000 0000 0000 00
+	 * @param {string} value
+	 */
+	function formatCardNumber(value) {
+		// Удаляем все кроме цифр
+		let digits = value.replace(/\D/g, '');
+		
+		// Ограничиваем до 18 цифр
+		digits = digits.slice(0, 18);
+		
+		// Добавляем пробел через каждые 4 символа
+		const groups = [];
+		for (let i = 0; i < digits.length; i += 4) {
+			groups.push(digits.slice(i, i + 4));
+		}
+		return groups.join(' ');
+	}
+
+	/**
+	 * Обработчик ввода номера карты
+	 * @param {Event} event
+	 */
+	function handleCardInput(event) {
+		const input = /** @type {HTMLInputElement} */ (event.target);
+		const formatted = formatCardNumber(input.value);
+		cardNumber = formatted;
+		
+		// Устанавливаем курсор в конец
+		setTimeout(() => {
+			input.setSelectionRange(formatted.length, formatted.length);
+		}, 0);
+	}
+
+	/**
+	 * Блокировка ввода нецифровых символов
+	 * @param {KeyboardEvent} event
+	 */
+	function blockNonDigits(event) {
+		// Разрешаем служебные клавиши
+		const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
+		if (allowedKeys.includes(event.key)) return;
+		
+		// Разрешаем Ctrl/Cmd + A, C, V, X
+		if ((event.ctrlKey || event.metaKey) && ['a', 'c', 'v', 'x'].includes(event.key.toLowerCase())) return;
+		
+		// Блокируем всё кроме цифр
+		if (!/^[0-9]$/.test(event.key)) {
+			event.preventDefault();
+		}
 	}
 
 	function handleKeydown(event) {
@@ -174,7 +268,7 @@
 		</div>
 
 		<!-- Content -->
-		<form onsubmit={handleSubmit} class="px-6 py-4 overflow-y-auto max-h-[calc(90vh-120px)]">
+		<form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} class="px-6 py-4 overflow-y-auto max-h-[calc(90vh-120px)]">
 			<!-- Сумма выплаты -->
 			<div class="mb-5">
 				<label for="amount" class="block text-sm font-medium text-gray-300 mb-2">
@@ -246,9 +340,11 @@
 					<input
 						type="text"
 						id="cardNumber"
-						bind:value={cardNumber}
-						placeholder="0000 0000 0000 0000"
-						maxlength="19"
+						value={cardNumber}
+						oninput={handleCardInput}
+						onkeydown={blockNonDigits}
+						placeholder="0000 0000 0000 0000 00"
+						maxlength="22"
 						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 					/>
 				</div>
@@ -262,8 +358,11 @@
 					<input
 						type="tel"
 						id="phoneNumber"
-						bind:value={phoneNumber}
+						value={phoneNumber}
+						oninput={handlePhoneInput}
+						onkeydown={blockNonDigits}
 						placeholder="+7 (___) ___-__-__"
+						maxlength="18"
 						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 					/>
 				</div>
@@ -279,6 +378,7 @@
 						id="contactInfo"
 						bind:value={contactInfo}
 						placeholder="Телефон, email или другой способ связи"
+						maxlength="255"
 						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 					/>
 				</div>
@@ -294,6 +394,7 @@
 					bind:value={comment}
 					rows="3"
 					placeholder="Дополнительная информация..."
+					maxlength="300"
 					class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all resize-none"
 				></textarea>
 			</div>
@@ -311,36 +412,35 @@
 					</div>
 				</div>
 			</div>
-		</form>
 
-		<!-- Footer -->
-		<div class="px-6 py-4 border-t border-gray-700 flex gap-3">
-			<button
-				type="button"
-				onclick={onClose}
-				class="flex-1 px-4 py-2.5 text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
-			>
-				Отмена
-			</button>
-			<button
-				type="submit"
-				onclick={handleSubmit}
-				disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > Math.round(availableAmount)}
-				class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2"
-			>
-				{#if isSubmitting}
-					<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-						<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-					</svg>
-					Отправка...
-				{:else}
-					<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-					</svg>
-					Заказать выплату
-				{/if}
-			</button>
-		</div>
+			<!-- Footer кнопки внутри формы -->
+			<div class="flex gap-3 pt-4 border-t border-gray-700">
+				<button
+					type="button"
+					onclick={onClose}
+					class="flex-1 px-4 py-2.5 text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+				>
+					Отмена
+				</button>
+				<button
+					type="submit"
+					disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > Math.round(availableAmount)}
+					class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2"
+				>
+					{#if isSubmitting}
+						<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+						Отправка...
+					{:else}
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						</svg>
+						Заказать выплату
+					{/if}
+				</button>
+			</div>
+		</form>
 	</div>
 </div>
