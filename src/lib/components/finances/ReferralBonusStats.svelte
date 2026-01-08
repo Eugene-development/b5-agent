@@ -108,10 +108,7 @@
 										<div class="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/20 text-purple-400 text-sm font-medium">
 											{referral.name?.charAt(0)?.toUpperCase() || '?'}
 										</div>
-										<div>
-											<p class="text-sm font-medium text-white">{referral.name || 'Без имени'}</p>
-											<p class="text-xs text-gray-500">{referral.email}</p>
-										</div>
+										<p class="text-sm font-medium text-white">{referral.name || 'Без имени'}</p>
 									</div>
 								</td>
 								<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-400">

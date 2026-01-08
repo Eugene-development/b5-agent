@@ -53,6 +53,7 @@
 					bonusStatuses = financesData.bonusStatuses || [];
 					paymentStatuses = financesData.paymentStatuses || [];
 					paymentMethods = financesData.paymentMethods || [];
+					referralStats = financesData.referralStats || { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] };
 					dataLoaded = true;
 					
 					// Check if we need client-side load
@@ -67,6 +68,7 @@
 				bonusStatuses = data.financesData.bonusStatuses || [];
 				paymentStatuses = data.financesData.paymentStatuses || [];
 				paymentMethods = data.financesData.paymentMethods || [];
+				referralStats = data.financesData.referralStats || { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] };
 				dataLoaded = true;
 				
 				// Check if we need client-side load
