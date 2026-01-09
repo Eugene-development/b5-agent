@@ -7,6 +7,32 @@
 	/** @type {{ requests: Array<any> }} */
 	let { requests = [] } = $props();
 
+	// Pagination
+	const itemsPerPage = 10;
+	let currentPage = $state(1);
+
+	// Computed: total pages
+	let totalPages = $derived(Math.ceil(requests.length / itemsPerPage));
+
+	// Computed: paginated requests
+	let paginatedRequests = $derived(() => {
+		const start = (currentPage - 1) * itemsPerPage;
+		const end = start + itemsPerPage;
+		return requests.slice(start, end);
+	});
+
+	// Reset page when requests change
+	$effect(() => {
+		requests;
+		currentPage = 1;
+	});
+
+	function goToPage(page) {
+		if (page >= 1 && page <= totalPages) {
+			currentPage = page;
+		}
+	}
+
 	/**
 	 * Форматирование суммы в рублях
 	 */
@@ -107,7 +133,7 @@
 					</td>
 				</tr>
 			{:else}
-				{#each requests as request}
+				{#each paginatedRequests() as request}
 					<tr class="hover:bg-gray-800/50 transition-colors">
 						<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
 							{formatDateTime(request.created_at)}
@@ -151,6 +177,46 @@
 	</table>
 </div>
 
+<!-- Pagination for Desktop -->
+{#if totalPages > 1}
+	<div class="hidden md:flex items-center justify-between border-t border-gray-700 bg-gray-800/50 px-4 py-3">
+		<div class="text-sm text-gray-400">
+			Показано {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, requests.length)} из {requests.length}
+		</div>
+		<div class="flex gap-1">
+			<button
+				type="button"
+				onclick={() => goToPage(currentPage - 1)}
+				disabled={currentPage === 1}
+				class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+			>
+				←
+			</button>
+			{#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+				{#if page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)}
+					<button
+						type="button"
+						onclick={() => goToPage(page)}
+						class="px-3 py-1.5 text-sm font-medium rounded-md border {page === currentPage ? 'border-cyan-500 bg-cyan-500/20 text-cyan-400' : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'}"
+					>
+						{page}
+					</button>
+				{:else if page === currentPage - 2 || page === currentPage + 2}
+					<span class="px-2 py-1.5 text-gray-500">...</span>
+				{/if}
+			{/each}
+			<button
+				type="button"
+				onclick={() => goToPage(currentPage + 1)}
+				disabled={currentPage === totalPages}
+				class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+			>
+				→
+			</button>
+		</div>
+	</div>
+{/if}
+
 <!-- Mobile Cards -->
 <div class="md:hidden space-y-3 p-4">
 	{#if requests.length === 0}
@@ -164,7 +230,7 @@
 			</div>
 		</div>
 	{:else}
-		{#each requests as request}
+		{#each paginatedRequests() as request}
 			<div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
 				<div class="flex items-start justify-between mb-3">
 					<div>
@@ -218,5 +284,32 @@
 				</div>
 			</div>
 		{/each}
+		
+		<!-- Pagination for Mobile -->
+		{#if totalPages > 1}
+			<div class="flex items-center justify-between pt-4">
+				<div class="text-sm text-gray-400">
+					{currentPage} из {totalPages}
+				</div>
+				<div class="flex gap-2">
+					<button
+						type="button"
+						onclick={() => goToPage(currentPage - 1)}
+						disabled={currentPage === 1}
+						class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+					>
+						←
+					</button>
+					<button
+						type="button"
+						onclick={() => goToPage(currentPage + 1)}
+						disabled={currentPage === totalPages}
+						class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+					>
+						→
+					</button>
+				</div>
+			</div>
+		{/if}
 	{/if}
 </div>

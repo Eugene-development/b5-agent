@@ -9,15 +9,31 @@
 	/** @type {{ bonuses: Array<any> }} */
 	let { bonuses } = $props();
 
-	// Debug: проверяем что приходит с сервера
-	$effect(() => {
-		console.log('🔍 BonusesTable: Данные бонусов:', bonuses.map(b => ({ 
-			id: b.id, 
-			bonus_type: b.bonus_type, 
-			referralUser: b.referralUser,
-			commission_amount: b.commission_amount 
-		})));
+	// Pagination
+	const itemsPerPage = 10;
+	let currentPage = $state(1);
+
+	// Computed: total pages
+	let totalPages = $derived(Math.ceil(bonuses.length / itemsPerPage));
+
+	// Computed: paginated bonuses
+	let paginatedBonuses = $derived(() => {
+		const start = (currentPage - 1) * itemsPerPage;
+		const end = start + itemsPerPage;
+		return bonuses.slice(start, end);
 	});
+
+	// Reset page when bonuses change
+	$effect(() => {
+		bonuses;
+		currentPage = 1;
+	});
+
+	function goToPage(page) {
+		if (page >= 1 && page <= totalPages) {
+			currentPage = page;
+		}
+	}
 
 	/**
 	 * Форматирование суммы в рублях
@@ -92,22 +108,16 @@
 
 	/**
 	 * Проверить доступность бонуса к выплате
-	 * Для договоров: is_contract_completed И is_partner_paid должны быть true
-	 * Для заказов: проверяем available_at
-	 * В обоих случаях: бонус не должен быть выплачен (paid_at = null)
 	 */
 	function isBonusAvailable(bonus) {
-		// Бонус уже выплачен - не доступен
 		if (bonus.paid_at) {
 			return false;
 		}
 		
-		// Для договоров: проверяем оба условия
 		if (bonus.source_type === 'contract') {
 			return bonus.is_contract_completed === true && bonus.is_partner_paid === true;
 		}
 		
-		// Для заказов: проверяем available_at
 		const hasAvailableAt = bonus.available_at !== null && bonus.available_at !== undefined && bonus.available_at !== '';
 		return hasAvailableAt;
 	}
@@ -134,7 +144,7 @@
 					</td>
 				</tr>
 			{:else}
-				{#each bonuses as bonus}
+				{#each paginatedBonuses() as bonus}
 					<tr class="hover:bg-gray-800/50 transition-colors">
 						<td class="px-4 py-3 whitespace-nowrap">
 							{#if isReferralBonus(bonus)}
@@ -181,3 +191,42 @@
 	</table>
 </div>
 
+<!-- Pagination -->
+{#if totalPages > 1}
+	<div class="flex items-center justify-between border-t border-gray-700 bg-gray-800/50 px-4 py-3">
+		<div class="text-sm text-gray-400">
+			Показано {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, bonuses.length)} из {bonuses.length}
+		</div>
+		<div class="flex gap-1">
+			<button
+				type="button"
+				onclick={() => goToPage(currentPage - 1)}
+				disabled={currentPage === 1}
+				class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+			>
+				←
+			</button>
+			{#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+				{#if page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)}
+					<button
+						type="button"
+						onclick={() => goToPage(page)}
+						class="px-3 py-1.5 text-sm font-medium rounded-md border {page === currentPage ? 'border-cyan-500 bg-cyan-500/20 text-cyan-400' : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'}"
+					>
+						{page}
+					</button>
+				{:else if page === currentPage - 2 || page === currentPage + 2}
+					<span class="px-2 py-1.5 text-gray-500">...</span>
+				{/if}
+			{/each}
+			<button
+				type="button"
+				onclick={() => goToPage(currentPage + 1)}
+				disabled={currentPage === totalPages}
+				class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+			>
+				→
+			</button>
+		</div>
+	</div>
+{/if}

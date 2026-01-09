@@ -8,6 +8,35 @@
 
 	/** @type {{ stats: Object }} */
 	let { stats = { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] } } = $props();
+
+	// Pagination
+	const itemsPerPage = 10;
+	let currentPage = $state(1);
+
+	// Get referrals safely
+	let referrals = $derived(stats.referrals || []);
+
+	// Computed: total pages
+	let totalPages = $derived(Math.ceil(referrals.length / itemsPerPage));
+
+	// Computed: paginated referrals
+	let paginatedReferrals = $derived(() => {
+		const start = (currentPage - 1) * itemsPerPage;
+		const end = start + itemsPerPage;
+		return referrals.slice(start, end);
+	});
+
+	// Reset page when referrals change
+	$effect(() => {
+		referrals;
+		currentPage = 1;
+	});
+
+	function goToPage(page) {
+		if (page >= 1 && page <= totalPages) {
+			currentPage = page;
+		}
+	}
 </script>
 
 <div class="space-y-6">
@@ -81,7 +110,7 @@
 			<p class="text-xs text-gray-400 mt-1">Пользователи, зарегистрированные по вашей ссылке</p>
 		</div>
 
-		{#if stats.referrals && stats.referrals.length > 0}
+		{#if referrals.length > 0}
 			<div class="overflow-x-auto">
 				<table class="min-w-full divide-y divide-gray-800">
 					<thead class="bg-gray-800/50">
@@ -101,7 +130,7 @@
 						</tr>
 					</thead>
 					<tbody class="divide-y divide-gray-800">
-						{#each stats.referrals as referral}
+						{#each paginatedReferrals() as referral}
 							<tr class="hover:bg-gray-800/30 transition-colors">
 								<td class="px-4 py-3 whitespace-nowrap">
 									<div class="flex items-center gap-3">
@@ -135,6 +164,46 @@
 					</tbody>
 				</table>
 			</div>
+
+			<!-- Pagination -->
+			{#if totalPages > 1}
+				<div class="flex items-center justify-between border-t border-gray-800 bg-gray-800/50 px-4 py-3">
+					<div class="text-sm text-gray-400">
+						Показано {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, referrals.length)} из {referrals.length}
+					</div>
+					<div class="flex gap-1">
+						<button
+							type="button"
+							onclick={() => goToPage(currentPage - 1)}
+							disabled={currentPage === 1}
+							class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+						>
+							←
+						</button>
+						{#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+							{#if page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)}
+								<button
+									type="button"
+									onclick={() => goToPage(page)}
+									class="px-3 py-1.5 text-sm font-medium rounded-md border {page === currentPage ? 'border-cyan-500 bg-cyan-500/20 text-cyan-400' : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'}"
+								>
+									{page}
+								</button>
+							{:else if page === currentPage - 2 || page === currentPage + 2}
+								<span class="px-2 py-1.5 text-gray-500">...</span>
+							{/if}
+						{/each}
+						<button
+							type="button"
+							onclick={() => goToPage(currentPage + 1)}
+							disabled={currentPage === totalPages}
+							class="px-3 py-1.5 text-sm font-medium rounded-md border border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+						>
+							→
+						</button>
+					</div>
+				</div>
+			{/if}
 		{:else}
 			<div class="px-4 py-12 text-center">
 				<svg class="mx-auto h-12 w-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
