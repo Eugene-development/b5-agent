@@ -8,15 +8,18 @@ import { makeServerGraphQLRequest, categorizeError, getUserFriendlyErrorMessage 
 
 /**
  * GraphQL query to fetch agent bonuses
+ * Updated for unified bonuses model with recipient_type support
  */
 const GET_AGENT_BONUSES_QUERY = `
 	query GetAgentBonuses($filters: AgentBonusFilters) {
 		agentBonuses(filters: $filters) {
 			id
+			user_id
 			agent_id
 			contract_id
 			order_id
 			commission_amount
+			percentage
 			status {
 				id
 				code
@@ -36,14 +39,23 @@ const GET_AGENT_BONUSES_QUERY = `
 			source_type
 			source_amount
 			project_name
+			contract_number
+			order_number
 			is_contract_completed
 			is_partner_paid
+			recipient_type
+			recipient_type_label
 			bonus_type
 			bonus_type_label
 			referral_user_id
 			referralUser {
 				id
 				name
+			}
+			user {
+				id
+				name
+				email
 			}
 			created_at
 			updated_at
