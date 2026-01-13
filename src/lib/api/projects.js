@@ -119,6 +119,7 @@ const PROJECTS_QUERIES = {
 						curator_bonus
 						is_active
 						is_available
+						is_paid
 					}
 					orders {
 						id
@@ -130,6 +131,7 @@ const PROJECTS_QUERIES = {
 						curator_bonus
 						is_active
 						is_available
+						is_paid
 					}
 				}
 				created_at
@@ -190,6 +192,7 @@ const PROJECTS_QUERIES = {
 						curator_bonus
 						is_active
 						is_available
+						is_paid
 					}
 					orders {
 						id
@@ -201,6 +204,7 @@ const PROJECTS_QUERIES = {
 						curator_bonus
 						is_active
 						is_available
+						is_paid
 					}
 				}
 				created_at

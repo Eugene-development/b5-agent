@@ -12,6 +12,41 @@
 	let errorMessage = $state('');
 	let showFullKey = $state(false);
 	let isIncognito = $state(false);
+	let phoneInput = $state('');
+
+	// Format phone number as +7 (123) 456-78-90
+	function formatPhone(value) {
+		const digits = value.replace(/\D/g, '').slice(0, 11);
+		let formatted = '';
+		
+		if (digits.length === 0) return '';
+		
+		// Always start with +7
+		if (digits.startsWith('8') || digits.startsWith('7')) {
+			formatted = '+7';
+			const rest = digits.slice(1);
+			if (rest.length > 0) formatted += ' (' + rest.slice(0, 3);
+			if (rest.length >= 3) formatted += ')';
+			if (rest.length > 3) formatted += ' ' + rest.slice(3, 6);
+			if (rest.length > 6) formatted += '-' + rest.slice(6, 8);
+			if (rest.length > 8) formatted += '-' + rest.slice(8, 10);
+		} else {
+			formatted = '+7';
+			if (digits.length > 0) formatted += ' (' + digits.slice(0, 3);
+			if (digits.length >= 3) formatted += ')';
+			if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+			if (digits.length > 6) formatted += '-' + digits.slice(6, 8);
+			if (digits.length > 8) formatted += '-' + digits.slice(8, 10);
+		}
+		
+		return formatted;
+	}
+
+	function handlePhoneInput(event) {
+		const formatted = formatPhone(event.target.value);
+		phoneInput = formatted;
+		event.target.value = formatted;
+	}
 
 	// Mask secret key showing only last 4 characters
 	function maskSecretKey(key) {
@@ -154,13 +189,14 @@
 			
 			// Reset only client data fields, keep secret key
 			const clientNameInput = form.querySelector('#client_name');
-			const phoneInput = form.querySelector('#phone');
+			const phoneInputEl = form.querySelector('#phone');
 			const addressInput = form.querySelector('#address');
 			const commentInput = form.querySelector('#comment');
 			
 			if (clientNameInput) clientNameInput.value = '';
 			isIncognito = false;
-			if (phoneInput) phoneInput.value = '';
+			phoneInput = '';
+			if (phoneInputEl) phoneInputEl.value = '';
 			if (addressInput) addressInput.value = '';
 			if (commentInput) commentInput.value = '';
 			
@@ -233,16 +269,18 @@
 					</svg>
 				</button>
 
-				<!-- Header -->
+				<!-- Header (hidden when success message is shown) -->
+				{#if !successMessage}
 				<div class="mb-6 text-center">
 					<h2 class="bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
 						Создать проект
 					</h2>
 					<p class="mt-2 text-sm text-slate-400">Регистрация проекта на платформе RUBONUS</p>
 				</div>
+				{/if}
 
-				{#if successMessage}
-					<div class="mb-6 flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
+					{#if successMessage}
+					<div class="my-6 flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
 						<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/20">
 							<svg class="h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -263,6 +301,7 @@
 					</div>
 				{/if}
 
+				{#if !successMessage}
 				<form onsubmit={handleSubmit} novalidate class="space-y-5">
 					<!-- Secret Key and Incognito Row -->
 					<div class="flex gap-4 items-start">
@@ -375,6 +414,8 @@
 							type="tel"
 							name="phone"
 							id="phone"
+							value={phoneInput}
+							oninput={handlePhoneInput}
 							inputmode="tel"
 							autocomplete="tel"
 							placeholder="+7 (___) ___-__-__"
@@ -451,6 +492,7 @@
 						</button>
 					</div>
 				</form>
+			{/if}
 			</div>
 		</div>
 	</div>

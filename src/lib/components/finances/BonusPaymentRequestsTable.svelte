@@ -139,7 +139,7 @@
 							{formatDateTime(request.created_at)}
 						</td>
 						<td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-white text-right">
-							{formatCurrency(request.amount)} ₽
+							{formatCurrency(request.amount)}
 						</td>
 						<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
 							<div class="flex items-center gap-2">
@@ -234,7 +234,7 @@
 			<div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
 				<div class="flex items-start justify-between mb-3">
 					<div>
-						<p class="text-lg font-semibold text-white">{formatCurrency(request.amount)} ₽</p>
+						<p class="text-lg font-semibold text-white">{formatCurrency(request.amount)}</p>
 						<p class="text-xs text-gray-400">{formatDateTime(request.created_at)}</p>
 					</div>
 					<span 

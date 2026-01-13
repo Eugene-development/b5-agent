@@ -35,6 +35,40 @@
 	let showPassword = $state(false);
 	let showPasswordConfirm = $state(false);
 
+	// Format phone number as +7 (123) 456-78-90
+	function formatPhone(value) {
+		const digits = value.replace(/\D/g, '').slice(0, 11);
+		let formatted = '';
+		
+		if (digits.length === 0) return '';
+		
+		// Always start with +7
+		if (digits.startsWith('8') || digits.startsWith('7')) {
+			formatted = '+7';
+			const rest = digits.slice(1);
+			if (rest.length > 0) formatted += ' (' + rest.slice(0, 3);
+			if (rest.length >= 3) formatted += ')';
+			if (rest.length > 3) formatted += ' ' + rest.slice(3, 6);
+			if (rest.length > 6) formatted += '-' + rest.slice(6, 8);
+			if (rest.length > 8) formatted += '-' + rest.slice(8, 10);
+		} else {
+			formatted = '+7';
+			if (digits.length > 0) formatted += ' (' + digits.slice(0, 3);
+			if (digits.length >= 3) formatted += ')';
+			if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+			if (digits.length > 6) formatted += '-' + digits.slice(6, 8);
+			if (digits.length > 8) formatted += '-' + digits.slice(8, 10);
+		}
+		
+		return formatted;
+	}
+
+	function handlePhoneInput(event) {
+		const formatted = formatPhone(event.target.value);
+		formData.phone = formatted;
+		event.target.value = formatted;
+	}
+
 	// Redirect if already authenticated and email is verified
 	// Note: Server-side redirect is handled by +layout.server.js
 	// No need for client-side redirect check here to avoid redirect loops
@@ -421,9 +455,10 @@
 									name="phone"
 									id="phone"
 									autocomplete="tel"
-									bind:value={formData.phone}
+									value={formData.phone}
+									oninput={handlePhoneInput}
 									disabled={isLoading}
-									placeholder="+7 (900) 123-45-67"
+									placeholder="+7 (___) ___-__-__"
 									class="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-4 pl-10 text-white shadow-sm ring-1 ring-white/10 transition-all ring-inset placeholder:text-gray-500 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500 focus:ring-inset disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 {errors.phone
 										? 'ring-red-500/50 focus:ring-red-500'
 										: ''}"

@@ -424,7 +424,7 @@
 				</button>
 				<button
 					type="submit"
-					disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) <= 0 || parseFloat(amount) > Math.round(availableAmount)}
+					disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) < 1000 || parseFloat(amount) > Math.round(availableAmount)}
 					class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2"
 				>
 					{#if isSubmitting}

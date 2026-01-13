@@ -19,13 +19,37 @@
 
 	// Проверяем, доступен ли бонус к выплате
 	let isBonusAvailable = $derived(bonusDetails && (bonusDetails.totalAvailableBonus || 0) > 0);
+
+	// Сумма выплаченных бонусов
+	let totalPaidBonus = $derived(() => {
+		if (!bonusDetails) return 0;
+		
+		let paidFromContracts = 0;
+		if (bonusDetails.contracts) {
+			paidFromContracts = bonusDetails.contracts
+				.filter(c => c.is_paid)
+				.reduce((sum, c) => sum + (c.agent_bonus || 0), 0);
+		}
+		
+		let paidFromOrders = 0;
+		if (bonusDetails.orders) {
+			paidFromOrders = bonusDetails.orders
+				.filter(o => o.is_paid)
+				.reduce((sum, o) => sum + (o.agent_bonus || 0), 0);
+		}
+		
+		return paidFromContracts + paidFromOrders;
+	});
+
+	// Проверяем, есть ли выплаченные бонусы
+	let hasPaidBonus = $derived(totalPaidBonus() > 0);
 </script>
 
 {#if bonusDetails}
 	<div class="space-y-4">
 		<!-- Summary -->
 		<div class="rounded-lg bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 p-4">
-			<div class="grid grid-cols-2 gap-4">
+			<div class="grid grid-cols-3 gap-4">
 				<div>
 					<p class="text-xs text-gray-400">Общий бонус проекта</p>
 					<p class="text-3xl font-bold text-emerald-400">
@@ -39,6 +63,21 @@
 							<span class="text-2xl text-green-400">✓</span>
 							<p class="text-xl font-bold text-green-400">
 								{formatCurrency(bonusDetails.totalAvailableBonus)}
+							</p>
+						{:else}
+							<p class="text-xl font-bold text-gray-400">
+								{formatCurrency(0)}
+							</p>
+						{/if}
+					</div>
+				</div>
+				<div>
+					<p class="text-xs text-gray-400">Выплачено</p>
+					<div class="flex items-center gap-2">
+						{#if hasPaidBonus}
+							<span class="text-2xl text-cyan-400">✓</span>
+							<p class="text-xl font-bold text-cyan-400">
+								{formatCurrency(totalPaidBonus())}
 							</p>
 						{:else}
 							<p class="text-xl font-bold text-gray-400">
@@ -94,11 +133,12 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Доступно</p>
-									{#if contract.is_available}
+									{#if contract.is_paid}
+										<p class="text-gray-500">Выплачено</p>
+										<span class="text-lg text-cyan-400">✓</span>
+									{:else if contract.is_available}
+										<p class="text-gray-500">Доступно</p>
 										<span class="text-lg text-green-400">✓</span>
-									{:else}
-										<span class="text-lg text-gray-500">—</span>
 									{/if}
 								</div>
 							</div>
@@ -152,11 +192,12 @@
 									</p>
 								</div>
 								<div>
-									<p class="text-gray-500">Доступно</p>
-									{#if order.is_available}
+									{#if order.is_paid}
+										<p class="text-gray-500">Выплачено</p>
+										<span class="text-lg text-cyan-400">✓</span>
+									{:else if order.is_available}
+										<p class="text-gray-500">Доступно</p>
 										<span class="text-lg text-green-400">✓</span>
-									{:else}
-										<span class="text-lg text-gray-500">—</span>
 									{/if}
 								</div>
 							</div>
