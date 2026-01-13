@@ -71,6 +71,7 @@ const GET_AGENT_BONUS_STATS_QUERY = `
 		agentBonusStats(filters: $filters) {
 			total_pending
 			total_available
+			total_requested
 			total_paid
 		}
 	}
@@ -251,6 +252,7 @@ async function loadFinancesData(token, fetch, event) {
 	const stats = statsData?.agentBonusStats || { 
 		total_pending: 0,
 		total_available: 0,
+		total_requested: 0,
 		total_paid: 0 
 	};
 	const payments = paymentsData?.agentPayments || [];
@@ -320,7 +322,7 @@ export async function load({ locals, fetch, depends, event }) {
 					bonuses: [],
 					payments: [],
 					bonusPaymentRequests: [],
-					stats: { total_pending: 0, total_available: 0, total_paid: 0 },
+					stats: { total_pending: 0, total_available: 0, total_requested: 0, total_paid: 0 },
 					bonusStatuses: [],
 					paymentStatuses: [],
 					paymentMethods: [],
@@ -352,7 +354,7 @@ export async function load({ locals, fetch, depends, event }) {
 				bonuses: [],
 				payments: [],
 				bonusPaymentRequests: [],
-				stats: { total_pending: 0, total_available: 0, total_paid: 0 },
+				stats: { total_pending: 0, total_available: 0, total_requested: 0, total_paid: 0 },
 				bonusStatuses: [],
 				paymentStatuses: [],
 				paymentMethods: [],

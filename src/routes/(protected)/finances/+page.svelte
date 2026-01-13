@@ -24,7 +24,7 @@
 	let activeTab = $state('bonuses');
 	let bonuses = $state([]);
 	let payments = $state([]);
-	let stats = $state({ total_pending: 0, total_available: 0, total_paid: 0 });
+	let stats = $state({ total_pending: 0, total_available: 0, total_requested: 0, total_paid: 0 });
 	let referralStats = $state({ total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] });
 	let loading = $state(false);
 	let isRefreshing = $state(false);
@@ -51,7 +51,7 @@
 				data.financesData.then(financesData => {
 					bonuses = financesData.bonuses || [];
 					payments = financesData.payments || [];
-					stats = financesData.stats || { total_pending: 0, total_available: 0, total_paid: 0 };
+					stats = financesData.stats || { total_pending: 0, total_available: 0, total_requested: 0, total_paid: 0 };
 					bonusStatuses = financesData.bonusStatuses || [];
 					paymentStatuses = financesData.paymentStatuses || [];
 					paymentMethods = financesData.paymentMethods || [];
@@ -66,7 +66,7 @@
 			} else {
 				bonuses = data.financesData.bonuses || [];
 				payments = data.financesData.payments || [];
-				stats = data.financesData.stats || { total_pending: 0, total_available: 0, total_paid: 0 };
+				stats = data.financesData.stats || { total_pending: 0, total_available: 0, total_requested: 0, total_paid: 0 };
 				bonusStatuses = data.financesData.bonusStatuses || [];
 				paymentStatuses = data.financesData.paymentStatuses || [];
 				paymentMethods = data.financesData.paymentMethods || [];
@@ -101,7 +101,7 @@
 				await Promise.all([
 					api.getBonuses().catch(e => { console.error('getBonuses failed:', e); return []; }),
 					api.getPayments().catch(e => { console.error('getPayments failed:', e); return []; }),
-					api.getBonusStats().catch(e => { console.error('getBonusStats failed:', e); return { total_pending: 0, total_available: 0, total_paid: 0 }; }),
+					api.getBonusStats().catch(e => { console.error('getBonusStats failed:', e); return { total_pending: 0, total_available: 0, total_requested: 0, total_paid: 0 }; }),
 					api.getBonusStatuses().catch(e => { console.error('getBonusStatuses failed:', e); return []; }),
 					api.getPaymentStatuses().catch(e => { console.error('getPaymentStatuses failed:', e); return []; }),
 					api.getPaymentMethods().catch(e => { console.error('getPaymentMethods failed:', e); return []; }),
