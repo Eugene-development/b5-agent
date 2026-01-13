@@ -10,8 +10,10 @@
 	import BonusFilters from '$lib/components/finances/BonusFilters.svelte';
 	import PaymentFilters from '$lib/components/finances/PaymentFilters.svelte';
 	import PaymentDetailModal from '$lib/components/finances/PaymentDetailModal.svelte';
+	import PayoutRequestModal from '$lib/components/finances/PayoutRequestModal.svelte';
 	import FinancesPageSkeleton from '$lib/components/finances/FinancesPageSkeleton.svelte';
 	import ReferralBonusStats from '$lib/components/finances/ReferralBonusStats.svelte';
+	import BonusPaymentRequestsTable from '$lib/components/finances/BonusPaymentRequestsTable.svelte';
 	import { createFinancesApi } from '$lib/api/finances.js';
 	import { invalidate } from '$app/navigation';
 
@@ -28,6 +30,8 @@
 	let isRefreshing = $state(false);
 	let dataLoaded = $state(false);
 	let selectedPayment = $state(null);
+	let showPayoutRequestModal = $state(false);
+	let bonusPaymentRequests = $state([]);
 	let bonusStatuses = $state([]);
 	let paymentStatuses = $state([]);
 	let paymentMethods = $state([]);
@@ -51,6 +55,7 @@
 					bonusStatuses = financesData.bonusStatuses || [];
 					paymentStatuses = financesData.paymentStatuses || [];
 					paymentMethods = financesData.paymentMethods || [];
+					bonusPaymentRequests = financesData.bonusPaymentRequests || [];
 					dataLoaded = true;
 					
 					// Check if we need client-side load
@@ -65,6 +70,7 @@
 				bonusStatuses = data.financesData.bonusStatuses || [];
 				paymentStatuses = data.financesData.paymentStatuses || [];
 				paymentMethods = data.financesData.paymentMethods || [];
+				bonusPaymentRequests = data.financesData.bonusPaymentRequests || [];
 				dataLoaded = true;
 				
 				// Check if we need client-side load
@@ -273,7 +279,7 @@
 
 		<!-- Stats Cards -->
 		<div class="mb-8">
-			<BonusStatsCards {stats} />
+			<BonusStatsCards {stats} onRequestPayment={() => showPayoutRequestModal = true} />
 		</div>
 
 		<!-- Tabs -->
@@ -286,6 +292,13 @@
 						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'bonuses' ? 'border-cyan-500 text-cyan-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
 					>
 						Бонусы
+					</button>
+					<button
+						type="button"
+						onclick={() => activeTab = 'requests'}
+						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'requests' ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
+					>
+						Заявки на выплату
 					</button>
 					<button
 						type="button"
@@ -338,6 +351,13 @@
 							<BonusesTable {bonuses} />
 						</div>
 					</div>
+				{:else if activeTab === 'requests'}
+					<!-- Payment Requests Tab -->
+					<div class="space-y-6">
+						<div class="rounded-lg bg-gray-900 border border-gray-800 overflow-hidden">
+							<BonusPaymentRequestsTable requests={bonusPaymentRequests} />
+						</div>
+					</div>
 				{:else if activeTab === 'referrals'}
 					<!-- Referrals Tab -->
 					<ReferralBonusStats stats={referralStats} />
@@ -370,4 +390,16 @@
 <!-- Payment Detail Modal -->
 {#if selectedPayment}
 	<PaymentDetailModal payment={selectedPayment} onClose={closePaymentModal} />
+{/if}
+
+<!-- Payout Request Modal -->
+{#if showPayoutRequestModal}
+	<PayoutRequestModal 
+		availableAmount={stats.total_available || 0}
+		onClose={() => showPayoutRequestModal = false}
+		onSuccess={() => {
+			showPayoutRequestModal = false;
+			refreshData();
+		}}
+	/>
 {/if}
