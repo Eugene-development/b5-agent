@@ -1,7 +1,7 @@
 <script>
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { initializeAuth, authState } from '$lib/auth/auth.svelte.js';
+	import { initializeAuth, authState, updateAuthStateFromServer } from '$lib/auth/auth.svelte.js';
 	import { PageTransition } from '$lib';
 	import { page } from '$app/stores';
 	import { captureReferralFromUrl } from '$lib/utils/referral.js';
@@ -30,17 +30,22 @@
 		}
 	});
 
-	// Initialize authentication from localStorage (JWT mode)
+	// Initialize authentication from server data or localStorage
 	$effect(() => {
-		// In JWT mode, ignore server data and use localStorage
-		if (data?.jwtMode) {
-			// Initialize from localStorage (JWT tokens)
-			initializeAuth().then(() => {
+		if (browser) {
+			// If server has auth data (from httpOnly cookie), use it
+			if (data?.isAuthenticated && data?.user) {
+				console.log('🔐 Layout: Using server auth data');
+				updateAuthStateFromServer(data);
 				authInitialized = true;
-			});
+			} else {
+				// Fallback: try to initialize from localStorage
+				console.log('🔐 Layout: Initializing from localStorage');
+				initializeAuth().then(() => {
+					authInitialized = true;
+				});
+			}
 		} else {
-			// Fallback: cookie-based auth (for backward compatibility)
-			// This branch shouldn't be used anymore with JWT
 			authInitialized = true;
 		}
 	});

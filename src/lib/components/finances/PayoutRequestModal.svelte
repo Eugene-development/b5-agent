@@ -301,32 +301,44 @@
 				</p>
 				<div class="grid grid-cols-3 gap-3">
 					{#each paymentMethods as method}
-						<button
-							type="button"
-							onclick={() => paymentMethod = method.id}
-							class="flex items-center gap-3 p-2 rounded-lg border-2 transition-all {
-								paymentMethod === method.id 
-									? 'border-green-500 bg-green-500/10' 
-									: 'border-gray-700 bg-gray-800 hover:border-gray-600'
-							}"
-						>
-							{#if method.icon === 'card'}
-								<svg class="w-5 h-5 flex-shrink-0 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-								</svg>
-							{:else if method.icon === 'phone'}
-								<svg class="w-5 h-5 flex-shrink-0 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-								</svg>
-							{:else}
-								<svg class="w-5 h-5 flex-shrink-0 {paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-								</svg>
+						{@const isDisabled = method.id === 'card' || method.id === 'sbp'}
+						<div class="relative group">
+							<button
+								type="button"
+								onclick={() => !isDisabled && (paymentMethod = method.id)}
+								disabled={isDisabled}
+								class="w-full flex items-center gap-3 p-2 rounded-lg border-2 transition-all {
+									isDisabled
+										? 'border-gray-800 bg-gray-900/50 cursor-not-allowed opacity-50'
+										: paymentMethod === method.id 
+											? 'border-green-500 bg-green-500/10' 
+											: 'border-gray-700 bg-gray-800 hover:border-gray-600'
+								}"
+							>
+								{#if method.icon === 'card'}
+									<svg class="w-5 h-5 shrink-0 {isDisabled ? 'text-gray-600' : paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+									</svg>
+								{:else if method.icon === 'phone'}
+									<svg class="w-5 h-5 shrink-0 {isDisabled ? 'text-gray-600' : paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+									</svg>
+								{:else}
+									<svg class="w-5 h-5 shrink-0 {isDisabled ? 'text-gray-600' : paymentMethod === method.id ? 'text-green-500' : 'text-gray-400'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+									</svg>
+								{/if}
+								<span class="text-sm font-medium {isDisabled ? 'text-gray-600' : paymentMethod === method.id ? 'text-green-400' : 'text-gray-300'}">
+									{method.name}
+								</span>
+							</button>
+							{#if isDisabled}
+								<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-800 text-gray-300 text-xs rounded-lg border border-gray-700 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+									Временно не доступно
+									<div class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-800"></div>
+								</div>
 							{/if}
-							<span class="text-sm font-medium {paymentMethod === method.id ? 'text-green-400' : 'text-gray-300'}">
-								{method.name}
-							</span>
-						</button>
+						</div>
 					{/each}
 				</div>
 			</div>

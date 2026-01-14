@@ -169,6 +169,19 @@ export async function registerUser(userData) {
 export async function logoutUser() {
 	try {
 		console.log('🚪 Calling logout API...');
+		
+		// Call SvelteKit endpoint to clear httpOnly cookies
+		try {
+			await fetch('/api/auth/logout-jwt', {
+				method: 'POST',
+				credentials: 'include'
+			});
+			console.log('🍪 Cookies cleared via SvelteKit endpoint');
+		} catch (cookieError) {
+			console.warn('⚠️ Failed to clear cookies:', cookieError);
+		}
+
+		// Also call backend logout API to invalidate token
 		const response = await post(API_CONFIG.endpoints.logout, {}, {}, true);
 		console.log('🚪 Logout API response:', response);
 

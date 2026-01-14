@@ -1,21 +1,26 @@
 /**
  * Server-side layout load function for protected routes
- * Note: For JWT authentication, server-side redirects are disabled
- * Authentication checks are handled on the client side
+ * Redirects unauthenticated users to login page
  * Requirements: 3.4, 5.1
  */
+
+import { redirect } from '@sveltejs/kit';
 
 /**
  * @type {import('./$types').LayoutServerLoad}
  */
-export async function load({ parent }) {
-	// Get parent data (which indicates JWT mode)
+export async function load({ parent, url }) {
+	// Get authentication data from parent layout
 	const parentData = await parent();
 
-	// In JWT mode, skip server-side authentication checks
-	// Client will handle redirects based on localStorage token
+	// Redirect unauthenticated users to login
+	if (!parentData.isAuthenticated) {
+		const returnTo = url.pathname + url.search;
+		console.log('🔒 Protected route: User not authenticated, redirecting to login', { returnTo });
+		throw redirect(302, `/login?returnTo=${encodeURIComponent(returnTo)}`);
+	}
+
 	return {
-		...parentData,
-		// Pass through parent data without modification
+		...parentData
 	};
 }

@@ -25,7 +25,7 @@ export async function POST({ request, cookies }) {
 				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			},
-			body: JSON.stringify({ email, password })
+			body: JSON.stringify({ email, password, remember })
 		});
 
 		if (!response.ok) {

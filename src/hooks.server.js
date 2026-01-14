@@ -14,6 +14,7 @@
 export async function handle({ event, resolve }) {
 	// Try to get JWT token from httpOnly cookie
 	const token = event.cookies.get('b5_auth_token');
+	const userCookie = event.cookies.get('b5_auth_user');
 
 	if (token) {
 		try {
@@ -29,41 +30,59 @@ export async function handle({ event, resolve }) {
 			console.log('🔐 Auth middleware: Processing token', {
 				tokenLength: actualToken.length,
 				tokenPreview: actualToken.substring(0, 30) + '...',
-				path: event.url.pathname
+				path: event.url.pathname,
+				hasUserCookie: !!userCookie
 			});
 
-			// Decode JWT to get user data (basic decode without verification)
-			// In production, you should verify the signature
-			const base64Url = actualToken.split('.')[1];
-			if (base64Url) {
-				const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-				const jsonPayload = decodeURIComponent(
-					atob(base64)
-						.split('')
-						.map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-						.join('')
-				);
+			// Try to get full user data from user cookie first
+			let userData = null;
+			if (userCookie) {
+				try {
+					userData = JSON.parse(userCookie);
+					console.log('🔐 Auth middleware: Got user data from cookie', {
+						userId: userData.id,
+						email: userData.email
+					});
+				} catch (e) {
+					console.warn('⚠️ Auth middleware: Failed to parse user cookie:', e);
+				}
+			}
 
-				const payload = JSON.parse(jsonPayload);
+			// Fallback: decode JWT to get basic user data
+			if (!userData) {
+				const base64Url = actualToken.split('.')[1];
+				if (base64Url) {
+					const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+					const jsonPayload = decodeURIComponent(
+						atob(base64)
+							.split('')
+							.map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+							.join('')
+					);
 
-				// Add user data to event.locals for use in load functions
-				event.locals.user = {
-					id: payload.sub,
-					email: payload.email,
-					name: payload.name,
-					email_verified_at: payload.email_verified ? new Date().toISOString() : null
-				};
+					const payload = JSON.parse(jsonPayload);
+					userData = {
+						id: payload.sub,
+						email: payload.email,
+						name: payload.name,
+						email_verified_at: payload.email_verified ? new Date().toISOString() : null
+					};
+				}
+			}
+
+			if (userData) {
+				event.locals.user = userData;
 				event.locals.token = actualToken;
 				event.locals.isAuthenticated = true;
 
 				console.log('🔐 Auth middleware: User authenticated', {
-					userId: payload.sub,
-					email: payload.email,
+					userId: userData.id,
+					email: userData.email,
 					path: event.url.pathname
 				});
 			}
 		} catch (error) {
-			console.error('❌ Auth middleware: Failed to decode JWT token:', error);
+			console.error('❌ Auth middleware: Failed to process auth:', error);
 			event.locals.user = null;
 			event.locals.token = null;
 			event.locals.isAuthenticated = false;

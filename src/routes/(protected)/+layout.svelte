@@ -1,6 +1,7 @@
 <!--
   Layout for protected routes
   This layout wraps all routes that require authentication
+  Server-side redirect handles unauthenticated users
 -->
 <script>
 	import { onMount } from 'svelte';
@@ -9,32 +10,23 @@
 	import { page } from '$app/stores';
 	import DashboardMenu from '$lib/components/DashboardMenu.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
 
-	// Check authentication on mount (like profile page does)
+	// Check email verification on mount
 	onMount(async () => {
-		// If not authenticated from localStorage, redirect immediately
-		if (!authState.isAuthenticated) {
-			const returnTo = $page.url.pathname + $page.url.search;
-			goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
-			return;
+		// Wait for auth state to be initialized
+		if (!authState.initialized) {
+			// Give time for root layout to initialize auth
+			await new Promise(resolve => setTimeout(resolve, 100));
 		}
 
-		// Verify token with server (like profile page)
-		const isAuth = await checkAuth();
-		if (!isAuth) {
-			const returnTo = $page.url.pathname + $page.url.search;
-			goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
-			return;
-		}
-
-		// Check email verification
+		// Check email verification (server already verified authentication)
 		if (authState.user && !authState.user.email_verified_at) {
 			goto('/email-verify');
 		}
 	});
 
-	// Watch for logout
+	// Watch for logout during session
 	$effect(() => {
 		if (authState.initialized && !authState.isAuthenticated) {
 			const returnTo = $page.url.pathname + $page.url.search;

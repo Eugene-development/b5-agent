@@ -3,6 +3,12 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+
+	// Storage keys for "Remember Me" feature
+	const REMEMBER_ME_KEY = 'b5_agent_remember_me';
+	const SAVED_EMAIL_KEY = 'b5_agent_saved_email';
+	const SAVED_PASSWORD_KEY = 'b5_agent_saved_password';
 
 	// Get redirectTo parameter from URL
 	let redirectTo = $derived.by(() => {
@@ -30,16 +36,24 @@
 	// Password visibility state
 	let showPassword = $state(false);
 
-	// Restore "Remember Me" preference from localStorage
-	// Временно отключено: чекбокс "Запомнить меня" скрыт
-	// $effect(() => {
-	// 	if (browser) {
-	// 		const savedRememberMe = localStorage.getItem('rememberMe');
-	// 		if (savedRememberMe === 'true') {
-	// 			formData.rememberMe = true;
-	// 		}
-	// 	}
-	// });
+	// Restore saved credentials from localStorage on mount (for manual login if needed)
+	onMount(() => {
+		if (browser) {
+			const savedRememberMe = localStorage.getItem(REMEMBER_ME_KEY);
+			if (savedRememberMe === 'true') {
+				formData.rememberMe = true;
+				const savedEmail = localStorage.getItem(SAVED_EMAIL_KEY);
+				const savedPassword = localStorage.getItem(SAVED_PASSWORD_KEY);
+				
+				if (savedEmail) {
+					formData.email = savedEmail;
+				}
+				if (savedPassword) {
+					formData.password = savedPassword;
+				}
+			}
+		}
+	});
 
 	// Note: Server-side redirect is handled by +layout.server.js
 	// No need for client-side redirect check here to avoid redirect loops
@@ -72,11 +86,18 @@
 		isLoading = true;
 
 		try {
-			// Save "Remember Me" preference to localStorage
-			// Временно отключено: чекбокс "Запомнить меня" скрыт
-			// if (browser) {
-			// 	localStorage.setItem('rememberMe', formData.rememberMe.toString());
-			// }
+			// Save or clear "Remember Me" credentials in localStorage
+			if (browser) {
+				if (formData.rememberMe) {
+					localStorage.setItem(REMEMBER_ME_KEY, 'true');
+					localStorage.setItem(SAVED_EMAIL_KEY, formData.email);
+					localStorage.setItem(SAVED_PASSWORD_KEY, formData.password);
+				} else {
+					localStorage.removeItem(REMEMBER_ME_KEY);
+					localStorage.removeItem(SAVED_EMAIL_KEY);
+					localStorage.removeItem(SAVED_PASSWORD_KEY);
+				}
+			}
 
 			const success = await loginWithCookie(formData.email, formData.password, formData.rememberMe);
 
@@ -275,8 +296,6 @@
 
 					<!-- Remember Me & Forgot Password -->
 					<div class="flex items-center justify-between">
-						<!-- Временно скрыто: чекбокс "Запомнить меня" -->
-						<!--
 						<div class="flex items-center gap-2">
 							<input
 								id="remember-me"
@@ -288,7 +307,6 @@
 							/>
 							<label for="remember-me" class="text-sm text-gray-300">Запомнить меня</label>
 						</div>
-						-->
 						<a
 							href="/forgot-password"
 							class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
