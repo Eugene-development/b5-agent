@@ -1,6 +1,6 @@
 <script>
 	import { loginWithCookie, authState } from '$lib/auth/auth.svelte.js';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
@@ -102,21 +102,18 @@
 			const success = await loginWithCookie(formData.email, formData.password, formData.rememberMe);
 
 			if (success) {
-				console.log('✅ Login successful, invalidating server data');
-
-				// Invalidate all server load functions to reload auth state
-				await invalidateAll();
-				console.log('🔄 Server data invalidated');
+				console.log('✅ Login successful');
 
 				// Check if email is verified
 				if (authState.user && !authState.user.email_verified_at) {
 					// Email not verified - redirect to email verification page
 					console.log('📧 Email not verified, redirecting to verification page');
-					await goto('/email-verify', { replaceState: true });
+					window.location.href = '/email-verify';
 				} else {
-					// Email verified - proceed to intended destination
+					// Email verified - proceed to intended destination with full page reload
+					// This ensures server-side auth check runs with new cookies
 					console.log('🚀 Redirecting to:', redirectTo);
-					await goto(redirectTo, { replaceState: true });
+					window.location.href = redirectTo;
 				}
 			} else {
 				// Show error from auth state
