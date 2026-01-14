@@ -63,7 +63,8 @@ export async function POST({ request, cookies }) {
 
 		// Determine cookie domain based on environment
 		const isProduction = process.env.NODE_ENV === 'production';
-		const cookieDomain = isProduction ? '.rubonus.ru' : undefined;
+		// Use .rubonus.pro for b5-agent (not .rubonus.ru which is for b5-admin)
+		const cookieDomain = isProduction ? '.rubonus.pro' : undefined;
 
 		cookies.set('b5_auth_token', cookieValue, {
 			path: '/',

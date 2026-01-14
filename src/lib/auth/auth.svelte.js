@@ -213,11 +213,17 @@ export async function loginWithCookie(email, password, remember = false) {
 	try {
 		const result = await loginUserWithCookie(email, password, remember);
 
+		console.log('🔐 loginWithCookie result:', { 
+			success: result.success, 
+			hasUser: !!result.user,
+			hasToken: !!result.token 
+		});
+
 		if (result.success) {
 			// Update auth state
 			const normalizedUser = normalizeUserData(result.user);
 			authState.user = normalizedUser || null;
-			authState.isAuthenticated = !!normalizedUser;
+			authState.isAuthenticated = result.success; // Use result.success instead of !!normalizedUser
 			authState.emailVerified = normalizedUser?.email_verified || false;
 			// Store token for client-side API requests
 			authState.token = result.token || null;

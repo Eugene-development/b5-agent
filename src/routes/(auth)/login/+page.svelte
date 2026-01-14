@@ -101,28 +101,23 @@
 
 			const success = await loginWithCookie(formData.email, formData.password, formData.rememberMe);
 
-			if (success) {
-				console.log('✅ Login successful');
+			console.log('🔐 Login result:', { success, isAuthenticated: authState.isAuthenticated });
 
-				// Check if email is verified
-				if (authState.user && !authState.user.email_verified_at) {
-					// Email not verified - redirect to email verification page
-					console.log('📧 Email not verified, redirecting to verification page');
-					window.location.href = '/email-verify';
-				} else {
-					// Email verified - proceed to intended destination with full page reload
-					// This ensures server-side auth check runs with new cookies
-					console.log('🚀 Redirecting to:', redirectTo);
-					window.location.href = redirectTo;
-				}
+			// Redirect if login was successful OR if authState shows authenticated
+			if (success || authState.isAuthenticated) {
+				console.log('✅ Login successful, redirecting to:', redirectTo);
+				// Always redirect with full page reload
+				// Email verification check will be done on the target page
+				window.location.href = redirectTo;
+				return; // Prevent further execution
 			} else {
 				// Show error from auth state
 				errors.general = authState.error || authState.loginError || 'Ошибка авторизации';
+				isLoading = false;
 			}
 		} catch (error) {
 			console.error('💥 Login error:', error);
 			errors.general = 'Произошла ошибка при входе';
-		} finally {
 			isLoading = false;
 		}
 	}
