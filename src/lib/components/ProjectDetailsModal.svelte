@@ -185,7 +185,7 @@
 						<div class="rounded-lg bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 p-4">
 							<div class="grid grid-cols-2 gap-4">
 								<div>
-									<p class="text-xs text-gray-400">Общий бонус проекта</p>
+									<p class="text-xs text-gray-400">Общий бонус</p>
 									<p class="text-xl font-bold text-emerald-400">
 										{formatCurrency(project.totalAgentBonus)}
 									</p>
@@ -193,7 +193,7 @@
 								{#if project.status?.value === 'Доставлен'}
 									<div>
 										<p class="text-xs text-gray-400 flex items-center gap-2">
-											Доступно к выплате
+											Доступно
 											<svg class="h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 											</svg>

@@ -232,8 +232,8 @@
 		<!-- Header -->
 		<div class="mb-8 flex items-start justify-between">
 			<div>
-				<h1 class="text-2xl font-bold text-white">Финансы</h1>
-				<p class="mt-1 text-sm text-gray-400">Учёт начислений и выплат бонусов</p>
+				<h1 class="text-3xl font-bold text-white">Финансы</h1>
+				<!-- <p class="mt-1 text-sm text-gray-400">Учёт начислений и выплат бонусов</p> -->
 			</div>
 			<button
 				type="button"
@@ -295,18 +295,19 @@
 					</button>
 					<button
 						type="button"
-						onclick={() => activeTab = 'requests'}
-						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'requests' ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
-					>
-						Заявки на выплату
-					</button>
-					<button
-						type="button"
 						onclick={() => activeTab = 'referrals'}
 						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'referrals' ? 'border-purple-500 text-purple-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
 					>
 						Рефералы
 					</button>
+					<button
+						type="button"
+						onclick={() => activeTab = 'requests'}
+						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'requests' ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
+					>
+						Заявки
+					</button>
+					
 					<button
 						type="button"
 						onclick={() => activeTab = 'payments'}

@@ -51,21 +51,21 @@
 		<div class="rounded-lg bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 p-4">
 			<div class="grid grid-cols-3 gap-4">
 				<div>
-					<p class="text-xs text-gray-400">Общий бонус проекта</p>
-					<p class="text-3xl font-bold text-emerald-400">
+					<p class="text-xs text-gray-400">Общий бонус</p>
+					<p class="text-lg sm:text-2xl md:text-3xl font-bold text-emerald-400">
 						{formatCurrency(bonusDetails.totalAgentBonus)}
 					</p>
 				</div>
 				<div>
-					<p class="text-xs text-gray-400">Доступно к выплате</p>
+					<p class="text-xs text-gray-400">Доступно</p>
 					<div class="flex items-center gap-2">
 						{#if isBonusAvailable}
-							<span class="text-2xl text-green-400">✓</span>
-							<p class="text-xl font-bold text-green-400">
+							<span class="text-lg sm:text-xl md:text-2xl text-green-400">✓</span>
+							<p class="text-base sm:text-lg md:text-xl font-bold text-green-400">
 								{formatCurrency(bonusDetails.totalAvailableBonus)}
 							</p>
 						{:else}
-							<p class="text-xl font-bold text-gray-400">
+							<p class="text-base sm:text-lg md:text-xl font-bold text-gray-400">
 								{formatCurrency(0)}
 							</p>
 						{/if}
@@ -75,12 +75,12 @@
 					<p class="text-xs text-gray-400">Выплачено</p>
 					<div class="flex items-center gap-2">
 						{#if hasPaidBonus}
-							<span class="text-2xl text-cyan-400">✓</span>
-							<p class="text-xl font-bold text-cyan-400">
+							<span class="text-lg sm:text-xl md:text-2xl text-cyan-400">✓</span>
+							<p class="text-base sm:text-lg md:text-xl font-bold text-cyan-400">
 								{formatCurrency(totalPaidBonus())}
 							</p>
 						{:else}
-							<p class="text-xl font-bold text-gray-400">
+							<p class="text-base sm:text-lg md:text-xl font-bold text-gray-400">
 								{formatCurrency(0)}
 							</p>
 						{/if}
