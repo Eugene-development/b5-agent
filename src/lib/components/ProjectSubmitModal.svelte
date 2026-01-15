@@ -127,7 +127,7 @@
 
 			return {
 				success: !!data.success,
-				message: data.message || 'Заявка успешно отправлена'
+				message: data.message || 'Проект отправлен куратору в работу'
 			};
 		} catch (error) {
 			return {
@@ -185,7 +185,7 @@
 		const result = await publicSubmit(payload);
 
 		if (result.success) {
-			successMessage = result.message || 'Заявка успешно отправлена';
+			successMessage = result.message || 'Проект отправлен куратору в работу';
 			
 			// Reset only client data fields, keep secret key
 			const clientNameInput = form.querySelector('#client_name');
@@ -208,11 +208,11 @@
 				onSuccess();
 			}
 			
-			// Auto-close modal after 2 seconds
+			// Auto-close modal after 4 seconds
 			setTimeout(() => {
 				isOpen = false;
 				successMessage = '';
-			}, 2000);
+			}, 4000);
 		} else {
 			errorMessage = result.message || 'Ошибка отправки заявки';
 		}
