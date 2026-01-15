@@ -90,6 +90,20 @@
 	 */
 	async function loadAllDataOnClient() {
 		console.log('🔄 Finances: Loading data on client (no httpOnly cookie)');
+		
+		// Debug: Check token and API configuration
+		if (typeof window !== 'undefined' && window.localStorage) {
+			const token = window.localStorage.getItem('b5_auth_token');
+			const userData = window.localStorage.getItem('b5_agent_user_data');
+			console.log('🔍 Finances Debug:', {
+				hasToken: !!token,
+				tokenLength: token?.length,
+				tokenPreview: token?.substring(0, 30) + '...',
+				hasUserData: !!userData,
+				userId: userData ? JSON.parse(userData)?.id : null
+			});
+		}
+		
 		loading = true;
 		clientLoadAttempted = true;
 		clientLoadError = null;

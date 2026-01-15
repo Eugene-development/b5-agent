@@ -6,12 +6,12 @@
 
 	import { bonusPaymentsApi } from '$lib/api/bonusPayments.js';
 
-	/** @type {{ availableAmount: number, onClose: () => void, onSubmit?: (data: any) => void }} */
-	let { availableAmount = 0, onClose, onSubmit } = $props();
+	/** @type {{ availableAmount: number, onClose: () => void, onSuccess?: (data: any) => void }} */
+	let { availableAmount = 0, onClose, onSuccess } = $props();
 
 	// Состояние формы
 	let amount = $state('');
-	let paymentMethod = $state('');
+	let paymentMethod = $state('other'); // Устанавливаем "other" по умолчанию
 	let cardNumber = $state('');
 	let phoneNumber = $state('');
 	let contactInfo = $state('');
@@ -78,8 +78,8 @@
 			showNotification('success', 'Заявка на выплату успешно создана');
 			
 			// Вызываем callback если передан
-			if (onSubmit) {
-				onSubmit(result);
+			if (onSuccess) {
+				onSuccess(result);
 			}
 			
 			// Закрываем модал через небольшую задержку для показа уведомления
@@ -99,6 +99,49 @@
 	 */
 	function setMaxAmount() {
 		amount = Math.round(availableAmount).toString();
+	}
+
+	/**
+	 * Обработчик ввода суммы - ограничивает максимальное значение
+	 * @param {Event} event
+	 */
+	function handleAmountInput(event) {
+		const input = /** @type {HTMLInputElement} */ (event.target);
+		let value = input.value;
+		
+		// Удаляем все нецифровые символы кроме точки и запятой
+		value = value.replace(/[^\d.,]/g, '');
+		
+		// Заменяем запятую на точку
+		value = value.replace(',', '.');
+		
+		// Оставляем только первую точку
+		const parts = value.split('.');
+		if (parts.length > 2) {
+			value = parts[0] + '.' + parts.slice(1).join('');
+		}
+		
+		// Если строка пустая, устанавливаем пустое значение
+		if (value === '' || value === '.') {
+			amount = value === '.' ? '0.' : '';
+			return;
+		}
+		
+		// Преобразуем в число
+		const numValue = parseFloat(value);
+		const maxAmount = Math.round(availableAmount);
+		
+		// Если превышает максимум, устанавливаем максимум
+		if (!isNaN(numValue) && numValue > maxAmount) {
+			amount = maxAmount.toString();
+			// Принудительно обновляем значение в input
+			setTimeout(() => {
+				input.value = maxAmount.toString();
+			}, 0);
+		} else {
+			// Устанавливаем очищенное значение (только цифры и точка)
+			amount = value;
+		}
 	}
 
 	/**
@@ -276,13 +319,13 @@
 				</label>
 				<div class="relative">
 					<input
-						type="number"
+						type="text"
+						inputmode="numeric"
 						id="amount"
 						bind:value={amount}
-						min="1"
-						max={Math.round(availableAmount)}
+						oninput={handleAmountInput}
 						placeholder="0"
-						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+						class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 					/>
 					<button
 						type="button"
@@ -292,6 +335,9 @@
 						MAX
 					</button>
 				</div>
+				<p class="mt-1 text-xs text-gray-500">
+					Минимум: 1 000 <span class="text-green-500">•</span> Максимум: {formatCurrency(Math.round(availableAmount))}
+				</p>
 			</div>
 
 			<!-- Способ выплаты -->
@@ -414,12 +460,12 @@
 			<!-- Информационный блок -->
 			<div class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg mb-5">
 				<div class="flex gap-3">
-					<svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
 					<div class="text-sm text-amber-200">
 						<p class="text-amber-300/80">
-							Выплаты обрабатываются в течение 3-5 рабочих дней. Минимальная сумма выплаты — 1 000 ₽.
+							Выплаты обрабатываются в течение 3-5 рабочих дней.
 						</p>
 					</div>
 				</div>
@@ -436,7 +482,7 @@
 				</button>
 				<button
 					type="submit"
-					disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) < 1000 || parseFloat(amount) > Math.round(availableAmount)}
+					disabled={isSubmitting || !amount || !paymentMethod || parseFloat(amount) < 1000 || parseFloat(amount) > Math.round(availableAmount) || (paymentMethod === 'other' && !contactInfo.trim())}
 					class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2"
 				>
 					{#if isSubmitting}

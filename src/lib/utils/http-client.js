@@ -106,10 +106,14 @@ export class HttpClient {
 					const parsed = JSON.parse(token);
 					const actualToken = parsed.access_token || parsed.token || token;
 					headers['Authorization'] = `Bearer ${actualToken}`;
+					console.log('🔑 HttpClient: Added Authorization header (token length:', actualToken.length, ')');
 				} catch {
 					// If parsing fails, it's a plain string token
 					headers['Authorization'] = `Bearer ${token}`;
+					console.log('🔑 HttpClient: Added Authorization header (token length:', token.length, ')');
 				}
+			} else {
+				console.warn('⚠️ HttpClient: No token found in localStorage');
 			}
 		}
 
