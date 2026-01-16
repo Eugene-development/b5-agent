@@ -54,7 +54,7 @@
 	>
 		<!-- Branding -->
 		<div class="z-10 mt-2 text-center">
-			<h2 class="font-mono text-4xl font-bold tracking-widest" style="color: #ffffff;">
+			<h2 class="font-mono text-4xl font-bold tracking-wide" style="color: #ffffff;">
 				RUBONUS<span class="tracking-wider text-3xl" style="color: #22d3ee;">.pro</span>
 			</h2>
 		</div>
@@ -63,9 +63,9 @@
 		<div class="z-10 flex flex-col items-center gap-4">
 			<div class="relative rounded-2xl p-3 shadow-xl" style="background-color: #ffffff;">
 				{#if qrCodeUrl}
-					<img src={qrCodeUrl} alt="QR Code" class="h-48 w-48 object-contain" />
+					<img src={qrCodeUrl} alt="QR Code" class="h-56 w-56 object-contain" />
 				{:else}
-					<div class="h-48 w-48 animate-pulse rounded" style="background-color: #e5e7eb;"></div>
+					<div class="h-56 w-56 animate-pulse rounded" style="background-color: #e5e7eb;"></div>
 				{/if}
 			</div>
 		</div>
