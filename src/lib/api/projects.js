@@ -18,6 +18,7 @@ const PROJECTS_QUERIES = {
 			projects(first: $first, page: $page) {
 				data {
 					id
+					project_number
 					value
 					user_id
 					client_id
@@ -68,6 +69,7 @@ const PROJECTS_QUERIES = {
 		query GetProjectsByAgent($user_id: ID!) {
 			projectsByAgent(user_id: $user_id) {
 				id
+				project_number
 				value
 				user_id
 				client_id
@@ -147,6 +149,7 @@ const PROJECTS_QUERIES = {
 		query GetProject($id: ID!) {
 			project(id: $id) {
 				id
+				project_number
 				value
 				user_id
 				client_id
@@ -221,6 +224,7 @@ const PROJECTS_QUERIES = {
 			projectsByStatus(status: $status, first: $first, page: $page) {
 				data {
 					id
+					project_number
 					value
 					user_id
 					client_id

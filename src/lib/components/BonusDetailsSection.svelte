@@ -5,6 +5,10 @@
 <script>
 	let { bonusDetails = null, isActive = true } = $props();
 
+	// Фильтруем только активные договоры и заказы
+	let activeContracts = $derived(bonusDetails?.contracts?.filter(c => c.is_active !== false) || []);
+	let activeOrders = $derived(bonusDetails?.orders?.filter(o => o.is_active !== false) || []);
+
 	function formatCurrency(amount) {
 		if (amount === null || amount === undefined || amount === 0) {
 			return '0';
@@ -20,20 +24,20 @@
 	// Проверяем, доступен ли бонус к выплате
 	let isBonusAvailable = $derived(bonusDetails && (bonusDetails.totalAvailableBonus || 0) > 0);
 
-	// Сумма выплаченных бонусов
+	// Сумма выплаченных бонусов (только активные)
 	let totalPaidBonus = $derived(() => {
 		if (!bonusDetails) return 0;
 		
 		let paidFromContracts = 0;
-		if (bonusDetails.contracts) {
-			paidFromContracts = bonusDetails.contracts
+		if (activeContracts) {
+			paidFromContracts = activeContracts
 				.filter(c => c.is_paid)
 				.reduce((sum, c) => sum + (c.agent_bonus || 0), 0);
 		}
 		
 		let paidFromOrders = 0;
-		if (bonusDetails.orders) {
-			paidFromOrders = bonusDetails.orders
+		if (activeOrders) {
+			paidFromOrders = activeOrders
 				.filter(o => o.is_paid)
 				.reduce((sum, o) => sum + (o.agent_bonus || 0), 0);
 		}
@@ -90,13 +94,13 @@
 		</div>
 
 		<!-- Contracts Bonuses -->
-		{#if bonusDetails.contracts && bonusDetails.contracts.length > 0}
+		{#if activeContracts && activeContracts.length > 0}
 			<div>
 				<h4 class="mb-2 text-sm font-semibold text-amber-500">
-					Бонусы по договорам ({bonusDetails.contracts.length})
+					Бонусы по договорам ({activeContracts.length})
 				</h4>
 				<div class="space-y-2">
-					{#each bonusDetails.contracts as contract}
+					{#each activeContracts as contract}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
@@ -106,11 +110,6 @@
 										Без номера
 									{/if}
 								</span>
-								{#if !contract.is_active}
-									<span class="rounded-full bg-gray-700 px-2 py-0.5 text-xs text-gray-400">
-										Неактивен
-									</span>
-								{/if}
 							</div>
 							<div class="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
 								<div>
@@ -128,7 +127,7 @@
 								</div>
 								<div>
 									<p class="text-gray-500">Бонус</p>
-									<p class="font-medium {contract.is_active ? 'text-emerald-400' : 'text-gray-500'}">
+									<p class="font-medium text-emerald-400">
 										{formatCurrency(contract.agent_bonus)}
 									</p>
 								</div>
@@ -149,13 +148,13 @@
 		{/if}
 
 		<!-- Orders Bonuses -->
-		{#if bonusDetails.orders && bonusDetails.orders.length > 0}
+		{#if activeOrders && activeOrders.length > 0}
 			<div>
 				<h4 class="mb-2 text-sm font-semibold text-amber-500">
-					Бонусы по заказам ({bonusDetails.orders.length})
+					Бонусы по заказам ({activeOrders.length})
 				</h4>
 				<div class="space-y-2">
-					{#each bonusDetails.orders as order}
+					{#each activeOrders as order}
 						<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-3">
 							<div class="flex items-center justify-between mb-2">
 								<span class="text-sm font-medium text-white">
@@ -165,11 +164,6 @@
 										Без номера
 									{/if}
 								</span>
-								{#if !order.is_active}
-									<span class="rounded-full bg-gray-700 px-2 py-0.5 text-xs text-gray-400">
-										Неактивна
-									</span>
-								{/if}
 							</div>
 							<div class="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
 								<div>
@@ -187,7 +181,7 @@
 								</div>
 								<div>
 									<p class="text-gray-500">Бонус</p>
-									<p class="font-medium {order.is_active ? 'text-emerald-400' : 'text-gray-500'}">
+									<p class="font-medium text-emerald-400">
 										{formatCurrency(order.agent_bonus)}
 									</p>
 								</div>
@@ -208,7 +202,7 @@
 		{/if}
 
 		<!-- No bonuses message -->
-		{#if (!bonusDetails.contracts || bonusDetails.contracts.length === 0) && (!bonusDetails.orders || bonusDetails.orders.length === 0)}
+		{#if activeContracts.length === 0 && activeOrders.length === 0}
 			<div class="rounded-lg border border-gray-700 bg-gray-800/50 p-4 text-center">
 				<p class="text-sm text-gray-400">Нет данных о бонусах</p>
 			</div>
