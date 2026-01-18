@@ -13,6 +13,7 @@ const PROJECTS_BY_AGENT_QUERY = `
 	query GetProjectsByAgent($user_id: ID!) {
 		projectsByAgent(user_id: $user_id) {
 			id
+			project_number
 			value
 			user_id
 			client_id
