@@ -1021,7 +1021,7 @@
 										</td>
 										<td class="whitespace-nowrap px-5 py-4">
 											<span
-												class="inline-flex rounded-full border px-2 py-1 text-xs font-semibold {getStatusBadgeClass(
+												class="inline-flex rounded-full border px-3 py-2 text-xs font-semibold {getStatusBadgeClass(
 													project.status
 												)}"
 												style={project.status?.color
