@@ -138,6 +138,15 @@
 									{:else if contract.is_available}
 										<p class="text-gray-500">Доступно</p>
 										<span class="text-lg text-green-400">✓</span>
+									{:else if contract.status_slug === 'signed'}
+										<p class="text-gray-500">Статус</p>
+										<p class="text-sm text-amber-400">Ожидаем выполнения договора</p>
+									{:else if contract.status_slug === 'completed' && !contract.is_partner_paid}
+										<p class="text-gray-500">Статус</p>
+										<p class="text-sm text-amber-400">Ожидаем поступление бонуса</p>
+									{:else}
+										<p class="text-gray-500">Статус</p>
+										<p class="text-sm text-gray-400">Не доступно</p>
 									{/if}
 								</div>
 							</div>
@@ -192,6 +201,9 @@
 									{:else if order.is_available}
 										<p class="text-gray-500">Доступно</p>
 										<span class="text-lg text-green-400">✓</span>
+									{:else}
+										<p class="text-gray-500">Статус</p>
+										<p class="text-sm text-amber-400">Ожидаем доставку заказа</p>
 									{/if}
 								</div>
 							</div>

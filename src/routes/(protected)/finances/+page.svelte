@@ -56,6 +56,7 @@
 					paymentStatuses = financesData.paymentStatuses || [];
 					paymentMethods = financesData.paymentMethods || [];
 					bonusPaymentRequests = financesData.bonusPaymentRequests || [];
+					referralStats = financesData.referralStats || { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] };
 					dataLoaded = true;
 					
 					// Check if we need client-side load
@@ -71,6 +72,7 @@
 				paymentStatuses = data.financesData.paymentStatuses || [];
 				paymentMethods = data.financesData.paymentMethods || [];
 				bonusPaymentRequests = data.financesData.bonusPaymentRequests || [];
+				referralStats = data.financesData.referralStats || { total_pending: 0, total_available: 0, total_paid: 0, total: 0, referrals: [] };
 				dataLoaded = true;
 				
 				// Check if we need client-side load
@@ -319,16 +321,17 @@
 						onclick={() => activeTab = 'requests'}
 						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'requests' ? 'border-blue-500 text-blue-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
 					>
-						Заявки
-					</button>
-					
-					<button
-						type="button"
-						onclick={() => activeTab = 'payments'}
-						class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'payments' ? 'border-cyan-500 text-cyan-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
-					>
 						Выплаты
 					</button>
+					
+					<!-- TODO: Вкладка "Выплаты" временно скрыта -->
+				<!-- <button
+					type="button"
+					onclick={() => activeTab = 'payments'}
+					class="py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === 'payments' ? 'border-cyan-500 text-cyan-500' : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}"
+				>
+					Выплаты
+				</button> -->
 				</nav>
 			</div>
 		</div>

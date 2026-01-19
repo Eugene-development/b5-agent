@@ -122,6 +122,8 @@ const PROJECTS_QUERIES = {
 						is_active
 						is_available
 						is_paid
+						status_slug
+						is_partner_paid
 					}
 					orders {
 						id
@@ -134,6 +136,7 @@ const PROJECTS_QUERIES = {
 						is_active
 						is_available
 						is_paid
+						status_slug
 					}
 				}
 				created_at
@@ -196,6 +199,8 @@ const PROJECTS_QUERIES = {
 						is_active
 						is_available
 						is_paid
+						status_slug
+						is_partner_paid
 					}
 					orders {
 						id
@@ -208,6 +213,7 @@ const PROJECTS_QUERIES = {
 						is_active
 						is_available
 						is_paid
+						status_slug
 					}
 				}
 				created_at

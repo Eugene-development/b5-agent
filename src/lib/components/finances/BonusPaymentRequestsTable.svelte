@@ -113,7 +113,7 @@
 		<thead class="bg-gray-800">
 			<tr>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Дата заявки</th>
-				<th class="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Сумма</th>
+				<th class="px-4 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Бонус</th>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Способ</th>
 				<th class="px-4 py-3 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">Статус</th>
 				<th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Дата выплаты</th>
