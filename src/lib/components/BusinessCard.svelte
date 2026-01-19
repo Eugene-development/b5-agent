@@ -52,8 +52,13 @@
 			box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 		"
 	>
+		<!-- Invitation Title -->
+		<div class="z-10 text-center">
+			<p class="text-sm font-medium tracking-wide" style="color: #9ca3af;">Приглашение на платформу</p>
+		</div>
+
 		<!-- Branding -->
-		<div class="z-10 mt-2 text-center">
+		<div class="z-10 text-center">
 			<h2 class="font-mono text-4xl font-bold tracking-wide" style="color: #ffffff;">
 				RUBONUS<span class="tracking-wider text-3xl" style="color: #22d3ee;">.pro</span>
 			</h2>
@@ -71,11 +76,15 @@
 		</div>
 
 		<!-- Tagline -->
-		<div class="z-10 mb-8 text-center">
+		<div class="z-10 text-center">
 			<p class="text-xl font-medium leading-relaxed" style="color: #ffffff;">
 				Зарабатывай<br />на рекомендациях
 			</p>
-			<p class="mt-2 text-xs opacity-80" style="color: #9ca3af;">Сканируй, чтобы начать</p>
+		</div>
+
+		<!-- Scan instruction (bottom) -->
+		<div class="z-10 mb-2 text-center">
+			<p class="text-xs opacity-80" style="color: #9ca3af;">Сканируй, чтобы начать</p>
 		</div>
 
         <!-- Border/Texture overlay for premium feel -->

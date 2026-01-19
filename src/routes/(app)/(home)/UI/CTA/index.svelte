@@ -1,11 +1,12 @@
 <div class="relative isolate overflow-hidden bg-gray-950">
 	<div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
 		<div class="mx-auto max-w-3xl text-center">
-			<h2 class="text-balance text-4xl font-semibold text-white sm:text-5xl">
-				Никто не узнает, что вы <span
-					class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text font-bold text-transparent"
-					>агент секретного маркетинга</span
-				>
+			<h2 class="text-balance text-4xl font-semibold tracking-wide text-white sm:text-5xl">
+				Зарабатывай на <br />
+				<span
+					class="bg-gradient-to-r from-indigo-400 via-purple-400 tracking-wider to-pink-400 bg-clip-text font-bold text-transparent"
+					>секретном маркетинге</span
+				> <br /> в нашей платформе
 			</h2>
 			<p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-300">
 				Подробности будут в вашем личном кабинете
