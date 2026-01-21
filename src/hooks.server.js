@@ -5,6 +5,60 @@
  */
 
 /**
+ * Check if JWT token is expired
+ * @param {string} token - JWT token
+ * @returns {boolean} True if token is expired
+ */
+function isTokenExpired(token) {
+	try {
+		const base64Url = token.split('.')[1];
+		if (!base64Url) return true;
+		
+		const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+		const jsonPayload = decodeURIComponent(
+			atob(base64)
+				.split('')
+				.map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+				.join('')
+		);
+		
+		const payload = JSON.parse(jsonPayload);
+		
+		// Check exp claim (expiration time in seconds since epoch)
+		if (payload.exp) {
+			const now = Math.floor(Date.now() / 1000);
+			// Add 30 second buffer to handle clock skew
+			if (payload.exp < now - 30) {
+				console.log('⏰ Token expired:', {
+					exp: new Date(payload.exp * 1000).toISOString(),
+					now: new Date(now * 1000).toISOString()
+				});
+				return true;
+			}
+		}
+		
+		return false;
+	} catch (error) {
+		console.error('❌ Error checking token expiration:', error);
+		return true; // Treat invalid tokens as expired
+	}
+}
+
+/**
+ * Clear authentication cookies
+ * @param {Object} cookies - SvelteKit cookies object
+ */
+function clearAuthCookies(cookies) {
+	const isProduction = process.env.NODE_ENV === 'production';
+	const cookieDomain = isProduction ? '.rubonus.pro' : undefined;
+	
+	cookies.delete('b5_auth_token', { path: '/', domain: cookieDomain });
+	cookies.delete('b5_auth_user', { path: '/', domain: cookieDomain });
+	
+	console.log('🧹 Cleared expired auth cookies');
+}
+
+/**
  * Handle server-side requests with authentication middleware
  * Reads JWT token from httpOnly cookie and adds user data to event.locals
  * @param {Object} event - SvelteKit request event
@@ -25,6 +79,24 @@ export async function handle({ event, resolve }) {
 				actualToken = parsed.access_token || parsed.token || token;
 			} catch {
 				// Token is already a string
+			}
+
+			// Check if token is expired BEFORE processing
+			if (isTokenExpired(actualToken)) {
+				console.log('⏰ Auth middleware: Token expired, clearing cookies', {
+					path: event.url.pathname
+				});
+				
+				// Clear expired cookies
+				clearAuthCookies(event.cookies);
+				
+				// Set unauthenticated state
+				event.locals.user = null;
+				event.locals.token = null;
+				event.locals.isAuthenticated = false;
+				event.locals.tokenExpired = true; // Flag for client to know token expired
+				
+				return await resolve(event);
 			}
 
 			console.log('🔐 Auth middleware: Processing token', {
@@ -83,6 +155,8 @@ export async function handle({ event, resolve }) {
 			}
 		} catch (error) {
 			console.error('❌ Auth middleware: Failed to process auth:', error);
+			// Clear potentially corrupted cookies
+			clearAuthCookies(event.cookies);
 			event.locals.user = null;
 			event.locals.token = null;
 			event.locals.isAuthenticated = false;

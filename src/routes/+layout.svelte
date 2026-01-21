@@ -1,12 +1,14 @@
 <script>
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { initializeAuth, authState, updateAuthStateFromServer } from '$lib/auth/auth.svelte.js';
+	import { initializeAuth, authState, updateAuthStateFromServer, clearAuthState } from '$lib/auth/auth.svelte.js';
+	import { removeAuthToken } from '$lib/api/config.js';
 	import { PageTransition } from '$lib';
 	import { page } from '$app/stores';
 	import { captureReferralFromUrl } from '$lib/utils/referral.js';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	import Menu from './layout/header/UI/Menu/index.svelte';
 	import Footer from './layout/footer/index.svelte';
@@ -33,6 +35,24 @@
 	// Initialize authentication from server data or localStorage
 	$effect(() => {
 		if (browser) {
+			// Check if token was expired on server side
+			if (data?.tokenExpired) {
+				console.log('⏰ Layout: Token expired, clearing client state and redirecting');
+				// Clear client-side auth state
+				clearAuthState();
+				removeAuthToken();
+				authInitialized = true;
+				
+				// Redirect to login if on protected route
+				const protectedPaths = ['/form', '/profile', '/settings', '/projects', '/finances', '/reports', '/qr-code'];
+				const isProtectedRoute = protectedPaths.some(path => $page.url.pathname.startsWith(path));
+				if (isProtectedRoute) {
+					const returnTo = encodeURIComponent($page.url.pathname + $page.url.search);
+					goto(`/login?returnTo=${returnTo}&expired=1`);
+				}
+				return;
+			}
+			
 			// If server has auth data (from httpOnly cookie), use it
 			if (data?.isAuthenticated && data?.user) {
 				console.log('🔐 Layout: Using server auth data');

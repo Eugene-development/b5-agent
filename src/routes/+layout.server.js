@@ -12,6 +12,7 @@ export async function load({ locals }) {
 	return {
 		user: locals.user || null,
 		isAuthenticated: locals.isAuthenticated || false,
-		token: locals.token || null
+		token: locals.token || null,
+		tokenExpired: locals.tokenExpired || false // Flag when token was expired and cleared
 	};
 }
