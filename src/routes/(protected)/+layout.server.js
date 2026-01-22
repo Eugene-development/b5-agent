@@ -14,6 +14,7 @@ export async function load({ parent, url, locals }) {
 	const parentData = await parent();
 
 	// Check if token was expired (cleared by hooks.server.js)
+	// Pass this flag to client for proper handling
 	if (locals.tokenExpired) {
 		const returnTo = url.pathname + url.search;
 		console.log('⏰ Protected route: Token expired, redirecting to login', { returnTo });
@@ -28,6 +29,7 @@ export async function load({ parent, url, locals }) {
 	}
 
 	return {
-		...parentData
+		...parentData,
+		tokenExpired: locals.tokenExpired || false
 	};
 }

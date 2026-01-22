@@ -27,10 +27,19 @@
 	});
 
 	// Watch for logout during session
+	// Only redirect if auth was initialized AND user logged out (not on initial load with expired token)
 	$effect(() => {
+		// Skip if we're already being redirected by root layout due to expired token
+		if (data?.tokenExpired) {
+			return;
+		}
+		
 		if (authState.initialized && !authState.isAuthenticated) {
 			const returnTo = $page.url.pathname + $page.url.search;
-			goto(`/login?returnTo=${encodeURIComponent(returnTo)}`);
+			// Use window.location.href to prevent SPA navigation loops
+			if (typeof window !== 'undefined') {
+				window.location.href = `/login?returnTo=${encodeURIComponent(returnTo)}`;
+			}
 		}
 	});
 </script>

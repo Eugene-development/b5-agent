@@ -38,18 +38,38 @@
 			// Check if token was expired on server side
 			if (data?.tokenExpired) {
 				console.log('⏰ Layout: Token expired, clearing client state and redirecting');
-				// Clear client-side auth state
+				// Clear client-side auth state FIRST
 				clearAuthState();
 				removeAuthToken();
+				
+				// Clear localStorage completely
+				try {
+					localStorage.removeItem('b5_auth_token');
+					localStorage.removeItem('b5_auth_user');
+				} catch (e) {
+					console.warn('Failed to clear localStorage:', e);
+				}
+				
 				authInitialized = true;
 				
-				// Redirect to login if on protected route
+				// Redirect to login if on protected route using full page reload
+				// This prevents SPA navigation loops
 				const protectedPaths = ['/form', '/profile', '/settings', '/projects', '/finances', '/reports', '/qr-code'];
 				const isProtectedRoute = protectedPaths.some(path => $page.url.pathname.startsWith(path));
 				if (isProtectedRoute) {
 					const returnTo = encodeURIComponent($page.url.pathname + $page.url.search);
-					goto(`/login?returnTo=${returnTo}&expired=1`);
+					// Use window.location.href for full page reload to break the loop
+					window.location.href = `/login?returnTo=${returnTo}&expired=1`;
 				}
+				return;
+			}
+			
+			// If server says not authenticated, clear client state
+			if (data && !data.isAuthenticated) {
+				console.log('🔐 Layout: Server says not authenticated, clearing client state');
+				clearAuthState();
+				removeAuthToken();
+				authInitialized = true;
 				return;
 			}
 			

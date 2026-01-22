@@ -92,10 +92,25 @@
 	}
 
 	/**
+	 * Получить тип бонуса по recipient_type
+	 * @returns {'agent' | 'curator' | 'referrer'}
+	 */
+	function getBonusType(bonus) {
+		return bonus.recipient_type || 'agent';
+	}
+
+	/**
 	 * Проверить является ли бонус реферальным
 	 */
 	function isReferralBonus(bonus) {
-		return bonus.bonus_type === 'referral';
+		return bonus.recipient_type === 'referrer' || bonus.bonus_type === 'referral';
+	}
+
+	/**
+	 * Проверить является ли бонус кураторским
+	 */
+	function isCuratorBonus(bonus) {
+		return bonus.recipient_type === 'curator';
 	}
 
 	/**
@@ -149,11 +164,15 @@
 						<td class="px-4 py-3 whitespace-nowrap">
 							{#if isReferralBonus(bonus)}
 								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400" title="Бонус за сделку реферала">
-									Реферал
+									Реферальный
+								</span>
+							{:else if isCuratorBonus(bonus)}
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400" title="Бонус за кураторство">
+									Кураторский
 								</span>
 							{:else}
-								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400">
-									Личный
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400" title="Бонус за собственную сделку">
+									Агентский
 								</span>
 							{/if}
 						</td>
