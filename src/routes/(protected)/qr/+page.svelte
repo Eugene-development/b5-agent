@@ -66,10 +66,28 @@
 	function downloadQR() {
 		if (!qrCodeDataUrl) return;
 
-		const link = document.createElement('a');
-		link.download = 'rubonus-referral-qr.png';
-		link.href = qrCodeDataUrl;
-		link.click();
+		// Convert PNG data URL to JPEG
+		const img = new Image();
+		img.onload = () => {
+			const canvas = document.createElement('canvas');
+			canvas.width = img.width;
+			canvas.height = img.height;
+			const ctx = canvas.getContext('2d');
+			
+			// Fill white background (JPEG doesn't support transparency)
+			ctx.fillStyle = '#FFFFFF';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			
+			// Draw QR code
+			ctx.drawImage(img, 0, 0);
+			
+			// Convert to JPEG and download
+			const link = document.createElement('a');
+			link.download = 'rubonus-referral-qr.jpg';
+			link.href = canvas.toDataURL('image/jpeg', 0.95);
+			link.click();
+		};
+		img.src = qrCodeDataUrl;
 	}
 
 	onMount(async () => {

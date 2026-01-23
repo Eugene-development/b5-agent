@@ -10,25 +10,24 @@
 		try {
 			console.log('Starting card generation...');
 			const canvas = await html2canvas(cardElement, {
-				scale: 2, // Slightly reduced scale for stability
+				scale: 3, // Increased scale for higher quality (3x resolution)
 				useCORS: true,
-				logging: true, // Enable logging to see issues in console
-				backgroundColor: '#111827', // URL safe hex color (gray-900)
+				logging: false,
+				backgroundColor: '#111827',
 				allowTaint: true,
+				imageTimeout: 0,
+				removeContainer: true,
 				onclone: (clonedDoc) => {
-					// Ensure tailwind styles are computed or handle specific issues if needed
-					// For now, this hook is available if we need to modify the cloned DOM
 					const element = clonedDoc.querySelector('[data-card-element]');
 					if (element) {
-						// Force specific styles if broken
 						element.style.backgroundColor = '#111827'; 
 					}
 				}
 			});
 			const link = document.createElement('a');
-			link.download = 'rubonus-business-card.png';
-			link.href = canvas.toDataURL('image/png');
-			document.body.appendChild(link); // Append to body to ensure it works in some browsers
+			link.download = 'rubonus-business-card.jpg';
+			link.href = canvas.toDataURL('image/jpeg', 1.0); // Maximum JPEG quality
+			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
 		} catch (err) {

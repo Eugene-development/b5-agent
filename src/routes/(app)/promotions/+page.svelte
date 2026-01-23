@@ -37,8 +37,8 @@
 				Акции
 			</h1>
 
-			<p class="mt-6 text-lg leading-8 text-gray-400 sm:text-xl">
-				Воспользуйтесь нашими специальными предложениями и увеличьте свой доход
+			<p class="mt-6 max-w-2xl mx-auto text-lg leading-8 text-gray-400 sm:text-xl">
+				Воспользуйтесь нашими специальными предложениями и увеличьте свой дополнительный доход
 			</p>
 		</div>
 
@@ -65,9 +65,9 @@
 						</svg>
 					</div>
 
-					<h3 class="text-2xl font-bold text-white">Завербуй агента</h3>
+					<h3 class="text-2xl font-bold text-white">Завербуй коллегу</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						Приведи нового агента в RUBONUS и получай дополнительно
+						Приведи нового партнёра в RUBONUS и получай дополнительно
 						<span class="font-bold text-amber-400">0.5%</span> с каждого его проекта
 					</p>
 
@@ -94,7 +94,7 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Неограниченное количество рефералов</p>
+							<p class="text-sm text-gray-400">Неограниченное количество регистраций</p>
 						</div>
 						<div class="flex items-start gap-2">
 							<svg
@@ -106,7 +106,7 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Выплаты вместе с основным вознаграждением</p>
+							<p class="text-sm text-gray-400">Начисления вместе с основным вознаграждением</p>
 						</div>
 					</div>
 
@@ -135,9 +135,9 @@
 						</svg>
 					</div>
 
-					<h3 class="text-2xl font-bold text-white">ТОП 10 агентов</h3>
+					<h3 class="text-2xl font-bold text-white">ТОП 10</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						Войди в десятку лучших агентов по итогам 2026 года и получи статус <span class="font-bold text-purple-400">премиум-агента</span> на 2027 год
+						Войди в десятку лучших по итогам 2026 года и получи <span class="font-bold text-purple-400">премиум-статус</span> на 2027 год
 					</p>
 
 					<div class="mt-6 space-y-3">
@@ -152,7 +152,7 @@
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
 							<p class="text-sm text-gray-400">
-								Плюсом подарок
+								Индивидуальный подарок
 							</p>
 						</div>
 
@@ -207,9 +207,9 @@
 						</svg>
 					</div>
 
-					<h3 class="text-2xl font-bold text-white">Новогодний бонус</h3>
+					<h3 class="text-2xl font-bold text-white">Спец бонус</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						До конца января действует повышенный бонус
+						До конца февраля действует повышенный бонус
 						<span class="font-bold text-emerald-400">+0.2%</span> к каждому вашему проекту
 					</p>
 
@@ -248,7 +248,7 @@
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 							</svg>
-							<p class="text-sm text-gray-400">Ограниченное предложение до 31.01.2026</p>
+							<p class="text-sm text-gray-400">Ограниченное предложение до 01.03.2026</p>
 						</div>
 					</div>
 
@@ -266,8 +266,8 @@
 			>
 				<h2 class="text-2xl font-bold text-white sm:text-3xl">Как участвовать</h2>
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
-					Все акции активируются автоматически для зарегистрированных агентов. Просто продолжайте
-					работать, регистрируйте клиентов и получайте повышенные вознаграждения. Следите за
+					Все акции активируются автоматически для зарегистрированных партнёров. Просто продолжайте
+					работать, регистрируйте проекты и получайте повышенные вознаграждения. Следите за
 					обновлениями в личном кабинете, чтобы не пропустить новые специальные предложения и акции.
 				</p>
 
@@ -282,7 +282,7 @@
 						class="rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-6 ring-1 ring-white/10"
 					>
 						<div class="text-3xl font-bold text-purple-400">2</div>
-						<p class="mt-2 text-sm text-gray-300">Регистрируйте новых клиентов</p>
+						<p class="mt-2 text-sm text-gray-300">Регистрируйте новые проекты</p>
 					</div>
 					<div
 						class="rounded-xl bg-gradient-to-br from-pink-500/10 to-rose-500/10 p-6 ring-1 ring-white/10"

@@ -13,7 +13,7 @@
 					RUBONUS<span class="text-sm">.pro</span>
 				</h3>
 				<p class="text-sm leading-6 text-gray-400">
-					Партнерская программа для заработка на рекомендациях.
+					Партнерская программа для заработка на регистрации рекомендаций.
 				</p>
 			</div>
 
@@ -129,8 +129,8 @@
 		<div class="mt-12 border-t border-slate-800/50 pt-8">
 			<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
 				<p class="text-sm text-gray-400">
-					© {currentYear} RUBONUS. Все права защищены. Вся информация на сайте носит развлекательный
-					характер.
+					© {currentYear} RUBONUS. Все права защищены. Вся информация на сайте носит
+					информационный характер.
 				</p>
 				<div class="flex gap-6">
 					<a

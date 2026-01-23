@@ -334,7 +334,7 @@
 							Отправьте свое резюме и сопроводительное письмо на электронную почту info@rubonus.ru:
 						</p>
 						<a
-							href="mailto:info@rubonus.ru?subject=Отклик на вакансию: Куратор проектов"
+							href="mailto:info@rubonus.pro?subject=Отклик на вакансию: Куратор проектов"
 							class="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/50"
 						>
 							<svg class="size-5" fill="currentColor" viewBox="0 0 20 20">

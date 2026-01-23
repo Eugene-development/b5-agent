@@ -5,7 +5,7 @@
 				Зарабатывай на <br />
 				<span
 					class="bg-gradient-to-r from-indigo-400 via-purple-400 tracking-wider to-pink-400 bg-clip-text font-bold text-transparent"
-					>секретном маркетинге</span
+					>тайном маркетинге</span
 				> <br /> в нашей платформе
 			</h2>
 			<p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-300">

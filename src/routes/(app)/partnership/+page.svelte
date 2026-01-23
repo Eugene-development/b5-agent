@@ -226,7 +226,7 @@
 							5
 						</div>
 						<p class="text-base text-gray-300 sm:text-lg">
-							После закрытия сделки вы выплачиваете агенту вознаграждение до 5% от суммы
+							После закрытия сделки вы выплачиваете вознаграждение нашей платформе
 						</p>
 					</div>
 				</div>
@@ -416,7 +416,7 @@
 							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 						<p class="text-base text-gray-300">
-							Вознаграждение агентам составляет до 5% от суммы закрытой сделки
+							Вы сами определяете размер бонуса в рамках нашего партнёрства
 						</p>
 					</div>
 					<div class="flex items-start gap-3">
@@ -430,7 +430,7 @@
 							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 						<p class="text-base text-gray-300">
-							Выплата производится в течение 5 рабочих дней после закрытия сделки
+							Выплата производится в течение 2-х дней после закрытия сделки
 						</p>
 					</div>
 					<div class="flex items-start gap-3">
@@ -444,7 +444,7 @@
 							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 						<p class="text-base text-gray-300">
-							Повторные сделки с клиентом в течение 2 месяцев также подлежат вознаграждению
+							Повторные сделки с клиентом также подлежат вознаграждению
 						</p>
 					</div>
 					<div class="flex items-start gap-3">
@@ -461,20 +461,7 @@
 							Никаких скрытых платежей или абонентской платы за участие в программе
 						</p>
 					</div>
-					<div class="flex items-start gap-3">
-						<svg
-							class="mt-1 size-5 shrink-0 text-emerald-400"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="2"
-							stroke="currentColor"
-						>
-							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-						</svg>
-						<p class="text-base text-gray-300">
-							Возможность самостоятельно устанавливать процент вознаграждения в пределах 1-5%
-						</p>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -487,7 +474,7 @@
 				<h2 class="text-2xl font-bold text-white sm:text-3xl">Станьте партнёром RUBONUS</h2>
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
 					Присоединяйтесь к нашей партнёрской программе и начните получать новых клиентов уже
-					сегодня. Регистрация бесплатна и занимает несколько минут.
+					завтра.
 				</p>
 				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a

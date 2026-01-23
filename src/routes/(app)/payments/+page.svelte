@@ -56,9 +56,9 @@
 			>
 				<h2 class="text-2xl font-bold text-white sm:text-3xl">Как происходят выплаты</h2>
 				<p class="mt-4 text-base leading-7 text-gray-300 sm:text-lg">
-					Мы стремимся сделать процесс выплат максимально прозрачным и удобным для наших партнеров.
-					Вознаграждение в размере до 5% от суммы сделки выплачивается после того, как будет закрыта
-					сделка.
+					Мы стремимся сделать процесс максимально прозрачным и удобным для наших партнеров.
+					Вознаграждение в размере до 5% от суммы сделки, по зарегистрированной вами рекомендации,
+					доставляется вам в течение 5 рабочих дней после того, как будет закрыта сделка с клиентом фабрикой или поставщиком.
 				</p>
 			</div>
 		</div>
@@ -66,7 +66,7 @@
 		<!-- Conditions Section -->
 		<div class="mx-auto mt-16 max-w-4xl">
 			<h2 class="text-center text-2xl font-bold text-white sm:text-3xl">
-				Условия получения вознаграждения
+				Условия получения бонуса
 			</h2>
 
 			<div class="mt-10 space-y-4">
@@ -95,7 +95,7 @@
 							2
 						</div>
 						<p class="text-base text-gray-300 sm:text-lg">
-							Клиент, которого вы привели, заключает договор с компанией партнёром
+							Клиент по зарегистрированной рекомендации заключает договор с фабрикой партнёром
 						</p>
 					</div>
 				</div>
@@ -110,7 +110,7 @@
 							3
 						</div>
 						<p class="text-base text-gray-300 sm:text-lg">
-							Клиент должен полностью оплатить услуги по договору
+							Клиент должен полностью оплатить услуги по договору фабрике или поставщику
 						</p>
 					</div>
 				</div>
@@ -124,7 +124,7 @@
 						>
 							4
 						</div>
-						<p class="text-base text-gray-300 sm:text-lg">Сделка должна быть закрыта</p>
+						<p class="text-base text-gray-300 sm:text-lg">Вы должны сделать запрос на получение бонуса</p>
 					</div>
 				</div>
 			</div>
@@ -345,26 +345,26 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="text-xl font-bold text-white sm:text-2xl">Отслеживание выплат</h3>
+				<h3 class="text-xl font-bold text-white sm:text-2xl">Отслеживание</h3>
 				<p class="mt-4 text-base leading-7 text-gray-300">
-					В личном кабинете вы можете отслеживать статус всех ваших рекомендаций и выплат.
+					В личном кабинете вы можете отслеживать статус всех ваших рекомендаций и бонусов.
 				</p>
 				<ul class="mt-4 space-y-2 text-sm text-gray-400">
 					<li class="flex items-center gap-2">
 						<span class="size-1.5 rounded-full bg-blue-400"></span>
-						Дату регистрации клиента
+						Дату регистрации проекта
 					</li>
 					<li class="flex items-center gap-2">
 						<span class="size-1.5 rounded-full bg-blue-400"></span>
-						Статус сделки
+						Статус сделок
 					</li>
 					<li class="flex items-center gap-2">
 						<span class="size-1.5 rounded-full bg-blue-400"></span>
-						Сумму ожидаемого вознаграждения
+						Сумму ожидаемого бонуса
 					</li>
 					<li class="flex items-center gap-2">
 						<span class="size-1.5 rounded-full bg-blue-400"></span>
-						Историю выплат
+						Историю начислений
 					</li>
 				</ul>
 			</div>
