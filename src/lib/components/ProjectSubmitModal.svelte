@@ -368,7 +368,7 @@
 
 						<!-- Incognito Checkbox -->
 						<div class="group/field shrink-0 pt-8">
-							<label class="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-600/50 bg-slate-800/50 px-4 py-3 transition-all duration-200 hover:border-slate-500/50 hover:bg-slate-800" for="is_incognito">
+							<label class="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-600/50 bg-slate-800/50 px-4 py-3 transition-all duration-200 hover:border-slate-500/50 hover:bg-slate-800" for="is_incognito" title="Никто не узнает ваши контактные данные">
 								<input
 									class="h-5 w-5 cursor-pointer rounded border-slate-500 bg-slate-700 text-purple-500 transition-colors focus:ring-2 focus:ring-purple-500/20 focus:ring-offset-0"
 									type="checkbox"
@@ -456,8 +456,8 @@
 							rows="3"
 							name="comment"
 							id="comment"
-							placeholder="Интересы клиента, его бюджет, в какую фабрику не обращаться и пр..."
-						></textarea>
+							placeholder="Интересы клиента, его бюджет, в какие фабрики уже обращался и пр."
+						></textarea>	
 					</div>
 
 					<!-- Buttons -->
