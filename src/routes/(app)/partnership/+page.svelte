@@ -478,11 +478,10 @@
 				</p>
 				<div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
 					<a
-						href="/registration"
-						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+						href="mailto:info@rubonus.pro"
+						class="inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-blue-500 to-cyan-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/50 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
 					>
-						Стать партнёром
+						Напишите нам на почту info@rubonus.pro
 						<svg
 							class="size-5"
 							fill="none"
@@ -497,12 +496,7 @@
 							/>
 						</svg>
 					</a>
-					<a
-						href="/about"
-						class="inline-flex items-center gap-2 rounded-xl border border-slate-400/20 bg-gray-950 px-8 py-4 text-base font-semibold text-slate-200/90 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-400/40 hover:bg-blue-500/20 hover:text-blue-300 hover:shadow-md hover:shadow-blue-500/20"
-					>
-						Узнать больше
-					</a>
+					
 				</div>
 			</div>
 		</div>

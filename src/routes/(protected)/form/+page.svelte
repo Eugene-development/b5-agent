@@ -143,10 +143,10 @@
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Page Header -->
 		<div class="mx-auto mb-16 text-center">
-			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Форма</h1>
-			<!-- <p class="mt-6 text-lg/8 text-gray-300">
-				Добро пожаловать, {user?.name || 'пользователь'}!
-			</p> -->
+			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Создать проект</h1>
+			<p class="mt-6 text-lg/8 text-gray-300">
+				{user?.name || 'пользователь'}, чтобы создавать проекты вам нужно подтвердить вашу почту. 
+			</p>
 		</div>
 
 		<!-- Create Project Buttons -->
