@@ -17,6 +17,47 @@
 
 	// Modal state
 	let isModalOpen = $state(false);
+	
+	// Email verification warning modal state
+	let showEmailVerificationModal = $state(false);
+	
+	// Loading state for sending verification email
+	let isSendingVerification = $state(false);
+	
+	// Check if email is verified
+	let isEmailVerified = $derived(!!authState.user?.email_verified_at);
+	
+	// Handle form button click
+	function handleOpenFormClick() {
+		if (!isEmailVerified) {
+			showEmailVerificationModal = true;
+		} else {
+			isModalOpen = true;
+		}
+	}
+	
+	// Send verification email and navigate to email-verify page
+	async function sendVerificationAndNavigate() {
+		if (isSendingVerification) return;
+		
+		isSendingVerification = true;
+		
+		try {
+			// Send verification email
+			const { resendEmailVerificationNotification } = await import('$lib/auth/auth.svelte.js');
+			await resendEmailVerificationNotification();
+			console.log('✉️ Verification email sent');
+		} catch (error) {
+			console.error('Failed to send verification email:', error);
+			// Continue to navigate even if sending fails - user can resend from email-verify page
+		} finally {
+			isSendingVerification = false;
+		}
+		
+		// Close modal if open and navigate
+		showEmailVerificationModal = false;
+		goto('/email-verify?sent=true');
+	}
 
 	// Handle project creation success
 	async function handleProjectCreated() {
@@ -24,8 +65,8 @@
 		await invalidate('dashboard');
 	}
 
-	// Check for verification success message
-	onMount(() => {
+	// Check for verification success message and refresh user data
+	onMount(async () => {
 		const urlParams = new URLSearchParams(page.url.search);
 		const verified = urlParams.get('verified');
 
@@ -33,6 +74,37 @@
 			showSuccessMessage = true;
 			successMessage =
 				'Email успешно подтвержден! Теперь вы можете пользоваться всеми функциями сервиса.';
+			
+			// Refresh user data to update email_verified_at in authState and cookie
+			try {
+				// First, refresh user cookie with fresh data from API
+				const refreshResponse = await fetch('/api/auth/refresh-user', {
+					method: 'POST',
+					credentials: 'include'
+				});
+				
+				if (refreshResponse.ok) {
+					const refreshData = await refreshResponse.json();
+					console.log('✅ User cookie refreshed with verified data:', refreshData.user?.email_verified_at);
+					
+					// Update authState with fresh data
+					if (refreshData.user) {
+						const { setUser } = await import('$lib/auth/auth.svelte.js');
+						setUser(refreshData.user);
+					}
+				} else {
+					// Fallback: mark as verified locally
+					const { markEmailAsVerified, checkAuth } = await import('$lib/auth/auth.svelte.js');
+					markEmailAsVerified();
+					await checkAuth();
+				}
+			} catch (error) {
+				console.error('Failed to refresh user data:', error);
+				// Fallback: mark as verified locally
+				const { markEmailAsVerified } = await import('$lib/auth/auth.svelte.js');
+				markEmailAsVerified();
+			}
+			
 			// Auto-hide after 5 seconds
 			setTimeout(() => {
 				showSuccessMessage = false;
@@ -77,77 +149,96 @@
 
 	<!-- Success Message -->
 	{#if showSuccessMessage}
-		<div class="fixed left-1/2 top-4 z-50 w-full max-w-md -translate-x-1/2 transform px-4">
+		<div class="fixed left-1/2 top-36 z-[100] w-full max-w-md -translate-x-1/2 transform px-4">
 			<div
-				class="rounded-lg border border-green-500/30 bg-green-500/20 p-4 shadow-lg backdrop-blur-sm"
+				class="rounded-xl border border-green-500/50 bg-gray-900 p-4 shadow-2xl shadow-green-500/20"
 			>
-				<div class="flex items-start">
-					<svg
-						class="mr-3 mt-0.5 h-5 w-5 text-green-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<p class="text-sm font-medium text-green-300">{successMessage}</p>
-				</div>
-			</div>
-		</div>
-	{/if}
-
-	<!-- Email Verification Warning -->
-	{#if authState.user && !authState.user.email_verified_at}
-		<div class="fixed left-1/2 top-16 z-40 w-full max-w-lg -translate-x-1/2 transform px-4">
-			<div
-				class="rounded-lg border border-yellow-500/30 bg-yellow-500/20 p-4 shadow-lg backdrop-blur-sm"
-			>
-				<div class="flex items-start">
-					<svg
-						class="mr-3 mt-0.5 h-5 w-5 text-yellow-400"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.864-.833-2.634 0L3.098 16.5c-.77.833.192 2.5 1.732 2.5z"
-						/>
-					</svg>
-					<div class="flex-1">
-						<p class="text-sm font-medium text-yellow-300">Подтвердите свой email</p>
-						<p class="mt-1 text-sm text-yellow-200">
-							Для полного доступа к функциям сервиса необходимо подтвердить email адрес.
-						</p>
-						<div class="mt-3">
-							<button
-								onclick={() => goto('/email-verify')}
-								class="text-sm font-medium text-yellow-400 underline hover:text-yellow-300"
-							>
-								Подтвердить сейчас →
-							</button>
-						</div>
+				<div class="flex items-center gap-3">
+					<div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-500/20">
+						<svg
+							class="h-5 w-5 text-green-400"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+					</div>
+					<div>
+						<p class="text-base font-semibold text-green-400">Email подтверждён!</p>
+						<p class="text-sm text-gray-300">Теперь вы можете создавать проекты.</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	{/if}
 
+
+
 	<div class="mx-auto max-w-7xl px-6 lg:px-8">
 		<!-- Page Header -->
-		<div class="mx-auto mb-16 text-center">
+		<div class="mx-auto mb-8 text-center">
 			<h1 class="text-4xl font-normal tracking-widest text-white sm:text-6xl">Создать проект</h1>
-			<p class="mt-6 text-lg/8 text-gray-300">
-				{user?.name || 'пользователь'}, чтобы создавать проекты вам нужно подтвердить вашу почту. 
-			</p>
 		</div>
+		
+		<!-- Email Verification Warning under header -->
+		{#if !isEmailVerified}
+			<div class="mx-auto mb-12 max-w-2xl">
+				<div
+					class="rounded-xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-orange-500/10 p-5 shadow-lg backdrop-blur-sm"
+				>
+					<div class="flex items-center gap-4">
+						<div class="flex-shrink-0">
+							<div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/20">
+								<svg
+									class="h-6 w-6 text-amber-400"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+									/>
+								</svg>
+							</div>
+						</div>
+						<div class="flex-1">
+							<h3 class="text-base font-semibold text-amber-300">Подтвердите ваш email</h3>
+							<p class="mt-1 text-sm text-amber-200/80">
+								Для создания проектов необходимо подтвердить email адрес. Проверьте вашу почту или запросите новое письмо.
+							</p>
+						</div>
+						<div class="flex-shrink-0">
+							<button
+								onclick={sendVerificationAndNavigate}
+								disabled={isSendingVerification}
+								class="rounded-lg bg-amber-500/20 px-4 py-2 text-sm font-medium text-amber-300 transition-all hover:bg-amber-500/30 hover:text-amber-200 disabled:opacity-50 disabled:cursor-not-allowed"
+							>
+								{#if isSendingVerification}
+									<span class="flex items-center gap-2">
+										<svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+											<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+											<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+										</svg>
+										Отправка...
+									</span>
+								{:else}
+									Подтвердить
+								{/if}
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
 
 		<!-- Create Project Buttons -->
 		<div class="mb-8">
@@ -177,7 +268,7 @@
 						</p>
 					</div>
 					<button
-						onclick={() => (isModalOpen = true)}
+						onclick={handleOpenFormClick}
 						class="w-full rounded-lg bg-gradient-to-r from-purple-600 via-purple-400 to-blue-500 px-6 py-3 md:px-8 md:py-4 lg:px-10 lg:py-5 font-bold text-base md:text-xl lg:text-2xl text-white shadow-lg transition-all hover:scale-105 hover:opacity-90"
 					>
 						<span class="flex items-center justify-center gap-2 md:gap-3">
@@ -253,3 +344,76 @@
 
 <!-- Project Submit Modal -->
 <ProjectSubmitModal bind:isOpen={isModalOpen} onSuccess={handleProjectCreated} />
+
+<!-- Email Verification Required Modal -->
+{#if showEmailVerificationModal}
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+		onclick={() => (showEmailVerificationModal = false)}
+		onkeydown={(e) => e.key === 'Escape' && (showEmailVerificationModal = false)}
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="email-verify-modal-title"
+		tabindex="-1"
+	>
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<div
+			class="mx-4 w-full max-w-md transform rounded-2xl border border-white/10 bg-gray-900 p-6 shadow-2xl transition-all"
+			onclick={(e) => e.stopPropagation()}
+		>
+			<!-- Modal Header -->
+			<div class="mb-6 text-center">
+				<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-500/20">
+					<svg
+						class="h-8 w-8 text-amber-400"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+						/>
+					</svg>
+				</div>
+				<h2 id="email-verify-modal-title" class="text-xl font-bold text-white">
+					Подтвердите email
+				</h2>
+				<p class="mt-3 text-gray-400">
+					Для создания проектов необходимо подтвердить ваш email адрес. Мы отправили письмо с подтверждением на вашу почту.
+				</p>
+			</div>
+
+			<!-- Modal Actions -->
+			<div class="flex flex-col gap-3">
+				<button
+					onclick={sendVerificationAndNavigate}
+					disabled={isSendingVerification}
+					class="w-full rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+				>
+					{#if isSendingVerification}
+						<span class="flex items-center justify-center gap-2">
+							<svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+								<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+								<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+							</svg>
+							Отправка письма...
+						</span>
+					{:else}
+						Подтвердить email
+					{/if}
+				</button>
+				<button
+					onclick={() => (showEmailVerificationModal = false)}
+					class="w-full rounded-lg border border-white/10 bg-white/5 px-6 py-3 font-medium text-gray-300 transition-all hover:bg-white/10"
+				>
+					Закрыть
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}

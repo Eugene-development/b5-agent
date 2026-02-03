@@ -1,6 +1,6 @@
 <script>
 	import { authState, resendEmailVerificationNotification } from '$lib/auth/auth.svelte.js';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
@@ -68,29 +68,20 @@
 				const { verifyEmailWithParams } = await import('$lib/api/auth.js');
 				const result = await verifyEmailWithParams(id, hash);
 
-				if (result.success) {
-					showSuccess = true;
-					errorMessage = 'Email успешно подтвержден!';
-
-					// Clear verification parameters from URL to prevent re-verification
-					const url = new URL(window.location);
-					url.searchParams.delete('id');
-					url.searchParams.delete('hash');
-					window.history.replaceState({}, '', url);
-
-					// Update auth state with verified user data
+			if (result.success) {
+					// Update auth state with verified user data immediately
+					const { setUser, markEmailAsVerified } = await import('$lib/auth/auth.svelte.js');
+					
 					if (result.user) {
-						const { setUser } = await import('$lib/auth/auth.svelte.js');
 						setUser(result.user);
+					} else {
+						// If API doesn't return user, manually mark as verified
+						markEmailAsVerified();
 					}
 
-					// Invalidate all data to reload user from server
-					await invalidateAll();
-
-					// Redirect to form after success
-					setTimeout(() => {
-						goto('/form?verified=true');
-					}, 2000);
+					// Redirect immediately to form with verified flag
+					// The form page will show the success message and refresh user data
+					window.location.href = '/form?verified=true';
 				} else {
 					console.error('❌ Email verification failed:', result.message);
 					showError = true;
@@ -121,6 +112,7 @@
 		// Check for registration flag from URL
 		const urlParams = new URLSearchParams($page.url.search);
 		const fromRegistration = urlParams.get('from_registration') === 'true';
+		const emailJustSent = urlParams.get('sent') === 'true';
 
 		// If not authenticated, redirect to login
 		if (!authState.isAuthenticated) {
@@ -131,6 +123,16 @@
 				goto('/login');
 			}, 3000);
 			return;
+		}
+
+		// If email was just sent from form page, show success and start cooldown
+		if (emailJustSent) {
+			showSuccess = true;
+			setTimeout(() => (showSuccess = false), 3000);
+			// Clear sent param from URL
+			const url = new URL(window.location);
+			url.searchParams.delete('sent');
+			window.history.replaceState({}, '', url);
 		}
 
 		startCooldown();

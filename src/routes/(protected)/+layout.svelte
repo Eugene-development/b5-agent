@@ -12,19 +12,8 @@
 
 	let { children, data } = $props();
 
-	// Check email verification on mount
-	onMount(async () => {
-		// Wait for auth state to be initialized
-		if (!authState.initialized) {
-			// Give time for root layout to initialize auth
-			await new Promise(resolve => setTimeout(resolve, 100));
-		}
-
-		// Check email verification (server already verified authentication)
-		if (authState.user && !authState.user.email_verified_at) {
-			goto('/email-verify');
-		}
-	});
+	// Note: Email verification check removed - users can access dashboard without verified email
+	// Individual pages (like /form) will handle email verification requirements
 
 	// Watch for logout during session
 	// Only redirect if auth was initialized AND user logged out (not on initial load with expired token)

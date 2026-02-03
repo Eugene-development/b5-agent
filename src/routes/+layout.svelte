@@ -114,6 +114,5 @@
 		<footer class="bg-gray-950 py-8">
 			<Footer />
 		</footer>
-		<p class="text-red-500">123</p>
 	</div>
 {/if}
