@@ -92,7 +92,7 @@
 
 	<div class="mx-auto mb-12 max-w-3xl text-center">
 		<p
-			class="mt-2 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
+			class="mt-2 text-balance text-4xl font-bold tracking-wide text-white sm:text-5xl lg:text-6xl"
 		>
 			Преимущества
 		</p>

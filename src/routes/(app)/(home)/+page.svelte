@@ -1,5 +1,5 @@
 <script>
-	import { Main, Users, Questions, Advantages, CTA } from './UI';
+	import { Main, Users, Questions, Advantages, CTA, IncognitoInfo } from './UI';
 </script>
 
 <svelte:head>
@@ -20,8 +20,14 @@
 		</a>
 	</div> -->
 	<Users />
+	<IncognitoInfo />
 	<Advantages />
 
 	<Questions />
 	<CTA />
+	
 </div>
+
+
+
+
