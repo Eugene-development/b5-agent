@@ -72,7 +72,7 @@
 				</div>
 
 				<h2 class="mt-8 text-xl font-medium leading-relaxed text-gray-100">
-					Рубонус — это сервис тайного маркетинга, который позволяет получать до <span
+					Рубонус — это сервис тайного маркетинга, который позволяет получать <span
 						class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-2xl font-black text-transparent"
 					>
 						5%
@@ -200,7 +200,7 @@
 
 				<div class="mt-8">
 					<p class="text-xs text-gray-500">
-						<span class="text-cyan-400">*</span> передача данных только с согласия клиента
+						<span class="text-cyan-400">*</span> регистрация рекомендаций только с согласия клиента
 					</p>
 				</div>
 			</div>
