@@ -169,9 +169,8 @@
 </script>
 
 <svelte:head>
-	<title>Профиль агента RUBONUS – Личные данные и настройки</title>
-	<meta name="description" content="Профиль агента RUBONUS: просмотр и редактирование личных данных, секретный ключ, контактная информация, статус верификации email." />
-	<meta name="keywords" content="профиль агента, личные данные, секретный ключ, настройки аккаунта, RUBONUS" />
+	<title>Профиль в RUBONUS – Личные данные и настройки</title>
+	<meta name="description" content="Профиль в RUBONUS: просмотр и редактирование личных данных, секретный ключ, контактная информация, статус верификации email." />
 </svelte:head>
 
 <!-- Main content -->
@@ -274,7 +273,7 @@
 		{:else}
 			<!-- User Info Card -->
 			<div class="mb-8 rounded-lg bg-white/5 p-8 backdrop-blur-sm">
-				<h2 class="mb-6 text-2xl font-semibold tracking-wide text-white">Профиль агента</h2>
+				<h2 class="mb-6 text-2xl font-semibold tracking-wide text-white">Ваши регистрационные данные</h2>
 
 				{#if getUserDisplayData()}
 					{@const user = getUserDisplayData()}

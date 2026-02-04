@@ -52,19 +52,22 @@
 						<!-- Form fields (static demo) -->
 						<div class="space-y-4">
 							<!-- Secret Key and Incognito Row -->
-							<div class="relative flex items-start gap-3">
-								<!-- Secret Key (blurred) -->
-								<div class="flex-1 blur-[2px] opacity-60">
-									<div class="mb-2 flex items-center gap-2 text-xs font-medium text-slate-300 sm:text-sm">
-										<svg class="h-3 w-3 text-purple-400 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-										</svg>
-										Ключ
-										<span class="text-red-400">*</span>
-									</div>
-									<div class="relative">
-										<div class="w-full rounded-xl border border-slate-600/50 bg-slate-800/50 px-3 py-2 pr-10 font-mono text-xs text-white opacity-75 sm:px-4 sm:py-3 sm:text-sm">
-											**********************X0EJ
+							<div class="relative">
+								<!-- Label (blurred) -->
+								<div class="mb-2 flex items-center gap-2 text-xs font-medium text-slate-300 blur-[2px] opacity-60 sm:text-sm">
+									<svg class="h-3 w-3 text-purple-400 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+									</svg>
+									Ключ
+									<span class="text-red-400">*</span>
+								</div>
+								
+								<!-- Row: Key input + Incognito checkbox -->
+								<div class="flex items-center gap-2 sm:gap-3">
+									<!-- Key input (blurred) -->
+									<div class="relative min-w-0 flex-1 blur-[2px] opacity-60">
+										<div class="w-full truncate rounded-xl border border-slate-600/50 bg-slate-800/50 px-3 py-2 pr-8 font-mono text-xs text-white opacity-75 sm:px-4 sm:py-3 sm:pr-10 sm:text-sm">
+											**************
 										</div>
 										<div class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 sm:right-3" aria-hidden="true">
 											<svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,41 +76,43 @@
 											</svg>
 										</div>
 									</div>
-									<p class="mt-1 flex items-center gap-1 text-[10px] text-emerald-400 sm:mt-2 sm:text-xs">
-										<svg class="h-2 w-2 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-										</svg>
-										Ваш секретный ключ подставлен автоматически
-									</p>
-								</div>
 
-								<!-- Incognito Checkbox with Arrow (NOT blurred - main focus) -->
-								<div class="relative z-10 shrink-0 pt-6 sm:pt-7">
-									<!-- Animated Arrow pointing to checkbox -->
-									<div class="absolute -left-10 top-7 sm:-left-12 sm:top-8">
-										<svg 
-											class="h-8 w-8 animate-bounce-horizontal text-cyan-400 drop-shadow-lg sm:h-10 sm:w-10"
-											viewBox="0 0 24 24" 
-											fill="none" 
-											xmlns="http://www.w3.org/2000/svg"
-											aria-hidden="true"
-										>
-											<path 
-												d="M4 12H20M20 12L14 6M20 12L14 18" 
-												stroke="currentColor" 
-												stroke-width="2.5" 
-												stroke-linecap="round" 
-												stroke-linejoin="round"
-											/>
-										</svg>
-									</div>
-									
-									<!-- Highlighted Incognito checkbox (clear, not blurred) -->
-									<div class="relative flex cursor-default items-center gap-2 rounded-xl border-2 border-cyan-400/50 bg-cyan-500/10 px-3 py-2 ring-2 ring-cyan-400/30 shadow-lg shadow-cyan-500/20 sm:gap-3 sm:px-4 sm:py-3">
-										<div class="h-4 w-4 rounded border-2 border-slate-500 bg-slate-700 sm:h-5 sm:w-5" aria-hidden="true"></div>
-										<span class="text-xs font-medium text-slate-300 sm:text-sm">Инкогнито</span>
+									<!-- Incognito Checkbox with Arrow (NOT blurred - main focus) -->
+									<div class="relative z-10 shrink-0">
+										<!-- Animated Arrow pointing to checkbox -->
+										<div class="absolute -left-7 top-1/2 -translate-y-1/2 sm:-left-9">
+											<svg 
+												class="h-5 w-5 animate-bounce-horizontal text-cyan-400 drop-shadow-lg sm:h-7 sm:w-7"
+												viewBox="0 0 24 24" 
+												fill="none" 
+												xmlns="http://www.w3.org/2000/svg"
+												aria-hidden="true"
+											>
+												<path 
+													d="M4 12H20M20 12L14 6M20 12L14 18" 
+													stroke="currentColor" 
+													stroke-width="2.5" 
+													stroke-linecap="round" 
+													stroke-linejoin="round"
+												/>
+											</svg>
+										</div>
+										
+										<!-- Highlighted Incognito checkbox (clear, not blurred) -->
+										<div class="relative flex cursor-default items-center gap-1.5 rounded-xl border-2 border-cyan-400/50 bg-cyan-500/10 px-2 py-2 ring-2 ring-cyan-400/30 shadow-lg shadow-cyan-500/20 sm:gap-2 sm:px-3 sm:py-2.5">
+											<div class="h-4 w-4 rounded border-2 border-slate-500 bg-slate-700 sm:h-5 sm:w-5" aria-hidden="true"></div>
+											<span class="text-[11px] font-medium text-slate-300 sm:text-sm">Инкогнито</span>
+										</div>
 									</div>
 								</div>
+								
+								<!-- Helper text (blurred) -->
+								<p class="mt-1 flex items-center gap-1 text-[10px] text-emerald-400 blur-[2px] opacity-60 sm:mt-2 sm:text-xs">
+									<svg class="h-2 w-2 sm:h-3 sm:w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+									</svg>
+									Ваш секретный ключ подставлен автоматически
+								</p>
 							</div>
 
 							<!-- Client Name (blurred) -->
