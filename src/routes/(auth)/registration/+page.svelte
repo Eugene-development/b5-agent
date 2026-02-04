@@ -1,6 +1,6 @@
 <script>
 	import { register, authState } from '$lib/auth/auth.svelte.js';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
 	// Form state using Svelte 5 runes
 	let formData = $state({
@@ -35,6 +35,9 @@
 	let showPassword = $state(false);
 	let showPasswordConfirm = $state(false);
 
+	// Terms hint state
+	let showTermsHint = $state(false);
+
 	// Format phone number as +7 (123) 456-78-90
 	function formatPhone(value) {
 		const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -68,6 +71,29 @@
 		formData.phone = formatted;
 		event.target.value = formatted;
 	}
+
+	/**
+	 * Handle click on submit button
+	 * Show hint if terms are not accepted
+	 */
+	function handleSubmitClick(event) {
+		if (!formData.termsAccepted) {
+			event.preventDefault();
+			showTermsHint = true;
+			
+			// Auto-hide hint after 8 seconds
+			setTimeout(() => {
+				showTermsHint = false;
+			}, 8000);
+		}
+	}
+
+	// Auto-hide terms hint when checkbox is checked
+	$effect(() => {
+		if (formData.termsAccepted && showTermsHint) {
+			showTermsHint = false;
+		}
+	});
 
 	// Redirect if already authenticated and email is verified
 	// Note: Server-side redirect is handled by +layout.server.js
@@ -174,10 +200,9 @@
 					showSuccess = false;
 				}, 3000);
 
-				// Invalidate server data and redirect to email verification
-				console.log('✅ Registration successful, invalidating server data');
-				await invalidateAll();
-				console.log('🔄 Server data invalidated, redirecting to email verification');
+				// Redirect to email verification
+				// Don't call invalidateAll() here as it would reset auth state
+				console.log('✅ Registration successful, redirecting to email verification');
 				await goto('/email-verify?from_registration=true', { replaceState: true });
 			} else {
 				// Handle registration errors
@@ -233,6 +258,35 @@
 				<div class="min-w-0 flex-1">
 					<h4 class="text-sm font-semibold text-white">Регистрация прошла успешно</h4>
 					<p class="mt-1 text-sm text-gray-300">Проверьте свою почту для подтверждения email</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<!-- Terms Hint Notification -->
+{#if showTermsHint}
+	<div class="animate-slide-in fixed top-24 right-4 z-[9999]">
+		<div
+			class="min-w-80 rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 shadow-xl backdrop-blur-xl"
+		>
+			<div class="flex items-start gap-3">
+				<div class="flex-shrink-0">
+					<div
+						class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/20 ring-2 ring-amber-500/30"
+					>
+						<svg class="h-6 w-6 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+							<path
+								fill-rule="evenodd"
+								d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+								clip-rule="evenodd"
+							/>
+						</svg>
+					</div>
+				</div>
+				<div class="min-w-0 flex-1">
+					<h4 class="text-sm font-semibold text-white">Требуется согласие</h4>
+					<p class="mt-1 text-sm text-gray-300">Пожалуйста, согласитесь с политикой конфиденциальности для продолжения регистрации</p>
 				</div>
 			</div>
 		</div>
@@ -310,7 +364,7 @@
 						<!-- First Name -->
 						<div>
 							<label for="first-name" class="block text-sm font-medium text-gray-200"
-								>Ваше имя</label
+								>Ваше имя <span class="text-red-500">*</span></label
 							>
 							<div class="relative mt-2">
 								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -348,7 +402,7 @@
 
 						<!-- Region -->
 						<div>
-							<label for="region" class="block text-sm font-medium text-gray-200">Регион</label>
+							<label for="region" class="block text-sm font-medium text-gray-200">Регион <span class="text-red-500">*</span></label>
 							<div class="relative mt-2">
 								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 									<svg
@@ -394,7 +448,7 @@
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
 						<!-- Email -->
 						<div>
-							<label for="email" class="block text-sm font-medium text-gray-200">Email</label>
+							<label for="email" class="block text-sm font-medium text-gray-200">Email <span class="text-red-500">*</span></label>
 							<div class="relative mt-2">
 								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 									<svg
@@ -474,7 +528,7 @@
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
 						<!-- Password -->
 						<div>
-							<label for="password" class="block text-sm font-medium text-gray-200">Пароль</label>
+							<label for="password" class="block text-sm font-medium text-gray-200">Пароль <span class="text-red-500">*</span></label>
 							<div class="relative mt-2">
 								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 									<svg
@@ -529,7 +583,7 @@
 						<!-- Password Confirm -->
 						<div>
 							<label for="password-confirm" class="block text-sm font-medium text-gray-200"
-								>Повторите пароль</label
+								>Повторите пароль <span class="text-red-500">*</span></label
 							>
 							<div class="relative mt-2">
 								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -584,7 +638,7 @@
 					</div>
 
 					<!-- Terms Checkbox -->
-					<div>
+					<div class="{showTermsHint ? 'animate-shake' : ''}">
 						<div class="flex items-start gap-3">
 							<div class="flex h-6 items-center">
 								<input
@@ -593,14 +647,14 @@
 									type="checkbox"
 									bind:checked={formData.termsAccepted}
 									disabled={isLoading}
-									class="h-4 w-4 rounded border-white/20 bg-white/5 text-indigo-500 transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 {errors.terms
+									class="h-4 w-4 rounded border-white/20 bg-white/5 text-indigo-500 transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 {errors.terms || showTermsHint
 										? 'border-red-500/50'
 										: ''}"
 								/>
 							</div>
 							<label
 								for="terms"
-								class="text-xs leading-6 text-gray-300 {errors.terms ? 'text-red-400' : ''}"
+								class="text-xs leading-6 text-gray-300 {errors.terms || showTermsHint ? 'text-red-400' : ''}"
 							>
 								Согласен с
 								<a
@@ -616,50 +670,63 @@
 					</div>
 
 					<!-- Submit Button -->
-					<button
-						type="submit"
-						disabled={isLoading || !formData.termsAccepted}
-						class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+					<div 
+						role="button" 
+						tabindex="0"
+						onclick={handleSubmitClick}
+						onkeydown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								handleSubmitClick(e);
+							}
+						}}
+						class="cursor-pointer"
 					>
-						<span class="relative z-10 flex items-center justify-center gap-2">
-							{#if isLoading}
-								<svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
-									<circle
-										class="opacity-25"
-										cx="12"
-										cy="12"
-										r="10"
+						<button
+							type="submit"
+							disabled={isLoading || !formData.termsAccepted}
+							class="group relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/40 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-950 focus:outline-none active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+						>
+							<span class="relative z-10 flex items-center justify-center gap-2">
+								{#if isLoading}
+									<svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+										<circle
+											class="opacity-25"
+											cx="12"
+											cy="12"
+											r="10"
+											stroke="currentColor"
+											stroke-width="4"
+										></circle>
+										<path
+											class="opacity-75"
+											fill="currentColor"
+											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+										></path>
+									</svg>
+									Регистрация...
+								{:else}
+									Зарегистрироваться
+									<svg
+										class="h-5 w-5 transition-transform group-hover:translate-x-1"
+										fill="none"
+										viewBox="0 0 24 24"
 										stroke="currentColor"
-										stroke-width="4"
-									></circle>
-									<path
-										class="opacity-75"
-										fill="currentColor"
-										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-									></path>
-								</svg>
-								Регистрация...
-							{:else}
-								Зарегистрироваться
-								<svg
-									class="h-5 w-5 transition-transform group-hover:translate-x-1"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M13 7l5 5m0 0l-5 5m5-5H6"
-									/>
-								</svg>
-							{/if}
-						</span>
-						<div
-							class="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 transition-opacity group-hover:opacity-100"
-						></div>
-					</button>
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M13 7l5 5m0 0l-5 5m5-5H6"
+										/>
+									</svg>
+								{/if}
+							</span>
+							<div
+								class="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 transition-opacity group-hover:opacity-100"
+							></div>
+						</button>
+					</div>
 				</form>
 			</div>
 

@@ -114,7 +114,13 @@
 		const fromRegistration = urlParams.get('from_registration') === 'true';
 		const emailJustSent = urlParams.get('sent') === 'true';
 
-		// If not authenticated, redirect to login
+		// If coming from registration, wait a bit for auth state to initialize
+		if (fromRegistration && !authState.isAuthenticated) {
+			// Wait for auth state to be updated
+			await new Promise(resolve => setTimeout(resolve, 500));
+		}
+
+		// If not authenticated after waiting, redirect to login
 		if (!authState.isAuthenticated) {
 			console.warn('⚠️ No authentication found, redirecting to login');
 			showError = true;
