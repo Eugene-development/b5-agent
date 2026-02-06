@@ -378,7 +378,7 @@
 							Проверьте папку спам
 						</button>
 						<a
-							href="mailto:support@rubonus.ru"
+							href="mailto:support@rubonus.pro"
 							class="flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-gray-300 transition-all hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-300"
 						>
 							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

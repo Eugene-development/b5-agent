@@ -1,8 +1,3 @@
-/**
- * Auth API Proxy
- * Proxies requests to Auth API (auth.rubonus.ru) through the same domain
- * This solves cross-domain cookie issues
- */
 
 import { AUTH_API_URL } from '$lib/config/api.js';
 import { error } from '@sveltejs/kit';
