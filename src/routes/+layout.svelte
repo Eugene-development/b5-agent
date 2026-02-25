@@ -91,9 +91,9 @@
 	});
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
 	<link rel="icon" href={favicon} />
-</svelte:head>
+</svelte:head> -->
 
 {#if authInitialized}
 	<div class="min-h-screen bg-gray-950 text-white">
