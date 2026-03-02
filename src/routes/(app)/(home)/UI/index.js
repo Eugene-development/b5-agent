@@ -4,3 +4,4 @@ export { default as Questions } from './Questions/index.svelte';
 export { default as Advantages } from './Advantages/index.svelte';
 export { default as CTA } from './CTA/index.svelte';
 export { default as IncognitoInfo } from './IncognitoInfo/index.svelte';
+export { default as MainPartner } from './MainPartner/index.svelte';
