@@ -67,7 +67,7 @@
 
 					<h3 class="text-2xl font-bold text-white">Завербуй коллегу</h3>
 					<p class="mt-4 text-base leading-7 text-gray-300">
-						Приведи нового партнёра в RUBONUS и получай дополнительно
+						Зарегистрируй нового партнёра в RUBONUS и получай дополнительно
 						<span class="font-bold text-amber-400">0.5%</span> с каждого его проекта
 					</p>
 
@@ -188,7 +188,7 @@
 				</div>
 
 				<!-- Promotion 3: November Bonus -->
-				<!-- <div
+				<div
 					class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 p-8 shadow-2xl ring-1 ring-white/10 backdrop-blur-sm transition-all hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/30"
 				>
 					<div class="mb-6 inline-flex rounded-xl bg-emerald-500/20 p-4 ring-1 ring-emerald-500/30">
@@ -255,7 +255,7 @@
 					<div
 						class="absolute -bottom-2 -right-2 size-32 rounded-full bg-emerald-500/20 blur-3xl transition-all group-hover:bg-emerald-500/30"
 					></div>
-				</div> -->
+				</div>
 			</div>
 		</div>
 

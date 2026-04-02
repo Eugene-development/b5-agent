@@ -21,7 +21,7 @@
 	</div> -->
 	<Users />
 	<IncognitoInfo />
-	<MainPartner />
+	<!-- <MainPartner /> -->
 	<Advantages />
 
 	<Questions />

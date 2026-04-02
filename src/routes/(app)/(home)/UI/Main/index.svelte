@@ -72,12 +72,12 @@
 				</div>
 
 				<h2 class="mt-8 text-xl font-medium leading-relaxed text-gray-100">
-					Рубонус — это сервис тайного маркетинга, который позволяет получать <span
+					Рубонус — это сервис рекомендаций от фабрики ЗОВ для дополнительного заработка до <span
 						class="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-2xl font-black text-transparent"
 					>
 						5%
 					</span>
-					с рекомендаций<sup class="text-cyan-400">*</sup>
+					<sup class="text-cyan-400">*</sup>
 				</h2>
 
 				<dl class="mt-12 space-y-4">
@@ -193,7 +193,7 @@
 						</dt>
 						<dd class="flex flex-col justify-center">
 							<strong class="text-lg font-bold text-white">Надёжно</strong>
-							<span class="text-sm text-gray-400">Проверенные поставщики и подрядчики</span>
+							<span class="text-sm text-gray-400">Европейское качество продукции</span>
 						</dd>
 					</div>
 				</dl>
@@ -206,15 +206,15 @@
 			</div>
 		</div>
 
-		<div class="relative hidden justify-center px-6 pb-12 pt-20 lg:flex lg:px-8 lg:pt-32">
+		<div class="relative  justify-center px-6 pb-12 pt-20 lg:flex lg:px-8 lg:pt-32">
 			<div class="relative mx-auto flex w-full max-w-xl items-center justify-center lg:max-w-2xl">
 				<div
 					class="absolute -inset-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 opacity-20 blur-2xl"
 				></div>
 				<img
-					src={bonusImage}
+					src="https://zovofficial.com/image/catalog/logo-dark.svg"
 					alt="Программа вознаграждений"
-					class="relative h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10 {imageLoaded
+					class="relative reverse p-16 invert h-auto w-full rounded-2xl shadow-2xl ring-1 ring-white/10 {imageLoaded
 						? ''
 						: 'opacity-0'}"
 				/>
